@@ -55,8 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Android.targets" />
-    <None Include="lib\armeabi-v7a\libsafe_app.so" />
-    <None Include="lib\x86\libsafe_app.so" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +64,12 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Target Name="CheckNativeLibs" BeforeTargets="PrepareForBuild">
+    <ItemGroup>
+      <NativeSafeAppLibs Include="lib\**\*.so" />
+    </ItemGroup>
+    <Error Condition="'@(NativeSafeAppLibs->Count())' == '0'" Text="Missing Native Libs. Please run DownloadNativeLibs.ps1 script in root of repo." />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

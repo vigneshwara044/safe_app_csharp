@@ -21,6 +21,9 @@ Components/
 target/
 .cargo/
 
+# Native Libs
+lib/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

@@ -52,7 +52,7 @@
 
     <!--Xamarin.iOS-->
     <file src="SafeApp.NativeBindings.iOS\iOS.targets" target="build\Xamarin.iOS10\MaidSafe.SafeApp.targets" />
-    <file src="SafeApp.NativeBindings.iOS\*.a" target="build\Xamarin.iOS10" />
+    <file src="SafeApp.NativeBindings.iOS\lib\**" target="build\Xamarin.iOS10\lib" />
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.dll" target="lib\Xamarin.iOS10\SafeApp.dll" />
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.pdb" target="lib\Xamarin.iOS10\SafeApp.pdb" />
     <file src="SafeApp.NativeBindings.iOS\bin\Release\SafeApp.NativeBindings.dll"

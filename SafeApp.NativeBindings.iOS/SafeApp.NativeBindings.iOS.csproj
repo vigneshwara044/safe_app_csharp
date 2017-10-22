@@ -56,8 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ios.targets" />
-    <None Include="libsafe_app.a" />
-    <None Include="libsodium.a" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <Target Name="CheckNativeLibs" BeforeTargets="PrepareForBuild">
+    <ItemGroup>
+      <NativeSafeAppLibs Include="lib\**\*.a" />
+    </ItemGroup>
+    <Error Condition="'@(NativeSafeAppLibs->Count())' == '0'" Text="Missing Native Libs. Please run DownloadNativeLibs.ps1 script in root of repo." />
+  </Target>
 </Project>
