@@ -27,38 +27,38 @@
     <!--NetStandard-->
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.dll" target="lib\netstandard1.2\SafeApp.dll" />
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.pdb" target="lib\netstandard1.2\SafeApp.pdb" />
-    <file src="SafeApp.NativeBindings\bin\Release\netstandard1.2\SafeApp.NativeBindings.dll"
-          target="lib\netstandard1.2\SafeApp.NativeBindings.dll" />
-    <file src="SafeApp.NativeBindings\bin\Release\netstandard1.2\SafeApp.NativeBindings.pdb"
-          target="lib\netstandard1.2\SafeApp.NativeBindings.pdb" />
+    <file src="SafeApp.AppBindings\bin\Release\netstandard1.2\SafeApp.AppBindings.dll"
+          target="lib\netstandard1.2\SafeApp.AppBindings.dll" />
+    <file src="SafeApp.AppBindings\bin\Release\netstandard1.2\SafeApp.AppBindings.pdb"
+          target="lib\netstandard1.2\SafeApp.AppBindings.pdb" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.dll"
           target="lib\netstandard1.2\SafeApp.Utilities.dll" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.pdb"
           target="lib\netstandard1.2\SafeApp.Utilities.pdb" />
 
     <!--Xamarin.Android-->
-    <file src="SafeApp.NativeBindings.Android\Android.targets" target="build\MonoAndroid412\MaidSafe.SafeApp.targets" />
-    <file src="SafeApp.NativeBindings.Android\lib\**" target="build\MonoAndroid412\lib" />
+    <file src="SafeApp.AppBindings.Android\Android.targets" target="build\MonoAndroid412\MaidSafe.SafeApp.targets" />
+    <file src="SafeApp.AppBindings.Android\lib\**" target="build\MonoAndroid412\lib" />
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.dll" target="lib\MonoAndroid412\SafeApp.dll" />
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.pdb" target="lib\MonoAndroid412\SafeApp.pdb" />
-    <file src="SafeApp.NativeBindings.Android\bin\Release\SafeApp.NativeBindings.dll"
-          target="lib\MonoAndroid412\SafeApp.NativeBindings.dll" />
-    <file src="SafeApp.NativeBindings.Android\bin\Release\SafeApp.NativeBindings.pdb"
-          target="lib\MonoAndroid412\SafeApp.NativeBindings.pdb" />
+    <file src="SafeApp.AppBindings.Android\bin\Release\SafeApp.AppBindings.dll"
+          target="lib\MonoAndroid412\SafeApp.AppBindings.dll" />
+    <file src="SafeApp.AppBindings.Android\bin\Release\SafeApp.AppBindings.pdb"
+          target="lib\MonoAndroid412\SafeApp.AppBindings.pdb" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.dll"
           target="lib\MonoAndroid412\SafeApp.Utilities.dll" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.pdb"
           target="lib\MonoAndroid412\SafeApp.Utilities.pdb" />
 
     <!--Xamarin.iOS-->
-    <file src="SafeApp.NativeBindings.iOS\iOS.targets" target="build\Xamarin.iOS10\MaidSafe.SafeApp.targets" />
-    <file src="SafeApp.NativeBindings.iOS\lib\**" target="build\Xamarin.iOS10\lib" />
+    <file src="SafeApp.AppBindings.iOS\iOS.targets" target="build\Xamarin.iOS10\MaidSafe.SafeApp.targets" />
+    <file src="SafeApp.AppBindings.iOS\lib\**" target="build\Xamarin.iOS10\lib" />
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.dll" target="lib\Xamarin.iOS10\SafeApp.dll" />
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.pdb" target="lib\Xamarin.iOS10\SafeApp.pdb" />
-    <file src="SafeApp.NativeBindings.iOS\bin\Release\SafeApp.NativeBindings.dll"
-          target="lib\Xamarin.iOS10\SafeApp.NativeBindings.dll" />
-    <file src="SafeApp.NativeBindings.iOS\bin\Release\SafeApp.NativeBindings.pdb"
-          target="lib\Xamarin.iOS10\SafeApp.NativeBindings.pdb" />
+    <file src="SafeApp.AppBindings.iOS\bin\Release\SafeApp.AppBindings.dll"
+          target="lib\Xamarin.iOS10\SafeApp.AppBindings.dll" />
+    <file src="SafeApp.AppBindings.iOS\bin\Release\SafeApp.AppBindings.pdb"
+          target="lib\Xamarin.iOS10\SafeApp.AppBindings.pdb" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.dll"
           target="lib\Xamarin.iOS10\SafeApp.Utilities.dll" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.pdb"

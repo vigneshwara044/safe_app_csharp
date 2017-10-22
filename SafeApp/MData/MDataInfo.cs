@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp.MData {
   public static class MDataInfo {
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task<List<byte>> DecryptAsync(NativeHandle mDataInfoH, List<byte> cipherText) {
       var tcs = new TaskCompletionSource<List<byte>>();
@@ -26,7 +26,7 @@ namespace SafeApp.MData {
         tcs.SetResult(byteList);
       };
 
-      NativeBindings.MDataInfoDecrypt(Session.AppPtr, mDataInfoH, cipherPtr, cipherLen, callback);
+      AppBindings.MDataInfoDecrypt(Session.AppPtr, mDataInfoH, cipherPtr, cipherLen, callback);
       Marshal.FreeHGlobal(cipherPtr);
 
       return tcs.Task;
@@ -44,7 +44,7 @@ namespace SafeApp.MData {
       };
 
       var serialisedDataPtr = serialisedData.ToIntPtr();
-      NativeBindings.MDataInfoDeserialise(Session.AppPtr, serialisedDataPtr, (IntPtr)serialisedData.Count, callback);
+      AppBindings.MDataInfoDeserialise(Session.AppPtr, serialisedDataPtr, (IntPtr)serialisedData.Count, callback);
 
       Marshal.FreeHGlobal(serialisedDataPtr);
 
@@ -63,7 +63,7 @@ namespace SafeApp.MData {
         tcs.SetResult(data);
       };
 
-      NativeBindings.MDataInfoEncryptEntryKey(Session.AppPtr, infoH, inputBytesPtr, (IntPtr)inputBytes.Count, callback);
+      AppBindings.MDataInfoEncryptEntryKey(Session.AppPtr, infoH, inputBytesPtr, (IntPtr)inputBytes.Count, callback);
       Marshal.FreeHGlobal(inputBytesPtr);
 
       return tcs.Task;
@@ -81,7 +81,7 @@ namespace SafeApp.MData {
         tcs.SetResult(data);
       };
 
-      NativeBindings.MDataInfoEncryptEntryValue(Session.AppPtr, infoH, inputBytesPtr, (IntPtr)inputBytes.Count, callback);
+      AppBindings.MDataInfoEncryptEntryValue(Session.AppPtr, infoH, inputBytesPtr, (IntPtr)inputBytes.Count, callback);
       Marshal.FreeHGlobal(inputBytesPtr);
 
       return tcs.Task;
@@ -99,7 +99,7 @@ namespace SafeApp.MData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.MDataInfoFree(Session.AppPtr, mDataInfoH, callback);
+      AppBindings.MDataInfoFree(Session.AppPtr, mDataInfoH, callback);
 
       return tcs.Task;
     }
@@ -117,7 +117,7 @@ namespace SafeApp.MData {
       };
 
       var xorNamePtr = xorName.ToIntPtr();
-      NativeBindings.MDataInfoNewPublic(Session.AppPtr, xorNamePtr, typeTag, callback);
+      AppBindings.MDataInfoNewPublic(Session.AppPtr, xorNamePtr, typeTag, callback);
       Marshal.FreeHGlobal(xorNamePtr);
 
       return tcs.Task;
@@ -135,7 +135,7 @@ namespace SafeApp.MData {
         tcs.SetResult(new NativeHandle(privateMDataInfoH, FreeAsync));
       };
 
-      NativeBindings.MDataInfoRandomPrivate(Session.AppPtr, typeTag, callback);
+      AppBindings.MDataInfoRandomPrivate(Session.AppPtr, typeTag, callback);
 
       return tcs.Task;
     }
@@ -152,7 +152,7 @@ namespace SafeApp.MData {
         tcs.SetResult(new NativeHandle(pubMDataInfoH, FreeAsync));
       };
 
-      NativeBindings.MDataInfoRandomPublic(Session.AppPtr, typeTag, callback);
+      AppBindings.MDataInfoRandomPublic(Session.AppPtr, typeTag, callback);
 
       return tcs.Task;
     }
@@ -168,7 +168,7 @@ namespace SafeApp.MData {
         tcs.SetResult(bytesPtr.ToList<byte>(len));
       };
 
-      NativeBindings.MDataInfoSerialise(Session.AppPtr, mdataInfoH, callback);
+      AppBindings.MDataInfoSerialise(Session.AppPtr, mdataInfoH, callback);
 
       return tcs.Task;
     }

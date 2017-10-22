@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp.MData {
   public static class MDataEntryActions {
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task FreeAsync(ulong entryActionsH) {
       var tcs = new TaskCompletionSource<object>();
@@ -22,7 +22,7 @@ namespace SafeApp.MData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.MDataEntryActionsFree(Session.AppPtr, entryActionsH, callback);
+      AppBindings.MDataEntryActionsFree(Session.AppPtr, entryActionsH, callback);
 
       return tcs.Task;
     }
@@ -42,7 +42,7 @@ namespace SafeApp.MData {
       var entKeyPtr = entKey.ToIntPtr();
       var entValPtr = entVal.ToIntPtr();
 
-      NativeBindings.MDataEntryActionsInsert(
+      AppBindings.MDataEntryActionsInsert(
         Session.AppPtr,
         entryActionsH,
         entKeyPtr,
@@ -69,7 +69,7 @@ namespace SafeApp.MData {
         tcs.SetResult(new NativeHandle(entryActionsH, FreeAsync));
       };
 
-      NativeBindings.MDataEntryActionsNew(Session.AppPtr, callback);
+      AppBindings.MDataEntryActionsNew(Session.AppPtr, callback);
 
       return tcs.Task;
     }

@@ -8,9 +8,9 @@
     <ProjectGuid>{94220C85-2874-4187-AAE6-8984F4C63031}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>SafeApp.NativeBindings</RootNamespace>
+    <RootNamespace>SafeApp.AppBindings</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>SafeApp.NativeBindings</AssemblyName>
+    <AssemblyName>SafeApp.AppBindings</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,11 +40,11 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SafeApp.NativeBindings\DependencyResolver.cs">
-      <Link>DependencyResolver.cs</Link>
+    <Compile Include="..\SafeApp.AppBindings\AppBindings.cs">
+      <Link>AppBindings.cs</Link>
     </Compile>
-    <Compile Include="..\SafeApp.NativeBindings\NativeBindings.cs">
-      <Link>NativeBindings.cs</Link>
+    <Compile Include="..\SafeApp.AppBindings\AppResolver.cs">
+      <Link>AppResolver.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -62,6 +62,6 @@
     <ItemGroup>
       <NativeSafeAppLibs Include="lib\**\*.a" />
     </ItemGroup>
-    <Error Condition="'@(NativeSafeAppLibs->Count())' == '0'" Text="Missing Native Libs. Please run DownloadNativeLibs.ps1 script in root of repo." />
+    <Error Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0'" Text="Missing Native Libs. Please run DownloadNativeLibs.ps1 script in root of repo." />
   </Target>
 </Project>

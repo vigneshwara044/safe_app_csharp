@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp.MData {
   public static class MData {
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task<(List<byte>, ulong)> GetValueAsync(NativeHandle infoHandle, List<byte> key) {
       var tcs = new TaskCompletionSource<(List<byte>, ulong)>();
@@ -24,7 +24,7 @@ namespace SafeApp.MData {
         tcs.SetResult((data, entryVersion));
       };
 
-      NativeBindings.MDataGetValue(Session.AppPtr, infoHandle, keyPtr, (IntPtr)key.Count, callback);
+      AppBindings.MDataGetValue(Session.AppPtr, infoHandle, keyPtr, (IntPtr)key.Count, callback);
       Marshal.FreeHGlobal(keyPtr);
 
       return tcs.Task;
@@ -41,7 +41,7 @@ namespace SafeApp.MData {
         tcs.SetResult(new NativeHandle(mDataEntriesHandle, MDataEntries.FreeAsync));
       };
 
-      NativeBindings.MDataListEntries(Session.AppPtr, infoHandle, callback);
+      AppBindings.MDataListEntries(Session.AppPtr, infoHandle, callback);
 
       return tcs.Task;
     }
@@ -57,7 +57,7 @@ namespace SafeApp.MData {
         tcs.SetResult(new NativeHandle(mDataEntKeysH, MDataKeys.FreeAsync));
       };
 
-      NativeBindings.MDataListKeys(Session.AppPtr, mDataInfoH, callback);
+      AppBindings.MDataListKeys(Session.AppPtr, mDataInfoH, callback);
 
       return tcs.Task;
     }
@@ -73,7 +73,7 @@ namespace SafeApp.MData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.MDataMutateEntries(Session.AppPtr, mDataInfoH, entryActionsH, callback);
+      AppBindings.MDataMutateEntries(Session.AppPtr, mDataInfoH, entryActionsH, callback);
 
       return tcs.Task;
     }
@@ -89,7 +89,7 @@ namespace SafeApp.MData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.MDataPut(Session.AppPtr, mDataInfoH, permissionsH, entriesH, callback);
+      AppBindings.MDataPut(Session.AppPtr, mDataInfoH, permissionsH, entriesH, callback);
 
       return tcs.Task;
     }

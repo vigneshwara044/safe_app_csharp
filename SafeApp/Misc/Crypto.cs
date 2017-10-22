@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
@@ -10,7 +10,7 @@ using SafeApp.Utilities;
 namespace SafeApp.Misc {
   public static class Crypto {
     private const int KeyLen = 32;
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task<NativeHandle> AppPubSignKeyAsync() {
       var tcs = new TaskCompletionSource<NativeHandle>();
@@ -23,7 +23,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(new NativeHandle(appPubSignKeyH, SignKeyFreeAsync));
       };
 
-      NativeBindings.AppPubSignKey(Session.AppPtr, callback);
+      AppBindings.AppPubSignKey(Session.AppPtr, callback);
 
       return tcs.Task;
     }
@@ -42,7 +42,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(data);
       };
 
-      NativeBindings.DecryptSealedBox(Session.AppPtr, cipherPtr, (IntPtr)cipherText.Count, pkHandle, skHandle, callback);
+      AppBindings.DecryptSealedBox(Session.AppPtr, cipherPtr, (IntPtr)cipherText.Count, pkHandle, skHandle, callback);
       Marshal.FreeHGlobal(cipherPtr);
 
       return tcs.Task;
@@ -59,7 +59,7 @@ namespace SafeApp.Misc {
         tcs.SetResult((new NativeHandle(encPubKeyH, EncPubKeyFreeAsync), new NativeHandle(encSecKeyH, EncSecretKeyFreeAsync)));
       };
 
-      NativeBindings.EncGenerateKeyPair(Session.AppPtr, callback);
+      AppBindings.EncGenerateKeyPair(Session.AppPtr, callback);
 
       return tcs.Task;
     }
@@ -75,7 +75,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(null);
       };
 
-      NativeBindings.EncPubKeyFree(Session.AppPtr, encPubKeyH, callback);
+      AppBindings.EncPubKeyFree(Session.AppPtr, encPubKeyH, callback);
 
       return tcs.Task;
     }
@@ -91,7 +91,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(encPubKeyPtr.ToList<byte>((IntPtr)KeyLen));
       };
 
-      NativeBindings.EncPubKeyGet(Session.AppPtr, encPubKeyH, callback);
+      AppBindings.EncPubKeyGet(Session.AppPtr, encPubKeyH, callback);
 
       return tcs.Task;
     }
@@ -108,7 +108,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(new NativeHandle(encryptPubKeyHandle, EncPubKeyFreeAsync));
       };
 
-      NativeBindings.EncPubKeyNew(Session.AppPtr, asymPublicKeyPtr, callback);
+      AppBindings.EncPubKeyNew(Session.AppPtr, asymPublicKeyPtr, callback);
       Marshal.FreeHGlobal(asymPublicKeyPtr);
 
       return tcs.Task;
@@ -126,7 +126,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(data);
       };
 
-      NativeBindings.EncryptSealedBox(Session.AppPtr, inputDataPtr, (IntPtr)inputData.Count, pkHandle, callback);
+      AppBindings.EncryptSealedBox(Session.AppPtr, inputDataPtr, (IntPtr)inputData.Count, pkHandle, callback);
       Marshal.FreeHGlobal(inputDataPtr);
 
       return tcs.Task;
@@ -143,7 +143,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(null);
       };
 
-      NativeBindings.EncSecretKeyFree(Session.AppPtr, encSecKeyH, callback);
+      AppBindings.EncSecretKeyFree(Session.AppPtr, encSecKeyH, callback);
 
       return tcs.Task;
     }
@@ -159,7 +159,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(encSecKeyPtr.ToList<byte>((IntPtr)KeyLen));
       };
 
-      NativeBindings.EncSecretKeyGet(Session.AppPtr, encSecKeyH, callback);
+      AppBindings.EncSecretKeyGet(Session.AppPtr, encSecKeyH, callback);
 
       return tcs.Task;
     }
@@ -176,7 +176,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(new NativeHandle(encSecKeyHandle, EncSecretKeyFreeAsync));
       };
 
-      NativeBindings.EncSecretKeyNew(Session.AppPtr, asymSecKeyPtr, callback);
+      AppBindings.EncSecretKeyNew(Session.AppPtr, asymSecKeyPtr, callback);
 
       return tcs.Task;
     }
@@ -192,7 +192,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(null);
       };
 
-      NativeBindings.SignKeyFree(Session.AppPtr, signKeyHandle, callback);
+      AppBindings.SignKeyFree(Session.AppPtr, signKeyHandle, callback);
 
       return tcs.Task;
     }

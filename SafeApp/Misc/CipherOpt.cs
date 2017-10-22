@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp.Misc {
   public static class CipherOpt {
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task FreeAsync(ulong cipherOptHandle) {
       var tcs = new TaskCompletionSource<object>();
@@ -19,7 +19,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(null);
       };
 
-      NativeBindings.CipherOptFree(Session.AppPtr, cipherOptHandle, callback);
+      AppBindings.CipherOptFree(Session.AppPtr, cipherOptHandle, callback);
 
       return tcs.Task;
     }
@@ -35,7 +35,7 @@ namespace SafeApp.Misc {
         tcs.SetResult(new NativeHandle(cipherOptHandle, FreeAsync));
       };
 
-      NativeBindings.CipherOptNewPlaintext(Session.AppPtr, callback);
+      AppBindings.CipherOptNewPlaintext(Session.AppPtr, callback);
 
       return tcs.Task;
     }
