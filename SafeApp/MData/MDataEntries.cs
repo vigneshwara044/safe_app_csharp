@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp.MData {
   public static class MDataEntries {
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task<List<(List<byte>, List<byte>, ulong)>> ForEachAsync(NativeHandle entH) {
       var tcs = new TaskCompletionSource<List<(List<byte>, List<byte>, ulong)>>();
@@ -30,7 +30,7 @@ namespace SafeApp.MData {
         tcs.SetResult(entries);
       };
 
-      NativeBindings.MDataEntriesForEach(Session.AppPtr, entH, forEachCb, forEachResCb);
+      AppBindings.MDataEntriesForEach(Session.AppPtr, entH, forEachCb, forEachResCb);
 
       return tcs.Task;
     }
@@ -46,7 +46,7 @@ namespace SafeApp.MData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.MDataEntriesFree(Session.AppPtr, entriesH, callback);
+      AppBindings.MDataEntriesFree(Session.AppPtr, entriesH, callback);
 
       return tcs.Task;
     }
@@ -66,14 +66,7 @@ namespace SafeApp.MData {
       var entKeyPtr = entKey.ToIntPtr();
       var entValPtr = entVal.ToIntPtr();
 
-      NativeBindings.MDataEntriesInsert(
-        Session.AppPtr,
-        entriesH,
-        entKeyPtr,
-        (IntPtr)entKey.Count,
-        entValPtr,
-        (IntPtr)entVal.Count,
-        callback);
+      AppBindings.MDataEntriesInsert(Session.AppPtr, entriesH, entKeyPtr, (IntPtr)entKey.Count, entValPtr, (IntPtr)entVal.Count, callback);
 
       Marshal.FreeHGlobal(entKeyPtr);
       Marshal.FreeHGlobal(entValPtr);
@@ -89,7 +82,7 @@ namespace SafeApp.MData {
         tcs.SetResult(len);
       };
 
-      NativeBindings.MDataEntriesLen(Session.AppPtr, entriesHandle, callback);
+      AppBindings.MDataEntriesLen(Session.AppPtr, entriesHandle, callback);
 
       return tcs.Task;
     }
@@ -106,7 +99,7 @@ namespace SafeApp.MData {
         tcs.SetResult(new NativeHandle(entriesH, FreeAsync));
       };
 
-      NativeBindings.MDataEntriesNew(Session.AppPtr, callback);
+      AppBindings.MDataEntriesNew(Session.AppPtr, callback);
 
       return tcs.Task;
     }

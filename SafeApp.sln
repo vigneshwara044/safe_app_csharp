@@ -1,15 +1,15 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{4C986A9E-DCD2-4C20-AD68-D91FA50F5A48}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeApp.NativeBindings", "SafeApp.NativeBindings\SafeApp.NativeBindings.csproj", "{D785B126-3720-4420-8207-3BDBFABCBE05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeApp.AppBindings", "SafeApp.AppBindings\SafeApp.AppBindings.csproj", "{D785B126-3720-4420-8207-3BDBFABCBE05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeApp.NativeBindings.iOS", "SafeApp.NativeBindings.iOS\SafeApp.NativeBindings.iOS.csproj", "{94220C85-2874-4187-AAE6-8984F4C63031}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeApp.AppBindings.iOS", "SafeApp.AppBindings.iOS\SafeApp.AppBindings.iOS.csproj", "{94220C85-2874-4187-AAE6-8984F4C63031}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeApp.NativeBindings.Android", "SafeApp.NativeBindings.Android\SafeApp.NativeBindings.Android.csproj", "{F0B624AD-E426-4335-B1E0-9C952BC0A3C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeApp.AppBindings.Android", "SafeApp.AppBindings.Android\SafeApp.AppBindings.Android.csproj", "{F0B624AD-E426-4335-B1E0-9C952BC0A3C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeApp.Utilities", "SafeApp.Utilities\SafeApp.Utilities.csproj", "{A0450F47-B05E-4C53-9845-7B89D708D3E3}"
 EndProject
@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		PackageInstructions.txt = PackageInstructions.txt
 		SafeApp.nuspec = SafeApp.nuspec
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C4B0F1CA-FBBD-410B-BB9F-EB47696E3C61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

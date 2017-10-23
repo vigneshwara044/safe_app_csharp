@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp.MData {
   public static class MDataKeys {
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task<List<List<byte>>> ForEachAsync(NativeHandle entKeysH) {
       var tcs = new TaskCompletionSource<List<List<byte>>>();
@@ -27,7 +27,7 @@ namespace SafeApp.MData {
         tcs.SetResult(keys);
       };
 
-      NativeBindings.MDataKeysForEach(Session.AppPtr, entKeysH, forEachCb, forEachResCb);
+      AppBindings.MDataKeysForEach(Session.AppPtr, entKeysH, forEachCb, forEachResCb);
 
       return tcs.Task;
     }
@@ -43,7 +43,7 @@ namespace SafeApp.MData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.MDataKeysFree(Session.AppPtr, entKeysH, callback);
+      AppBindings.MDataKeysFree(Session.AppPtr, entKeysH, callback);
 
       return tcs.Task;
     }
@@ -59,7 +59,7 @@ namespace SafeApp.MData {
         tcs.SetResult(len);
       };
 
-      NativeBindings.MDataKeysLen(Session.AppPtr, mDataInfoH, callback);
+      AppBindings.MDataKeysLen(Session.AppPtr, mDataInfoH, callback);
 
       return tcs.Task;
     }

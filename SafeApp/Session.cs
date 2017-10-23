@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
@@ -12,7 +12,7 @@ namespace SafeApp {
     public static event EventHandler Disconnected;
     private static IntPtr _appPtr;
     private static volatile bool _isDisconnected;
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     private static readonly NetObsCb NetObs;
     public static bool IsDisconnected { get => _isDisconnected; private set => _isDisconnected = value; }
@@ -24,7 +24,7 @@ namespace SafeApp {
         }
 
         if (_appPtr != IntPtr.Zero) {
-          NativeBindings.FreeApp(_appPtr);
+          AppBindings.FreeApp(_appPtr);
         }
 
         _appPtr = value;
@@ -65,7 +65,7 @@ namespace SafeApp {
             tcs.SetResult(true);
           };
 
-          NativeBindings.AppRegistered(appId, authGrantedFfiPtr, NetObs, callback);
+          AppBindings.AppRegistered(appId, authGrantedFfiPtr, NetObs, callback);
           Marshal.FreeHGlobal(authGrantedFfi.BootStrapConfigPtr);
           Marshal.FreeHGlobal(authGrantedFfiPtr);
 
@@ -94,7 +94,7 @@ namespace SafeApp {
           DecodeRevokedCb revokedCb = _ => { tcs.SetResult(new DecodeIpcResult {Revoked = true}); };
           DecodeErrorCb errorCb = (_, result) => { tcs.SetException(result.ToException()); };
 
-          NativeBindings.DecodeIpcMessage(encodedReq, authCb, unregCb, contCb, shareMDataCb, revokedCb, errorCb);
+          AppBindings.DecodeIpcMessage(encodedReq, authCb, unregCb, contCb, shareMDataCb, revokedCb, errorCb);
 
           return tcs.Task;
         });
@@ -120,7 +120,7 @@ namespace SafeApp {
             tcs.SetResult(req);
           };
 
-          NativeBindings.EncodeAuthReq(authReqFfiPtr, callback);
+          AppBindings.EncodeAuthReq(authReqFfiPtr, callback);
           Marshal.FreeHGlobal(authReqFfi.ContainersArrayPtr);
           Marshal.FreeHGlobal(authReqFfiPtr);
 
@@ -153,10 +153,10 @@ namespace SafeApp {
               return;
             }
 
-            NativeBindings.AppInitLogging(null, cb2);
+            AppBindings.AppInitLogging(null, cb2);
           };
 
-          NativeBindings.AppSetAdditionalSearchPath(configFilesPath, cb1);
+          AppBindings.AppSetAdditionalSearchPath(configFilesPath, cb1);
           return tcs.Task;
         });
     }

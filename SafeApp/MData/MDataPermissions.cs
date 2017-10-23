@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp.MData {
   public static class MDataPermissions {
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task FreeAsync(ulong permissionsH) {
       var tcs = new TaskCompletionSource<object>();
@@ -19,7 +19,7 @@ namespace SafeApp.MData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.MDataPermissionsFree(Session.AppPtr, permissionsH, callback);
+      AppBindings.MDataPermissionsFree(Session.AppPtr, permissionsH, callback);
 
       return tcs.Task;
     }
@@ -36,7 +36,7 @@ namespace SafeApp.MData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.MDataPermissionsInsert(Session.AppPtr, permissionsH, forUserH, permissionSetH, callback);
+      AppBindings.MDataPermissionsInsert(Session.AppPtr, permissionsH, forUserH, permissionSetH, callback);
 
       return tcs.Task;
     }
@@ -53,7 +53,7 @@ namespace SafeApp.MData {
         tcs.SetResult(new NativeHandle(permissionsH, FreeAsync));
       };
 
-      NativeBindings.MDataPermissionsNew(Session.AppPtr, callback);
+      AppBindings.MDataPermissionsNew(Session.AppPtr, callback);
 
       return tcs.Task;
     }

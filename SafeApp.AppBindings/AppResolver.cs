@@ -2,12 +2,12 @@
 using System.Threading;
 using SafeApp.Utilities;
 
-namespace SafeApp.NativeBindings {
-  public class DependencyResolver {
-    private static readonly Lazy<INativeBindings> Implementation =
-      new Lazy<INativeBindings>(CreateNativeBindings, LazyThreadSafetyMode.PublicationOnly);
+namespace SafeApp.AppBindings {
+  public class AppResolver {
+    private static readonly Lazy<IAppBindings> Implementation =
+      new Lazy<IAppBindings>(CreateBindings, LazyThreadSafetyMode.PublicationOnly);
 
-    public static INativeBindings CurrentBindings {
+    public static IAppBindings Current {
       get {
         var ret = Implementation.Value;
         if (ret == null) {
@@ -17,11 +17,11 @@ namespace SafeApp.NativeBindings {
       }
     }
 
-    private static INativeBindings CreateNativeBindings() {
+    private static IAppBindings CreateBindings() {
 #if NETSTANDARD1_2
       return null;
 #else
-      return new NativeBindings();
+      return new AppBindings();
 #endif
     }
 

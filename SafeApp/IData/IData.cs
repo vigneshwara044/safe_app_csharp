@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.NativeBindings;
+using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
@@ -11,7 +11,7 @@ using SafeApp.Utilities;
 
 namespace SafeApp.IData {
   public static class IData {
-    private static readonly INativeBindings NativeBindings = DependencyResolver.CurrentBindings;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task<List<byte>> CloseSelfEncryptorAsync(ulong seH, NativeHandle cipherOptH) {
       var tcs = new TaskCompletionSource<List<byte>>();
@@ -25,7 +25,7 @@ namespace SafeApp.IData {
         tcs.SetResult(xorNameList);
       };
 
-      NativeBindings.IDataCloseSelfEncryptor(Session.AppPtr, seH, cipherOptH, callback);
+      AppBindings.IDataCloseSelfEncryptor(Session.AppPtr, seH, cipherOptH, callback);
 
       return tcs.Task;
     }
@@ -42,7 +42,7 @@ namespace SafeApp.IData {
         tcs.SetResult(new NativeHandle(sEReaderHandle, SelfEncryptorReaderFreeAsync));
       };
 
-      NativeBindings.IDataFetchSelfEncryptor(Session.AppPtr, xorNamePtr, callback);
+      AppBindings.IDataFetchSelfEncryptor(Session.AppPtr, xorNamePtr, callback);
       Marshal.FreeHGlobal(xorNamePtr);
 
       return tcs.Task;
@@ -59,7 +59,7 @@ namespace SafeApp.IData {
         tcs.SetResult(new NativeHandle(sEWriterHandle, null));
       };
 
-      NativeBindings.IDataNewSelfEncryptor(Session.AppPtr, callback);
+      AppBindings.IDataNewSelfEncryptor(Session.AppPtr, callback);
 
       return tcs.Task;
     }
@@ -75,7 +75,7 @@ namespace SafeApp.IData {
         tcs.SetResult(data);
       };
 
-      NativeBindings.IDataReadFromSelfEncryptor(Session.AppPtr, seHandle, fromPos, len, callback);
+      AppBindings.IDataReadFromSelfEncryptor(Session.AppPtr, seHandle, fromPos, len, callback);
 
       return tcs.Task;
     }
@@ -91,7 +91,7 @@ namespace SafeApp.IData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.IDataSelfEncryptorReaderFree(Session.AppPtr, sEReaderHandle, callback);
+      AppBindings.IDataSelfEncryptorReaderFree(Session.AppPtr, sEReaderHandle, callback);
 
       return tcs.Task;
     }
@@ -107,7 +107,7 @@ namespace SafeApp.IData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.IDataSelfEncryptorWriterFree(Session.AppPtr, sEWriterHandle, callback);
+      AppBindings.IDataSelfEncryptorWriterFree(Session.AppPtr, sEWriterHandle, callback);
 
       return tcs.Task;
     }
@@ -123,7 +123,7 @@ namespace SafeApp.IData {
         tcs.SetResult(len);
       };
 
-      NativeBindings.IDataSize(Session.AppPtr, seHandle, callback);
+      AppBindings.IDataSize(Session.AppPtr, seHandle, callback);
 
       return tcs.Task;
     }
@@ -140,7 +140,7 @@ namespace SafeApp.IData {
         tcs.SetResult(null);
       };
 
-      NativeBindings.IDataWriteToSelfEncryptor(Session.AppPtr, seHandle, dataPtr, (IntPtr)data.Count, callback);
+      AppBindings.IDataWriteToSelfEncryptor(Session.AppPtr, seHandle, dataPtr, (IntPtr)data.Count, callback);
       Marshal.FreeHGlobal(dataPtr);
 
       return tcs.Task;

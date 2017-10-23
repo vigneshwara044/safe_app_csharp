@@ -11,8 +11,8 @@ using ObjCRuntime;
 
 #endif
 
-namespace SafeApp.NativeBindings {
-  public class NativeBindings : INativeBindings {
+namespace SafeApp.AppBindings {
+  public class AppBindings : IAppBindings {
     #region AccessContainerGetContainerMDataInfo
 
     public void AccessContainerGetContainerMDataInfo(IntPtr appPtr, string name, AccessContainerGetContainerMDataInfoCb callback) {

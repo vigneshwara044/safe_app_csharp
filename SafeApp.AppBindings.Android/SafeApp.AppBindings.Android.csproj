@@ -9,7 +9,7 @@
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SafeApp.NativeBindings</RootNamespace>
+    <RootNamespace>SafeApp.AppBindings</RootNamespace>
     <AssemblyName>SafeApp.NativeBindings</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
@@ -44,19 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SafeApp.NativeBindings\DependencyResolver.cs">
-      <Link>DependencyResolver.cs</Link>
+    <Compile Include="..\SafeApp.AppBindings\AppBindings.cs">
+      <Link>AppBindings.cs</Link>
     </Compile>
-    <Compile Include="..\SafeApp.NativeBindings\NativeBindings.cs">
-      <Link>NativeBindings.cs</Link>
+    <Compile Include="..\SafeApp.AppBindings\AppResolver.cs">
+      <Link>AppResolver.cs</Link>
     </Compile>
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Android.targets" />
-    <None Include="lib\armeabi-v7a\libsafe_app.so" />
-    <None Include="lib\x86\libsafe_app.so" />
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +64,12 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Target Name="CheckNativeLibs" BeforeTargets="PrepareForBuild">
+    <ItemGroup>
+      <NativeSafeAppLibs Include="lib\**\*.so" />
+    </ItemGroup>
+    <Error Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0'" Text="Missing Native Libs. Please run DownloadNativeLibs.ps1 script in root of repo." />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
