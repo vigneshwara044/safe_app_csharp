@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{94220C85-2874-4187-AAE6-8984F4C63031}</ProjectGuid>
+    <ProjectGuid>{6A42FBFA-03AB-453D-8A2C-7740DFF75E1C}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>SafeApp.AppBindings</RootNamespace>
+    <RootNamespace>SafeApp.MockAuthBindings</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>SafeApp.AppBindings</AssemblyName>
+    <AssemblyName>SafeApp.MockAuthBindings</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,11 +40,11 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SafeApp.AppBindings\AppBindings.cs">
-      <Link>AppBindings.cs</Link>
+    <Compile Include="..\SafeApp.MockAuthBindings\MockAuthBindings.cs">
+      <Link>MockAuthBindings.cs</Link>
     </Compile>
-    <Compile Include="..\SafeApp.AppBindings\AppResolver.cs">
-      <Link>AppResolver.cs</Link>
+    <Compile Include="..\SafeApp.MockAuthBindings\MockAuthResolver.cs">
+      <Link>MockAuthResolver.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -54,16 +54,5 @@
       <Name>SafeApp.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="ios.targets">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Target Name="CheckNativeLibs" BeforeTargets="PrepareForBuild">
-    <ItemGroup>
-      <NativeSafeAppLibs Include="lib\**\*.a" />
-    </ItemGroup>
-    <Error Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0'" Text="Missing Native Libs. Please run DownloadNativeLibs.ps1 script in root of repo." />
-  </Target>
 </Project>

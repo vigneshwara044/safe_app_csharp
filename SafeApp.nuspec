@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.8.3">
     <id>MaidSafe.SafeApp</id>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <title>Safe App Library for CSharp</title>
     <authors>MaidSafe</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -25,12 +25,17 @@
   </metadata>
   <files>
     <!--NetStandard-->
+    <file src="SafeApp.AppBindings\NetStandard.targets" target="build\netstandard1.2\MaidSafe.SafeApp.targets" />
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.dll" target="lib\netstandard1.2\SafeApp.dll" />
     <file src="SafeApp\bin\Release\netstandard1.2\SafeApp.pdb" target="lib\netstandard1.2\SafeApp.pdb" />
     <file src="SafeApp.AppBindings\bin\Release\netstandard1.2\SafeApp.AppBindings.dll"
           target="lib\netstandard1.2\SafeApp.AppBindings.dll" />
     <file src="SafeApp.AppBindings\bin\Release\netstandard1.2\SafeApp.AppBindings.pdb"
           target="lib\netstandard1.2\SafeApp.AppBindings.pdb" />
+    <file src="SafeApp.MockAuthBindings\bin\Release\netstandard1.2\SafeApp.MockAuthBindings.dll"
+          target="build\netstandard1.2\SafeApp.MockAuthBindings.dll" />
+    <file src="SafeApp.MockAuthBindings\bin\Release\netstandard1.2\SafeApp.MockAuthBindings.pdb"
+          target="build\netstandard1.2\SafeApp.MockAuthBindings.pdb" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.dll"
           target="lib\netstandard1.2\SafeApp.Utilities.dll" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.pdb"
@@ -45,6 +50,10 @@
           target="lib\MonoAndroid412\SafeApp.AppBindings.dll" />
     <file src="SafeApp.AppBindings.Android\bin\Release\SafeApp.AppBindings.pdb"
           target="lib\MonoAndroid412\SafeApp.AppBindings.pdb" />
+    <file src="SafeApp.MockAuthBindings.Android\bin\Release\SafeApp.MockAuthBindings.dll"
+          target="build\MonoAndroid412\SafeApp.MockAuthBindings.dll" />
+    <file src="SafeApp.MockAuthBindings.Android\bin\Release\SafeApp.MockAuthBindings.pdb"
+          target="build\MonoAndroid412\SafeApp.MockAuthBindings.pdb" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.dll"
           target="lib\MonoAndroid412\SafeApp.Utilities.dll" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.pdb"
@@ -59,6 +68,10 @@
           target="lib\Xamarin.iOS10\SafeApp.AppBindings.dll" />
     <file src="SafeApp.AppBindings.iOS\bin\Release\SafeApp.AppBindings.pdb"
           target="lib\Xamarin.iOS10\SafeApp.AppBindings.pdb" />
+    <file src="SafeApp.MockAuthBindings.iOS\bin\Release\SafeApp.MockAuthBindings.dll"
+          target="build\Xamarin.iOS10\SafeApp.MockAuthBindings.dll" />
+    <file src="SafeApp.MockAuthBindings.iOS\bin\Release\SafeApp.MockAuthBindings.pdb"
+          target="build\Xamarin.iOS10\SafeApp.MockAuthBindings.pdb" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.dll"
           target="lib\Xamarin.iOS10\SafeApp.Utilities.dll" />
     <file src="SafeApp.Utilities\bin\Release\netstandard1.2\SafeApp.Utilities.pdb"

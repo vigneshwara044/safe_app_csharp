@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F0B624AD-E426-4335-B1E0-9C952BC0A3C5}</ProjectGuid>
+    <ProjectGuid>{54021988-CA0A-4C25-A389-079C9C456402}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SafeApp.AppBindings</RootNamespace>
-    <AssemblyName>SafeApp.AppBindings</AssemblyName>
+    <RootNamespace>SafeApp.MockAuthBindings</RootNamespace>
+    <AssemblyName>SafeApp.MockAuthBindings</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
@@ -44,19 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SafeApp.AppBindings\AppBindings.cs">
-      <Link>AppBindings.cs</Link>
+    <Compile Include="..\SafeApp.MockAuthBindings\MockAuthBindings.cs">
+      <Link>MockAuthBindings.cs</Link>
     </Compile>
-    <Compile Include="..\SafeApp.AppBindings\AppResolver.cs">
-      <Link>AppResolver.cs</Link>
+    <Compile Include="..\SafeApp.MockAuthBindings\MockAuthResolver.cs">
+      <Link>MockAuthResolver.cs</Link>
     </Compile>
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Android.targets">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Resources\AboutResources.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -66,12 +63,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <Target Name="CheckNativeLibs" BeforeTargets="PrepareForBuild">
-    <ItemGroup>
-      <NativeSafeAppLibs Include="lib\**\*.so" />
-    </ItemGroup>
-    <Error Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0'" Text="Missing Native Libs. Please run DownloadNativeLibs.ps1 script in root of repo." />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

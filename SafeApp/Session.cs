@@ -18,7 +18,7 @@ namespace SafeApp {
     public static bool IsDisconnected { get => _isDisconnected; private set => _isDisconnected = value; }
 
     public static IntPtr AppPtr {
-      private set {
+      set {
         if (_appPtr == value) {
           return;
         }
