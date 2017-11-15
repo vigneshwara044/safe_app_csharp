@@ -14,7 +14,7 @@ namespace SafeApp {
     private static volatile bool _isDisconnected;
     private static readonly IAppBindings AppBindings = AppResolver.Current;
 
-    private static readonly NetObsCb NetObs;
+    private static readonly IntCb NetObs;
     public static bool IsDisconnected { get => _isDisconnected; private set => _isDisconnected = value; }
 
     public static IntPtr AppPtr {
@@ -54,7 +54,7 @@ namespace SafeApp {
           };
           var authGrantedFfiPtr = Helpers.StructToPtr(authGrantedFfi);
 
-          AppRegisteredCb callback = (_, result, appPtr) => {
+          IntPtrCb callback = (_, result, appPtr) => {
             if (result.ErrorCode != 0) {
               tcs.SetException(result.ToException());
               return;
@@ -92,7 +92,7 @@ namespace SafeApp {
           DecodeContCb contCb = (_, id) => { tcs.SetResult(new DecodeIpcResult {ContReqId = id}); };
           DecodeShareMDataCb shareMDataCb = (_, id) => { tcs.SetResult(new DecodeIpcResult {ShareMData = id}); };
           DecodeRevokedCb revokedCb = _ => { tcs.SetResult(new DecodeIpcResult {Revoked = true}); };
-          DecodeErrorCb errorCb = (_, result) => { tcs.SetException(result.ToException()); };
+          ListBasedResultCb errorCb = (_, result) => { tcs.SetException(result.ToException()); };
 
           AppBindings.DecodeIpcMessage(encodedReq, authCb, unregCb, contCb, shareMDataCb, revokedCb, errorCb);
 
@@ -104,6 +104,17 @@ namespace SafeApp {
       return Task.Run(
         () => {
           var tcs = new TaskCompletionSource<string>();
+          if (authReq.Containers == null) {
+            tcs.SetException(new ArgumentNullException($"{nameof(authReq.Containers)} cannot be null"));
+            return tcs.Task;
+          }
+          if (string.IsNullOrEmpty(authReq.AppExchangeInfo.Name) || string.IsNullOrEmpty(authReq.AppExchangeInfo.Id) ||
+              string.IsNullOrEmpty(authReq.AppExchangeInfo.Vendor)) {
+            tcs.SetException(
+              new ArgumentException(
+                $"{nameof(authReq.AppExchangeInfo.Name)}, {nameof(authReq.AppExchangeInfo.Id)}, {nameof(authReq.AppExchangeInfo.Vendor)} fields are mandatory for AppExchageInfo"));
+            return tcs.Task;
+          }
           var authReqFfi = new AuthReqFfi {
             AppContainer = authReq.AppContainer,
             AppExchangeInfo = authReq.AppExchangeInfo,
@@ -138,7 +149,7 @@ namespace SafeApp {
         () => {
           var tcs = new TaskCompletionSource<bool>();
 
-          InitLoggingCb cb2 = (_, result) => {
+          ResultCb cb2 = (_, result) => {
             if (result.ErrorCode != 0) {
               tcs.SetException(result.ToException());
               return;
@@ -147,7 +158,7 @@ namespace SafeApp {
             tcs.SetResult(true);
           };
 
-          AppSetAdditionalSearchPathCb cb1 = (_, result) => {
+          ResultCb cb1 = (_, result) => {
             if (result.ErrorCode != 0) {
               tcs.SetException(result.ToException());
               return;
