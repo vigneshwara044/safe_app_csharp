@@ -209,6 +209,36 @@ namespace SafeApp.AppBindings {
 
     #endregion
 
+    #region CipherOptNewSymmetric
+
+    public void CipherOptNewSymmetric(IntPtr appPtr, UlongCb callback) {
+      CipherOptNewSymmetricNative(appPtr, callback.ToHandlePtr(), OnUlongCb);
+    }
+
+#if __IOS__
+    [DllImport("__Internal", EntryPoint = "cipher_opt_new_symmetric")]
+#elif __ANDROID__
+    [DllImport("safe_app", EntryPoint = "cipher_opt_new_symmetric")]
+#endif
+    public static extern void CipherOptNewSymmetricNative(IntPtr appPtr, IntPtr self, UlongCb callback);
+
+    #endregion
+
+    #region CipherOptNewAsymmetric
+
+    public void CipherOptNewAsymmetric(IntPtr appPtr, ulong encryptPubKeyHandle, UlongCb callback) {
+      CipherOptNewAsymmetricNative(appPtr, encryptPubKeyHandle, callback.ToHandlePtr(), OnUlongCb);
+    }
+
+#if __IOS__
+    [DllImport("__Internal", EntryPoint = "cipher_opt_new_asymmetric")]
+#elif __ANDROID__
+    [DllImport("safe_app", EntryPoint = "cipher_opt_new_asymmetric")]
+#endif
+    public static extern void CipherOptNewAsymmetricNative(IntPtr appPtr, ulong encryptPubKeyHandle, IntPtr self, UlongCb callback);
+
+    #endregion
+
     #region DecodeIpcMessage
 
     public void DecodeIpcMessage(
