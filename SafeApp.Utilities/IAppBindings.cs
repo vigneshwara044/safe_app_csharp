@@ -12,7 +12,9 @@ namespace SafeApp.Utilities {
 
     void AppSetAdditionalSearchPath(string path, ResultCb callback);
     void CipherOptFree(IntPtr appPtr, ulong cipherOptHandle, ResultCb callback);
+    void CipherOptNewAsymmetric(IntPtr appPtr, ulong encryptPubKeyHandle, UlongCb callback);
     void CipherOptNewPlaintext(IntPtr appPtr, UlongCb callback);
+    void CipherOptNewSymmetric(IntPtr appPtr, UlongCb callback);
 
     void DecodeIpcMessage(
       string encodedReq,
