@@ -45,10 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="SharedFiles\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SafeApp.AppBindings.Desktop\SafeApp.AppBindings.Desktop.csproj" />
     <ProjectReference Include="..\SafeApp.MockAuthBindings.Desktop\SafeApp.MockAuthBindings.Desktop.csproj" />
     <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />

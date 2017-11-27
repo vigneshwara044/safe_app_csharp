@@ -22,5 +22,11 @@
   <ItemGroup>
     <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
   </ItemGroup>
+  <Target Name="CheckNativeLibs" BeforeTargets="PrepareForBuild">
+    <ItemGroup>
+      <NativeSafeAppLibs Include="lib\**\*.*" />
+    </ItemGroup>
+    <Error Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0'" Text="Missing Native Libs. Please run 'cargo script DownloadNativeLibs.crs' in root of repo." />
+  </Target>
 
 </Project>
