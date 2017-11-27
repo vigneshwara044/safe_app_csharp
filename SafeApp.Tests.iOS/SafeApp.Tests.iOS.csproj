@@ -172,9 +172,6 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AppDelegate.cs.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <NativeReference Include="..\SafeApp.AppBindings.iOS\lib\mock\libsafe_app.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>

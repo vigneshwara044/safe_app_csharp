@@ -31,7 +31,7 @@ using Xamarin.Forms.Platform.Android;
 
 namespace SafeApp.Tests.Android {
   [Activity(
-    Label = "NUnit",
+    Label = "SafeApp.Tests.Android",
     Icon = "@drawable/icon",
     Theme = "@android:style/Theme.Holo.Light",
     MainLauncher = true,
