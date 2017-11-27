@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.MData;
 using SafeApp.Misc;
@@ -9,7 +10,7 @@ namespace SafeApp.Tests {
   [TestFixture]
   internal class MutableDataTests {
     [Test]
-    public async void RandomPrivateMutableDataUpdateAction() {
+    public async Task RandomPrivateMutableDataUpdateAction() {
       Utils.InitialiseSessionForRandomTestApp();
       const ulong tagType = 15001;
       const string actKey = "sample_key";
@@ -53,7 +54,7 @@ namespace SafeApp.Tests {
     }
 
     [Test]
-    public async void RandomPublicMutableDataInsertAction() {
+    public async Task RandomPublicMutableDataInsertAction() {
       Utils.InitialiseSessionForRandomTestApp();
       const ulong tagType = 15001;
       using (var mdInfoHandle = await MDataInfo.RandomPublicAsync(tagType)) {

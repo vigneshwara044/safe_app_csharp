@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.Utilities;
 
@@ -15,16 +16,15 @@ namespace SafeApp.Tests {
     }
 
     [Test]
-    public async void ConnectAsRegisteredApp() {
+    public async Task ConnectAsRegisteredApp() {
       var result = await Session.DecodeIpcMessageAsync(AuthUri);
       Assert.NotNull(result.AuthGranted);
-      var isConnected = result.AuthGranted != null &&
-                        await Session.AppRegisteredAsync("bmV0Lm1haWRzYWZlLnRlc3Qud2ViYXBwLmlk", result.AuthGranted.Value);
+      var isConnected = await Session.AppRegisteredAsync("bmV0Lm1haWRzYWZlLnRlc3Qud2ViYXBwLmlk", result.AuthGranted.Value);
       Assert.IsTrue(isConnected);
     }
 
     [Test]
-    public async void DecodeAuthRequest() {
+    public async Task DecodeAuthRequest() {
       var result = await Session.DecodeIpcMessageAsync(AuthUri);
       Assert.NotNull(result.AuthGranted);
     }
@@ -32,25 +32,29 @@ namespace SafeApp.Tests {
     [Test]
     public void EncodeAuthRequestWithContainersAsNull() {
       var authReq = new AuthReq {AppContainer = false, AppExchangeInfo = GetExchangeInfo(), Containers = null};
-      Assert.Throws<ArgumentNullException>(async () => await Session.EncodeAuthReqAsync(authReq));
+      Assert.ThrowsAsync<ArgumentNullException>(async () => await Session.EncodeAuthReqAsync(authReq));
     }
 
     [Test]
     public void EncodeAuthRequestWithEmptyContainers() {
       var authReq = new AuthReq {AppContainer = false, AppExchangeInfo = GetExchangeInfo(), Containers = new List<ContainerPermissions>()};
-      Assert.DoesNotThrow(async () => await Session.EncodeAuthReqAsync(authReq));
+      Assert.DoesNotThrowAsync(async () => await Session.EncodeAuthReqAsync(authReq));
     }
 
     [Test]
     public void EncodeAuthRequestWithEmptyContainersAndAppContainer() {
       var authReq = new AuthReq {AppContainer = true, AppExchangeInfo = GetExchangeInfo(), Containers = new List<ContainerPermissions>()};
-      Assert.DoesNotThrow(async () => await Session.EncodeAuthReqAsync(authReq));
+      Assert.DoesNotThrowAsync(async () => await Session.EncodeAuthReqAsync(authReq));
     }
 
     [Test]
     public void EncodeAuthRequestWithInvalidExchangeInfoThrowsException() {
-      var authReq = new AuthReq {AppContainer = false, AppExchangeInfo = new AppExchangeInfo(), Containers = null};
-      Assert.Catch(async () => await Session.EncodeAuthReqAsync(authReq));
+      var authReq = new AuthReq {
+        AppContainer = false,
+        AppExchangeInfo = new AppExchangeInfo(),
+        Containers = new List<ContainerPermissions>()
+      };
+      Assert.CatchAsync(async () => await Session.EncodeAuthReqAsync(authReq));
     }
   }
 }
