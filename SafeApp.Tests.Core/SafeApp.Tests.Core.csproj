@@ -45,10 +45,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SafeApp.AppBindings.Desktop\SafeApp.AppBindings.Desktop.csproj" />
     <ProjectReference Include="..\SafeApp.MockAuthBindings.Desktop\SafeApp.MockAuthBindings.Desktop.csproj" />
     <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
     <ProjectReference Include="..\SafeApp\SafeApp.csproj" />
   </ItemGroup>
 
+  <Target Name="BaitAndSwitchTarget" AfterTargets="Build">
+    <PropertyGroup>
+      <LinkedProject>..\SafeApp.AppBindings.Desktop\SafeApp.AppBindings.Desktop.csproj</LinkedProject>
+    </PropertyGroup>
+    <MSBuild Condition="'$(LinkedProject)' != '' " Projects="$(LinkedProject)" Targets="Restore" />
+    <MSBuild Condition="'$(LinkedProject)' != '' " Projects="$(LinkedProject)" Targets="Build" Properties="OutputPath=..\$(MSBuildProjectName)\$(OutputPath)" />
+  </Target>
 </Project>

@@ -1,0 +1,37 @@
+environment:
+  matrix:
+    - RUST_TOOLCHAIN: 1.22.1
+
+cache:
+  - '%USERPROFILE%\.cargo'
+  - '%USERPROFILE%\.nuget\packages'
+
+clone_depth: 1
+
+image: Visual Studio 2017
+
+install:
+  - ps: |
+        $url = "https://github.com/maidsafe/QA/raw/master/appveyor/install_rustup.ps1"
+        Invoke-WebRequest $url -OutFile "install_rustup.ps1"
+        . ".\install_rustup.ps1"
+  - bash -lc "curl -sSL https://github.com/maidsafe/QA/raw/master/travis/cargo_install.sh > cargo_install.sh"
+  - bash -lc "PATH=/c/msys64/mingw64/bin:/c/msys64/usr/bin:$PATH; bash cargo_install.sh cargo-script"
+  - cargo script DownloadNativeLibs.crs
+
+platform:
+  - x64
+
+before_build:
+  - cd SafeApp.Tests.Core
+
+build_script:
+  - dotnet build --runtime win10-x64
+
+test_script:
+  - dotnet test -v n --logger="trx;LogFileName=results.xml"
+
+after_test:
+  - ps: |
+        $wc = New-Object 'System.Net.WebClient'
+        $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResults\results.xml))
