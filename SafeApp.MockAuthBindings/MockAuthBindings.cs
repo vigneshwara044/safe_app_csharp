@@ -1,4 +1,4 @@
-﻿#if !NETSTANDARD1_2
+﻿#if !NETSTANDARD1_2 || __DESKTOP__
 
 using System;
 using System.Runtime.InteropServices;
@@ -22,7 +22,7 @@ namespace SafeApp.MockAuthBindings {
 
 #if __IOS__
     [DllImport("__Internal", EntryPoint = "test_create_app")]
-#elif __ANDROID__
+#else
     [DllImport("safe_app", EntryPoint = "test_create_app")]
 #endif
     public static extern int TestCreateAppNative(out IntPtr appPtr);

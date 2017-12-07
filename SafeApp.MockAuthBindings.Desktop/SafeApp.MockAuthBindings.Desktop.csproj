@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.2</TargetFramework>
+    <AssemblyName>SafeApp.MockAuthBindings</AssemblyName>
+    <RootNamespace>SafeApp.MockAuthBindings</RootNamespace>
+    <DefineConstants>__DESKTOP__</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SafeApp.MockAuthBindings\MockAuthBindings.cs" Link="MockAuthBindings.cs" />
+    <Compile Include="..\SafeApp.MockAuthBindings\MockAuthResolver.cs" Link="MockAuthResolver.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
+  </ItemGroup>
+
+</Project>
