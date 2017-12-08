@@ -2,12 +2,14 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp {
+  [PublicAPI]
   public static class Session {
     public static event EventHandler Disconnected;
     private static IntPtr _appPtr;

@@ -3,7 +3,7 @@ using System.Threading;
 using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings {
-  public class MockAuthResolver {
+  public static class MockAuthResolver {
     private static readonly Lazy<IMockAuthBindings> Implementation =
       new Lazy<IMockAuthBindings>(CreateBindings, LazyThreadSafetyMode.PublicationOnly);
 
@@ -25,7 +25,7 @@ namespace SafeApp.MockAuthBindings {
 #endif
     }
 
-    internal static Exception NotImplementedInReferenceAssembly() {
+    private static Exception NotImplementedInReferenceAssembly() {
       return new NotImplementedException(
         "Please ensure you have SAFE_APP_MOCK defined in the application project as well. " +
         "You should also have a reference to the NuGet package from your main application project in order to reference the platform-specific implementation.");

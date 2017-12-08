@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp.MData {
+  [PublicAPI]
   public static class MDataEntryActions {
     private static readonly IAppBindings AppBindings = AppResolver.Current;
 

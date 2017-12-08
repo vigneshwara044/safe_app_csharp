@@ -12,7 +12,7 @@ using ObjCRuntime;
 #endif
 
 namespace SafeApp.AppBindings {
-  public class AppBindings : IAppBindings {
+  internal class AppBindings : IAppBindings {
     #region Generic FFiResult with value Callbacks
 
 #if __IOS__
@@ -80,7 +80,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "access_container_get_container_mdata_info")]
 #endif
-    public static extern void AccessContainerGetContainerMDataInfoNative(IntPtr appPtr, string name, IntPtr self, UlongCb callback);
+    private static extern void AccessContainerGetContainerMDataInfoNative(IntPtr appPtr, string name, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -95,7 +95,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "app_exe_file_stem")]
 #endif
-    public static extern void AppExeFileStemNative(IntPtr self, StringCb callback);
+    private static extern void AppExeFileStemNative(IntPtr self, StringCb callback);
 
     #endregion
 
@@ -110,7 +110,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "app_init_logging")]
 #endif
-    public static extern void AppInitLoggingNative(string fileName, IntPtr userDataPtr, ResultCb callback);
+    private static extern void AppInitLoggingNative(string fileName, IntPtr userDataPtr, ResultCb callback);
 
     #endregion
 
@@ -125,7 +125,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "app_output_log_path")]
 #endif
-    public static extern void AppOutputLogPathNative(string fileName, IntPtr userDataPtr, StringCb callback);
+    private static extern void AppOutputLogPathNative(string fileName, IntPtr userDataPtr, StringCb callback);
 
     #endregion
 
@@ -140,7 +140,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "app_pub_sign_key")]
 #endif
-    public static extern void AppPubSignKeyNative(IntPtr appPtr, IntPtr self, UlongCb callback);
+    private static extern void AppPubSignKeyNative(IntPtr appPtr, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -154,7 +154,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "app_registered")]
 #endif
-    public static extern void AppRegisteredNative(
+    private static extern void AppRegisteredNative(
       string appId,
       IntPtr ffiAuthGrantedPtr,
       IntPtr networkUserData,
@@ -175,7 +175,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "app_set_additional_search_path")]
 #endif
-    public static extern void AppSetAdditionalSearchPathNative(string path, IntPtr self, ResultCb callback);
+    private static extern void AppSetAdditionalSearchPathNative(string path, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -190,7 +190,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "cipher_opt_free")]
 #endif
-    public static extern void CipherOptFreeNative(IntPtr appPtr, ulong cipherOptHandle, IntPtr self, ResultCb callback);
+    private static extern void CipherOptFreeNative(IntPtr appPtr, ulong cipherOptHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -205,7 +205,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "cipher_opt_new_plaintext")]
 #endif
-    public static extern void CipherOptNewPlaintextNative(IntPtr appPtr, IntPtr self, UlongCb callback);
+    private static extern void CipherOptNewPlaintextNative(IntPtr appPtr, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -220,7 +220,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "cipher_opt_new_symmetric")]
 #endif
-    public static extern void CipherOptNewSymmetricNative(IntPtr appPtr, IntPtr self, UlongCb callback);
+    private static extern void CipherOptNewSymmetricNative(IntPtr appPtr, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -235,7 +235,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "cipher_opt_new_asymmetric")]
 #endif
-    public static extern void CipherOptNewAsymmetricNative(IntPtr appPtr, ulong encryptPubKeyHandle, IntPtr self, UlongCb callback);
+    private static extern void CipherOptNewAsymmetricNative(IntPtr appPtr, ulong encryptPubKeyHandle, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -266,7 +266,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "decode_ipc_msg")]
 #endif
-    public static extern void DecodeIpcMessageNative(
+    private static extern void DecodeIpcMessageNative(
       string encodedReq,
       IntPtr self,
       DecodeAuthCb authCb,
@@ -329,7 +329,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "decrypt_sealed_box")]
 #endif
-    public static extern void DecryptSealedBoxNative(
+    private static extern void DecryptSealedBoxNative(
       IntPtr appPtr,
       IntPtr data,
       IntPtr len,
@@ -351,7 +351,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "enc_generate_key_pair")]
 #endif
-    public static extern void EncGenerateKeyPairNative(IntPtr appPtr, IntPtr self, EncGenerateKeyPairCb callback);
+    private static extern void EncGenerateKeyPairNative(IntPtr appPtr, IntPtr self, EncGenerateKeyPairCb callback);
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(EncGenerateKeyPairCb))]
@@ -374,7 +374,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "encode_auth_req")]
 #endif
-    public static extern void EncodeAuthReqNative(IntPtr authReq, IntPtr userDataPtr, EncodeAuthReqCb callback);
+    private static extern void EncodeAuthReqNative(IntPtr authReq, IntPtr userDataPtr, EncodeAuthReqCb callback);
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(EncodeAuthReqCb))]
@@ -397,7 +397,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "enc_pub_key_free")]
 #endif
-    public static extern void EncPubKeyFreeNative(IntPtr appPtr, ulong encryptPubKeyHandle, IntPtr self, ResultCb callback);
+    private static extern void EncPubKeyFreeNative(IntPtr appPtr, ulong encryptPubKeyHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -412,7 +412,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "enc_pub_key_get")]
 #endif
-    public static extern void EncPubKeyGetNative(IntPtr appPtr, ulong encryptPubKeyHandle, IntPtr self, IntPtrCb callback);
+    private static extern void EncPubKeyGetNative(IntPtr appPtr, ulong encryptPubKeyHandle, IntPtr self, IntPtrCb callback);
 
     #endregion
 
@@ -427,7 +427,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "enc_pub_key_new")]
 #endif
-    public static extern void EncPubKeyNewNative(IntPtr appPtr, IntPtr asymPublicKey, IntPtr self, UlongCb callback);
+    private static extern void EncPubKeyNewNative(IntPtr appPtr, IntPtr asymPublicKey, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -442,7 +442,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "encrypt_sealed_box")]
 #endif
-    public static extern void EncryptSealedBoxNative(
+    private static extern void EncryptSealedBoxNative(
       IntPtr appPtr,
       IntPtr data,
       IntPtr len,
@@ -463,7 +463,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "enc_secret_key_free")]
 #endif
-    public static extern void EncSecretKeyFreeNative(IntPtr appPtr, ulong encryptSecKeyHandle, IntPtr self, ResultCb callback);
+    private static extern void EncSecretKeyFreeNative(IntPtr appPtr, ulong encryptSecKeyHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -478,7 +478,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "enc_secret_key_get")]
 #endif
-    public static extern void EncSecretKeyGetNative(IntPtr appPtr, ulong encryptSecKeyHandle, IntPtr self, IntPtrCb callback);
+    private static extern void EncSecretKeyGetNative(IntPtr appPtr, ulong encryptSecKeyHandle, IntPtr self, IntPtrCb callback);
 
     #endregion
 
@@ -493,7 +493,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "enc_secret_key_new")]
 #endif
-    public static extern void EncSecretKeyNewNative(IntPtr appPtr, IntPtr asymSecretKey, IntPtr self, UlongCb callback);
+    private static extern void EncSecretKeyNewNative(IntPtr appPtr, IntPtr asymSecretKey, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -508,7 +508,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "app_free")]
 #endif
-    public static extern void FreeAppNative(IntPtr appPtr);
+    private static extern void FreeAppNative(IntPtr appPtr);
 
     #endregion
 
@@ -523,7 +523,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "idata_close_self_encryptor")]
 #endif
-    public static extern void IDataCloseSelfEncryptorNative(
+    private static extern void IDataCloseSelfEncryptorNative(
       IntPtr appPtr,
       ulong seHandle,
       ulong cipherOptHandle,
@@ -543,7 +543,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "idata_fetch_self_encryptor")]
 #endif
-    public static extern void IDataFetchSelfEncryptorNative(IntPtr appPtr, IntPtr xorNameArr, IntPtr self, UlongCb callback);
+    private static extern void IDataFetchSelfEncryptorNative(IntPtr appPtr, IntPtr xorNameArr, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -558,7 +558,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "idata_new_self_encryptor")]
 #endif
-    public static extern void IDataNewSelfEncryptorNative(IntPtr appPtr, IntPtr self, UlongCb callback);
+    private static extern void IDataNewSelfEncryptorNative(IntPtr appPtr, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -573,7 +573,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "idata_read_from_self_encryptor")]
 #endif
-    public static extern void IDataReadFromSelfEncryptorNative(
+    private static extern void IDataReadFromSelfEncryptorNative(
       IntPtr appPtr,
       ulong seHandle,
       ulong fromPos,
@@ -594,7 +594,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "idata_self_encryptor_reader_free")]
 #endif
-    public static extern void IDataSelfEncryptorReaderFreeNative(IntPtr appPtr, ulong sEReaderHandle, IntPtr self, ResultCb callback);
+    private static extern void IDataSelfEncryptorReaderFreeNative(IntPtr appPtr, ulong sEReaderHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -609,7 +609,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "idata_self_encryptor_writer_free")]
 #endif
-    public static extern void IDataSelfEncryptorWriterFreeNative(IntPtr appPtr, ulong sEWriterHandle, IntPtr self, ResultCb callback);
+    private static extern void IDataSelfEncryptorWriterFreeNative(IntPtr appPtr, ulong sEWriterHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -624,7 +624,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "idata_size")]
 #endif
-    public static extern void IDataSizeNative(IntPtr appPtr, ulong seHandle, IntPtr self, UlongCb callback);
+    private static extern void IDataSizeNative(IntPtr appPtr, ulong seHandle, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -639,7 +639,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "idata_write_to_self_encryptor")]
 #endif
-    public static extern void IDataWriteToSelfEncryptorNative(
+    private static extern void IDataWriteToSelfEncryptorNative(
       IntPtr appPtr,
       ulong seHandle,
       IntPtr data,
@@ -665,7 +665,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_entries_for_each")]
 #endif
-    public static extern void MDataEntriesForEachNative(
+    private static extern void MDataEntriesForEachNative(
       IntPtr appPtr,
       ulong entriesHandle,
       IntPtr self,
@@ -699,7 +699,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_entries_free")]
 #endif
-    public static extern void MDataEntriesFreeNative(IntPtr appPtr, ulong entriesHandle, IntPtr self, ResultCb callback);
+    private static extern void MDataEntriesFreeNative(IntPtr appPtr, ulong entriesHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -721,7 +721,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_entries_insert")]
 #endif
-    public static extern void MDataEntriesInsertNative(
+    private static extern void MDataEntriesInsertNative(
       IntPtr appPtr,
       ulong entriesHandle,
       IntPtr keyPtr,
@@ -744,7 +744,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_entries_len")]
 #endif
-    public static extern void MDataEntriesLenNative(IntPtr appPtr, ulong entriesHandle, IntPtr self, MDataEntriesLenCb callback);
+    private static extern void MDataEntriesLenNative(IntPtr appPtr, ulong entriesHandle, IntPtr self, MDataEntriesLenCb callback);
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(MDataEntriesLenCb))]
@@ -767,7 +767,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_entries_new")]
 #endif
-    public static extern void MDataEntriesNewNative(IntPtr appPtr, IntPtr self, UlongCb callback);
+    private static extern void MDataEntriesNewNative(IntPtr appPtr, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -782,7 +782,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_entry_actions_free")]
 #endif
-    public static extern void MDataEntryActionsFreeNative(IntPtr appPtr, ulong actionsHandle, IntPtr self, ResultCb callback);
+    private static extern void MDataEntryActionsFreeNative(IntPtr appPtr, ulong actionsHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -804,7 +804,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_entry_actions_insert")]
 #endif
-    public static extern void MDataEntryActionsInsertNative(
+    private static extern void MDataEntryActionsInsertNative(
       IntPtr appPtr,
       ulong actionsHandle,
       IntPtr keyPtr,
@@ -827,7 +827,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_entry_actions_new")]
 #endif
-    public static extern void MDataEntryActionsNewNative(IntPtr appPtr, IntPtr self, UlongCb callback);
+    private static extern void MDataEntryActionsNewNative(IntPtr appPtr, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -842,7 +842,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_get_value")]
 #endif
-    public static extern void MDataGetValueNative(
+    private static extern void MDataGetValueNative(
       IntPtr appPtr,
       ulong infoHandle,
       IntPtr keyPtr,
@@ -871,7 +871,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_info_decrypt")]
 #endif
-    public static extern void MDataInfoDecryptNative(
+    private static extern void MDataInfoDecryptNative(
       IntPtr appPtr,
       ulong mDataInfoH,
       IntPtr cipherText,
@@ -892,7 +892,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_info_deserialise")]
 #endif
-    public static extern void MDataInfoDeserialiseNative(IntPtr appPtr, IntPtr ptr, IntPtr len, IntPtr self, UlongCb callback);
+    private static extern void MDataInfoDeserialiseNative(IntPtr appPtr, IntPtr ptr, IntPtr len, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -907,7 +907,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_info_encrypt_entry_key")]
 #endif
-    public static extern void MDataInfoEncryptEntryKeyNative(
+    private static extern void MDataInfoEncryptEntryKeyNative(
       IntPtr appPtr,
       ulong infoH,
       IntPtr inputPtr,
@@ -928,7 +928,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_info_encrypt_entry_value")]
 #endif
-    public static extern void MDataInfoEncryptEntryValueNative(
+    private static extern void MDataInfoEncryptEntryValueNative(
       IntPtr appPtr,
       ulong infoH,
       IntPtr inputPtr,
@@ -949,7 +949,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_info_free")]
 #endif
-    public static extern void MDataInfoFreeNative(IntPtr appPtr, ulong infoHandle, IntPtr self, ResultCb callback);
+    private static extern void MDataInfoFreeNative(IntPtr appPtr, ulong infoHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -964,7 +964,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_info_new_public")]
 #endif
-    public static extern void MDataInfoNewPublicNative(IntPtr appPtr, IntPtr xorNameArr, ulong typeTag, IntPtr self, UlongCb callback);
+    private static extern void MDataInfoNewPublicNative(IntPtr appPtr, IntPtr xorNameArr, ulong typeTag, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -979,7 +979,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_info_random_private")]
 #endif
-    public static extern void MDataInfoRandomPrivateNative(IntPtr appPtr, ulong typeTag, IntPtr self, UlongCb callback);
+    private static extern void MDataInfoRandomPrivateNative(IntPtr appPtr, ulong typeTag, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -994,7 +994,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_info_random_public")]
 #endif
-    public static extern void MDataInfoRandomPublicNative(IntPtr appPtr, ulong typeTag, IntPtr self, UlongCb callback);
+    private static extern void MDataInfoRandomPublicNative(IntPtr appPtr, ulong typeTag, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -1009,7 +1009,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_info_serialise")]
 #endif
-    public static extern void MDataInfoSerialiseNative(IntPtr appPtr, ulong infoHandle, IntPtr self, ByteArrayCb callback);
+    private static extern void MDataInfoSerialiseNative(IntPtr appPtr, ulong infoHandle, IntPtr self, ByteArrayCb callback);
 
     #endregion
 
@@ -1027,7 +1027,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_keys_for_each")]
 #endif
-    public static extern void MDataKeysForEachNative(
+    private static extern void MDataKeysForEachNative(
       IntPtr appPtr,
       ulong keysHandle,
       IntPtr self,
@@ -1055,7 +1055,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_keys_free")]
 #endif
-    public static extern void MDataKeysFreeNative(IntPtr appPtr, ulong keysHandle, IntPtr self, ResultCb callback);
+    private static extern void MDataKeysFreeNative(IntPtr appPtr, ulong keysHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -1070,7 +1070,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_keys_len")]
 #endif
-    public static extern void MDataKeysLenNative(IntPtr appPtr, ulong keysHandle, IntPtr self, IntPtrCb callback);
+    private static extern void MDataKeysLenNative(IntPtr appPtr, ulong keysHandle, IntPtr self, IntPtrCb callback);
 
     #endregion
 
@@ -1085,7 +1085,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_list_entries")]
 #endif
-    public static extern void MDataListEntriesNative(IntPtr appPtr, ulong infoHandle, IntPtr self, UlongCb callback);
+    private static extern void MDataListEntriesNative(IntPtr appPtr, ulong infoHandle, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -1100,7 +1100,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_list_keys")]
 #endif
-    public static extern void MDataListKeysNative(IntPtr appPtr, ulong infoHandle, IntPtr self, UlongCb callback);
+    private static extern void MDataListKeysNative(IntPtr appPtr, ulong infoHandle, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -1115,7 +1115,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_mutate_entries")]
 #endif
-    public static extern void MDataMutateEntriesNative(
+    private static extern void MDataMutateEntriesNative(
       IntPtr appPtr,
       ulong infoHandle,
       ulong actionsHandle,
@@ -1135,7 +1135,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_permission_set_allow")]
 #endif
-    public static extern void MDataPermissionSetAllowNative(
+    private static extern void MDataPermissionSetAllowNative(
       IntPtr appPtr,
       ulong setHandle,
       MDataAction action,
@@ -1155,7 +1155,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_permission_set_free")]
 #endif
-    public static extern void MDataPermissionSetFreeNative(IntPtr appPtr, ulong setHandle, IntPtr self, ResultCb callback);
+    private static extern void MDataPermissionSetFreeNative(IntPtr appPtr, ulong setHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -1170,7 +1170,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_permission_set_new")]
 #endif
-    public static extern void MDataPermissionSetNewNative(IntPtr appPtr, IntPtr self, UlongCb callback);
+    private static extern void MDataPermissionSetNewNative(IntPtr appPtr, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -1185,7 +1185,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_permissions_free")]
 #endif
-    public static extern void MDataPermissionsFreeNative(IntPtr appPtr, ulong permissionsHandle, IntPtr self, ResultCb callback);
+    private static extern void MDataPermissionsFreeNative(IntPtr appPtr, ulong permissionsHandle, IntPtr self, ResultCb callback);
 
     #endregion
 
@@ -1205,7 +1205,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_permissions_insert")]
 #endif
-    public static extern void MDataPermissionsInsertNative(
+    private static extern void MDataPermissionsInsertNative(
       IntPtr appPtr,
       ulong permissionsHandle,
       ulong userHandle,
@@ -1226,7 +1226,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_permissions_new")]
 #endif
-    public static extern void MDataPermissionsNewNative(IntPtr appPtr, IntPtr self, UlongCb callback);
+    private static extern void MDataPermissionsNewNative(IntPtr appPtr, IntPtr self, UlongCb callback);
 
     #endregion
 
@@ -1241,7 +1241,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "mdata_put")]
 #endif
-    public static extern void MDataPutNative(
+    private static extern void MDataPutNative(
       IntPtr appPtr,
       ulong infoHandle,
       ulong permissionsHandle,
@@ -1262,7 +1262,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "sha3_hash")]
 #endif
-    public static extern void Sha3HashNative(IntPtr data, IntPtr len, IntPtr self, ByteArrayCb callback);
+    private static extern void Sha3HashNative(IntPtr data, IntPtr len, IntPtr self, ByteArrayCb callback);
 
     #endregion
 
@@ -1277,7 +1277,7 @@ namespace SafeApp.AppBindings {
 #else
     [DllImport("safe_app", EntryPoint = "sign_key_free")]
 #endif
-    public static extern void SignKeyFreeNative(IntPtr appPtr, ulong signKeyHandle, IntPtr self, ResultCb callback);
+    private static extern void SignKeyFreeNative(IntPtr appPtr, ulong signKeyHandle, IntPtr self, ResultCb callback);
   }
 
   #endregion

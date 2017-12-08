@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using JetBrains.Annotations;
 
 namespace SafeApp.Utilities {
+  [PublicAPI]
   public static class Helpers {
     public static T HandlePtrToType<T>(this IntPtr ptr, bool freePtr = true) {
       var cbPtr = GCHandle.FromIntPtr(ptr);
