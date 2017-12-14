@@ -1,10 +1,12 @@
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp.MData {
+  [PublicAPI]
   public static class MDataPermissions {
     private static readonly IAppBindings AppBindings = AppResolver.Current;
 

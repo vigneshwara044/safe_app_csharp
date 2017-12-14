@@ -3,8 +3,10 @@
 namespace SafeApp.Utilities {
   public interface IAppBindings {
     void AccessContainerGetContainerMDataInfo(IntPtr appPtr, string name, UlongCb callback);
+    // ReSharper disable once UnusedMember.Global - is being used
     void AppExeFileStem(StringCb callback);
     void AppInitLogging(string fileName, ResultCb callback);
+    // ReSharper disable once UnusedMember.Global - is being used
     void AppOutputLogPath(string fileName, StringCb callback);
     void AppPubSignKey(IntPtr appPtr, UlongCb callback);
 

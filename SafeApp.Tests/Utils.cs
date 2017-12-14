@@ -3,7 +3,7 @@ using NUnit.Framework;
 using SafeApp.MockAuthBindings;
 
 namespace SafeApp.Tests {
-  internal class Utils {
+  internal static class Utils {
     public static void InitialiseSessionForRandomTestApp() {
       var appPtr = IntPtr.Zero;
       Assert.DoesNotThrow(() => appPtr = MockAuthResolver.Current.TestCreateApp());

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using SafeApp.AppBindings;
 using SafeApp.Utilities;
 
@@ -10,6 +11,7 @@ using SafeApp.Utilities;
 // ReSharper disable InconsistentNaming
 
 namespace SafeApp.IData {
+  [PublicAPI]
   public static class IData {
     private static readonly IAppBindings AppBindings = AppResolver.Current;
 

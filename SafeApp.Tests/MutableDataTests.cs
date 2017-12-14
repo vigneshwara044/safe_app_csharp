@@ -17,8 +17,8 @@ namespace SafeApp.Tests {
       const string actValue = "sample_value";
       using (var mdInfoHandle = await MDataInfo.RandomPrivateAsync(tagType)) {
         using (var permissionSetH = await MDataPermissionSet.NewAsync()) {
-          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.kInsert);
-          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.kManagePermissions);
+          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.Insert);
+          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.ManagePermissions);
           using (var permissionsH = await MDataPermissions.NewAsync()) {
             using (var appSignKeyH = await Crypto.AppPubSignKeyAsync()) {
               await MDataPermissions.InsertAsync(permissionsH, appSignKeyH, permissionSetH);
@@ -59,8 +59,8 @@ namespace SafeApp.Tests {
       const ulong tagType = 15001;
       using (var mdInfoHandle = await MDataInfo.RandomPublicAsync(tagType)) {
         using (var permissionSetH = await MDataPermissionSet.NewAsync()) {
-          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.kInsert);
-          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.kManagePermissions);
+          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.Insert);
+          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.ManagePermissions);
           using (var permissionsH = await MDataPermissions.NewAsync()) {
             using (var appSignKeyH = await Crypto.AppPubSignKeyAsync()) {
               await MDataPermissions.InsertAsync(permissionsH, appSignKeyH, permissionSetH);
