@@ -11,53 +11,16 @@ namespace SafeApp.MData {
     private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task FreeAsync(ulong permissionsH) {
-      var tcs = new TaskCompletionSource<object>();
-      ResultCb callback = (_, result) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(null);
-      };
-
-      AppBindings.MDataPermissionsFree(Session.AppPtr, permissionsH, callback);
-
-      return tcs.Task;
+      return AppBindings.MDataPermissionsFreeAsync(Session.AppPtr, permissionsH);
     }
 
-    public static Task InsertAsync(NativeHandle permissionsH, NativeHandle forUserH, NativeHandle permissionSetH) {
-      var tcs = new TaskCompletionSource<object>();
-
-      ResultCb callback = (_, result) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(null);
-      };
-
-      AppBindings.MDataPermissionsInsert(Session.AppPtr, permissionsH, forUserH, permissionSetH, callback);
-
-      return tcs.Task;
+    public static Task InsertAsync(NativeHandle permissionsH, NativeHandle forUserH, ref PermissionSet permissionSet) {
+      return AppBindings.MDataPermissionsInsertAsync(Session.AppPtr, permissionsH, forUserH, ref permissionSet);
     }
 
-    public static Task<NativeHandle> NewAsync() {
-      var tcs = new TaskCompletionSource<NativeHandle>();
-
-      UlongCb callback = (_, result, permissionsH) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(new NativeHandle(permissionsH, FreeAsync));
-      };
-
-      AppBindings.MDataPermissionsNew(Session.AppPtr, callback);
-
-      return tcs.Task;
+    public static async Task<NativeHandle> NewAsync() {
+      var permissionsH = await AppBindings.MDataPermissionsNewAsync(Session.AppPtr);
+      return new NativeHandle(permissionsH, FreeAsync);
     }
   }
 }

@@ -23,10 +23,6 @@ namespace SafeApp.Utilities {
       return ptr;
     }
 
-    public static Exception ToException(this FfiResult result) {
-      return new Exception($"Error Code: {result.ErrorCode}. Description: {result.Description}");
-    }
-
     public static IntPtr ToHandlePtr(this object obj) {
       return GCHandle.ToIntPtr(GCHandle.Alloc(obj));
     }

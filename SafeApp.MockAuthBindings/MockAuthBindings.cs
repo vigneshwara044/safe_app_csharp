@@ -1,34 +1,21 @@
-﻿#if !NETSTANDARD1_2 || __DESKTOP__
-
 using System;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using SafeApp.Utilities;
 
-#if __IOS__
-
-#endif
-
 namespace SafeApp.MockAuthBindings {
-  internal class MockAuthBindings : IMockAuthBindings {
-    #region TestCreateApp
+    public partial class MockAuthBindings : IMockAuthBindings {
+        #if __IOS__
+        internal const string DLL_NAME = "__Internal";
+        #else
+        internal const string DLL_NAME = "safe_app";
+        #endif
 
-    public IntPtr TestCreateApp() {
-      var ret = TestCreateAppNative(out var appPtr);
-      if (ret != 0) {
-        throw new InvalidOperationException();
-      }
-      return appPtr;
+        [DllImport(DLL_NAME, EntryPoint = "test_create_app")]
+        internal static extern int TestCreateAppNative(out IntPtr oApp);
+
+        [DllImport(DLL_NAME, EntryPoint = "test_create_app_with_access")]
+        internal static extern int TestCreateAppWithAccessNative([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] ContainerPermissions[] accessInfo, IntPtr accessInfoLen, out IntPtr oApp);
+
     }
-
-#if __IOS__
-    [DllImport("__Internal", EntryPoint = "test_create_app")]
-#else
-    [DllImport("safe_app", EntryPoint = "test_create_app")]
-#endif
-    private static extern int TestCreateAppNative(out IntPtr appPtr);
-
-    #endregion
-  }
 }
-
-#endif

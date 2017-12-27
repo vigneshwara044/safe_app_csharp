@@ -13,22 +13,11 @@ namespace SafeApp.Misc {
   public static class NativeUtils {
     private static readonly IAppBindings AppBindings = AppResolver.Current;
 
-    public static Task<List<byte>> Sha3HashAsync(List<byte> source) {
-      var tcs = new TaskCompletionSource<List<byte>>();
+    public static async Task<List<byte>> Sha3HashAsync(List<byte> source) {
       var sourcePtr = source.ToIntPtr();
-      ByteArrayCb callback = (_, result, digestPtr, digestLen) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(digestPtr.ToList<byte>(digestLen));
-      };
-
-      AppBindings.Sha3Hash(sourcePtr, (IntPtr)source.Count, callback);
+      var byteArray = await AppBindings.Sha3HashAsync(sourcePtr, (IntPtr)source.Count);
       Marshal.FreeHGlobal(sourcePtr);
-
-      return tcs.Task;
+      return new List<byte>(byteArray);
     }
   }
 }

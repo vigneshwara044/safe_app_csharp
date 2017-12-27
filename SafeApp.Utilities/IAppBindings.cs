@@ -1,117 +1,108 @@
-﻿using System;
+using System;
+using System.Threading.Tasks;
+// ReSharper disable InconsistentNaming
 
 namespace SafeApp.Utilities {
-  public interface IAppBindings {
-    void AccessContainerGetContainerMDataInfo(IntPtr appPtr, string name, UlongCb callback);
-    // ReSharper disable once UnusedMember.Global - is being used
-    void AppExeFileStem(StringCb callback);
-    void AppInitLogging(string fileName, ResultCb callback);
-    // ReSharper disable once UnusedMember.Global - is being used
-    void AppOutputLogPath(string fileName, StringCb callback);
-    void AppPubSignKey(IntPtr appPtr, UlongCb callback);
-
-    void AppRegistered(string appId, IntPtr authGrantedFfiPtr, IntCb netObsCb, IntPtrCb appRegCb);
-
-    void AppSetAdditionalSearchPath(string path, ResultCb callback);
-    void CipherOptFree(IntPtr appPtr, ulong cipherOptHandle, ResultCb callback);
-    void CipherOptNewAsymmetric(IntPtr appPtr, ulong encryptPubKeyHandle, UlongCb callback);
-    void CipherOptNewPlaintext(IntPtr appPtr, UlongCb callback);
-    void CipherOptNewSymmetric(IntPtr appPtr, UlongCb callback);
-
-    void DecodeIpcMessage(
-      string encodedReq,
-      DecodeAuthCb authCb,
-      DecodeUnregCb unregCb,
-      DecodeContCb contCb,
-      DecodeShareMDataCb shareMDataCb,
-      DecodeRevokedCb revokedCb,
-      ListBasedResultCb errorCb);
-
-    void DecryptSealedBox(IntPtr appPtr, IntPtr data, IntPtr len, ulong pkHandle, ulong skHandle, ByteArrayCb callback);
-    void EncGenerateKeyPair(IntPtr appPtr, EncGenerateKeyPairCb callback);
-    void EncodeAuthReq(IntPtr authReq, EncodeAuthReqCb callback);
-    void EncPubKeyFree(IntPtr appPtr, ulong encryptPubKeyHandle, ResultCb callback);
-    void EncPubKeyGet(IntPtr appPtr, ulong encryptPubKeyHandle, IntPtrCb callback);
-    void EncPubKeyNew(IntPtr appPtr, IntPtr asymPublicKey, UlongCb callback);
-    void EncryptSealedBox(IntPtr appPtr, IntPtr data, IntPtr len, ulong pkHandle, ByteArrayCb callback);
-    void EncSecretKeyFree(IntPtr appPtr, ulong encryptSecKeyHandle, ResultCb callback);
-    void EncSecretKeyGet(IntPtr appPtr, ulong encryptSecKeyHandle, IntPtrCb callback);
-    void EncSecretKeyNew(IntPtr appPtr, IntPtr asymSecretKey, UlongCb callback);
-    void FreeApp(IntPtr appPtr);
-
-    void MDataEntriesForEach(IntPtr appPtr, ulong entriesHandle, MDataEntriesForEachCb forEachCallback, ListBasedResultCb resultCallback);
-
-    void MDataEntriesFree(IntPtr appPtr, ulong entriesHandle, ResultCb callback);
-
-    void MDataEntriesInsert(
-      IntPtr appPtr,
-      ulong entriesHandle,
-      IntPtr keyPtr,
-      IntPtr keyLen,
-      IntPtr valuePtr,
-      IntPtr valueLen,
-      ResultCb callback);
-
-    void MDataEntriesLen(IntPtr appPtr, ulong entriesHandle, MDataEntriesLenCb callback);
-    void MDataEntriesNew(IntPtr appPtr, UlongCb callback);
-    void MDataEntryActionsFree(IntPtr appPtr, ulong actionsHandle, ResultCb callback);
-
-    void MDataEntryActionsInsert(
-      IntPtr appPtr,
-      ulong actionsHandle,
-      IntPtr keyPtr,
-      IntPtr keyLen,
-      IntPtr valuePtr,
-      IntPtr valueLen,
-      ResultCb callback);
-
-    void MDataEntryActionsNew(IntPtr appPtr, UlongCb callback);
-    void MDataGetValue(IntPtr appPtr, ulong infoHandle, IntPtr keyPtr, IntPtr keyLen, MDataGetValueCb callback);
-    void MDataInfoDecrypt(IntPtr appPtr, ulong mDataInfoH, IntPtr cipherText, IntPtr cipherLen, ByteArrayCb callback);
-    void MDataInfoDeserialise(IntPtr appPtr, IntPtr ptr, IntPtr len, UlongCb callback);
-
-    void MDataInfoEncryptEntryKey(IntPtr appPtr, ulong infoH, IntPtr inputPtr, IntPtr inputLen, ByteArrayCb callback);
-
-    void MDataInfoEncryptEntryValue(IntPtr appPtr, ulong infoH, IntPtr inputPtr, IntPtr inputLen, ByteArrayCb callback);
-
-    void MDataInfoFree(IntPtr appPtr, ulong infoHandle, ResultCb callback);
-    void MDataInfoNewPublic(IntPtr appPtr, IntPtr xorNameArr, ulong typeTag, UlongCb callback);
-    void MDataInfoRandomPrivate(IntPtr appPtr, ulong typeTag, UlongCb callback);
-    void MDataInfoRandomPublic(IntPtr appPtr, ulong typeTag, UlongCb callback);
-    void MDataInfoSerialise(IntPtr appPtr, ulong infoHandle, ByteArrayCb callback);
-    void MDataKeysForEach(IntPtr appPtr, ulong keysHandle, MDataKeysForEachCb forEachCb, ResultCb resCb);
-
-    void MDataKeysFree(IntPtr appPtr, ulong keysHandle, ResultCb callback);
-
-    void MDataKeysLen(IntPtr appPtr, ulong keysHandle, IntPtrCb callback);
-    void MDataListEntries(IntPtr appPtr, ulong infoHandle, UlongCb callback);
-    void MDataListKeys(IntPtr appPtr, ulong infoHandle, UlongCb callback);
-    void MDataMutateEntries(IntPtr appPtr, ulong infoHandle, ulong actionsHandle, ResultCb callback);
-    void MDataPermissionSetAllow(IntPtr appPtr, ulong setHandle, MDataAction action, ResultCb callback);
-    void MDataPermissionSetFree(IntPtr appPtr, ulong setHandle, ResultCb callback);
-    void MDataPermissionSetNew(IntPtr appPtr, UlongCb callback);
-    void MDataPermissionsFree(IntPtr appPtr, ulong permissionsHandle, ResultCb callback);
-
-    void MDataPermissionsInsert(IntPtr appPtr, ulong permissionsHandle, ulong userHandle, ulong permissionSetHandle, ResultCb callback);
-
-    void MDataPermissionsNew(IntPtr appPtr, UlongCb callback);
-    void MDataPut(IntPtr appPtr, ulong infoHandle, ulong permissionsHandle, ulong entriesHandle, ResultCb callback);
-    void Sha3Hash(IntPtr data, IntPtr len, ByteArrayCb callback);
-    void SignKeyFree(IntPtr appPtr, ulong signKeyHandle, ResultCb callback);
-
-    // ReSharper disable InconsistentNaming
-    void IDataCloseSelfEncryptor(IntPtr appPtr, ulong seH, ulong cipherOptH, IntPtrCb callback);
-
-    void IDataFetchSelfEncryptor(IntPtr appPtr, IntPtr xorNameArr, UlongCb callback);
-    void IDataNewSelfEncryptor(IntPtr appPtr, UlongCb callback);
-
-    void IDataReadFromSelfEncryptor(IntPtr appPtr, ulong seHandle, ulong fromPos, ulong len, ByteArrayCb callback);
-
-    void IDataSelfEncryptorReaderFree(IntPtr appPtr, ulong sEReaderHandle, ResultCb callback);
-    void IDataSelfEncryptorWriterFree(IntPtr appPtr, ulong sEWriterHandle, ResultCb callback);
-    void IDataSize(IntPtr appPtr, ulong seHandle, UlongCb callback);
-
-    void IDataWriteToSelfEncryptor(IntPtr appPtr, ulong seHandle, IntPtr data, IntPtr size, ResultCb callback);
-    // ReSharper restore InconsistentNaming
+  public partial interface IAppBindings {
+    Task<ContainerPermissions[]> AccessContainerFetchAsync(IntPtr app);
+    Task<MDataInfo> AccessContainerGetContainerMDataInfoAsync(IntPtr app, string name);
+    Task AccessContainerRefreshAccessInfoAsync(IntPtr app);
+    Task<AccountInfo> AppAccountInfoAsync(IntPtr app);
+    Task<string> AppContainerNameAsync(string appId);
+    Task<string> AppExeFileStemAsync();
+    void AppFree(IntPtr app);
+    Task AppInitLoggingAsync(string outputFileNameOverride);
+    Task<string> AppOutputLogPathAsync(string outputFileName);
+    Task<ulong> AppPubEncKeyAsync(IntPtr app);
+    Task<ulong> AppPubSignKeyAsync(IntPtr app);
+    Task AppReconnectAsync(IntPtr app);
+    Task AppResetObjectCacheAsync(IntPtr app);
+    Task AppSetAdditionalSearchPathAsync(string newPath);
+    Task CipherOptFreeAsync(IntPtr app, ulong handle);
+    Task<ulong> CipherOptNewAsymmetricAsync(IntPtr app, ulong peerEncryptKeyH);
+    Task<ulong> CipherOptNewPlaintextAsync(IntPtr app);
+    Task<ulong> CipherOptNewSymmetricAsync(IntPtr app);
+    Task<byte[]> DecryptAsync(IntPtr app, IntPtr data, IntPtr len, ulong pkH, ulong skH);
+    Task<byte[]> DecryptSealedBoxAsync(IntPtr app, IntPtr data, IntPtr len, ulong pkH, ulong skH);
+    Task DirDeleteFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ulong version);
+    Task<(File, ulong)> DirFetchFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName);
+    Task DirInsertFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ref File file);
+    Task DirUpdateFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ref File file, ulong version);
+    Task<(ulong, ulong)> EncGenerateKeyPairAsync(IntPtr app);
+    Task<(uint, string)> EncodeAuthReqAsync(ref AuthReq req);
+    Task<(uint, string)> EncodeContainersReqAsync(ref ContainersReq req);
+    Task<(uint, string)> EncodeShareMDataReqAsync(ref ShareMDataReq req);
+    Task<(uint, string)> EncodeUnregisteredReqAsync(byte[] extraData);
+    Task EncPubKeyFreeAsync(IntPtr app, ulong handle);
+    Task<IntPtr> EncPubKeyGetAsync(IntPtr app, ulong handle);
+    Task<ulong> EncPubKeyNewAsync(IntPtr app, IntPtr data);
+    Task<byte[]> EncryptAsync(IntPtr app, IntPtr data, IntPtr len, ulong pkH, ulong skH);
+    Task<byte[]> EncryptSealedBoxAsync(IntPtr app, IntPtr data, IntPtr len, ulong pkH);
+    Task EncSecretKeyFreeAsync(IntPtr app, ulong handle);
+    Task<IntPtr> EncSecretKeyGetAsync(IntPtr app, ulong handle);
+    Task<ulong> EncSecretKeyNewAsync(IntPtr app, IntPtr data);
+    Task<File> FileCloseAsync(IntPtr app, ulong fileH);
+    Task<ulong> FileOpenAsync(IntPtr app, ref MDataInfo parentInfo, ref File file, ulong openMode);
+    Task<byte[]> FileReadAsync(IntPtr app, ulong fileH, ulong position, ulong len);
+    Task<ulong> FileSizeAsync(IntPtr app, ulong fileH);
+    Task FileWriteAsync(IntPtr app, ulong fileH, byte[] data);
+    Task<IntPtr> GenerateNonceAsync();
+    Task<IntPtr> IDataCloseSelfEncryptorAsync(IntPtr app, ulong seH, ulong cipherOptH);
+    Task<ulong> IDataFetchSelfEncryptorAsync(IntPtr app, IntPtr name);
+    Task<ulong> IDataNewSelfEncryptorAsync(IntPtr app);
+    Task<byte[]> IDataReadFromSelfEncryptorAsync(IntPtr app, ulong seH, ulong fromPos, ulong len);
+    Task IDataSelfEncryptorReaderFreeAsync(IntPtr app, ulong handle);
+    Task IDataSelfEncryptorWriterFreeAsync(IntPtr app, ulong handle);
+    Task<ulong> IDataSerialisedSizeAsync(IntPtr app, IntPtr name);
+    Task<ulong> IDataSizeAsync(IntPtr app, ulong seH);
+    Task IDataWriteToSelfEncryptorAsync(IntPtr app, ulong seH, byte[] data);
+    bool IsMockBuild();
+    Task MDataDelUserPermissionsAsync(IntPtr app, ref MDataInfo info, ulong userH, ulong version);
+    Task<byte[]> MDataEncodeMetadataAsync(ref MetadataResponse metadata);
+    Task MDataEntriesFreeAsync(IntPtr app, ulong entriesH);
+    Task<(byte[], ulong)> MDataEntriesGetAsync(IntPtr app, ulong entriesH, byte[] key);
+    Task MDataEntriesInsertAsync(IntPtr app, ulong entriesH, byte[] key, byte[] value);
+    Task<IntPtr> MDataEntriesLenAsync(IntPtr app, ulong entriesH);
+    Task<ulong> MDataEntriesNewAsync(IntPtr app);
+    Task MDataEntryActionsDeleteAsync(IntPtr app, ulong actionsH, byte[] key, ulong entryVersion);
+    Task MDataEntryActionsFreeAsync(IntPtr app, ulong actionsH);
+    Task MDataEntryActionsInsertAsync(IntPtr app, ulong actionsH, byte[] key, byte[] value);
+    Task<ulong> MDataEntryActionsNewAsync(IntPtr app);
+    Task MDataEntryActionsUpdateAsync(IntPtr app, ulong actionsH, byte[] key, byte[] value, ulong entryVersion);
+    Task<(byte[], ulong)> MDataGetValueAsync(IntPtr app, ref MDataInfo info, byte[] key);
+    Task<ulong> MDataGetVersionAsync(IntPtr app, ref MDataInfo info);
+    Task<byte[]> MDataInfoDecryptAsync(ref MDataInfo info, byte[] input);
+    Task<MDataInfo> MDataInfoDeserialiseAsync(IntPtr ptr, IntPtr len);
+    Task<byte[]> MDataInfoEncryptEntryKeyAsync(ref MDataInfo info, byte[] input);
+    Task<byte[]> MDataInfoEncryptEntryValueAsync(ref MDataInfo info, byte[] input);
+    Task<MDataInfo> MDataInfoNewPrivateAsync(IntPtr name, ulong typeTag, IntPtr secretKey, IntPtr nonce);
+    Task<MDataInfo> MDataInfoRandomPrivateAsync(ulong typeTag);
+    Task<MDataInfo> MDataInfoRandomPublicAsync(ulong typeTag);
+    Task<byte[]> MDataInfoSerialiseAsync(ref MDataInfo info);
+    Task<ulong> MDataListEntriesAsync(IntPtr app, ref MDataInfo info);
+    Task<(MDataKey, IntPtr)> MDataListKeysAsync(IntPtr app, ref MDataInfo info);
+    Task<ulong> MDataListPermissionsAsync(IntPtr app, ref MDataInfo info);
+    Task<(UserPermissionSet, IntPtr)> MDataListPermissionSetsAsync(IntPtr app, ulong permissionsH);
+    Task<PermissionSet> MDataListUserPermissionsAsync(IntPtr app, ref MDataInfo info, ulong userH);
+    Task<(MDataValue, IntPtr)> MDataListValuesAsync(IntPtr app, ref MDataInfo info);
+    Task MDataMutateEntriesAsync(IntPtr app, ref MDataInfo info, ulong actionsH);
+    Task MDataPermissionsFreeAsync(IntPtr app, ulong permissionsH);
+    Task<PermissionSet> MDataPermissionsGetAsync(IntPtr app, ulong permissionsH, ulong userH);
+    Task MDataPermissionsInsertAsync(IntPtr app, ulong permissionsH, ulong userH, ref PermissionSet permissionSet);
+    Task<IntPtr> MDataPermissionsLenAsync(IntPtr app, ulong permissionsH);
+    Task<ulong> MDataPermissionsNewAsync(IntPtr app);
+    Task MDataPutAsync(IntPtr app, ref MDataInfo info, ulong permissionsH, ulong entriesH);
+    Task<ulong> MDataSerialisedSizeAsync(IntPtr app, ref MDataInfo info);
+    Task MDataSetUserPermissionsAsync(IntPtr app, ref MDataInfo info, ulong userH, ref PermissionSet permissionSet, ulong version);
+    Task<byte[]> Sha3HashAsync(IntPtr data, IntPtr len);
+    Task<byte[]> SignAsync(IntPtr app, IntPtr data, IntPtr len, ulong signSkH);
+    Task<(ulong, ulong)> SignGenerateKeyPairAsync(IntPtr app);
+    Task SignPubKeyFreeAsync(IntPtr app, ulong handle);
+    Task<IntPtr> SignPubKeyGetAsync(IntPtr app, ulong handle);
+    Task<ulong> SignPubKeyNewAsync(IntPtr app, IntPtr data);
+    Task SignSecKeyFreeAsync(IntPtr app, ulong handle);
+    Task<IntPtr> SignSecKeyGetAsync(IntPtr app, ulong handle);
+    Task<ulong> SignSecKeyNewAsync(IntPtr app, IntPtr data);
+    Task<byte[]> VerifyAsync(IntPtr app, IntPtr signedData, IntPtr len, ulong signPkH);
   }
 }

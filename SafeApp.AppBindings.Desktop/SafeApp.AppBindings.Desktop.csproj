@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Include="..\SafeApp.AppBindings\AppBindings.cs" Link="AppBindings.cs" />
+    <Compile Include="..\SafeApp.AppBindings\AppBindings.Manual.cs" Link="AppBindings.Manual.cs" />
     <Compile Include="..\SafeApp.AppBindings\AppResolver.cs" Link="AppResolver.cs" />
   </ItemGroup>
 

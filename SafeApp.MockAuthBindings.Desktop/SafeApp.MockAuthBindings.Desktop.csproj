@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\SafeApp.MockAuthBindings\IMockAuthBindings.Manual.cs" Link="IMockAuthBindings.Manual.cs" />
     <Compile Include="..\SafeApp.MockAuthBindings\MockAuthBindings.cs" Link="MockAuthBindings.cs" />
+    <Compile Include="..\SafeApp.MockAuthBindings\MockAuthBindings.Manual.cs" Link="MockAuthBindings.Manual.cs" />
     <Compile Include="..\SafeApp.MockAuthBindings\MockAuthResolver.cs" Link="MockAuthResolver.cs" />
   </ItemGroup>
 

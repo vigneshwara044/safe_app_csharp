@@ -11,67 +11,22 @@ namespace SafeApp.Misc {
     private static readonly IAppBindings AppBindings = AppResolver.Current;
 
     public static Task FreeAsync(ulong cipherOptHandle) {
-      var tcs = new TaskCompletionSource<object>();
-      ResultCb callback = (_, result) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(null);
-      };
-
-      AppBindings.CipherOptFree(Session.AppPtr, cipherOptHandle, callback);
-
-      return tcs.Task;
+      return AppBindings.CipherOptFreeAsync(Session.AppPtr, cipherOptHandle);
     }
 
-    public static Task<NativeHandle> NewAsymmetricAsync(NativeHandle encPubKeyH) {
-      var tcs = new TaskCompletionSource<NativeHandle>();
-      UlongCb callback = (_, result, cipherOptHandle) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(new NativeHandle(cipherOptHandle, FreeAsync));
-      };
-
-      AppBindings.CipherOptNewAsymmetric(Session.AppPtr, encPubKeyH, callback);
-
-      return tcs.Task;
+    public static async Task<NativeHandle> NewAsymmetricAsync(NativeHandle encPubKeyH) {
+      var cipherOptH = await AppBindings.CipherOptNewAsymmetricAsync(Session.AppPtr, encPubKeyH);
+      return new NativeHandle(cipherOptH, FreeAsync);
     }
 
-    public static Task<NativeHandle> NewPlaintextAsync() {
-      var tcs = new TaskCompletionSource<NativeHandle>();
-      UlongCb callback = (_, result, cipherOptHandle) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(new NativeHandle(cipherOptHandle, FreeAsync));
-      };
-
-      AppBindings.CipherOptNewPlaintext(Session.AppPtr, callback);
-
-      return tcs.Task;
+    public static async Task<NativeHandle> NewPlaintextAsync() {
+      var cipherOptH = await AppBindings.CipherOptNewPlaintextAsync(Session.AppPtr);
+      return new NativeHandle(cipherOptH, FreeAsync);
     }
 
-    public static Task<NativeHandle> NewSymmetricAsync() {
-      var tcs = new TaskCompletionSource<NativeHandle>();
-      UlongCb callback = (_, result, cipherOptHandle) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(new NativeHandle(cipherOptHandle, FreeAsync));
-      };
-
-      AppBindings.CipherOptNewSymmetric(Session.AppPtr, callback);
-
-      return tcs.Task;
+    public static async Task<NativeHandle> NewSymmetricAsync() {
+      var cipherOptH = await AppBindings.CipherOptNewSymmetricAsync(Session.AppPtr);
+      return new NativeHandle(cipherOptH, FreeAsync);
     }
   }
 }

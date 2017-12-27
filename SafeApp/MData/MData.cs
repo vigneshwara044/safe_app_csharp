@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -13,87 +12,30 @@ namespace SafeApp.MData {
   public static class MData {
     private static readonly IAppBindings AppBindings = AppResolver.Current;
 
-    public static Task<(List<byte>, ulong)> GetValueAsync(NativeHandle infoHandle, List<byte> key) {
-      var tcs = new TaskCompletionSource<(List<byte>, ulong)>();
-      var keyPtr = key.ToIntPtr();
-      MDataGetValueCb callback = (_, result, dataPtr, dataLen, entryVersion) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        var data = dataPtr.ToList<byte>(dataLen);
-        tcs.SetResult((data, entryVersion));
-      };
-
-      AppBindings.MDataGetValue(Session.AppPtr, infoHandle, keyPtr, (IntPtr)key.Count, callback);
-      Marshal.FreeHGlobal(keyPtr);
-
-      return tcs.Task;
+    public static async Task<(List<byte>, ulong)> GetValueAsync(MDataInfo mDataInfo, List<byte> key) {
+      var (dataArray, entryVersion) = await AppBindings.MDataGetValueAsync(Session.AppPtr, ref mDataInfo, key.ToArray());
+      return (new List<byte>(dataArray), entryVersion);
     }
 
-    public static Task<NativeHandle> ListEntriesAsync(NativeHandle infoHandle) {
-      var tcs = new TaskCompletionSource<NativeHandle>();
-      UlongCb callback = (_, result, mDataEntriesHandle) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(new NativeHandle(mDataEntriesHandle, MDataEntries.FreeAsync));
-      };
-
-      AppBindings.MDataListEntries(Session.AppPtr, infoHandle, callback);
-
-      return tcs.Task;
+    public static async Task<NativeHandle> ListEntriesAsync(MDataInfo mDataInfo) {
+      var mDataEntriesHandle = await AppBindings.MDataListEntriesAsync(Session.AppPtr, ref mDataInfo);
+      return new NativeHandle(mDataEntriesHandle, MDataEntries.FreeAsync);
     }
 
-    public static Task<NativeHandle> ListKeysAsync(NativeHandle mDataInfoH) {
-      var tcs = new TaskCompletionSource<NativeHandle>();
-      UlongCb callback = (_, result, mDataEntKeysH) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
+    public static Task<List<MDataKey>> ListKeysAsync(MDataInfo mDataInfo) {
+      // TODO: Needs fixed
+      throw new NotImplementedException();
 
-        tcs.SetResult(new NativeHandle(mDataEntKeysH, MDataKeys.FreeAsync));
-      };
-
-      AppBindings.MDataListKeys(Session.AppPtr, mDataInfoH, callback);
-
-      return tcs.Task;
+      /*var mDataEntKeysH = await AppBindings.MDataListKeysAsync(Session.AppPtr, ref mDataInfo);
+      return new NativeHandle(mDataEntKeysH, MDataKeys.FreeAsync);*/
     }
 
-    public static Task MutateEntriesAsync(NativeHandle mDataInfoH, NativeHandle entryActionsH) {
-      var tcs = new TaskCompletionSource<object>();
-      ResultCb callback = (_, result) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(null);
-      };
-
-      AppBindings.MDataMutateEntries(Session.AppPtr, mDataInfoH, entryActionsH, callback);
-
-      return tcs.Task;
+    public static Task MutateEntriesAsync(ref MDataInfo mDataInfo, NativeHandle entryActionsH) {
+      return AppBindings.MDataMutateEntriesAsync(Session.AppPtr, ref mDataInfo, entryActionsH);
     }
 
-    public static Task PutAsync(NativeHandle mDataInfoH, NativeHandle permissionsH, NativeHandle entriesH) {
-      var tcs = new TaskCompletionSource<object>();
-      ResultCb callback = (_, result) => {
-        if (result.ErrorCode != 0) {
-          tcs.SetException(result.ToException());
-          return;
-        }
-
-        tcs.SetResult(null);
-      };
-
-      AppBindings.MDataPut(Session.AppPtr, mDataInfoH, permissionsH, entriesH, callback);
-
-      return tcs.Task;
+    public static Task PutAsync(ref MDataInfo mDataInfo, NativeHandle permissionsH, NativeHandle entriesH) {
+      return AppBindings.MDataPutAsync(Session.AppPtr, ref mDataInfo, permissionsH, entriesH);
     }
   }
 }
