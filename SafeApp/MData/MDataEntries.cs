@@ -9,23 +9,28 @@ using SafeApp.Utilities;
 
 namespace SafeApp.MData {
   [PublicAPI]
-  public static class MDataEntries {
-    private static readonly IAppBindings AppBindings = AppResolver.Current;
+  public class MDataEntries {
+    private readonly IAppBindings _appBindings = AppResolver.Current;
+    private IntPtr _appPtr;
 
-    public static Task FreeAsync(ulong entriesH) {
-      return AppBindings.MDataEntriesFreeAsync(Session.AppPtr, entriesH);
+    public MDataEntries(IntPtr appPtr) {
+      _appPtr = appPtr;
     }
 
-    public static Task InsertAsync(NativeHandle entriesH, List<byte> entKey, List<byte> entVal) {
-      return AppBindings.MDataEntriesInsertAsync(Session.AppPtr, entriesH, entKey.ToArray(), entVal.ToArray());
+    public Task FreeAsync(ulong entriesH) {
+      return _appBindings.MDataEntriesFreeAsync(_appPtr, entriesH);
     }
 
-    public static Task<IntPtr> LenAsync(NativeHandle entriesHandle) {
-      return AppBindings.MDataEntriesLenAsync(Session.AppPtr, entriesHandle);
+    public Task InsertAsync(NativeHandle entriesH, List<byte> entKey, List<byte> entVal) {
+      return _appBindings.MDataEntriesInsertAsync(_appPtr, entriesH, entKey.ToArray(), entVal.ToArray());
     }
 
-    public static async Task<NativeHandle> NewAsync() {
-      var entriesH = await AppBindings.MDataEntriesNewAsync(Session.AppPtr);
+    public Task<IntPtr> LenAsync(NativeHandle entriesHandle) {
+      return _appBindings.MDataEntriesLenAsync(_appPtr, entriesHandle);
+    }
+
+    public async Task<NativeHandle> NewAsync() {
+      var entriesH = await _appBindings.MDataEntriesNewAsync(_appPtr);
       return new NativeHandle(entriesH, FreeAsync);
     }
   }

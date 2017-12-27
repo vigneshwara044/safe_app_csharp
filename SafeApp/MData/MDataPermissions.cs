@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -7,19 +8,24 @@ using SafeApp.Utilities;
 
 namespace SafeApp.MData {
   [PublicAPI]
-  public static class MDataPermissions {
-    private static readonly IAppBindings AppBindings = AppResolver.Current;
+  public class MDataPermissions {
+    private readonly IAppBindings _appBindings = AppResolver.Current;
+    private IntPtr _appPtr;
 
-    public static Task FreeAsync(ulong permissionsH) {
-      return AppBindings.MDataPermissionsFreeAsync(Session.AppPtr, permissionsH);
+    public MDataPermissions(IntPtr appPtr) {
+      _appPtr = appPtr;
     }
 
-    public static Task InsertAsync(NativeHandle permissionsH, NativeHandle forUserH, ref PermissionSet permissionSet) {
-      return AppBindings.MDataPermissionsInsertAsync(Session.AppPtr, permissionsH, forUserH, ref permissionSet);
+    public Task FreeAsync(ulong permissionsH) {
+      return _appBindings.MDataPermissionsFreeAsync(_appPtr, permissionsH);
     }
 
-    public static async Task<NativeHandle> NewAsync() {
-      var permissionsH = await AppBindings.MDataPermissionsNewAsync(Session.AppPtr);
+    public Task InsertAsync(NativeHandle permissionsH, NativeHandle forUserH, ref PermissionSet permissionSet) {
+      return _appBindings.MDataPermissionsInsertAsync(_appPtr, permissionsH, forUserH, ref permissionSet);
+    }
+
+    public async Task<NativeHandle> NewAsync() {
+      var permissionsH = await _appBindings.MDataPermissionsNewAsync(_appPtr);
       return new NativeHandle(permissionsH, FreeAsync);
     }
   }

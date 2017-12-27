@@ -2,48 +2,154 @@
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
+using SafeApp.Misc;
 using SafeApp.Utilities;
 
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp {
   [PublicAPI]
-  public static class Session {
-    public static event EventHandler Disconnected;
-    private static IntPtr _appPtr;
-    private static volatile bool _isDisconnected;
-    private static readonly IAppBindings AppBindings = AppResolver.Current;
+  public class Session {
+    private Action _disconnected;
+    private IntPtr _appPtr;
+    private readonly IAppBindings _appBindings = AppResolver.Current;
 
-    public static bool IsDisconnected { get => _isDisconnected; private set => _isDisconnected = value; }
+    private AccessContainer _accessContainer;
+    private Crypto _crypto;
+    private CipherOpt _cipherOpt;
+    private IData.IData _iData;
+    private MData.MData _mData;
+    private MData.MDataEntries _mDataEntries;
+    private MData.MDataEntryActions _mDataEntryActions;
+    private MData.MDataInfoActions _mDataInfoActions;
+    private MData.MDataPermissions _mDataPermissions;
 
-    public static IntPtr AppPtr {
-      set {
-        if (_appPtr == value) {
-          return;
-        }
-
-        if (_appPtr != IntPtr.Zero) {
-          AppBindings.AppFree(_appPtr);
-        }
-
-        _appPtr = value;
-      }
+    public AccessContainer AccessContainer {
       get {
-        if (_appPtr == IntPtr.Zero) {
-          throw new ArgumentNullException(nameof(AppPtr));
+        if (_accessContainer != null) {
+          return _accessContainer;
         }
-        return _appPtr;
+        _accessContainer = new AccessContainer(_appPtr);
+        return _accessContainer;
       }
     }
 
-    static Session() {
-      AppPtr = IntPtr.Zero;
+    public Crypto Crypto
+    {
+      get
+      {
+        if (_crypto != null)
+        {
+          return _crypto;
+        }
+        _crypto = new Crypto(_appPtr);
+        return _crypto;
+      }
     }
 
-    public static Task AppRegisteredAsync(string appId, AuthGranted authGranted) {
+    public CipherOpt CipherOpt
+    {
+      get
+      {
+        if (_cipherOpt != null)
+        {
+          return _cipherOpt;
+        }
+        _cipherOpt = new CipherOpt(_appPtr);
+        return _cipherOpt;
+      }
+    }
+
+    public IData.IData IData
+    {
+      get
+      {
+        if (_iData != null)
+        {
+          return _iData;
+        }
+        _iData = new IData.IData(_appPtr);
+        return _iData;
+      }
+    }
+
+    public MData.MData MData
+    {
+      get
+      {
+        if (_mData != null)
+        {
+          return _mData;
+        }
+        _mData = new MData.MData(_appPtr);
+        return _mData;
+      }
+    }
+
+    public MData.MDataEntries MDataEntries
+    {
+      get
+      {
+        if (_mDataEntries != null)
+        {
+          return _mDataEntries;
+        }
+        _mDataEntries = new MData.MDataEntries(_appPtr);
+        return _mDataEntries;
+      }
+    }
+
+    public MData.MDataEntryActions MDataEntryActions
+    {
+      get
+      {
+        if (_mDataEntryActions != null)
+        {
+          return _mDataEntryActions;
+        }
+        _mDataEntryActions = new MData.MDataEntryActions(_appPtr);
+        return _mDataEntryActions;
+      }
+    }
+
+    public MData.MDataInfoActions MDataInfoActions
+    {
+      get
+      {
+        if (_mDataInfoActions != null)
+        {
+          return _mDataInfoActions;
+        }
+        _mDataInfoActions = new MData.MDataInfoActions(_appPtr);
+        return _mDataInfoActions;
+      }
+    }
+
+    public MData.MDataPermissions MDataPermissions
+    {
+      get
+      {
+        if (_mDataPermissions != null)
+        {
+          return _mDataPermissions;
+        }
+        _mDataPermissions = new MData.MDataPermissions(_appPtr);
+        return _mDataPermissions;
+      }
+    }
+
+    private Session(IntPtr appPtr, Action disconnectedAction) {
+      _appPtr = appPtr;
+      _disconnected = disconnectedAction;
+    }
+
+    public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted, EventHandler disconnectedEventHandler) {
       return Task.Run(
         () => {
-          var tcs = new TaskCompletionSource<object>();
+          var tcs = new TaskCompletionSource<Session>();
+          Action networkDisconnectedNotifier = () => {
+            disconnectedEventHandler.Invoke(null, EventArgs.Empty);
+          };
 
           Action<FfiResult, IntPtr> acctCreatedCb = (result, ptr) => {
             if (result.ErrorCode != 0) {
@@ -51,18 +157,17 @@ namespace SafeApp {
               return;
             }
 
-            AppPtr = ptr;
-            IsDisconnected = false;
-            tcs.SetResult(null);
+            var session = new Session(ptr, networkDisconnectedNotifier);
+            tcs.SetResult(session);
           };
 
-          AppBindings.AppRegistered(appId, ref authGranted, OnNetworkObserverCb, acctCreatedCb);
+          AppBindings.AppResolver.Current.AppRegistered(appId, ref authGranted, networkDisconnectedNotifier, acctCreatedCb);
           return tcs.Task;
         });
     }
 
-    public static Task<IpcMsg> DecodeIpcMessageAsync(string encodedReq) {
-      return AppBindings.DecodeIpcMsgAsync(encodedReq);
+    public Task<IpcMsg> DecodeIpcMessageAsync(string encodedReq) {
+      return _appBindings.DecodeIpcMsgAsync(encodedReq);
     }
 
     /// <summary>
@@ -70,30 +175,18 @@ namespace SafeApp {
     /// </summary>
     /// <param name="authReq"></param>
     /// <returns>RequestId, Encoded auth request</returns>
-    public static Task<(uint, string)> EncodeAuthReqAsync(AuthReq authReq) {
-      return AppBindings.EncodeAuthReqAsync(ref authReq);
+    public Task<(uint, string)> EncodeAuthReqAsync(AuthReq authReq) {
+      return _appBindings.EncodeAuthReqAsync(ref authReq);
     }
 
-    public static void FreeApp() {
-      IsDisconnected = false;
-      AppPtr = IntPtr.Zero;
+    public void FreeApp() {
+      _appBindings.AppFree(_appPtr);
     }
 
-    public static async Task InitLoggingAsync(string configFilesPath) {
-      await AppBindings.AppSetAdditionalSearchPathAsync(configFilesPath);
-      await AppBindings.AppInitLoggingAsync(null);
+    public async Task InitLoggingAsync(string configFilesPath) {
+      await _appBindings.AppSetAdditionalSearchPathAsync(configFilesPath);
+      await _appBindings.AppInitLoggingAsync(null);
     }
 
-    private static void OnDisconnected(EventArgs e) {
-      Disconnected?.Invoke(null, e);
-    }
-
-    /// <summary>
-    ///   Network State Callback
-    /// </summary>
-    private static void OnNetworkObserverCb() {
-      IsDisconnected = true;
-      OnDisconnected(EventArgs.Empty);
-    }
   }
 }

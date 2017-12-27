@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -8,19 +9,24 @@ using SafeApp.Utilities;
 
 namespace SafeApp.MData {
   [PublicAPI]
-  public static class MDataEntryActions {
-    private static readonly IAppBindings AppBindings = AppResolver.Current;
+  public class MDataEntryActions {
+    private readonly IAppBindings _appBindings = AppResolver.Current;
+    private IntPtr _appPtr;
 
-    public static Task FreeAsync(ulong entryActionsH) {
-      return AppBindings.MDataEntryActionsFreeAsync(Session.AppPtr, entryActionsH);
+    public MDataEntryActions(IntPtr appPtr) {
+      _appPtr = appPtr;
     }
 
-    public static Task InsertAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal) {
-      return AppBindings.MDataEntryActionsInsertAsync(Session.AppPtr, entryActionsH, entKey.ToArray(), entVal.ToArray());
+    public Task FreeAsync(ulong entryActionsH) {
+      return _appBindings.MDataEntryActionsFreeAsync(_appPtr, entryActionsH);
     }
 
-    public static async Task<NativeHandle> NewAsync() {
-      var entryActionsH = await AppBindings.MDataEntryActionsNewAsync(Session.AppPtr);
+    public Task InsertAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal) {
+      return _appBindings.MDataEntryActionsInsertAsync(_appPtr, entryActionsH, entKey.ToArray(), entVal.ToArray());
+    }
+
+    public async Task<NativeHandle> NewAsync() {
+      var entryActionsH = await _appBindings.MDataEntryActionsNewAsync(_appPtr);
       return new NativeHandle(entryActionsH, FreeAsync);
     }
   }

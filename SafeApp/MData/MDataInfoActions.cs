@@ -9,41 +9,46 @@ using SafeApp.Utilities;
 
 namespace SafeApp.MData {
   [PublicAPI]
-  public static class MDataInfoActions {
-    private static readonly IAppBindings AppBindings = AppResolver.Current;
+  public class MDataInfoActions {
+    private readonly IAppBindings _appBindings = AppResolver.Current;
+    private IntPtr _appPtr;
 
-    public static async Task<List<byte>> DecryptAsync(MDataInfo mDataInfo, List<byte> cipherText) {
-      var byteArray = await AppBindings.MDataInfoDecryptAsync(ref mDataInfo, cipherText.ToArray());
+    public MDataInfoActions(IntPtr appPtr) {
+      _appPtr = appPtr;
+    }
+
+    public async Task<List<byte>> DecryptAsync(MDataInfo mDataInfo, List<byte> cipherText) {
+      var byteArray = await _appBindings.MDataInfoDecryptAsync(ref mDataInfo, cipherText.ToArray());
       return new List<byte>(byteArray);
     }
 
-    public static Task<MDataInfo> DeserialiseAsync(List<byte> serialisedData) {
+    public Task<MDataInfo> DeserialiseAsync(List<byte> serialisedData) {
       // TODO: Needs fixed
       throw new NotImplementedException();
 
-      //return AppBindings.MDataInfoDeserialiseAsync(Session.AppPtr, serialisedData);
+      //return AppBindings.MDataInfoDeserialiseAsync(_appPtr, serialisedData);
     }
 
-    public static async Task<List<byte>> EncryptEntryKeyAsync(MDataInfo mDataInfo, List<byte> inputBytes) {
-      var byteArray = await AppBindings.MDataInfoEncryptEntryKeyAsync(ref mDataInfo, inputBytes.ToArray());
+    public async Task<List<byte>> EncryptEntryKeyAsync(MDataInfo mDataInfo, List<byte> inputBytes) {
+      var byteArray = await _appBindings.MDataInfoEncryptEntryKeyAsync(ref mDataInfo, inputBytes.ToArray());
       return new List<byte>(byteArray);
     }
 
-    public static async Task<List<byte>> EncryptEntryValueAsync(MDataInfo mDataInfo, List<byte> inputBytes) {
-      var byteArray = await AppBindings.MDataInfoEncryptEntryValueAsync(ref mDataInfo, inputBytes.ToArray());
+    public async Task<List<byte>> EncryptEntryValueAsync(MDataInfo mDataInfo, List<byte> inputBytes) {
+      var byteArray = await _appBindings.MDataInfoEncryptEntryValueAsync(ref mDataInfo, inputBytes.ToArray());
       return new List<byte>(byteArray);
     }
 
-    public static Task<MDataInfo> RandomPrivateAsync(ulong typeTag) {
-      return AppBindings.MDataInfoRandomPrivateAsync(typeTag);
+    public Task<MDataInfo> RandomPrivateAsync(ulong typeTag) {
+      return _appBindings.MDataInfoRandomPrivateAsync(typeTag);
     }
 
-    public static Task<MDataInfo> RandomPublicAsync(ulong typeTag) {
-      return AppBindings.MDataInfoRandomPublicAsync(typeTag);
+    public Task<MDataInfo> RandomPublicAsync(ulong typeTag) {
+      return _appBindings.MDataInfoRandomPublicAsync(typeTag);
     }
 
-    public static async Task<List<byte>> SerialiseAsync(MDataInfo mDataInfo) {
-      var byteArray = await AppBindings.MDataInfoSerialiseAsync(ref mDataInfo);
+    public async Task<List<byte>> SerialiseAsync(MDataInfo mDataInfo) {
+      var byteArray = await _appBindings.MDataInfoSerialiseAsync(ref mDataInfo);
       return new List<byte>(byteArray);
     }
   }
