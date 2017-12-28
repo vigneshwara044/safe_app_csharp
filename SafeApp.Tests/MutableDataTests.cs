@@ -11,81 +11,76 @@ namespace SafeApp.Tests {
   internal class MutableDataTests {
     [Test]
     public async Task RandomPrivateMutableDataUpdateAction() {
-      Utils.InitialiseSessionForRandomTestApp();
+      var session = await MockAuthBindings.MockSession.CreateTestApp();
       const ulong tagType = 15001;
       const string actKey = "sample_key";
       const string actValue = "sample_value";
-      using (var mdInfoHandle = await MDataInfo.RandomPrivateAsync(tagType)) {
-        using (var permissionSetH = await MDataPermissionSet.NewAsync()) {
-          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.Insert);
-          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.ManagePermissions);
-          using (var permissionsH = await MDataPermissions.NewAsync()) {
-            using (var appSignKeyH = await Crypto.AppPubSignKeyAsync()) {
-              await MDataPermissions.InsertAsync(permissionsH, appSignKeyH, permissionSetH);
-              await MData.MData.PutAsync(mdInfoHandle, permissionsH, NativeHandle.Zero);
-            }
-          }
+      var mdInfo = await session.MDataInfoActions.RandomPrivateAsync(tagType);
+      var mDataPermissionSet = new PermissionSet() {Insert = true, ManagePermissions = true, Read = true, Delete = false, Update = false};
+      using (var permissionsH = await session.MDataPermissions.NewAsync())
+      {
+        using (var appSignKeyH = await session.Crypto.AppPubSignKeyAsync())
+        {
+          await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, ref mDataPermissionSet);
+          await session.MData.PutAsync(ref mdInfo, permissionsH, NativeHandle.Zero);
         }
-        using (var entryActionsH = await MDataEntryActions.NewAsync()) {
-          var key = Encoding.Default.GetBytes(actKey).ToList();
-          var value = Encoding.Default.GetBytes(actValue).ToList();
-          key = await MDataInfo.EncryptEntryKeyAsync(mdInfoHandle, key);
-          value = await MDataInfo.EncryptEntryValueAsync(mdInfoHandle, value);
-          await MDataEntryActions.InsertAsync(entryActionsH, key, value);
-          await MData.MData.MutateEntriesAsync(mdInfoHandle, entryActionsH);
-        }
+      }
 
-        using (var keysHandle = await MData.MData.ListKeysAsync(mdInfoHandle)) {
-          var len = await MDataKeys.LenAsync(keysHandle);
-          Assert.AreEqual(1, len.ToInt32());
-        }
+      using (var entryActionsH = await session.MDataEntryActions.NewAsync())
+      {
+        var key = Encoding.Default.GetBytes(actKey).ToList();
+        var value = Encoding.Default.GetBytes(actValue).ToList();
+        key = await session.MDataInfoActions.EncryptEntryKeyAsync(mdInfo, key);
+        value = await session.MDataInfoActions.EncryptEntryValueAsync(mdInfo, value);
+        await session.MDataEntryActions.InsertAsync(entryActionsH, key, value);
+        await session.MData.MutateEntriesAsync(ref mdInfo, entryActionsH);
+      }
 
-        using (var entriesHandle = await MData.MData.ListEntriesAsync(mdInfoHandle)) {
-          var entries = await MDataEntries.ForEachAsync(entriesHandle);
-          Assert.AreEqual(1, entries.Count);
-          var entry = entries.First();
-          var key = await MDataInfo.DecryptAsync(mdInfoHandle, entry.Item1);
-          var value = await MDataInfo.DecryptAsync(mdInfoHandle, entry.Item2);
-          var encoding = new ASCIIEncoding();
-          Assert.AreEqual(actKey, encoding.GetString(key.ToArray()));
-          Assert.AreEqual(actValue, encoding.GetString(value.ToArray()));
-        }
+      var keys = await session.MData.ListKeysAsync(mdInfo);
+      Assert.AreEqual(1, keys.Count);
+
+      foreach (var key in keys) {
+        var (value, version) = await session.MData.GetValueAsync(mdInfo, key.Val.ToList());
+        var decryptedKey = await session.MDataInfoActions.DecryptAsync(mdInfo, key.Val.ToList());
+        var decryptedValue = await session.MDataInfoActions.DecryptAsync(mdInfo, value.ToList());
+        Assert.AreEqual(actKey, Encoding.Default.GetString(decryptedKey.ToArray()));
+        Assert.AreEqual(actValue, Encoding.Default.GetString(decryptedValue.ToArray()));
       }
     }
 
     [Test]
     public async Task RandomPublicMutableDataInsertAction() {
-      Utils.InitialiseSessionForRandomTestApp();
+      var session = await MockAuthBindings.MockSession.CreateTestApp();
       const ulong tagType = 15001;
-      using (var mdInfoHandle = await MDataInfo.RandomPublicAsync(tagType)) {
-        using (var permissionSetH = await MDataPermissionSet.NewAsync()) {
-          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.Insert);
-          await MDataPermissionSet.AllowAsync(permissionSetH, MDataAction.ManagePermissions);
-          using (var permissionsH = await MDataPermissions.NewAsync()) {
-            using (var appSignKeyH = await Crypto.AppPubSignKeyAsync()) {
-              await MDataPermissions.InsertAsync(permissionsH, appSignKeyH, permissionSetH);
-              await MData.MData.PutAsync(mdInfoHandle, permissionsH, NativeHandle.Zero);
-            }
-          }
+      const string actKey = "sample_key";
+      const string actValue = "sample_value";
+      var mdInfo = await session.MDataInfoActions.RandomPublicAsync(tagType);
+      var mDataPermissionSet = new PermissionSet() { Insert = true, ManagePermissions = true, Read = true, Delete = false, Update = false };
+      using (var permissionsH = await session.MDataPermissions.NewAsync())
+      {
+        using (var appSignKeyH = await session.Crypto.AppPubSignKeyAsync())
+        {
+          await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, ref mDataPermissionSet);
+          await session.MData.PutAsync(ref mdInfo, permissionsH, NativeHandle.Zero);
         }
-        using (var entryActionsH = await MDataEntryActions.NewAsync()) {
-          var key = Encoding.Default.GetBytes("sample_key").ToList();
-          var value = Encoding.Default.GetBytes("sample_value").ToList();
-          await MDataEntryActions.InsertAsync(entryActionsH, key, value);
-          await MData.MData.MutateEntriesAsync(mdInfoHandle, entryActionsH);
-        }
+      }
 
-        using (var entryActionsH = await MDataEntryActions.NewAsync()) {
-          var key = Encoding.Default.GetBytes("sample_key_2").ToList();
-          var value = Encoding.Default.GetBytes("sample_value_2").ToList();
-          await MDataEntryActions.InsertAsync(entryActionsH, key, value);
-          await MData.MData.MutateEntriesAsync(mdInfoHandle, entryActionsH);
-        }
+      using (var entryActionsH = await session.MDataEntryActions.NewAsync())
+      {
+        var key = Encoding.Default.GetBytes(actKey).ToList();
+        var value = Encoding.Default.GetBytes(actValue).ToList();
+        await session.MDataEntryActions.InsertAsync(entryActionsH, key, value);
+        await session.MData.MutateEntriesAsync(ref mdInfo, entryActionsH);
+      }
 
-        using (var keysHandle = await MData.MData.ListKeysAsync(mdInfoHandle)) {
-          var len = await MDataKeys.LenAsync(keysHandle);
-          Assert.AreEqual(2, len.ToInt32());
-        }
+      var keys = await session.MData.ListKeysAsync(mdInfo);
+      Assert.AreEqual(1, keys.Count);
+
+      foreach (var key in keys)
+      {
+        var (value, version) = await session.MData.GetValueAsync(mdInfo, key.Val.ToList());
+        Assert.AreEqual(actKey, Encoding.Default.GetString(key.Val.ToArray()));
+        Assert.AreEqual(actValue, Encoding.Default.GetString(value.ToArray()));
       }
     }
   }

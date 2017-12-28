@@ -24,6 +24,12 @@ namespace SafeApp {
     private MData.MDataInfoActions _mDataInfoActions;
     private MData.MDataPermissions _mDataPermissions;
 
+    protected Session(IntPtr appPtr, Action disconnectedAction)
+    {
+      _appPtr = appPtr;
+      _disconnected = disconnectedAction;
+    }
+
     public AccessContainer AccessContainer {
       get {
         if (_accessContainer != null) {
@@ -138,11 +144,6 @@ namespace SafeApp {
       }
     }
 
-    private Session(IntPtr appPtr, Action disconnectedAction) {
-      _appPtr = appPtr;
-      _disconnected = disconnectedAction;
-    }
-
     public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted, EventHandler disconnectedEventHandler) {
       return Task.Run(
         () => {
@@ -161,13 +162,13 @@ namespace SafeApp {
             tcs.SetResult(session);
           };
 
-          AppBindings.AppResolver.Current.AppRegistered(appId, ref authGranted, networkDisconnectedNotifier, acctCreatedCb);
+          AppResolver.Current.AppRegistered(appId, ref authGranted, networkDisconnectedNotifier, acctCreatedCb);
           return tcs.Task;
         });
     }
 
-    public Task<IpcMsg> DecodeIpcMessageAsync(string encodedReq) {
-      return _appBindings.DecodeIpcMsgAsync(encodedReq);
+    public static Task<IpcMsg> DecodeIpcMessageAsync(string encodedReq) {
+      return AppResolver.Current.DecodeIpcMsgAsync(encodedReq);
     }
 
     /// <summary>
@@ -175,17 +176,17 @@ namespace SafeApp {
     /// </summary>
     /// <param name="authReq"></param>
     /// <returns>RequestId, Encoded auth request</returns>
-    public Task<(uint, string)> EncodeAuthReqAsync(AuthReq authReq) {
-      return _appBindings.EncodeAuthReqAsync(ref authReq);
+    public static Task<(uint, string)> EncodeAuthReqAsync(AuthReq authReq) {
+      return AppResolver.Current.EncodeAuthReqAsync(ref authReq);
     }
 
     public void FreeApp() {
       _appBindings.AppFree(_appPtr);
     }
 
-    public async Task InitLoggingAsync(string configFilesPath) {
-      await _appBindings.AppSetAdditionalSearchPathAsync(configFilesPath);
-      await _appBindings.AppInitLoggingAsync(null);
+    public static async Task InitLoggingAsync(string configFilesPath) {
+      await AppResolver.Current.AppSetAdditionalSearchPathAsync(configFilesPath);
+      await AppResolver.Current.AppInitLoggingAsync(null);
     }
 
   }

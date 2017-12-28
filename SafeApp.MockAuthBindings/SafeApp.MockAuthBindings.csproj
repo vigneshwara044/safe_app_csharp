@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
+    <ProjectReference Include="..\SafeApp\SafeApp.csproj" />
   </ItemGroup>
 
 </Project>

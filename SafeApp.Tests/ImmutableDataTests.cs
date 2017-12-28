@@ -11,15 +11,17 @@ namespace SafeApp.Tests {
     public async Task WriteAndReadUsingPainText() {
       var data = new byte[1024];
       new Random().NextBytes(data);
-      Utils.InitialiseSessionForRandomTestApp();
-      var cipherOptHandle = await CipherOpt.NewPlaintextAsync();
-      var seHandle = await IData.IData.NewSelfEncryptorAsync();
-      await IData.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
-      var dataMapAddress = await IData.IData.CloseSelfEncryptorAsync(seHandle, cipherOptHandle);
-      var seReaderHandle = await IData.IData.FetchSelfEncryptorAsync(dataMapAddress);
-      var len = await IData.IData.SizeAsync(seReaderHandle);
-      var readData = await IData.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
-      Assert.AreEqual(data, readData);
+      var session = await MockAuthBindings.MockSession.CreateTestApp();
+      using (var cipherOptHandle = await session.CipherOpt.NewPlaintextAsync()) {
+        var seHandle = await session.IData.NewSelfEncryptorAsync();
+        await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
+        var dataMapAddress = await session.IData.CloseSelfEncryptorAsync(seHandle, cipherOptHandle);
+        var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress);
+        var len = await session.IData.SizeAsync(seReaderHandle);
+        var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
+        Assert.AreEqual(data, readData);
+      }
+      session.FreeApp();
     }
   }
 }

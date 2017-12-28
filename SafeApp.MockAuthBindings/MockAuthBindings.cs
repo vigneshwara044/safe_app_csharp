@@ -16,6 +16,5 @@ namespace SafeApp.MockAuthBindings {
 
         [DllImport(DLL_NAME, EntryPoint = "test_create_app_with_access")]
         internal static extern int TestCreateAppWithAccessNative([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] ContainerPermissions[] accessInfo, IntPtr accessInfoLen, out IntPtr oApp);
-
     }
 }
