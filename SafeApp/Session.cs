@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -144,6 +146,35 @@ namespace SafeApp {
       }
     }
 
+    public Task ResetObjectCacheAsync() {
+      return _appBindings.AppResetObjectCacheAsync(_appPtr);
+    }
+
+    public Task<string> AppContainerNameAsync(string appId) {
+      return _appBindings.AppContainerNameAsync(appId);
+    }
+
+    public Task<AccountInfo> GetAccountInfoAsyc() {
+      return _appBindings.AppAccountInfoAsync(_appPtr);
+    }
+
+    public Task ReconnectAsync() {
+      return _appBindings.AppReconnectAsync(_appPtr);
+    }
+
+    public static Task<string> GetExeFileStemAsync() {
+      return AppResolver.Current.AppExeFileStemAsync();
+    }
+
+    public static Task SetAdditionalSearchPathAsync(string path)
+    {
+      return AppResolver.Current.AppSetAdditionalSearchPathAsync(path);
+    }
+
+    public static Task SetLogOutputPathAsync(string outputFileName) {
+      return AppResolver.Current.AppOutputLogPathAsync(outputFileName);
+    }
+
     public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted, EventHandler disconnectedEventHandler) {
       return Task.Run(
         () => {
@@ -167,6 +198,31 @@ namespace SafeApp {
         });
     }
 
+    public static Task<Session> AppUnregisteredAsync(List<byte> bootstrapConfig, EventHandler disconnectedEventHandler)
+    {
+      return Task.Run(
+        () => {
+          var tcs = new TaskCompletionSource<Session>();
+          Action networkDisconnectedNotifier = () => {
+            disconnectedEventHandler.Invoke(null, EventArgs.Empty);
+          };
+
+          Action<FfiResult, IntPtr> acctCreatedCb = (result, ptr) => {
+            if (result.ErrorCode != 0)
+            {
+              tcs.SetException(result.ToException());
+              return;
+            }
+
+            var session = new Session(ptr, networkDisconnectedNotifier);
+            tcs.SetResult(session);
+          };
+
+          AppResolver.Current.AppUnregistered(bootstrapConfig.ToArray(), networkDisconnectedNotifier, acctCreatedCb);
+          return tcs.Task;
+        });
+    }
+
     public static Task<IpcMsg> DecodeIpcMessageAsync(string encodedReq) {
       return AppResolver.Current.DecodeIpcMsgAsync(encodedReq);
     }
@@ -180,13 +236,27 @@ namespace SafeApp {
       return AppResolver.Current.EncodeAuthReqAsync(ref authReq);
     }
 
-    public void FreeApp() {
-      _appBindings.AppFree(_appPtr);
+    public static Task<(uint, string)> EncodeContainerRequestAsync(ContainersReq containersReq) {
+      return AppResolver.Current.EncodeContainersReqAsync(ref containersReq);
     }
 
-    public static async Task InitLoggingAsync(string configFilesPath) {
+    public static Task<(uint, string)> EncodeShareMDataRequestAsync(ShareMDataReq shareMDataReq)
+    {
+      return AppResolver.Current.EncodeShareMDataReqAsync(ref shareMDataReq);
+    }
+
+    public static Task<(uint, string)> EncodeUnregisteredRequestAsync(string reqId) {
+      return AppResolver.Current.EncodeUnregisteredReqAsync(Encoding.UTF8.GetBytes(reqId));
+    }
+
+    public static async Task InitLoggingAsync(string configFilesPath)
+    {
       await AppResolver.Current.AppSetAdditionalSearchPathAsync(configFilesPath);
       await AppResolver.Current.AppInitLoggingAsync(null);
+    }
+
+    public void FreeApp() {
+      _appBindings.AppFree(_appPtr);
     }
 
   }
