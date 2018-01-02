@@ -19,5 +19,12 @@ namespace SafeApp.Misc {
       Marshal.FreeHGlobal(sourcePtr);
       return new List<byte>(byteArray);
     }
+
+    public static Task<List<byte>> GenerateNonceAsync()
+    {
+      // TODO needs fix
+      throw new NotImplementedException();
+//      return AppBindings.GenerateNonceAsync();
+    }
   }
 }

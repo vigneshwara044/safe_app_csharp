@@ -20,6 +20,7 @@
     <Compile Include="..\SafeApp.Tests\CryptoTests.cs" Link="Shared\CryptoTests.cs" />
     <Compile Include="..\SafeApp.Tests\ImmutableDataTests.cs" Link="Shared\ImmutableDataTests.cs" />
     <Compile Include="..\SafeApp.Tests\MutableDataTests.cs" Link="Shared\MutableDataTests.cs" />
+    <Compile Include="..\SafeApp.Tests\Utils.cs" Link="Shared\Utils.cs" />
   </ItemGroup>
 
   <ItemGroup>

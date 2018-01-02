@@ -2,8 +2,6 @@
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using SafeApp.MData;
-using SafeApp.Misc;
 using SafeApp.Utilities;
 
 namespace SafeApp.Tests {
@@ -13,8 +11,8 @@ namespace SafeApp.Tests {
     public async Task RandomPrivateMutableDataUpdateAction() {
       var session = await MockAuthBindings.MockSession.CreateTestApp();
       const ulong tagType = 15001;
-      const string actKey = "sample_key";
-      const string actValue = "sample_value";
+      var actKey = Utils.GetRandomString(10);
+      var actValue = Utils.GetRandomString(10);
       var mdInfo = await session.MDataInfoActions.RandomPrivateAsync(tagType);
       var mDataPermissionSet = new PermissionSet() {Insert = true, ManagePermissions = true, Read = true, Delete = false, Update = false};
       using (var permissionsH = await session.MDataPermissions.NewAsync())
@@ -36,7 +34,7 @@ namespace SafeApp.Tests {
         await session.MData.MutateEntriesAsync(ref mdInfo, entryActionsH);
       }
 
-      var keys = await session.MData.ListKeysAsync(mdInfo);
+      var keys = await session.MData.ListKeysAsync(ref mdInfo);
       Assert.AreEqual(1, keys.Count);
 
       foreach (var key in keys) {
@@ -46,14 +44,22 @@ namespace SafeApp.Tests {
         Assert.AreEqual(actKey, Encoding.Default.GetString(decryptedKey.ToArray()));
         Assert.AreEqual(actValue, Encoding.Default.GetString(decryptedValue.ToArray()));
       }
+
+      var serialisedSize = await session.MData.SerialisedSizeAsync(ref mdInfo);
+      var serialisedData = await session.MDataInfoActions.SerialiseAsync(mdInfo);
+      Assert.AreEqual();
+      mdInfo = await session.MDataInfoActions.DeserialiseAsync(serialisedData);
+
+      keys = await session.MData.ListKeysAsync(ref mdInfo);
+      Assert.AreEqual(1, keys.Count);
     }
 
     [Test]
     public async Task RandomPublicMutableDataInsertAction() {
       var session = await MockAuthBindings.MockSession.CreateTestApp();
-      const ulong tagType = 15001;
-      const string actKey = "sample_key";
-      const string actValue = "sample_value";
+      const ulong tagType = 15010;
+      var actKey = Utils.GetRandomString(10);
+      var actValue = Utils.GetRandomString(10);
       var mdInfo = await session.MDataInfoActions.RandomPublicAsync(tagType);
       var mDataPermissionSet = new PermissionSet() { Insert = true, ManagePermissions = true, Read = true, Delete = false, Update = false };
       using (var permissionsH = await session.MDataPermissions.NewAsync())
@@ -73,7 +79,7 @@ namespace SafeApp.Tests {
         await session.MData.MutateEntriesAsync(ref mdInfo, entryActionsH);
       }
 
-      var keys = await session.MData.ListKeysAsync(mdInfo);
+      var keys = await session.MData.ListKeysAsync(ref mdInfo);
       Assert.AreEqual(1, keys.Count);
 
       foreach (var key in keys)

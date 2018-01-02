@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -19,5 +21,15 @@ namespace SafeApp {
     public Task<MDataInfo> GetMDataInfoAsync(string containerId) {
       return _appBindings.AccessContainerGetContainerMDataInfoAsync(_appPtr, containerId);
     }
+
+    public Task RefreshAccessInfoAsync() {
+      return _appBindings.AccessContainerRefreshAccessInfoAsync(_appPtr);
+    }
+
+    public async Task<List<ContainerPermissions>> AccessContainerFetchAsync() {
+      var array = await _appBindings.AccessContainerFetchAsync(_appPtr);
+      return array.ToList();
+    }
+
   }
 }

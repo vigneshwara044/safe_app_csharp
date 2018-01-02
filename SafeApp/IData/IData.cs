@@ -55,6 +55,12 @@ namespace SafeApp.IData {
       return _appBindings.IDataSizeAsync(_appPtr, seHandle);
     }
 
+    public Task<ulong> SerialisedSizeAsync(List<byte> xorName)
+    {
+      throw new NotImplementedException();
+      // return _appBindings.IDataSerialisedSizeAsync(_appPtr, seHandle);
+    }
+
     public Task WriteToSelfEncryptorAsync(NativeHandle seHandle, List<byte> data) {
       return _appBindings.IDataWriteToSelfEncryptorAsync(_appPtr, seHandle, data.ToArray());
     }

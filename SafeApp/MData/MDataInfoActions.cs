@@ -17,16 +17,15 @@ namespace SafeApp.MData {
       _appPtr = appPtr;
     }
 
+    public Task<MDataInfo> NewPrivateAsync(List<byte> xorName, long typeTag, List<byte> secEncKey, List<byte> nonce) {
+      // TODO needs fix
+      throw new NotImplementedException();
+      // return _appBindings.MDataInfoNewPrivateAsync(xorName, typeTag, secEncKey, nonce);
+    }
+
     public async Task<List<byte>> DecryptAsync(MDataInfo mDataInfo, List<byte> cipherText) {
       var byteArray = await _appBindings.MDataInfoDecryptAsync(ref mDataInfo, cipherText.ToArray());
       return new List<byte>(byteArray);
-    }
-
-    public Task<MDataInfo> DeserialiseAsync(List<byte> serialisedData) {
-      // TODO: Needs fixed
-      throw new NotImplementedException();
-
-      //return AppBindings.MDataInfoDeserialiseAsync(_appPtr, serialisedData);
     }
 
     public async Task<List<byte>> EncryptEntryKeyAsync(MDataInfo mDataInfo, List<byte> inputBytes) {
@@ -50,6 +49,15 @@ namespace SafeApp.MData {
     public async Task<List<byte>> SerialiseAsync(MDataInfo mDataInfo) {
       var byteArray = await _appBindings.MDataInfoSerialiseAsync(ref mDataInfo);
       return new List<byte>(byteArray);
+    }
+
+
+    public Task<MDataInfo> DeserialiseAsync(List<byte> serialisedData)
+    {
+      // TODO: Needs fixed
+      throw new NotImplementedException();
+
+      //return AppBindings.MDataInfoDeserialiseAsync(_appPtr, serialisedData);
     }
   }
 }

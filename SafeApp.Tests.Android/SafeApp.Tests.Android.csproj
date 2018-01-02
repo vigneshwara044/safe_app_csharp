@@ -108,6 +108,9 @@
     <Compile Include="..\SafeApp.Tests\MutableDataTests.cs">
       <Link>Shared\MutableDataTests.cs</Link>
     </Compile>
+    <Compile Include="..\SafeApp.Tests\Utils.cs">
+      <Link>Shared\Utils.cs</Link>
+    </Compile>
     <Compile Include="AndroidTests.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

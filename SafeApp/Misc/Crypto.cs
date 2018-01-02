@@ -24,6 +24,39 @@ namespace SafeApp.Misc {
       return new NativeHandle(appPubSignKeyH, SignPubKeyFreeAsync);
     }
 
+    public async Task<(NativeHandle, NativeHandle)> SignGenerateKeyPairAsync() {
+      var (publicKeyHandle, secretKeyHandle) = await _appBindings.SignGenerateKeyPairAsync(_appPtr);
+      return (new NativeHandle(publicKeyHandle, SignPubKeyFreeAsync), new NativeHandle(secretKeyHandle, SignSecKeyFreeAsync));
+    }
+
+    public Task<NativeHandle> SignPubKeyNewAsync(List<byte> rawPubSignKey) {
+      // TODO fix in bindings to accept List<byte>
+      throw new NotImplementedException();
+//      var handle = await _appBindings.SignPubKeyNewAsync(_appPtr, rawPubSignKey);
+//      return new NativeHandle(handle, SignPubKeyFreeAsync);
+    }
+
+    public Task<List<byte[]>> SignPubKeyGetAsync(NativeHandle pubSignKey) {
+      // TODO fix in bindings to return List<byte>
+      throw new NotImplementedException();
+      // return _appBindings.SignPubKeyGetAsync(_appPtr, pubSignKey);
+    }
+
+    public Task<NativeHandle> SignSecKeyNewAsync(List<byte> rawSecSignKey)
+    {
+      // TODO fix in bindings to accept List<byte>
+      throw new NotImplementedException();
+      //      var handle = await _appBindings.SignSecKeyNewAsync(_appPtr, rawSecSignKey);
+      //      return new NativeHandle(handle, SignSecKeyFreeAsync);
+    }
+
+    public Task<List<byte[]>> SignSecKeyGetAsync(NativeHandle secSignKey)
+    {
+      // TODO fix in bindings to return List<byte>
+      throw new NotImplementedException();
+      // return _appBindings.SignSecKeyGetAsync(_appPtr, pubSignKey);
+    }
+
     public async Task<List<byte>> DecryptSealedBoxAsync(List<byte> cipherText, NativeHandle pkHandle, NativeHandle skHandle) {
       var cipherTextPtr = cipherText.ToIntPtr();
       var byteArray = await _appBindings.DecryptSealedBoxAsync(_appPtr, cipherTextPtr, (IntPtr)cipherText.Count, pkHandle, skHandle);
@@ -80,8 +113,40 @@ namespace SafeApp.Misc {
       return new NativeHandle(encSecKeyH, EncSecretKeyFreeAsync);
     }
 
-    public Task SignPubKeyFreeAsync(ulong signKeyHandle) {
-      return _appBindings.SignPubKeyFreeAsync(_appPtr, signKeyHandle);
+    public Task SignPubKeyFreeAsync(ulong pubSignKeyHandle) {
+      return _appBindings.SignPubKeyFreeAsync(_appPtr, pubSignKeyHandle);
     }
+
+    public Task SignSecKeyFreeAsync(ulong secSignKeyHandle) {
+      return _appBindings.SignSecKeyFreeAsync(_appPtr, secSignKeyHandle);
+    }
+
+    public Task<List<byte>> SignAsync(List<byte> data, NativeHandle signSecKey) {
+      //TODO needs fix
+      throw new NotImplementedException();
+//      return _appBindings.SignAsync(_appPtr, data, signSecKey);
+    }
+
+    public Task<List<byte>> VerifyAsync(List<byte> signedData, NativeHandle signPubKey)
+    {
+      //TODO needs fix
+      throw new NotImplementedException();
+      //      return _appBindings.VerifyAsync(_appPtr, signedData, signPubKey);
+    }
+
+    public Task<List<byte>> EncryptAsync(List<byte> data, NativeHandle encPubKey, NativeHandle encSecKey)
+    {
+      //TODO needs fix
+      throw new NotImplementedException();
+//            return _appBindings.EncryptAsync(_appPtr, data, encPubKey, encSecKey);
+    }
+
+    public Task<List<byte>> DecryptAsync(List<byte> cipherText, NativeHandle encPubKey, NativeHandle encSecKey)
+    {
+      //TODO needs fix
+      throw new NotImplementedException();
+      //            return _appBindings.DecryptAsync(_appPtr, data, encPubKey, encSecKey);
+    }
+
   }
 }

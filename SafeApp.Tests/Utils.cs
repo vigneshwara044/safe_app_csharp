@@ -1,14 +1,14 @@
 ﻿using System;
-using NUnit.Framework;
-using SafeApp.MockAuthBindings;
+using System.Linq;
 
 namespace SafeApp.Tests {
-  internal static class Utils {
-    public static void InitialiseSessionForRandomTestApp() {
-      var appPtr = IntPtr.Zero;
-      Assert.DoesNotThrow(() => appPtr = MockAuthResolver.Current.TestCreateApp());
-      Assert.AreNotEqual(appPtr, IntPtr.Zero);
-      Session.AppPtr = appPtr;
+ internal static class Utils {
+    private static readonly Random Random = new Random();
+
+    public static string GetRandomString(int length) {
+      const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      return new string(Enumerable.Repeat(chars, length)
+        .Select(s => s[Random.Next(s.Length)]).ToArray());
     }
   }
 }
