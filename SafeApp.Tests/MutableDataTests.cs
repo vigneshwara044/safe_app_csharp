@@ -47,7 +47,7 @@ namespace SafeApp.Tests {
 
       var serialisedSize = await session.MData.SerialisedSizeAsync(ref mdInfo);
       var serialisedData = await session.MDataInfoActions.SerialiseAsync(mdInfo);
-      Assert.AreEqual();
+      Assert.AreEqual(serialisedSize, serialisedData.Count);
       mdInfo = await session.MDataInfoActions.DeserialiseAsync(serialisedData);
 
       keys = await session.MData.ListKeysAsync(ref mdInfo);
@@ -88,6 +88,14 @@ namespace SafeApp.Tests {
         Assert.AreEqual(actKey, Encoding.Default.GetString(key.Val.ToArray()));
         Assert.AreEqual(actValue, Encoding.Default.GetString(value.ToArray()));
       }
+
+      var serialisedSize = await session.MData.SerialisedSizeAsync(ref mdInfo);
+      var serialisedData = await session.MDataInfoActions.SerialiseAsync(mdInfo);
+      Assert.AreEqual(serialisedSize, serialisedData.Count);
+      mdInfo = await session.MDataInfoActions.DeserialiseAsync(serialisedData);
+
+      keys = await session.MData.ListKeysAsync(ref mdInfo);
+      Assert.AreEqual(1, keys.Count);
     }
   }
 }
