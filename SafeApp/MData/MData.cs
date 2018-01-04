@@ -25,9 +25,8 @@ namespace SafeApp.MData {
       return _appBindings.MDataSerialisedSizeAsync(_appPtr, ref mDataInfo);
     }
 
-    public async Task<(List<byte>, ulong)> GetValueAsync(MDataInfo mDataInfo, List<byte> key) {
-      var (dataArray, entryVersion) = await _appBindings.MDataGetValueAsync(_appPtr, ref mDataInfo, key.ToArray());
-      return (new List<byte>(dataArray), entryVersion);
+    public Task<(List<byte>, ulong)> GetValueAsync(MDataInfo mDataInfo, List<byte> key) {
+      return _appBindings.MDataGetValueAsync(_appPtr, ref mDataInfo, key);
     }
 
     public async Task<NativeHandle> ListEntriesAsync(MDataInfo mDataInfo) {
@@ -36,17 +35,11 @@ namespace SafeApp.MData {
     }
 
     public Task<List<MDataKey>> ListKeysAsync(ref MDataInfo mDataInfo) {
-      // TODO: Needs fixed
-      throw new NotImplementedException();
-
-      /*var mDataEntKeysH = await _appBindings.MDataListKeysAsync(_appPtr, ref mDataInfo);
-      return new NativeHandle(mDataEntKeysH, MDataKeys.FreeAsync);*/
+      return  _appBindings.MDataListKeysAsync(_appPtr, ref mDataInfo);
     }
 
-    public Task<List<(MDataValue, ulong)>> ListValuesAsync(ref MDataInfo mDataInfo) {
-      // TODO: Needs fixed
-      throw new NotImplementedException();
-//      return _appBindings.MDataListValuesAsync(_appPtr, ref mDataInfo);
+    public Task<List<MDataValue>> ListValuesAsync(ref MDataInfo mDataInfo) {
+      return _appBindings.MDataListValuesAsync(_appPtr, ref mDataInfo);
     }
 
     public Task MutateEntriesAsync(ref MDataInfo mDataInfo, NativeHandle entryActionsH) {
@@ -54,9 +47,7 @@ namespace SafeApp.MData {
     }
 
     public Task<ulong> ListPermissionsAsync(ref MDataInfo mDataInfo) {
-      // TODO needs fix
-      throw new NotImplementedException();
-      // return _appBindings.MDataListPermissionsAsync(_appPtr, ref mDataInfo);
+       return _appBindings.MDataListPermissionsAsync(_appPtr, ref mDataInfo);
     }
 
     public Task<PermissionSet> ListUserPermissionsAsync(ref MDataInfo mDataInfo, NativeHandle userSignPubKey)
@@ -79,9 +70,7 @@ namespace SafeApp.MData {
     }
 
     public Task<List<byte>> EncodeMetadata(ref MetadataResponse metadataResponse) {
-      // TODO needs fix
-      throw new NotImplementedException();
-      // return _appBindings.MDataEncodeMetadataAsync(ref metadataResponse);
+     return _appBindings.MDataEncodeMetadataAsync(ref metadataResponse);
     }
   }
 }

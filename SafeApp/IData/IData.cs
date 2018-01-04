@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -21,15 +20,12 @@ namespace SafeApp.IData {
       _appPtr = appPtr;
     }
 
-    public async Task<List<byte>> CloseSelfEncryptorAsync(ulong seH, NativeHandle cipherOptH) {
-      var xorNamePtr = await _appBindings.IDataCloseSelfEncryptorAsync(_appPtr, seH, cipherOptH);
-      return xorNamePtr.ToList<byte>((IntPtr)AppConstants.XorNameLen);
+    public Task<byte[]> CloseSelfEncryptorAsync(ulong seH, NativeHandle cipherOptH) {
+      return _appBindings.IDataCloseSelfEncryptorAsync(_appPtr, seH, cipherOptH);
     }
 
-    public async Task<NativeHandle> FetchSelfEncryptorAsync(List<byte> xorName) {
-      var xorNamePtr = xorName.ToIntPtr();
-      var sEReaderHandle = await _appBindings.IDataFetchSelfEncryptorAsync(_appPtr, xorNamePtr);
-      Marshal.FreeHGlobal(xorNamePtr);
+    public async Task<NativeHandle> FetchSelfEncryptorAsync(byte[] xorName) {
+      var sEReaderHandle = await _appBindings.IDataFetchSelfEncryptorAsync(_appPtr, xorName);
       return new NativeHandle(sEReaderHandle, SelfEncryptorReaderFreeAsync);
     }
 
@@ -55,14 +51,13 @@ namespace SafeApp.IData {
       return _appBindings.IDataSizeAsync(_appPtr, seHandle);
     }
 
-    public Task<ulong> SerialisedSizeAsync(List<byte> xorName)
+    public Task<ulong> SerialisedSizeAsync(byte[] xorName)
     {
-      throw new NotImplementedException();
-      // return _appBindings.IDataSerialisedSizeAsync(_appPtr, seHandle);
+       return _appBindings.IDataSerialisedSizeAsync(_appPtr, xorName);
     }
 
     public Task WriteToSelfEncryptorAsync(NativeHandle seHandle, List<byte> data) {
-      return _appBindings.IDataWriteToSelfEncryptorAsync(_appPtr, seHandle, data.ToArray());
+      return _appBindings.IDataWriteToSelfEncryptorAsync(_appPtr, seHandle, data);
     }
   }
 }

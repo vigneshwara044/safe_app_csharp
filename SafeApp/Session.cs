@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
+using SafeApp.MData;
 using SafeApp.Misc;
 using SafeApp.Utilities;
 
@@ -11,168 +14,123 @@ using SafeApp.Utilities;
 
 namespace SafeApp {
   [PublicAPI]
-  public class Session {
+  public sealed class Session {
     private Action _disconnected;
     private IntPtr _appPtr;
-    private readonly IAppBindings _appBindings = AppResolver.Current;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
 
-    private AccessContainer _accessContainer;
-    private Crypto _crypto;
-    private CipherOpt _cipherOpt;
-    private IData.IData _iData;
-    private MData.MData _mData;
-    private MData.MDataEntries _mDataEntries;
-    private MData.MDataEntryActions _mDataEntryActions;
-    private MData.MDataInfoActions _mDataInfoActions;
-    private MData.MDataPermissions _mDataPermissions;
+    public Session(IntPtr appPtr) {
+      _appPtr = appPtr;
+      AccessContainer = new AccessContainer(_appPtr);
+      Crypto = new Crypto(_appPtr);
+      CipherOpt = new CipherOpt(_appPtr);
+      IData = new IData.IData(_appPtr);
+      MData = new MData.MData(_appPtr);
+      MDataEntries = new MDataEntries(_appPtr);
+      MDataEntryActions = new MDataEntryActions(_appPtr);
+      MDataInfoActions = new MDataInfoActions(_appPtr);
+      MDataPermissions = new MDataPermissions(_appPtr);
+    }
 
-    protected Session(IntPtr appPtr, Action disconnectedAction)
+    private Session(IntPtr appPtr, Action disconnectedAction)
     {
       _appPtr = appPtr;
       _disconnected = disconnectedAction;
+      AccessContainer = new AccessContainer(_appPtr);
+      Crypto = new Crypto(_appPtr);
+      CipherOpt = new CipherOpt(_appPtr);
+      IData = new IData.IData(_appPtr);
+      MData = new MData.MData(_appPtr);
+      MDataEntries = new MDataEntries(_appPtr);
+      MDataEntryActions = new MDataEntryActions(_appPtr);
+      MDataInfoActions = new MDataInfoActions(_appPtr);
+      MDataPermissions = new MDataPermissions(_appPtr);
     }
 
-    public AccessContainer AccessContainer {
-      get {
-        if (_accessContainer != null) {
-          return _accessContainer;
-        }
-        _accessContainer = new AccessContainer(_appPtr);
-        return _accessContainer;
-      }
-    }
+    /// <summary>
+    /// AccessConatiner API
+    /// </summary>
+    public AccessContainer AccessContainer { get; }
 
-    public Crypto Crypto
-    {
-      get
-      {
-        if (_crypto != null)
-        {
-          return _crypto;
-        }
-        _crypto = new Crypto(_appPtr);
-        return _crypto;
-      }
-    }
+    /// <summary>
+    /// Crypto API
+    /// </summary>
+    public Crypto Crypto { get; }
 
-    public CipherOpt CipherOpt
-    {
-      get
-      {
-        if (_cipherOpt != null)
-        {
-          return _cipherOpt;
-        }
-        _cipherOpt = new CipherOpt(_appPtr);
-        return _cipherOpt;
-      }
-    }
+    /// <summary>
+    /// CipherOpt API
+    /// </summary>
+    public CipherOpt CipherOpt { get; }
 
-    public IData.IData IData
-    {
-      get
-      {
-        if (_iData != null)
-        {
-          return _iData;
-        }
-        _iData = new IData.IData(_appPtr);
-        return _iData;
-      }
-    }
+    /// <summary>
+    /// ImmutableData API
+    /// </summary>
+    public IData.IData IData { get;  }
 
-    public MData.MData MData
-    {
-      get
-      {
-        if (_mData != null)
-        {
-          return _mData;
-        }
-        _mData = new MData.MData(_appPtr);
-        return _mData;
-      }
-    }
+    /// <summary>
+    /// MutableData API
+    /// </summary>
+    public MData.MData MData { get; }
 
-    public MData.MDataEntries MDataEntries
-    {
-      get
-      {
-        if (_mDataEntries != null)
-        {
-          return _mDataEntries;
-        }
-        _mDataEntries = new MData.MDataEntries(_appPtr);
-        return _mDataEntries;
-      }
-    }
+    /// <summary>
+    /// Mutable Data Entries API
+    /// </summary>
+    public MData.MDataEntries MDataEntries { get;  }
 
-    public MData.MDataEntryActions MDataEntryActions
-    {
-      get
-      {
-        if (_mDataEntryActions != null)
-        {
-          return _mDataEntryActions;
-        }
-        _mDataEntryActions = new MData.MDataEntryActions(_appPtr);
-        return _mDataEntryActions;
-      }
-    }
+    /// <summary>
+    /// Mutable Data Entry Actions API
+    /// </summary>
+    public MData.MDataEntryActions MDataEntryActions { get; }
 
-    public MData.MDataInfoActions MDataInfoActions
-    {
-      get
-      {
-        if (_mDataInfoActions != null)
-        {
-          return _mDataInfoActions;
-        }
-        _mDataInfoActions = new MData.MDataInfoActions(_appPtr);
-        return _mDataInfoActions;
-      }
-    }
+    /// <summary>
+    /// MDataInfo API
+    /// </summary>
+    public MData.MDataInfoActions MDataInfoActions { get;  }
 
-    public MData.MDataPermissions MDataPermissions
-    {
-      get
-      {
-        if (_mDataPermissions != null)
-        {
-          return _mDataPermissions;
-        }
-        _mDataPermissions = new MData.MDataPermissions(_appPtr);
-        return _mDataPermissions;
-      }
-    }
-
+    /// <summary>
+    /// Mutable Data Permissions API
+    /// </summary>
+    public MData.MDataPermissions MDataPermissions { get; }
+    /// <summary>
+    /// Resets the Object Cache for the session
+    /// </summary>
+    /// <returns>Void</returns>
     public Task ResetObjectCacheAsync() {
-      return _appBindings.AppResetObjectCacheAsync(_appPtr);
+      return AppBindings.AppResetObjectCacheAsync(_appPtr);
     }
-
+    /// <summary>
+    /// Invoked to fetch the app's root container name
+    /// </summary>
+    /// <param name="appId"></param>
+    /// <returns>string</returns>
     public Task<string> AppContainerNameAsync(string appId) {
-      return _appBindings.AppContainerNameAsync(appId);
+      return AppBindings.AppContainerNameAsync(appId);
     }
-
+    /// <summary>
+    /// Returns the AccountInfo of the current Session
+    /// </summary>
+    /// <returns>AccountInfo</returns>
     public Task<AccountInfo> GetAccountInfoAsyc() {
-      return _appBindings.AppAccountInfoAsync(_appPtr);
+      return AppBindings.AppAccountInfoAsync(_appPtr);
     }
-
+    /// <summary>
+    /// Invoked after Disconnect callback is fired to reconnect the session with the network
+    /// </summary>
     public Task ReconnectAsync() {
-      return _appBindings.AppReconnectAsync(_appPtr);
+      return AppBindings.AppReconnectAsync(_appPtr);
     }
 
     public static Task<string> GetExeFileStemAsync() {
-      return AppResolver.Current.AppExeFileStemAsync();
+      return AppBindings.AppExeFileStemAsync();
     }
 
     public static Task SetAdditionalSearchPathAsync(string path)
     {
-      return AppResolver.Current.AppSetAdditionalSearchPathAsync(path);
+      return AppBindings.AppSetAdditionalSearchPathAsync(path);
     }
 
     public static Task SetLogOutputPathAsync(string outputFileName) {
-      return AppResolver.Current.AppOutputLogPathAsync(outputFileName);
+      return AppBindings.AppOutputLogPathAsync(outputFileName);
     }
 
     public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted, EventHandler disconnectedEventHandler) {
@@ -183,17 +141,16 @@ namespace SafeApp {
             disconnectedEventHandler.Invoke(null, EventArgs.Empty);
           };
 
-          Action<FfiResult, IntPtr> acctCreatedCb = (result, ptr) => {
+          Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, handle) => {
             if (result.ErrorCode != 0) {
               tcs.SetException(result.ToException());
               return;
             }
-
             var session = new Session(ptr, networkDisconnectedNotifier);
             tcs.SetResult(session);
           };
 
-          AppResolver.Current.AppRegistered(appId, ref authGranted, networkDisconnectedNotifier, acctCreatedCb);
+          AppBindings.AppRegistered(appId, ref authGranted, networkDisconnectedNotifier, acctCreatedCb);
           return tcs.Task;
         });
     }
@@ -207,7 +164,7 @@ namespace SafeApp {
             disconnectedEventHandler.Invoke(null, EventArgs.Empty);
           };
 
-          Action<FfiResult, IntPtr> acctCreatedCb = (result, ptr) => {
+          Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, GCHandle) => {
             if (result.ErrorCode != 0)
             {
               tcs.SetException(result.ToException());
@@ -218,13 +175,13 @@ namespace SafeApp {
             tcs.SetResult(session);
           };
 
-          AppResolver.Current.AppUnregistered(bootstrapConfig.ToArray(), networkDisconnectedNotifier, acctCreatedCb);
+          AppBindings.AppUnregistered(bootstrapConfig, networkDisconnectedNotifier, acctCreatedCb);
           return tcs.Task;
         });
     }
 
     public static Task<IpcMsg> DecodeIpcMessageAsync(string encodedReq) {
-      return AppResolver.Current.DecodeIpcMsgAsync(encodedReq);
+      return AppBindings.DecodeIpcMsgAsync(encodedReq);
     }
 
     /// <summary>
@@ -233,30 +190,30 @@ namespace SafeApp {
     /// <param name="authReq"></param>
     /// <returns>RequestId, Encoded auth request</returns>
     public static Task<(uint, string)> EncodeAuthReqAsync(AuthReq authReq) {
-      return AppResolver.Current.EncodeAuthReqAsync(ref authReq);
+      return AppBindings.EncodeAuthReqAsync(ref authReq);
     }
 
     public static Task<(uint, string)> EncodeContainerRequestAsync(ContainersReq containersReq) {
-      return AppResolver.Current.EncodeContainersReqAsync(ref containersReq);
+      return AppBindings.EncodeContainersReqAsync(ref containersReq);
     }
 
     public static Task<(uint, string)> EncodeShareMDataRequestAsync(ShareMDataReq shareMDataReq)
     {
-      return AppResolver.Current.EncodeShareMDataReqAsync(ref shareMDataReq);
+      return AppBindings.EncodeShareMDataReqAsync(ref shareMDataReq);
     }
 
     public static Task<(uint, string)> EncodeUnregisteredRequestAsync(string reqId) {
-      return AppResolver.Current.EncodeUnregisteredReqAsync(Encoding.UTF8.GetBytes(reqId));
+      return AppBindings.EncodeUnregisteredReqAsync(Encoding.UTF8.GetBytes(reqId).ToList());
     }
 
     public static async Task InitLoggingAsync(string configFilesPath)
     {
-      await AppResolver.Current.AppSetAdditionalSearchPathAsync(configFilesPath);
-      await AppResolver.Current.AppInitLoggingAsync(null);
+      await AppBindings.AppSetAdditionalSearchPathAsync(configFilesPath);
+      await AppBindings.AppInitLoggingAsync(null);
     }
 
     public void FreeApp() {
-      _appBindings.AppFree(_appPtr);
+      AppBindings.AppFree(_appPtr);
     }
 
   }

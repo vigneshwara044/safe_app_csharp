@@ -22,27 +22,18 @@ namespace SafeApp.MData {
     }
 
     public Task InsertAsync(NativeHandle entriesH, List<byte> entKey, List<byte> entVal) {
-      return _appBindings.MDataEntriesInsertAsync(_appPtr, entriesH, entKey.ToArray(), entVal.ToArray());
+      return _appBindings.MDataEntriesInsertAsync(_appPtr, entriesH, entKey, entVal);
     }
 
     public Task<ulong> LenAsync(NativeHandle entriesHandle) {
-      // TODO needs fix
-      throw new NotImplementedException();
-      // return _appBindings.MDataEntriesLenAsync(_appPtr, entriesHandle);
+        throw new NotImplementedException();
+//      return _appBindings.MDataEntriesLenAsync(_appPtr, entriesHandle);
     }
 
     public Task<(List<byte>, ulong)> GetAsync(NativeHandle entriesHandle, List<byte> key)
     {
-      // TODO needs fix
-       throw new NotImplementedException();
-       // return _appBindings.MDataEntriesGetAsync(_appPtr, entriesHandle, key.ToArray());
+        return _appBindings.MDataEntriesGetAsync(_appPtr, entriesHandle, key);
     }
-
-//    public Task<(List<byte>, ulong)> ForEachAsync(NativeHandle entriesHandle)
-//    {
-      // TODO needs fix
-//      throw new NotImplementedException();
-//    }
 
     public async Task<NativeHandle> NewAsync() {
       var entriesH = await _appBindings.MDataEntriesNewAsync(_appPtr);

@@ -22,17 +22,17 @@ namespace SafeApp.MData {
     }
 
     public Task InsertAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal) {
-      return _appBindings.MDataEntryActionsInsertAsync(_appPtr, entryActionsH, entKey.ToArray(), entVal.ToArray());
+      return _appBindings.MDataEntryActionsInsertAsync(_appPtr, entryActionsH, entKey, entVal);
     }
 
     public Task UpdateAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal, ulong version)
     {
-      return _appBindings.MDataEntryActionsUpdateAsync(_appPtr, entryActionsH, entKey.ToArray(), entVal.ToArray(), version);
+      return _appBindings.MDataEntryActionsUpdateAsync(_appPtr, entryActionsH, entKey, entVal, version);
     }
 
     public Task DeleteAsync(NativeHandle entryActionsH, List<byte> entKey, ulong version)
     {
-      return _appBindings.MDataEntryActionsDeleteAsync(_appPtr, entryActionsH, entKey.ToArray(), version);
+      return _appBindings.MDataEntryActionsDeleteAsync(_appPtr, entryActionsH, entKey, version);
     }
 
     public async Task<NativeHandle> NewAsync() {

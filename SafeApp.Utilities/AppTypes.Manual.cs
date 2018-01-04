@@ -1,51 +1,58 @@
 using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace SafeApp.Utilities {
-  public abstract class IpcMsg { }
-
-  public class AuthIpcMsg : IpcMsg {
-    public AuthGranted AuthGranted;
-    public uint ReqId;
-
-    public AuthIpcMsg(uint reqId, AuthGranted authGranted) {
-      ReqId = reqId;
-      AuthGranted = authGranted;
+    public abstract class IpcMsg {
     }
-  }
 
-  public class UnregisteredIpcMsg : IpcMsg {
-    public uint ReqId;
-    public byte[] SerialisedCfg;
+    public class AuthIpcMsg : IpcMsg {
+        public uint ReqId;
+        public AuthGranted AuthGranted;
 
-    public UnregisteredIpcMsg(uint reqId, IntPtr serialisedCfgPtr, IntPtr serialisedCfgLen) {
-      ReqId = reqId;
-      SerialisedCfg = BindingUtils.CopyToByteArray(serialisedCfgPtr, serialisedCfgLen);
+        public AuthIpcMsg(uint reqId, AuthGranted authGranted) {
+            ReqId = reqId;
+            AuthGranted = authGranted;
+        }
     }
-  }
 
-  public class ContainersIpcMsg : IpcMsg {
-    public uint ReqId;
+    public class UnregisteredIpcMsg : IpcMsg {
+        public uint ReqId;
+        public List<byte> SerialisedCfg;
 
-    public ContainersIpcMsg(uint reqId) {
-      ReqId = reqId;
+        public UnregisteredIpcMsg(uint reqId, IntPtr serialisedCfgPtr, IntPtr serialisedCfgLen) {
+            ReqId = reqId;
+            SerialisedCfg = BindingUtils.CopyToByteList(serialisedCfgPtr, serialisedCfgLen);
+        }
     }
-  }
 
-  public class ShareMdataIpcMsg : IpcMsg {
-    public uint ReqId;
+    public class ContainersIpcMsg : IpcMsg {
+        public uint ReqId;
 
-    public ShareMdataIpcMsg(uint reqId) {
-      ReqId = reqId;
+        public ContainersIpcMsg(uint reqId) {
+            ReqId = reqId;
+        }
     }
-  }
 
-  public class RevokedIpcMsg : IpcMsg { }
+    public class ShareMDataIpcMsg : IpcMsg {
+        public uint ReqId;
 
-  public class IpcMsgException : FfiException {
-    public readonly uint ReqId;
-
-    public IpcMsgException(uint reqId, int code, string description) : base(code, description) {
-      ReqId = reqId;
+        public ShareMDataIpcMsg(uint reqId) {
+            ReqId = reqId;
+        }
     }
-  }
+
+    public class RevokedIpcMsg : IpcMsg {
+
+    }
+
+    public class IpcMsgException : FfiException {
+        public readonly uint ReqId;
+
+        public IpcMsgException(uint reqId, int code, String description)
+            : base(code, description)
+        {
+            ReqId = reqId;
+        }
+    }
 }

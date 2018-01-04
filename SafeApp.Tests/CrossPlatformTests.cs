@@ -15,7 +15,7 @@ namespace SafeApp.Tests {
 
     [Test]
     public async Task RandomAppCreate() {
-      var session = await MockSession.CreateTestApp();
+      var session = new Session(MockAuthResolver.Current.TestCreateApp());
       await session.MDataEntryActions.NewAsync();
     }
   }

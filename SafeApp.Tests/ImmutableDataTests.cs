@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using SafeApp.MockAuthBindings;
 
 namespace SafeApp.Tests {
   [TestFixture]
@@ -10,7 +11,7 @@ namespace SafeApp.Tests {
     public async Task WriteAndReadUsingPainCipherOpt() {
       var data = new byte[1024];
       new Random().NextBytes(data);
-      var session = await MockAuthBindings.MockSession.CreateTestApp();
+      var session = new Session(MockAuthResolver.Current.TestCreateApp());
       using (var cipherOptHandle = await session.CipherOpt.NewPlaintextAsync()) {
         var seHandle = await session.IData.NewSelfEncryptorAsync();
         await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
@@ -28,7 +29,7 @@ namespace SafeApp.Tests {
     {
       var data = new byte[1024];
       new Random().NextBytes(data);
-      var session = await MockAuthBindings.MockSession.CreateTestApp();
+      var session = new Session(MockAuthResolver.Current.TestCreateApp());
       using (var cipherOptHandle = await session.CipherOpt.NewSymmetricAsync())
       {
         var seHandle = await session.IData.NewSelfEncryptorAsync();
@@ -47,7 +48,7 @@ namespace SafeApp.Tests {
     {
       var data = new byte[1024];
       new Random().NextBytes(data);
-      var session = await MockAuthBindings.MockSession.CreateTestApp();
+      var session = new Session(MockAuthResolver.Current.TestCreateApp());
       var encKeyPair = await session.Crypto.EncGenerateKeyPairAsync();
       using (encKeyPair.Item1)
       using (encKeyPair.Item2)

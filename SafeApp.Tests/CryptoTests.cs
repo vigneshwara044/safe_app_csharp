@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.Misc;
+using SafeApp.MockAuthBindings;
 using SafeApp.Utilities;
 
 namespace SafeApp.Tests {
@@ -11,17 +12,17 @@ namespace SafeApp.Tests {
 
     [Test]
     public async Task GetPublicEncryptKey() {
-      var session = await MockAuthBindings.MockSession.CreateTestApp();
+      var session = new Session(MockAuthResolver.Current.TestCreateApp());
       var encKeyPairTuple = await session.Crypto.EncGenerateKeyPairAsync();
       using (encKeyPairTuple.Item1)
       using (encKeyPairTuple.Item2)
       {
         var rawKey = await session.Crypto.EncPubKeyGetAsync(encKeyPairTuple.Item1);
-        Assert.AreEqual(rawKey.Count, AppConstants.AsymSecretKeyLen);
+        Assert.AreEqual(rawKey.Length, AppConstants.AsymSecretKeyLen);
         var handle = await session.Crypto.EncPubKeyNewAsync(rawKey);
         Assert.NotNull(handle);
         rawKey = await session.Crypto.EncSecretKeyGetAsync(encKeyPairTuple.Item2);
-        Assert.AreEqual(rawKey.Count, AppConstants.AsymSecretKeyLen);
+        Assert.AreEqual(rawKey.Length, AppConstants.AsymSecretKeyLen);
         handle = await session.Crypto.EncSecretKeyNewAsync(rawKey);
         Assert.NotNull(handle);
         session.FreeApp();
@@ -30,7 +31,7 @@ namespace SafeApp.Tests {
 
     [Test]
     public async Task SealedBoxEncryption() {
-      var session = await MockAuthBindings.MockSession.CreateTestApp();
+      var session = new Session(MockAuthResolver.Current.TestCreateApp());
       var encKeyPairTuple = await session.Crypto.EncGenerateKeyPairAsync();
       using (encKeyPairTuple.Item1)
       using (encKeyPairTuple.Item1)
@@ -46,7 +47,7 @@ namespace SafeApp.Tests {
 
     [Test]
     public async Task SymmetricEncryption() {
-      var session = await MockAuthBindings.MockSession.CreateTestApp();
+      var session = new Session(MockAuthResolver.Current.TestCreateApp());
       var encKeyPairTuple = await session.Crypto.EncGenerateKeyPairAsync();
       using (encKeyPairTuple.Item1)
       using (encKeyPairTuple.Item1)
@@ -63,7 +64,7 @@ namespace SafeApp.Tests {
     [Test]
     public async Task SignAndVerify()
     {
-      var session = await MockAuthBindings.MockSession.CreateTestApp();
+      var session = new Session(MockAuthResolver.Current.TestCreateApp());
       var signKeyPairTuple = await session.Crypto.SignGenerateKeyPairAsync();
       using (signKeyPairTuple.Item1)
       using (signKeyPairTuple.Item1)

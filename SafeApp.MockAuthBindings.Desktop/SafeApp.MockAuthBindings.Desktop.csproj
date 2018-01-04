@@ -12,12 +12,10 @@
     <Compile Include="..\SafeApp.MockAuthBindings\MockAuthBindings.cs" Link="MockAuthBindings.cs" />
     <Compile Include="..\SafeApp.MockAuthBindings\MockAuthBindings.Manual.cs" Link="MockAuthBindings.Manual.cs" />
     <Compile Include="..\SafeApp.MockAuthBindings\MockAuthResolver.cs" Link="MockAuthResolver.cs" />
-    <Compile Include="..\SafeApp.MockAuthBindings\MockSession.cs" Link="MockSession.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
-    <ProjectReference Include="..\SafeApp\SafeApp.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,6 +8,10 @@ namespace SafeApp.Utilities {
     private readonly Func<ulong, Task> _disposer;
     private readonly ulong _handle;
 
+    public NativeHandle(ulong handle) {
+      _handle = handle;
+    }
+
     public NativeHandle(ulong handle, Func<ulong, Task> disposer) {
       _disposer = disposer;
       _handle = handle;
