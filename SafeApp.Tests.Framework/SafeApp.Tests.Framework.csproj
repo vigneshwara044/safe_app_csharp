@@ -58,15 +58,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SafeApp.Tests\AuthTests.cs">
-      <Link>Shared\AuthTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SafeApp.Tests\CryptoTests.cs">
-      <Link>Shared\CryptoTests.cs</Link>
-    </Compile>
-    <Compile Include="..\SafeApp.Tests\Utils.cs">
-      <Link>Shared\Utils.cs</Link>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +90,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <Import Project="..\SafeApp.Tests\SafeApp.Tests.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

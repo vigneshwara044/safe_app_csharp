@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -10,34 +9,32 @@ using SafeApp.Utilities;
 namespace SafeApp.MData {
   [PublicAPI]
   public class MDataEntryActions {
-    private readonly IAppBindings _appBindings = AppResolver.Current;
-    private IntPtr _appPtr;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
+    private SafeAppPtr _appPtr;
 
-    public MDataEntryActions(IntPtr appPtr) {
+    internal MDataEntryActions(SafeAppPtr appPtr) {
       _appPtr = appPtr;
     }
 
+    public Task DeleteAsync(NativeHandle entryActionsH, List<byte> entKey, ulong version) {
+      return AppBindings.MDataEntryActionsDeleteAsync(_appPtr, entryActionsH, entKey, version);
+    }
+
     public Task FreeAsync(ulong entryActionsH) {
-      return _appBindings.MDataEntryActionsFreeAsync(_appPtr, entryActionsH);
+      return AppBindings.MDataEntryActionsFreeAsync(_appPtr, entryActionsH);
     }
 
     public Task InsertAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal) {
-      return _appBindings.MDataEntryActionsInsertAsync(_appPtr, entryActionsH, entKey, entVal);
-    }
-
-    public Task UpdateAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal, ulong version)
-    {
-      return _appBindings.MDataEntryActionsUpdateAsync(_appPtr, entryActionsH, entKey, entVal, version);
-    }
-
-    public Task DeleteAsync(NativeHandle entryActionsH, List<byte> entKey, ulong version)
-    {
-      return _appBindings.MDataEntryActionsDeleteAsync(_appPtr, entryActionsH, entKey, version);
+      return AppBindings.MDataEntryActionsInsertAsync(_appPtr, entryActionsH, entKey, entVal);
     }
 
     public async Task<NativeHandle> NewAsync() {
-      var entryActionsH = await _appBindings.MDataEntryActionsNewAsync(_appPtr);
+      var entryActionsH = await AppBindings.MDataEntryActionsNewAsync(_appPtr);
       return new NativeHandle(entryActionsH, FreeAsync);
+    }
+
+    public Task UpdateAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal, ulong version) {
+      return AppBindings.MDataEntryActionsUpdateAsync(_appPtr, entryActionsH, entKey, entVal, version);
     }
   }
 }

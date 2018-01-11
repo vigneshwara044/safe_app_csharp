@@ -10,15 +10,23 @@ using SafeApp.Utilities;
 namespace SafeApp.MData {
   [PublicAPI]
   public class MDataPermissions {
-    private readonly IAppBindings _appBindings = AppResolver.Current;
-    private IntPtr _appPtr;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
+    private SafeAppPtr _appPtr;
 
-    public MDataPermissions(IntPtr appPtr) {
+    internal MDataPermissions(SafeAppPtr appPtr) {
       _appPtr = appPtr;
     }
 
     public Task FreeAsync(ulong permissionsH) {
-      return _appBindings.MDataPermissionsFreeAsync(_appPtr, permissionsH);
+      return AppBindings.MDataPermissionsFreeAsync(_appPtr, permissionsH);
+    }
+
+    public Task<PermissionSet> GetAsync(NativeHandle permissionsHandle, NativeHandle userPubSignKey) {
+      return AppBindings.MDataPermissionsGetAsync(_appPtr, permissionsHandle, userPubSignKey);
+    }
+
+    public Task InsertAsync(NativeHandle permissionsH, NativeHandle forUserH, ref PermissionSet permissionSet) {
+      return AppBindings.MDataPermissionsInsertAsync(_appPtr, permissionsH, forUserH, ref permissionSet);
     }
 
     public Task<ulong> LenAsync(NativeHandle permissionsHandle) {
@@ -27,20 +35,12 @@ namespace SafeApp.MData {
       // return _appBindings.MDataPermissionsLenAsync(_appPtr, permissionsHandle);
     }
 
-    public Task<PermissionSet> GetAsync(NativeHandle permissionsHandle, NativeHandle userPubSignKey) {
-      return _appBindings.MDataPermissionsGetAsync(_appPtr, permissionsHandle, userPubSignKey);
-    }
-
     public Task<List<UserPermissionSet>> ListAsync(NativeHandle permissionHandle) {
-      return _appBindings.MDataListPermissionSetsAsync(_appPtr, permissionHandle);
-    }
-
-    public Task InsertAsync(NativeHandle permissionsH, NativeHandle forUserH, ref PermissionSet permissionSet) {
-      return _appBindings.MDataPermissionsInsertAsync(_appPtr, permissionsH, forUserH, ref permissionSet);
+      return AppBindings.MDataListPermissionSetsAsync(_appPtr, permissionHandle);
     }
 
     public async Task<NativeHandle> NewAsync() {
-      var permissionsH = await _appBindings.MDataPermissionsNewAsync(_appPtr);
+      var permissionsH = await AppBindings.MDataPermissionsNewAsync(_appPtr);
       return new NativeHandle(permissionsH, FreeAsync);
     }
   }

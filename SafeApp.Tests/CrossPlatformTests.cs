@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using SafeApp.MData;
 using SafeApp.MockAuthBindings;
 
 namespace SafeApp.Tests {
@@ -16,7 +14,9 @@ namespace SafeApp.Tests {
     [Test]
     public async Task RandomAppCreate() {
       var session = new Session(MockAuthResolver.Current.TestCreateApp());
-      await session.MDataEntryActions.NewAsync();
+      using (await session.MDataEntryActions.NewAsync()) { }
+
+      session.Dispose();
     }
   }
 }

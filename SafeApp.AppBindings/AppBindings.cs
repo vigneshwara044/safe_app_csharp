@@ -1,20 +1,20 @@
 #if !NETSTANDARD1_2 || __DESKTOP__
-
+#if __IOS__
+using System.Linq;
+using ObjCRuntime;
+#endif
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Utilities;
 
-#if __IOS__
-using ObjCRuntime;
-#endif
-
 namespace SafeApp.AppBindings {
   public partial class AppBindings : IAppBindings {
-    #if __IOS__
+#if __IOS__
     internal const string DllName = "__Internal";
-    #else
+#else
     internal const string DllName = "safe_app";
     #endif
 
@@ -27,10 +27,21 @@ namespace SafeApp.AppBindings {
     internal static extern bool IsMockBuildNative();
 
     [DllImport(DllName, EntryPoint = "app_unregistered")]
-    internal static extern void AppUnregisteredNative([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] byte[] bootstrapConfig, IntPtr bootstrapConfigLen, IntPtr userData, NoneCb oDisconnectNotifierCb, FfiResultAppCb oCb);
+    internal static extern void AppUnregisteredNative(
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
+      byte[] bootstrapConfig,
+      ulong bootstrapConfigLen,
+      IntPtr userData,
+      NoneCb oDisconnectNotifierCb,
+      FfiResultAppCb oCb);
 
     [DllImport(DllName, EntryPoint = "app_registered")]
-    internal static extern void AppRegisteredNative([MarshalAs(UnmanagedType.LPStr)] string appId, ref AuthGrantedNative authGranted, IntPtr userData, NoneCb oDisconnectNotifierCb, FfiResultAppCb oCb);
+    internal static extern void AppRegisteredNative(
+      [MarshalAs(UnmanagedType.LPStr)] string appId,
+      ref AuthGrantedNative authGranted,
+      IntPtr userData,
+      NoneCb oDisconnectNotifierCb,
+      FfiResultAppCb oCb);
 
     public Task AppReconnectAsync(IntPtr app) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -66,7 +77,10 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "app_set_additional_search_path")]
-    internal static extern void AppSetAdditionalSearchPathNative([MarshalAs(UnmanagedType.LPStr)] string newPath, IntPtr userData, FfiResultCb oCb);
+    internal static extern void AppSetAdditionalSearchPathNative(
+      [MarshalAs(UnmanagedType.LPStr)] string newPath,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public void AppFree(IntPtr app) {
       AppFreeNative(app);
@@ -91,7 +105,10 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "app_container_name")]
-    internal static extern void AppContainerNameNative([MarshalAs(UnmanagedType.LPStr)] string appId, IntPtr userData, FfiResultStringCb oCb);
+    internal static extern void AppContainerNameNative(
+      [MarshalAs(UnmanagedType.LPStr)] string appId,
+      IntPtr userData,
+      FfiResultStringCb oCb);
 
     public Task AccessContainerRefreshAccessInfoAsync(IntPtr app) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -117,8 +134,12 @@ namespace SafeApp.AppBindings {
       return ret;
     }
 
-    [DllImport(DllName, EntryPoint = "access_container_get_container_MData_info")]
-    internal static extern void AccessContainerGetContainerMDataInfoNative(IntPtr app, [MarshalAs(UnmanagedType.LPStr)] string name, IntPtr userData, FfiResultMDataInfoCb oCb);
+    [DllImport(DllName, EntryPoint = "access_container_get_container_mdata_info")]
+    internal static extern void AccessContainerGetContainerMDataInfoNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPStr)] string name,
+      IntPtr userData,
+      FfiResultMDataInfoCb oCb);
 
     public Task<ulong> CipherOptNewPlaintextAsync(IntPtr app) {
       var (ret, userData) = BindingUtils.PrepareTask<ulong>();
@@ -181,7 +202,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "sign_pub_key_new")]
-    internal static extern void SignPubKeyNewNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.SignPublicKeyLen)] byte[] data, IntPtr userData, FfiResultULongCb oCb);
+    internal static extern void SignPubKeyNewNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.SignPublicKeyLen)]
+      byte[] data,
+      IntPtr userData,
+      FfiResultULongCb oCb);
 
     public Task<byte[]> SignPubKeyGetAsync(IntPtr app, ulong handle) {
       var (ret, userData) = BindingUtils.PrepareTask<byte[]>();
@@ -208,7 +234,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "sign_sec_key_new")]
-    internal static extern void SignSecKeyNewNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.SignSecretKeyLen)] byte[] data, IntPtr userData, FfiResultULongCb oCb);
+    internal static extern void SignSecKeyNewNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.SignSecretKeyLen)]
+      byte[] data,
+      IntPtr userData,
+      FfiResultULongCb oCb);
 
     public Task<byte[]> SignSecKeyGetAsync(IntPtr app, ulong handle) {
       var (ret, userData) = BindingUtils.PrepareTask<byte[]>();
@@ -239,14 +270,8 @@ namespace SafeApp.AppBindings {
 
     public Task<(ulong, ulong)> EncGenerateKeyPairAsync(IntPtr app) {
       var (ret, userData) = BindingUtils.PrepareTask<(ulong, ulong)>();
-      EncGenerateKeyPairNative(app, userData, OnFfiResultULongULongCbTest);
+      EncGenerateKeyPairNative(app, userData, OnFfiResultULongULongCb);
       return ret;
-    }
-
-    private static void OnFfiResultULongULongCbTest(IntPtr userData, ref FfiResult result, ulong pkH, ulong skH) {
-      var a = 6;
-      BindingUtils.CompleteTask(userData, ref result, (pkH, skH));
-      var b = 10;
     }
 
     [DllImport(DllName, EntryPoint = "enc_generate_key_pair")]
@@ -259,7 +284,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "enc_pub_key_new")]
-    internal static extern void EncPubKeyNewNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.AsymPublicKeyLen)] byte[] data, IntPtr userData, FfiResultULongCb oCb);
+    internal static extern void EncPubKeyNewNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.AsymPublicKeyLen)]
+      byte[] data,
+      IntPtr userData,
+      FfiResultULongCb oCb);
 
     public Task<byte[]> EncPubKeyGetAsync(IntPtr app, ulong handle) {
       var (ret, userData) = BindingUtils.PrepareTask<byte[]>();
@@ -286,7 +316,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "enc_secret_key_new")]
-    internal static extern void EncSecretKeyNewNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.AsymSecretKeyLen)] byte[] data, IntPtr userData, FfiResultULongCb oCb);
+    internal static extern void EncSecretKeyNewNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.AsymSecretKeyLen)]
+      byte[] data,
+      IntPtr userData,
+      FfiResultULongCb oCb);
 
     public Task<byte[]> EncSecretKeyGetAsync(IntPtr app, ulong handle) {
       var (ret, userData) = BindingUtils.PrepareTask<byte[]>();
@@ -308,66 +343,116 @@ namespace SafeApp.AppBindings {
 
     public Task<List<byte>> SignAsync(IntPtr app, List<byte> data, ulong signSkH) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      SignNative(app, data.ToArray(), (IntPtr) data.Count, signSkH, userData, OnFfiResultByteListCb);
+      SignNative(app, data.ToArray(), (ulong)data.Count, signSkH, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "sign")]
-    internal static extern void SignNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] data, IntPtr dataLen, ulong signSkH, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void SignNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+      byte[] data,
+      ulong dataLen,
+      ulong signSkH,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<List<byte>> VerifyAsync(IntPtr app, List<byte> signedData, ulong signPkH) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      VerifyNative(app, signedData.ToArray(), (IntPtr) signedData.Count, signPkH, userData, OnFfiResultByteListCb);
+      VerifyNative(app, signedData.ToArray(), (ulong)signedData.Count, signPkH, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "verify")]
-    internal static extern void VerifyNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] signedData, IntPtr signedDataLen, ulong signPkH, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void VerifyNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+      byte[] signedData,
+      ulong signedDataLen,
+      ulong signPkH,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<List<byte>> EncryptAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      EncryptNative(app, data.ToArray(), (IntPtr) data.Count, pkH, skH, userData, OnFfiResultByteListCb);
+      EncryptNative(app, data.ToArray(), (ulong)data.Count, pkH, skH, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "encrypt")]
-    internal static extern void EncryptNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] data, IntPtr dataLen, ulong pkH, ulong skH, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void EncryptNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+      byte[] data,
+      ulong dataLen,
+      ulong pkH,
+      ulong skH,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<List<byte>> DecryptAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      DecryptNative(app, data.ToArray(), (IntPtr) data.Count, pkH, skH, userData, OnFfiResultByteListCb);
+      DecryptNative(app, data.ToArray(), (ulong)data.Count, pkH, skH, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "decrypt")]
-    internal static extern void DecryptNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] data, IntPtr dataLen, ulong pkH, ulong skH, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void DecryptNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+      byte[] data,
+      ulong dataLen,
+      ulong pkH,
+      ulong skH,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<List<byte>> EncryptSealedBoxAsync(IntPtr app, List<byte> data, ulong pkH) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      EncryptSealedBoxNative(app, data.ToArray(), (IntPtr) data.Count, pkH, userData, OnFfiResultByteListCb);
+      EncryptSealedBoxNative(app, data.ToArray(), (ulong)data.Count, pkH, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "encrypt_sealed_box")]
-    internal static extern void EncryptSealedBoxNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] data, IntPtr dataLen, ulong pkH, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void EncryptSealedBoxNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+      byte[] data,
+      ulong dataLen,
+      ulong pkH,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<List<byte>> DecryptSealedBoxAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      DecryptSealedBoxNative(app, data.ToArray(), (IntPtr) data.Count, pkH, skH, userData, OnFfiResultByteListCb);
+      DecryptSealedBoxNative(app, data.ToArray(), (ulong)data.Count, pkH, skH, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "decrypt_sealed_box")]
-    internal static extern void DecryptSealedBoxNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] data, IntPtr dataLen, ulong pkH, ulong skH, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void DecryptSealedBoxNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+      byte[] data,
+      ulong dataLen,
+      ulong pkH,
+      ulong skH,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<List<byte>> Sha3HashAsync(List<byte> data) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      Sha3HashNative(data.ToArray(), (IntPtr) data.Count, userData, OnFfiResultByteListCb);
+      Sha3HashNative(data.ToArray(), (ulong)data.Count, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "sha3_hash")]
-    internal static extern void Sha3HashNative([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] byte[] data, IntPtr dataLen, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void Sha3HashNative(
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
+      byte[] data,
+      ulong dataLen,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<byte[]> GenerateNonceAsync() {
       var (ret, userData) = BindingUtils.PrepareTask<byte[]>();
@@ -389,12 +474,19 @@ namespace SafeApp.AppBindings {
 
     public Task IDataWriteToSelfEncryptorAsync(IntPtr app, ulong seH, List<byte> data) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      IDataWriteToSelfEncryptorNative(app, seH, data.ToArray(), (IntPtr) data.Count, userData, OnFfiResultCb);
+      IDataWriteToSelfEncryptorNative(app, seH, data.ToArray(), (ulong)data.Count, userData, OnFfiResultCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "idata_write_to_self_encryptor")]
-    internal static extern void IDataWriteToSelfEncryptorNative(IntPtr app, ulong seH, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] data, IntPtr dataLen, IntPtr userData, FfiResultCb oCb);
+    internal static extern void IDataWriteToSelfEncryptorNative(
+      IntPtr app,
+      ulong seH,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
+      byte[] data,
+      ulong dataLen,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task<byte[]> IDataCloseSelfEncryptorAsync(IntPtr app, ulong seH, ulong cipherOptH) {
       var (ret, userData) = BindingUtils.PrepareTask<byte[]>();
@@ -403,7 +495,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "idata_close_self_encryptor")]
-    internal static extern void IDataCloseSelfEncryptorNative(IntPtr app, ulong seH, ulong cipherOptH, IntPtr userData, FfiResultByteArrayXorNameLenCb oCb);
+    internal static extern void IDataCloseSelfEncryptorNative(
+      IntPtr app,
+      ulong seH,
+      ulong cipherOptH,
+      IntPtr userData,
+      FfiResultByteArrayXorNameLenCb oCb);
 
     public Task<ulong> IDataFetchSelfEncryptorAsync(IntPtr app, byte[] name) {
       var (ret, userData) = BindingUtils.PrepareTask<ulong>();
@@ -412,7 +509,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "idata_fetch_self_encryptor")]
-    internal static extern void IDataFetchSelfEncryptorNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.XorNameLen)] byte[] name, IntPtr userData, FfiResultULongCb oCb);
+    internal static extern void IDataFetchSelfEncryptorNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.XorNameLen)]
+      byte[] name,
+      IntPtr userData,
+      FfiResultULongCb oCb);
 
     public Task<ulong> IDataSerialisedSizeAsync(IntPtr app, byte[] name) {
       var (ret, userData) = BindingUtils.PrepareTask<ulong>();
@@ -421,7 +523,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "idata_serialised_size")]
-    internal static extern void IDataSerialisedSizeNative(IntPtr app, [MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.XorNameLen)] byte[] name, IntPtr userData, FfiResultULongCb oCb);
+    internal static extern void IDataSerialisedSizeNative(
+      IntPtr app,
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.XorNameLen)]
+      byte[] name,
+      IntPtr userData,
+      FfiResultULongCb oCb);
 
     public Task<ulong> IDataSizeAsync(IntPtr app, ulong seH) {
       var (ret, userData) = BindingUtils.PrepareTask<ulong>();
@@ -439,7 +546,13 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "idata_read_from_self_encryptor")]
-    internal static extern void IDataReadFromSelfEncryptorNative(IntPtr app, ulong seH, ulong fromPos, ulong len, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void IDataReadFromSelfEncryptorNative(
+      IntPtr app,
+      ulong seH,
+      ulong fromPos,
+      ulong len,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task IDataSelfEncryptorWriterFreeAsync(IntPtr app, ulong handle) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -483,12 +596,17 @@ namespace SafeApp.AppBindings {
 
     public Task<(uint, string)> EncodeUnregisteredReqAsync(List<byte> extraData) {
       var (ret, userData) = BindingUtils.PrepareTask<(uint, string)>();
-      EncodeUnregisteredReqNative(extraData.ToArray(), (IntPtr) extraData.Count, userData, OnFfiResultUIntStringCb);
+      EncodeUnregisteredReqNative(extraData.ToArray(), (ulong)extraData.Count, userData, OnFfiResultUIntStringCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "encode_unregistered_req")]
-    internal static extern void EncodeUnregisteredReqNative([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] byte[] extraData, IntPtr extraDataLen, IntPtr userData, FfiResultUIntStringCb oCb);
+    internal static extern void EncodeUnregisteredReqNative(
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
+      byte[] extraData,
+      ulong extraDataLen,
+      IntPtr userData,
+      FfiResultUIntStringCb oCb);
 
     public Task<(uint, string)> EncodeShareMDataReqAsync(ref ShareMDataReq req) {
       var reqNative = req.ToNative();
@@ -498,11 +616,19 @@ namespace SafeApp.AppBindings {
       return ret;
     }
 
-    [DllImport(DllName, EntryPoint = "encode_share_MData_req")]
+    [DllImport(DllName, EntryPoint = "encode_share_mdata_req")]
     internal static extern void EncodeShareMDataReqNative(ref ShareMDataReqNative req, IntPtr userData, FfiResultUIntStringCb oCb);
 
     [DllImport(DllName, EntryPoint = "decode_ipc_msg")]
-    internal static extern void DecodeIpcMsgNative([MarshalAs(UnmanagedType.LPStr)] string msg, IntPtr userData, UIntAuthGrantedCb oAuth, UIntByteListCb oUnregistered, UIntCb oContainers, UIntCb oShareMData, NoneCb oRevoked, FfiResultUIntCb oErr);
+    internal static extern void DecodeIpcMsgNative(
+      [MarshalAs(UnmanagedType.LPStr)] string msg,
+      IntPtr userData,
+      UIntAuthGrantedCb oAuth,
+      UIntByteListCb oUnregistered,
+      UIntCb oContainers,
+      UIntCb oShareMData,
+      NoneCb oRevoked,
+      FfiResultUIntCb oErr);
 
     public Task AppInitLoggingAsync(string outputFileNameOverride) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -511,7 +637,10 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "app_init_logging")]
-    internal static extern void AppInitLoggingNative([MarshalAs(UnmanagedType.LPStr)] string outputFileNameOverride, IntPtr userData, FfiResultCb oCb);
+    internal static extern void AppInitLoggingNative(
+      [MarshalAs(UnmanagedType.LPStr)] string outputFileNameOverride,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task<string> AppOutputLogPathAsync(string outputFileName) {
       var (ret, userData) = BindingUtils.PrepareTask<string>();
@@ -520,7 +649,10 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "app_output_log_path")]
-    internal static extern void AppOutputLogPathNative([MarshalAs(UnmanagedType.LPStr)] string outputFileName, IntPtr userData, FfiResultStringCb oCb);
+    internal static extern void AppOutputLogPathNative(
+      [MarshalAs(UnmanagedType.LPStr)] string outputFileName,
+      IntPtr userData,
+      FfiResultStringCb oCb);
 
     public Task<MDataInfo> MDataInfoNewPrivateAsync(byte[] name, ulong typeTag, byte[] secretKey, byte[] nonce) {
       var (ret, userData) = BindingUtils.PrepareTask<MDataInfo>();
@@ -529,7 +661,16 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "mdata_info_new_private")]
-    internal static extern void MDataInfoNewPrivateNative([MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.XorNameLen)] byte[] name, ulong typeTag, [MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.SymKeyLen)] byte[] secretKey, [MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.SymNonceLen)] byte[] nonce, IntPtr userData, FfiResultMDataInfoCb oCb);
+    internal static extern void MDataInfoNewPrivateNative(
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.XorNameLen)]
+      byte[] name,
+      ulong typeTag,
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.SymKeyLen)]
+      byte[] secretKey,
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.SymNonceLen)]
+      byte[] nonce,
+      IntPtr userData,
+      FfiResultMDataInfoCb oCb);
 
     public Task<MDataInfo> MDataInfoRandomPublicAsync(ulong typeTag) {
       var (ret, userData) = BindingUtils.PrepareTask<MDataInfo>();
@@ -551,30 +692,48 @@ namespace SafeApp.AppBindings {
 
     public Task<List<byte>> MDataInfoEncryptEntryKeyAsync(ref MDataInfo info, List<byte> input) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      MDataInfoEncryptEntryKeyNative(ref info, input.ToArray(), (IntPtr) input.Count, userData, OnFfiResultByteListCb);
+      MDataInfoEncryptEntryKeyNative(ref info, input.ToArray(), (ulong)input.Count, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_info_encrypt_entry_key")]
-    internal static extern void MDataInfoEncryptEntryKeyNative(ref MDataInfo info, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] input, IntPtr inputLen, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void MDataInfoEncryptEntryKeyNative(
+      ref MDataInfo info,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+      byte[] input,
+      ulong inputLen,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<List<byte>> MDataInfoEncryptEntryValueAsync(ref MDataInfo info, List<byte> input) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      MDataInfoEncryptEntryValueNative(ref info, input.ToArray(), (IntPtr) input.Count, userData, OnFfiResultByteListCb);
+      MDataInfoEncryptEntryValueNative(ref info, input.ToArray(), (ulong)input.Count, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_info_encrypt_entry_value")]
-    internal static extern void MDataInfoEncryptEntryValueNative(ref MDataInfo info, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] input, IntPtr inputLen, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void MDataInfoEncryptEntryValueNative(
+      ref MDataInfo info,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+      byte[] input,
+      ulong inputLen,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<List<byte>> MDataInfoDecryptAsync(ref MDataInfo info, List<byte> input) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-      MDataInfoDecryptNative(ref info, input.ToArray(), (IntPtr) input.Count, userData, OnFfiResultByteListCb);
+      MDataInfoDecryptNative(ref info, input.ToArray(), (ulong)input.Count, userData, OnFfiResultByteListCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_info_decrypt")]
-    internal static extern void MDataInfoDecryptNative(ref MDataInfo info, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] input, IntPtr inputLen, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void MDataInfoDecryptNative(
+      ref MDataInfo info,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
+      byte[] input,
+      ulong inputLen,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task<List<byte>> MDataInfoSerialiseAsync(ref MDataInfo info) {
       var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
@@ -587,12 +746,17 @@ namespace SafeApp.AppBindings {
 
     public Task<MDataInfo> MDataInfoDeserialiseAsync(List<byte> encoded) {
       var (ret, userData) = BindingUtils.PrepareTask<MDataInfo>();
-      MDataInfoDeserialiseNative(encoded.ToArray(), (IntPtr) encoded.Count, userData, OnFfiResultMDataInfoCb);
+      MDataInfoDeserialiseNative(encoded.ToArray(), (ulong)encoded.Count, userData, OnFfiResultMDataInfoCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_info_deserialise")]
-    internal static extern void MDataInfoDeserialiseNative([MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] byte[] encoded, IntPtr encodedLen, IntPtr userData, FfiResultMDataInfoCb oCb);
+    internal static extern void MDataInfoDeserialiseNative(
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)]
+      byte[] encoded,
+      ulong encodedLen,
+      IntPtr userData,
+      FfiResultMDataInfoCb oCb);
 
     public Task MDataPutAsync(IntPtr app, ref MDataInfo info, ulong permissionsH, ulong entriesH) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -601,7 +765,13 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "mdata_put")]
-    internal static extern void MDataPutNative(IntPtr app, ref MDataInfo info, ulong permissionsH, ulong entriesH, IntPtr userData, FfiResultCb oCb);
+    internal static extern void MDataPutNative(
+      IntPtr app,
+      ref MDataInfo info,
+      ulong permissionsH,
+      ulong entriesH,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task<ulong> MDataGetVersionAsync(IntPtr app, ref MDataInfo info) {
       var (ret, userData) = BindingUtils.PrepareTask<ulong>();
@@ -623,12 +793,19 @@ namespace SafeApp.AppBindings {
 
     public Task<(List<byte>, ulong)> MDataGetValueAsync(IntPtr app, ref MDataInfo info, List<byte> key) {
       var (ret, userData) = BindingUtils.PrepareTask<(List<byte>, ulong)>();
-      MDataGetValueNative(app, ref info, key.ToArray(), (IntPtr) key.Count, userData, OnFfiResultByteListULongCb);
+      MDataGetValueNative(app, ref info, key.ToArray(), (ulong)key.Count, userData, OnFfiResultByteListULongCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_get_value")]
-    internal static extern void MDataGetValueNative(IntPtr app, ref MDataInfo info, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] key, IntPtr keyLen, IntPtr userData, FfiResultByteListULongCb oCb);
+    internal static extern void MDataGetValueNative(
+      IntPtr app,
+      ref MDataInfo info,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
+      byte[] key,
+      ulong keyLen,
+      IntPtr userData,
+      FfiResultByteListULongCb oCb);
 
     public Task<ulong> MDataListEntriesAsync(IntPtr app, ref MDataInfo info) {
       var (ret, userData) = BindingUtils.PrepareTask<ulong>();
@@ -682,7 +859,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "mdata_list_user_permissions")]
-    internal static extern void MDataListUserPermissionsNative(IntPtr app, ref MDataInfo info, ulong userH, IntPtr userData, FfiResultPermissionSetCb oCb);
+    internal static extern void MDataListUserPermissionsNative(
+      IntPtr app,
+      ref MDataInfo info,
+      ulong userH,
+      IntPtr userData,
+      FfiResultPermissionSetCb oCb);
 
     public Task MDataSetUserPermissionsAsync(IntPtr app, ref MDataInfo info, ulong userH, ref PermissionSet permissionSet, ulong version) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -691,7 +873,14 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "mdata_set_user_permissions")]
-    internal static extern void MDataSetUserPermissionsNative(IntPtr app, ref MDataInfo info, ulong userH, ref PermissionSet permissionSet, ulong version, IntPtr userData, FfiResultCb oCb);
+    internal static extern void MDataSetUserPermissionsNative(
+      IntPtr app,
+      ref MDataInfo info,
+      ulong userH,
+      ref PermissionSet permissionSet,
+      ulong version,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task MDataDelUserPermissionsAsync(IntPtr app, ref MDataInfo info, ulong userH, ulong version) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -700,7 +889,13 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "mdata_del_user_permissions")]
-    internal static extern void MDataDelUserPermissionsNative(IntPtr app, ref MDataInfo info, ulong userH, ulong version, IntPtr userData, FfiResultCb oCb);
+    internal static extern void MDataDelUserPermissionsNative(
+      IntPtr app,
+      ref MDataInfo info,
+      ulong userH,
+      ulong version,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task<ulong> MDataEntriesNewAsync(IntPtr app) {
       var (ret, userData) = BindingUtils.PrepareTask<ulong>();
@@ -713,15 +908,33 @@ namespace SafeApp.AppBindings {
 
     public Task MDataEntriesInsertAsync(IntPtr app, ulong entriesH, List<byte> key, List<byte> value) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      MDataEntriesInsertNative(app, entriesH, key.ToArray(), (IntPtr) key.Count, value.ToArray(), (IntPtr) value.Count, userData, OnFfiResultCb);
+      MDataEntriesInsertNative(
+        app,
+        entriesH,
+        key.ToArray(),
+        (ulong)key.Count,
+        value.ToArray(),
+        (ulong)value.Count,
+        userData,
+        OnFfiResultCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_entries_insert")]
-    internal static extern void MDataEntriesInsertNative(IntPtr app, ulong entriesH, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] key, IntPtr keyLen, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] value, IntPtr valueLen, IntPtr userData, FfiResultCb oCb);
+    internal static extern void MDataEntriesInsertNative(
+      IntPtr app,
+      ulong entriesH,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
+      byte[] key,
+      ulong keyLen,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)]
+      byte[] value,
+      ulong valueLen,
+      IntPtr userData,
+      FfiResultCb oCb);
 
-    public Task<IntPtr> MDataEntriesLenAsync(IntPtr app, ulong entriesH) {
-      var (ret, userData) = BindingUtils.PrepareTask<IntPtr>();
+    public Task<ulong> MDataEntriesLenAsync(IntPtr app, ulong entriesH) {
+      var (ret, userData) = BindingUtils.PrepareTask<ulong>();
       MDataEntriesLenNative(app, entriesH, userData, OnFfiResultULongCb);
       return ret;
     }
@@ -731,15 +944,27 @@ namespace SafeApp.AppBindings {
 
     public Task<(List<byte>, ulong)> MDataEntriesGetAsync(IntPtr app, ulong entriesH, List<byte> key) {
       var (ret, userData) = BindingUtils.PrepareTask<(List<byte>, ulong)>();
-      MDataEntriesGetNative(app, entriesH, key.ToArray(), (IntPtr) key.Count, userData, OnFfiResultByteListULongCb);
+      MDataEntriesGetNative(app, entriesH, key.ToArray(), (ulong)key.Count, userData, OnFfiResultByteListULongCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_entries_get")]
-    internal static extern void MDataEntriesGetNative(IntPtr app, ulong entriesH, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] key, IntPtr keyLen, IntPtr userData, FfiResultByteListULongCb oCb);
+    internal static extern void MDataEntriesGetNative(
+      IntPtr app,
+      ulong entriesH,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
+      byte[] key,
+      ulong keyLen,
+      IntPtr userData,
+      FfiResultByteListULongCb oCb);
 
     [DllImport(DllName, EntryPoint = "mdata_entries_for_each")]
-    internal static extern void MDataEntriesForEachNative(IntPtr app, ulong entriesH, IntPtr userData, ByteListByteListULongCb oEachCb, FfiResultCb oDoneCb);
+    internal static extern void MDataEntriesForEachNative(
+      IntPtr app,
+      ulong entriesH,
+      IntPtr userData,
+      ByteListByteListULongCb oEachCb,
+      FfiResultCb oDoneCb);
 
     public Task MDataEntriesFreeAsync(IntPtr app, ulong entriesH) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -761,30 +986,76 @@ namespace SafeApp.AppBindings {
 
     public Task MDataEntryActionsInsertAsync(IntPtr app, ulong actionsH, List<byte> key, List<byte> value) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      MDataEntryActionsInsertNative(app, actionsH, key.ToArray(), (IntPtr) key.Count, value.ToArray(), (IntPtr) value.Count, userData, OnFfiResultCb);
+      MDataEntryActionsInsertNative(
+        app,
+        actionsH,
+        key.ToArray(),
+        (ulong)key.Count,
+        value.ToArray(),
+        (ulong)value.Count,
+        userData,
+        OnFfiResultCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_entry_actions_insert")]
-    internal static extern void MDataEntryActionsInsertNative(IntPtr app, ulong actionsH, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] key, IntPtr keyLen, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] value, IntPtr valueLen, IntPtr userData, FfiResultCb oCb);
+    internal static extern void MDataEntryActionsInsertNative(
+      IntPtr app,
+      ulong actionsH,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
+      byte[] key,
+      ulong keyLen,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)]
+      byte[] value,
+      ulong valueLen,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task MDataEntryActionsUpdateAsync(IntPtr app, ulong actionsH, List<byte> key, List<byte> value, ulong entryVersion) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      MDataEntryActionsUpdateNative(app, actionsH, key.ToArray(), (IntPtr) key.Count, value.ToArray(), (IntPtr) value.Count, entryVersion, userData, OnFfiResultCb);
+      MDataEntryActionsUpdateNative(
+        app,
+        actionsH,
+        key.ToArray(),
+        (ulong)key.Count,
+        value.ToArray(),
+        (ulong)value.Count,
+        entryVersion,
+        userData,
+        OnFfiResultCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_entry_actions_update")]
-    internal static extern void MDataEntryActionsUpdateNative(IntPtr app, ulong actionsH, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] key, IntPtr keyLen, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] byte[] value, IntPtr valueLen, ulong entryVersion, IntPtr userData, FfiResultCb oCb);
+    internal static extern void MDataEntryActionsUpdateNative(
+      IntPtr app,
+      ulong actionsH,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
+      byte[] key,
+      ulong keyLen,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)]
+      byte[] value,
+      ulong valueLen,
+      ulong entryVersion,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task MDataEntryActionsDeleteAsync(IntPtr app, ulong actionsH, List<byte> key, ulong entryVersion) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      MDataEntryActionsDeleteNative(app, actionsH, key.ToArray(), (IntPtr) key.Count, entryVersion, userData, OnFfiResultCb);
+      MDataEntryActionsDeleteNative(app, actionsH, key.ToArray(), (ulong)key.Count, entryVersion, userData, OnFfiResultCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "mdata_entry_actions_delete")]
-    internal static extern void MDataEntryActionsDeleteNative(IntPtr app, ulong actionsH, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] key, IntPtr keyLen, ulong entryVersion, IntPtr userData, FfiResultCb oCb);
+    internal static extern void MDataEntryActionsDeleteNative(
+      IntPtr app,
+      ulong actionsH,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
+      byte[] key,
+      ulong keyLen,
+      ulong entryVersion,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task MDataEntryActionsFreeAsync(IntPtr app, ulong actionsH) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -813,8 +1084,8 @@ namespace SafeApp.AppBindings {
     [DllImport(DllName, EntryPoint = "mdata_permissions_new")]
     internal static extern void MDataPermissionsNewNative(IntPtr app, IntPtr userData, FfiResultULongCb oCb);
 
-    public Task<IntPtr> MDataPermissionsLenAsync(IntPtr app, ulong permissionsH) {
-      var (ret, userData) = BindingUtils.PrepareTask<IntPtr>();
+    public Task<ulong> MDataPermissionsLenAsync(IntPtr app, ulong permissionsH) {
+      var (ret, userData) = BindingUtils.PrepareTask<ulong>();
       MDataPermissionsLenNative(app, permissionsH, userData, OnFfiResultULongCb);
       return ret;
     }
@@ -829,7 +1100,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "mdata_permissions_get")]
-    internal static extern void MDataPermissionsGetNative(IntPtr app, ulong permissionsH, ulong userH, IntPtr userData, FfiResultPermissionSetCb oCb);
+    internal static extern void MDataPermissionsGetNative(
+      IntPtr app,
+      ulong permissionsH,
+      ulong userH,
+      IntPtr userData,
+      FfiResultPermissionSetCb oCb);
 
     public Task<List<UserPermissionSet>> MDataListPermissionSetsAsync(IntPtr app, ulong permissionsH) {
       var (ret, userData) = BindingUtils.PrepareTask<List<UserPermissionSet>>();
@@ -838,7 +1114,11 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "mdata_list_permission_sets")]
-    internal static extern void MDataListPermissionSetsNative(IntPtr app, ulong permissionsH, IntPtr userData, FfiResultUserPermissionSetListCb oCb);
+    internal static extern void MDataListPermissionSetsNative(
+      IntPtr app,
+      ulong permissionsH,
+      IntPtr userData,
+      FfiResultUserPermissionSetListCb oCb);
 
     public Task MDataPermissionsInsertAsync(IntPtr app, ulong permissionsH, ulong userH, ref PermissionSet permissionSet) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -847,7 +1127,13 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "mdata_permissions_insert")]
-    internal static extern void MDataPermissionsInsertNative(IntPtr app, ulong permissionsH, ulong userH, ref PermissionSet permissionSet, IntPtr userData, FfiResultCb oCb);
+    internal static extern void MDataPermissionsInsertNative(
+      IntPtr app,
+      ulong permissionsH,
+      ulong userH,
+      ref PermissionSet permissionSet,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task MDataPermissionsFreeAsync(IntPtr app, ulong permissionsH) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -865,7 +1151,12 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "dir_fetch_file")]
-    internal static extern void DirFetchFileNative(IntPtr app, ref MDataInfo parentInfo, [MarshalAs(UnmanagedType.LPStr)] string fileName, IntPtr userData, FfiResultFileULongCb oCb);
+    internal static extern void DirFetchFileNative(
+      IntPtr app,
+      ref MDataInfo parentInfo,
+      [MarshalAs(UnmanagedType.LPStr)] string fileName,
+      IntPtr userData,
+      FfiResultFileULongCb oCb);
 
     public Task DirInsertFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ref File file) {
       var fileNative = file.ToNative();
@@ -876,7 +1167,13 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "dir_insert_file")]
-    internal static extern void DirInsertFileNative(IntPtr app, ref MDataInfo parentInfo, [MarshalAs(UnmanagedType.LPStr)] string fileName, ref FileNative file, IntPtr userData, FfiResultCb oCb);
+    internal static extern void DirInsertFileNative(
+      IntPtr app,
+      ref MDataInfo parentInfo,
+      [MarshalAs(UnmanagedType.LPStr)] string fileName,
+      ref FileNative file,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task DirUpdateFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ref File file, ulong version) {
       var fileNative = file.ToNative();
@@ -887,7 +1184,14 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "dir_update_file")]
-    internal static extern void DirUpdateFileNative(IntPtr app, ref MDataInfo parentInfo, [MarshalAs(UnmanagedType.LPStr)] string fileName, ref FileNative file, ulong version, IntPtr userData, FfiResultCb oCb);
+    internal static extern void DirUpdateFileNative(
+      IntPtr app,
+      ref MDataInfo parentInfo,
+      [MarshalAs(UnmanagedType.LPStr)] string fileName,
+      ref FileNative file,
+      ulong version,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task DirDeleteFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ulong version) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -896,7 +1200,13 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "dir_delete_file")]
-    internal static extern void DirDeleteFileNative(IntPtr app, ref MDataInfo parentInfo, [MarshalAs(UnmanagedType.LPStr)] string fileName, ulong version, IntPtr userData, FfiResultCb oCb);
+    internal static extern void DirDeleteFileNative(
+      IntPtr app,
+      ref MDataInfo parentInfo,
+      [MarshalAs(UnmanagedType.LPStr)] string fileName,
+      ulong version,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task<ulong> FileOpenAsync(IntPtr app, ref MDataInfo parentInfo, ref File file, ulong openMode) {
       var fileNative = file.ToNative();
@@ -907,7 +1217,13 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "file_open")]
-    internal static extern void FileOpenNative(IntPtr app, ref MDataInfo parentInfo, ref FileNative file, ulong openMode, IntPtr userData, FfiResultULongCb oCb);
+    internal static extern void FileOpenNative(
+      IntPtr app,
+      ref MDataInfo parentInfo,
+      ref FileNative file,
+      ulong openMode,
+      IntPtr userData,
+      FfiResultULongCb oCb);
 
     public Task<ulong> FileSizeAsync(IntPtr app, ulong fileH) {
       var (ret, userData) = BindingUtils.PrepareTask<ulong>();
@@ -925,16 +1241,29 @@ namespace SafeApp.AppBindings {
     }
 
     [DllImport(DllName, EntryPoint = "file_read")]
-    internal static extern void FileReadNative(IntPtr app, ulong fileH, ulong position, ulong len, IntPtr userData, FfiResultByteListCb oCb);
+    internal static extern void FileReadNative(
+      IntPtr app,
+      ulong fileH,
+      ulong position,
+      ulong len,
+      IntPtr userData,
+      FfiResultByteListCb oCb);
 
     public Task FileWriteAsync(IntPtr app, ulong fileH, List<byte> data) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      FileWriteNative(app, fileH, data.ToArray(), (IntPtr) data.Count, userData, OnFfiResultCb);
+      FileWriteNative(app, fileH, data.ToArray(), (ulong)data.Count, userData, OnFfiResultCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "file_write")]
-    internal static extern void FileWriteNative(IntPtr app, ulong fileH, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] byte[] data, IntPtr dataLen, IntPtr userData, FfiResultCb oCb);
+    internal static extern void FileWriteNative(
+      IntPtr app,
+      ulong fileH,
+      [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)]
+      byte[] data,
+      ulong dataLen,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task<File> FileCloseAsync(IntPtr app, ulong fileH) {
       var (ret, userData) = BindingUtils.PrepareTask<File>();
@@ -945,218 +1274,276 @@ namespace SafeApp.AppBindings {
     [DllImport(DllName, EntryPoint = "file_close")]
     internal static extern void FileCloseNative(IntPtr app, ulong fileH, IntPtr userData, FfiResultFileCb oCb);
 
-    internal delegate void ByteListByteListULongCb(IntPtr userData, IntPtr keyPtr, IntPtr keyLen, IntPtr valuePtr, IntPtr valueLen, ulong entryVersion);
+    internal delegate void ByteListByteListULongCb(
+      IntPtr userData,
+      IntPtr keyPtr,
+      ulong keyLen,
+      IntPtr valuePtr,
+      ulong valueLen,
+      ulong entryVersion);
 
-    internal delegate void FfiResultAccountInfoCb(IntPtr userData, ref FfiResult result, ref AccountInfo accountInfo);
+    internal delegate void FfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAccountInfoCb))]
-    #endif
-    private static void OnFfiResultAccountInfoCb(IntPtr userData, ref FfiResult result, ref AccountInfo accountInfo) {
-      BindingUtils.CompleteTask(userData, ref result, accountInfo);
+#endif
+    private static void OnFfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => Marshal.PtrToStructure<AccountInfo>(accountInfo));
     }
 
-    internal delegate void FfiResultAppCb(IntPtr userData, ref FfiResult result, IntPtr app);
+    internal delegate void FfiResultAppCb(IntPtr userData, IntPtr result, IntPtr app);
 
-    internal delegate void FfiResultByteArrayAsymNonceLenCb(IntPtr userData, ref FfiResult result, byte[] nonce);
+    internal delegate void FfiResultByteArrayAsymNonceLenCb(IntPtr userData, IntPtr result, IntPtr nonce);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultByteArrayAsymNonceLenCb))]
-    #endif
-    private static void OnFfiResultByteArrayAsymNonceLenCb(IntPtr userData, ref FfiResult result, byte[] nonce) {
-      BindingUtils.CompleteTask(userData, ref result, nonce);
+#endif
+    private static void OnFfiResultByteArrayAsymNonceLenCb(IntPtr userData, IntPtr result, IntPtr nonce) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToByteArray(nonce, (int)AppConstants.AsymNonceLen));
     }
 
-    internal delegate void FfiResultByteArrayAsymPublicKeyLenCb(IntPtr userData, ref FfiResult result, byte[] pubEncKey);
+    internal delegate void FfiResultByteArrayAsymPublicKeyLenCb(IntPtr userData, IntPtr result, IntPtr pubEncKey);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultByteArrayAsymPublicKeyLenCb))]
-    #endif
-    private static void OnFfiResultByteArrayAsymPublicKeyLenCb(IntPtr userData, ref FfiResult result, byte[] pubEncKey) {
-      BindingUtils.CompleteTask(userData, ref result, pubEncKey);
+#endif
+    private static void OnFfiResultByteArrayAsymPublicKeyLenCb(IntPtr userData, IntPtr result, IntPtr pubEncKey) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToByteArray(pubEncKey, (int)AppConstants.AsymPublicKeyLen));
     }
 
-    internal delegate void FfiResultByteArrayAsymSecretKeyLenCb(IntPtr userData, ref FfiResult result, byte[] secEncKey);
+    internal delegate void FfiResultByteArrayAsymSecretKeyLenCb(IntPtr userData, IntPtr result, IntPtr secEncKey);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultByteArrayAsymSecretKeyLenCb))]
-    #endif
-    private static void OnFfiResultByteArrayAsymSecretKeyLenCb(IntPtr userData, ref FfiResult result, byte[] secEncKey) {
-      BindingUtils.CompleteTask(userData, ref result, secEncKey);
+#endif
+    private static void OnFfiResultByteArrayAsymSecretKeyLenCb(IntPtr userData, IntPtr result, IntPtr secEncKey) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToByteArray(secEncKey, (int)AppConstants.AsymSecretKeyLen));
     }
 
-    internal delegate void FfiResultByteArraySignPublicKeyLenCb(IntPtr userData, ref FfiResult result, byte[] pubSignKey);
+    internal delegate void FfiResultByteArraySignPublicKeyLenCb(IntPtr userData, IntPtr result, IntPtr pubSignKey);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultByteArraySignPublicKeyLenCb))]
-    #endif
-    private static void OnFfiResultByteArraySignPublicKeyLenCb(IntPtr userData, ref FfiResult result, byte[] pubSignKey) {
-      BindingUtils.CompleteTask(userData, ref result, pubSignKey);
+#endif
+    private static void OnFfiResultByteArraySignPublicKeyLenCb(IntPtr userData, IntPtr result, IntPtr pubSignKey) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToByteArray(pubSignKey, (int)AppConstants.SignPublicKeyLen));
     }
 
-    internal delegate void FfiResultByteArraySignSecretKeyLenCb(IntPtr userData, ref FfiResult result, byte[] pubSignKey);
+    internal delegate void FfiResultByteArraySignSecretKeyLenCb(IntPtr userData, IntPtr result, IntPtr pubSignKey);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultByteArraySignSecretKeyLenCb))]
-    #endif
-    private static void OnFfiResultByteArraySignSecretKeyLenCb(IntPtr userData, ref FfiResult result, byte[] pubSignKey) {
-      BindingUtils.CompleteTask(userData, ref result, pubSignKey);
+#endif
+    private static void OnFfiResultByteArraySignSecretKeyLenCb(IntPtr userData, IntPtr result, IntPtr pubSignKey) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToByteArray(pubSignKey, (int)AppConstants.SignSecretKeyLen));
     }
 
-    internal delegate void FfiResultByteArrayXorNameLenCb(IntPtr userData, ref FfiResult result, byte[] name);
+    internal delegate void FfiResultByteArrayXorNameLenCb(IntPtr userData, IntPtr result, IntPtr name);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultByteArrayXorNameLenCb))]
-    #endif
-    private static void OnFfiResultByteArrayXorNameLenCb(IntPtr userData, ref FfiResult result, byte[] name) {
-      BindingUtils.CompleteTask(userData, ref result, name);
+#endif
+    private static void OnFfiResultByteArrayXorNameLenCb(IntPtr userData, IntPtr result, IntPtr name) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToByteArray(name, (int)AppConstants.XorNameLen));
     }
 
-    internal delegate void FfiResultByteListCb(IntPtr userData, ref FfiResult result, IntPtr signedDataPtr, IntPtr signedDataLen);
+    internal delegate void FfiResultByteListCb(IntPtr userData, IntPtr result, IntPtr signedDataPtr, ulong signedDataLen);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultByteListCb))]
-    #endif
-    private static void OnFfiResultByteListCb(IntPtr userData, ref FfiResult result, IntPtr signedDataPtr, IntPtr signedDataLen) {
-      BindingUtils.CompleteTask(userData, ref result, BindingUtils.CopyToByteList(signedDataPtr, signedDataLen));
+#endif
+    private static void OnFfiResultByteListCb(IntPtr userData, IntPtr result, IntPtr signedDataPtr, ulong signedDataLen) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToByteList(signedDataPtr, (int)signedDataLen));
     }
 
-    internal delegate void FfiResultByteListULongCb(IntPtr userData, ref FfiResult result, IntPtr contentPtr, IntPtr contentLen, ulong version);
+    internal delegate void FfiResultByteListULongCb(IntPtr userData, IntPtr result, IntPtr contentPtr, ulong contentLen, ulong version);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultByteListULongCb))]
-    #endif
-    private static void OnFfiResultByteListULongCb(IntPtr userData, ref FfiResult result, IntPtr contentPtr, IntPtr contentLen, ulong version) {
-      BindingUtils.CompleteTask(userData, ref result, (BindingUtils.CopyToByteList(contentPtr, contentLen), version));
+#endif
+    private static void OnFfiResultByteListULongCb(IntPtr userData, IntPtr result, IntPtr contentPtr, ulong contentLen, ulong version) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => (BindingUtils.CopyToByteList(contentPtr, (int)contentLen), version));
     }
 
-    internal delegate void FfiResultCb(IntPtr userData, ref FfiResult result);
+    internal delegate void FfiResultCb(IntPtr userData, IntPtr result);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultCb))]
-    #endif
-    private static void OnFfiResultCb(IntPtr userData, ref FfiResult result) {
-      BindingUtils.CompleteTask(userData, ref result);
+#endif
+    private static void OnFfiResultCb(IntPtr userData, IntPtr result) {
+      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result));
     }
 
-    internal delegate void FfiResultContainerPermissionsListCb(IntPtr userData, ref FfiResult result, IntPtr containerPermsPtr, IntPtr containerPermsLen);
+    internal delegate void FfiResultContainerPermissionsListCb(
+      IntPtr userData,
+      IntPtr result,
+      IntPtr containerPermsPtr,
+      ulong containerPermsLen);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultContainerPermissionsListCb))]
-    #endif
-    private static void OnFfiResultContainerPermissionsListCb(IntPtr userData, ref FfiResult result, IntPtr containerPermsPtr, IntPtr containerPermsLen) {
-      BindingUtils.CompleteTask(userData, ref result, BindingUtils.CopyToObjectList<ContainerPermissions>(containerPermsPtr, containerPermsLen));
+#endif
+    private static void OnFfiResultContainerPermissionsListCb(
+      IntPtr userData,
+      IntPtr result,
+      IntPtr containerPermsPtr,
+      ulong containerPermsLen) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToObjectList<ContainerPermissions>(containerPermsPtr, (int)containerPermsLen));
     }
 
-    internal delegate void FfiResultFileCb(IntPtr userData, ref FfiResult result, ref FileNative file);
+    internal delegate void FfiResultFileCb(IntPtr userData, IntPtr result, IntPtr file);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultFileCb))]
-    #endif
-    private static void OnFfiResultFileCb(IntPtr userData, ref FfiResult result, ref FileNative file) {
-      BindingUtils.CompleteTask(userData, ref result, new File(file));
+#endif
+    private static void OnFfiResultFileCb(IntPtr userData, IntPtr result, IntPtr file) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => new File(Marshal.PtrToStructure<FileNative>(file)));
     }
 
-    internal delegate void FfiResultFileULongCb(IntPtr userData, ref FfiResult result, ref FileNative file, ulong version);
+    internal delegate void FfiResultFileULongCb(IntPtr userData, IntPtr result, IntPtr file, ulong version);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultFileULongCb))]
-    #endif
-    private static void OnFfiResultFileULongCb(IntPtr userData, ref FfiResult result, ref FileNative file, ulong version) {
-      BindingUtils.CompleteTask(userData, ref result, (new File(file), version));
+#endif
+    private static void OnFfiResultFileULongCb(IntPtr userData, IntPtr result, IntPtr file, ulong version) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => (new File(Marshal.PtrToStructure<FileNative>(file)), version));
     }
 
-    internal delegate void FfiResultMDataInfoCb(IntPtr userData, ref FfiResult result, ref MDataInfo MDataInfo);
+    internal delegate void FfiResultMDataInfoCb(IntPtr userData, IntPtr result, IntPtr mdataInfo);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultMDataInfoCb))]
-    #endif
-    private static void OnFfiResultMDataInfoCb(IntPtr userData, ref FfiResult result, ref MDataInfo MDataInfo) {
-      BindingUtils.CompleteTask(userData, ref result, MDataInfo);
+#endif
+    private static void OnFfiResultMDataInfoCb(IntPtr userData, IntPtr result, IntPtr mdataInfo) {
+      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => Marshal.PtrToStructure<MDataInfo>(mdataInfo));
     }
 
-    internal delegate void FfiResultMDataKeyListCb(IntPtr userData, ref FfiResult result, IntPtr keysPtr, IntPtr keysLen);
+    internal delegate void FfiResultMDataKeyListCb(IntPtr userData, IntPtr result, IntPtr keysPtr, ulong keysLen);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultMDataKeyListCb))]
-    #endif
-    private static void OnFfiResultMDataKeyListCb(IntPtr userData, ref FfiResult result, IntPtr keysPtr, IntPtr keysLen) {
-      BindingUtils.CompleteTask(userData, ref result, BindingUtils.CopyToObjectList<MDataKey>(keysPtr, keysLen));
+#endif
+    private static void OnFfiResultMDataKeyListCb(IntPtr userData, IntPtr result, IntPtr keysPtr, ulong keysLen) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToObjectList<MDataKeyNative>(keysPtr, (int)keysLen).Select(native => new MDataKey(native)).ToList());
     }
 
-    internal delegate void FfiResultMDataValueListCb(IntPtr userData, ref FfiResult result, IntPtr valuesPtr, IntPtr valuesLen);
+    internal delegate void FfiResultMDataValueListCb(IntPtr userData, IntPtr result, IntPtr valuesPtr, ulong valuesLen);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultMDataValueListCb))]
-    #endif
-    private static void OnFfiResultMDataValueListCb(IntPtr userData, ref FfiResult result, IntPtr valuesPtr, IntPtr valuesLen) {
-      BindingUtils.CompleteTask(userData, ref result, BindingUtils.CopyToObjectList<MDataValue>(valuesPtr, valuesLen));
+#endif
+    private static void OnFfiResultMDataValueListCb(IntPtr userData, IntPtr result, IntPtr valuesPtr, ulong valuesLen) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToObjectList<MDataValueNative>(valuesPtr, (int)valuesLen).Select(native => new MDataValue(native)).ToList());
     }
 
-    internal delegate void FfiResultPermissionSetCb(IntPtr userData, ref FfiResult result, ref PermissionSet permSet);
+    internal delegate void FfiResultPermissionSetCb(IntPtr userData, IntPtr result, IntPtr permSet);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultPermissionSetCb))]
-    #endif
-    private static void OnFfiResultPermissionSetCb(IntPtr userData, ref FfiResult result, ref PermissionSet permSet) {
-      BindingUtils.CompleteTask(userData, ref result, permSet);
+#endif
+    private static void OnFfiResultPermissionSetCb(IntPtr userData, IntPtr result, IntPtr permSet) {
+      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => Marshal.PtrToStructure<PermissionSet>(permSet));
     }
 
-    internal delegate void FfiResultStringCb(IntPtr userData, ref FfiResult result, string filename);
+    internal delegate void FfiResultStringCb(IntPtr userData, IntPtr result, string filename);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultStringCb))]
-    #endif
-    private static void OnFfiResultStringCb(IntPtr userData, ref FfiResult result, string filename) {
-      BindingUtils.CompleteTask(userData, ref result, filename);
+#endif
+    private static void OnFfiResultStringCb(IntPtr userData, IntPtr result, string filename) {
+      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => filename);
     }
 
-    internal delegate void FfiResultUIntCb(IntPtr userData, ref FfiResult result, uint reqId);
+    internal delegate void FfiResultUIntCb(IntPtr userData, IntPtr result, uint reqId);
 
-    internal delegate void FfiResultUIntStringCb(IntPtr userData, ref FfiResult result, uint reqId, string encodedPtr);
+    internal delegate void FfiResultUIntStringCb(IntPtr userData, IntPtr result, uint reqId, string encodedPtr);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultUIntStringCb))]
-    #endif
-    private static void OnFfiResultUIntStringCb(IntPtr userData, ref FfiResult result, uint reqId, string encodedPtr) {
-      BindingUtils.CompleteTask(userData, ref result, (reqId, encodedPtr));
+#endif
+    private static void OnFfiResultUIntStringCb(IntPtr userData, IntPtr result, uint reqId, string encodedPtr) {
+      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => (reqId, encodedPtr));
     }
 
-    internal delegate void FfiResultULongCb(IntPtr userData, ref FfiResult result, ulong handle);
+    internal delegate void FfiResultULongCb(IntPtr userData, IntPtr result, ulong handle);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultULongCb))]
-    #endif
-    private static void OnFfiResultULongCb(IntPtr userData, ref FfiResult result, ulong handle) {
-      BindingUtils.CompleteTask(userData, ref result, handle);
+#endif
+    private static void OnFfiResultULongCb(IntPtr userData, IntPtr result, ulong handle) {
+      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => handle);
     }
 
-    internal delegate void FfiResultULongULongCb(IntPtr userData, ref FfiResult result, ulong pkH, ulong skH);
+    internal delegate void FfiResultULongULongCb(IntPtr userData, IntPtr result, ulong pkH, ulong skH);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultULongULongCb))]
-    #endif
-    private static void OnFfiResultULongULongCb(IntPtr userData, ref FfiResult result, ulong pkH, ulong skH) {
-      BindingUtils.CompleteTask(userData, ref result, (pkH, skH));
+#endif
+    private static void OnFfiResultULongULongCb(IntPtr userData, IntPtr result, ulong pkH, ulong skH) {
+      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => (pkH, skH));
     }
 
-    internal delegate void FfiResultUserPermissionSetListCb(IntPtr userData, ref FfiResult result, IntPtr userPermSetsPtr, IntPtr userPermSetsLen);
+    internal delegate void FfiResultUserPermissionSetListCb(IntPtr userData, IntPtr result, IntPtr userPermSetsPtr, ulong userPermSetsLen);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultUserPermissionSetListCb))]
-    #endif
-    private static void OnFfiResultUserPermissionSetListCb(IntPtr userData, ref FfiResult result, IntPtr userPermSetsPtr, IntPtr userPermSetsLen) {
-      BindingUtils.CompleteTask(userData, ref result, BindingUtils.CopyToObjectList<UserPermissionSet>(userPermSetsPtr, userPermSetsLen));
+#endif
+    private static void OnFfiResultUserPermissionSetListCb(IntPtr userData, IntPtr result, IntPtr userPermSetsPtr, ulong userPermSetsLen) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToObjectList<UserPermissionSet>(userPermSetsPtr, (int)userPermSetsLen));
     }
 
     internal delegate void NoneCb(IntPtr userData);
 
-    internal delegate void UIntAuthGrantedCb(IntPtr userData, uint reqId, ref AuthGrantedNative authGranted);
+    internal delegate void UIntAuthGrantedCb(IntPtr userData, uint reqId, IntPtr authGranted);
 
-    internal delegate void UIntByteListCb(IntPtr userData, uint reqId, IntPtr serialisedCfgPtr, IntPtr serialisedCfgLen);
+    internal delegate void UIntByteListCb(IntPtr userData, uint reqId, IntPtr serialisedCfgPtr, ulong serialisedCfgLen);
 
     internal delegate void UIntCb(IntPtr userData, uint reqId);
-
   }
 }
 #endif

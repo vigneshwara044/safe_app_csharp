@@ -8,61 +8,64 @@ namespace SafeApp.Tests {
   [TestFixture]
   internal class ImmutableDataTests {
     [Test]
-    public async Task WriteAndReadUsingPainCipherOpt() {
+    public async Task WriteAndReadUsingAsymmetricCipherOpt() {
+      var data = new byte[1024];
+      new Random().NextBytes(data);
+      var session = new Session(MockAuthResolver.Current.TestCreateApp());
+      using (var pubEncKey = await session.Crypto.AppPubEncKeyAsync()) {
+        using (var cipherOptHandle = await session.CipherOpt.NewAsymmetricAsync(pubEncKey))
+        using (var seHandle = await session.IData.NewSelfEncryptorAsync()) {
+          await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
+          var dataMapAddress = await session.IData.CloseSelfEncryptorAsync(seHandle, cipherOptHandle);
+          using (var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress)) {
+            var len = await session.IData.SizeAsync(seReaderHandle);
+            var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
+            Assert.AreEqual(data, readData);
+          }
+        }
+      }
+
+      session.Dispose();
+    }
+
+    [Test]
+    public async Task WriteAndReadUsingPlainCipherOpt() {
       var data = new byte[1024];
       new Random().NextBytes(data);
       var session = new Session(MockAuthResolver.Current.TestCreateApp());
       using (var cipherOptHandle = await session.CipherOpt.NewPlaintextAsync()) {
-        var seHandle = await session.IData.NewSelfEncryptorAsync();
-        await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
-        var dataMapAddress = await session.IData.CloseSelfEncryptorAsync(seHandle, cipherOptHandle);
-        var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress);
-        var len = await session.IData.SizeAsync(seReaderHandle);
-        var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
-        Assert.AreEqual(data, readData);
+        using (var seHandle = await session.IData.NewSelfEncryptorAsync()) {
+          await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
+          var dataMapAddress = await session.IData.CloseSelfEncryptorAsync(seHandle, cipherOptHandle);
+          using (var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress)) {
+            var len = await session.IData.SizeAsync(seReaderHandle);
+            var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
+            Assert.AreEqual(data, readData);
+          }
+        }
       }
-      session.FreeApp();
+
+      session.Dispose();
     }
 
     [Test]
-    public async Task WriteAndReadUsingSymmetricCipherOpt()
-    {
+    public async Task WriteAndReadUsingSymmetricCipherOpt() {
       var data = new byte[1024];
       new Random().NextBytes(data);
       var session = new Session(MockAuthResolver.Current.TestCreateApp());
-      using (var cipherOptHandle = await session.CipherOpt.NewSymmetricAsync())
-      {
-        var seHandle = await session.IData.NewSelfEncryptorAsync();
-        await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
-        var dataMapAddress = await session.IData.CloseSelfEncryptorAsync(seHandle, cipherOptHandle);
-        var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress);
-        var len = await session.IData.SizeAsync(seReaderHandle);
-        var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
-        Assert.AreEqual(data, readData);
+      using (var cipherOptHandle = await session.CipherOpt.NewSymmetricAsync()) {
+        using (var seHandle = await session.IData.NewSelfEncryptorAsync()) {
+          await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
+          var dataMapAddress = await session.IData.CloseSelfEncryptorAsync(seHandle, cipherOptHandle);
+          using (var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress)) {
+            var len = await session.IData.SizeAsync(seReaderHandle);
+            var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
+            Assert.AreEqual(data, readData);
+          }
+        }
       }
-      session.FreeApp();
-    }
 
-    [Test]
-    public async Task WriteAndReadUsingAsymmetricCipherOpt()
-    {
-      var data = new byte[1024];
-      new Random().NextBytes(data);
-      var session = new Session(MockAuthResolver.Current.TestCreateApp());
-      var encKeyPair = await session.Crypto.EncGenerateKeyPairAsync();
-      using (encKeyPair.Item1)
-      using (encKeyPair.Item2)
-      using (var cipherOptHandle = await session.CipherOpt.NewAsymmetricAsync(encKeyPair.Item1))
-      {
-        var seHandle = await session.IData.NewSelfEncryptorAsync();
-        await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
-        var dataMapAddress = await session.IData.CloseSelfEncryptorAsync(seHandle, cipherOptHandle);
-        var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress);
-        var len = await session.IData.SizeAsync(seReaderHandle);
-        var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
-        Assert.AreEqual(data, readData);
-      }
-      session.FreeApp();
+      session.Dispose();
     }
   }
 }

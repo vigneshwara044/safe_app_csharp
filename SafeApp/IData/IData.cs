@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -13,10 +12,9 @@ namespace SafeApp.IData {
   [PublicAPI]
   public class IData {
     private readonly IAppBindings _appBindings = AppResolver.Current;
-    private IntPtr _appPtr;
+    private SafeAppPtr _appPtr;
 
-    public IData(IntPtr appPtr)
-    {
+    internal IData(SafeAppPtr appPtr) {
       _appPtr = appPtr;
     }
 
@@ -47,13 +45,12 @@ namespace SafeApp.IData {
       return _appBindings.IDataSelfEncryptorWriterFreeAsync(_appPtr, sEWriterHandle);
     }
 
-    public Task<ulong> SizeAsync(NativeHandle seHandle) {
-      return _appBindings.IDataSizeAsync(_appPtr, seHandle);
+    public Task<ulong> SerialisedSizeAsync(byte[] xorName) {
+      return _appBindings.IDataSerialisedSizeAsync(_appPtr, xorName);
     }
 
-    public Task<ulong> SerialisedSizeAsync(byte[] xorName)
-    {
-       return _appBindings.IDataSerialisedSizeAsync(_appPtr, xorName);
+    public Task<ulong> SizeAsync(NativeHandle seHandle) {
+      return _appBindings.IDataSizeAsync(_appPtr, seHandle);
     }
 
     public Task WriteToSelfEncryptorAsync(NativeHandle seHandle, List<byte> data) {
