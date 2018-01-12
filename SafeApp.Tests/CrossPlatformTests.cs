@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using NUnit.Framework;
-using SafeApp.MockAuthBindings;
 
 namespace SafeApp.Tests {
   [TestFixture]
@@ -13,7 +12,7 @@ namespace SafeApp.Tests {
 
     [Test]
     public async Task RandomAppCreate() {
-      var session = new Session(MockAuthResolver.Current.TestCreateApp());
+      var session = Utils.RandomSession();
       using (await session.MDataEntryActions.NewAsync()) { }
 
       session.Dispose();

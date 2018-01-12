@@ -34,7 +34,7 @@ namespace SafeApp.MData {
 
     public async Task<NativeHandle> ListEntriesAsync(MDataInfo mDataInfo) {
       var mDataEntriesHandle = await AppBindings.MDataListEntriesAsync(_appPtr, ref mDataInfo);
-      return new NativeHandle(mDataEntriesHandle, entriesH => AppBindings.MDataEntriesFreeAsync(_appPtr, entriesH));
+      return new NativeHandle(_appPtr, mDataEntriesHandle, entriesH => AppBindings.MDataEntriesFreeAsync(_appPtr, entriesH));
     }
 
     public Task<List<MDataKey>> ListKeysAsync(ref MDataInfo mDataInfo) {

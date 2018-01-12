@@ -2,6 +2,8 @@
 
 namespace SafeApp {
   internal class SafeAppPtr {
+    public static readonly SafeAppPtr Zero = new SafeAppPtr(IntPtr.Zero);
+
     private IntPtr _value;
 
     public IntPtr Value {
@@ -12,11 +14,15 @@ namespace SafeApp {
 
         return _value;
       }
-      set => _value = value;
+      private set => _value = value;
     }
 
     public SafeAppPtr(IntPtr appPtr) {
       Value = appPtr;
+    }
+
+    public void Clear() {
+      Value = IntPtr.Zero;
     }
 
     public static implicit operator IntPtr(SafeAppPtr obj) {

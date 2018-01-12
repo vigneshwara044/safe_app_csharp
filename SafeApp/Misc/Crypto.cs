@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -22,7 +23,7 @@ namespace SafeApp.Misc {
     /// <returns>App's Public Sign Key NativeHandle</returns>
     public async Task<NativeHandle> AppPubEncKeyAsync() {
       var appPubSignKeyH = await AppBindings.AppPubEncKeyAsync(_appPtr);
-      return new NativeHandle(appPubSignKeyH, EncPubKeyFreeAsync);
+      return new NativeHandle(_appPtr, appPubSignKeyH, EncPubKeyFreeAsync);
     }
 
     /// <summary>
@@ -31,7 +32,7 @@ namespace SafeApp.Misc {
     /// <returns>App's Public Sign Key NativeHandle</returns>
     public async Task<NativeHandle> AppPubSignKeyAsync() {
       var appPubEncKeyH = await AppBindings.AppPubSignKeyAsync(_appPtr);
-      return new NativeHandle(appPubEncKeyH, SignPubKeyFreeAsync);
+      return new NativeHandle(_appPtr, appPubEncKeyH, SignPubKeyFreeAsync);
     }
 
     public Task<List<byte>> DecryptAsync(List<byte> cipherText, NativeHandle encPubKey, NativeHandle encSecKey) {
@@ -55,7 +56,7 @@ namespace SafeApp.Misc {
     /// <returns>(Encrypt Public Key, Encrypt Secret Key)</returns>
     public async Task<(NativeHandle, NativeHandle)> EncGenerateKeyPairAsync() {
       var (encPubKeyH, encSecKeyH) = await AppBindings.EncGenerateKeyPairAsync(_appPtr);
-      return (new NativeHandle(encPubKeyH, EncPubKeyFreeAsync), new NativeHandle(encSecKeyH, EncSecretKeyFreeAsync));
+      return (new NativeHandle(_appPtr, encPubKeyH, EncPubKeyFreeAsync), new NativeHandle(_appPtr, encSecKeyH, EncSecretKeyFreeAsync));
     }
 
     /// <summary>
@@ -63,7 +64,7 @@ namespace SafeApp.Misc {
     /// </summary>
     /// <param name="encPubKeyH"></param>
     /// <returns></returns>
-    public Task EncPubKeyFreeAsync(ulong encPubKeyH) {
+    private Task EncPubKeyFreeAsync(ulong encPubKeyH) {
       return AppBindings.EncPubKeyFreeAsync(_appPtr, encPubKeyH);
     }
 
@@ -73,7 +74,7 @@ namespace SafeApp.Misc {
 
     public async Task<NativeHandle> EncPubKeyNewAsync(byte[] asymPublicKeyBytes) {
       var encryptPubKeyH = await AppBindings.EncPubKeyNewAsync(_appPtr, asymPublicKeyBytes);
-      return new NativeHandle(encryptPubKeyH, EncPubKeyFreeAsync);
+      return new NativeHandle(_appPtr, encryptPubKeyH, EncPubKeyFreeAsync);
     }
 
     public Task<List<byte>> EncryptAsync(List<byte> data, NativeHandle encPubKey, NativeHandle encSecKey) {
@@ -84,7 +85,7 @@ namespace SafeApp.Misc {
       return AppBindings.EncryptSealedBoxAsync(_appPtr, inputData, pkHandle);
     }
 
-    public Task EncSecretKeyFreeAsync(ulong encSecKeyH) {
+    private Task EncSecretKeyFreeAsync(ulong encSecKeyH) {
       return AppBindings.EncSecretKeyFreeAsync(_appPtr, encSecKeyH);
     }
 
@@ -94,7 +95,7 @@ namespace SafeApp.Misc {
 
     public async Task<NativeHandle> EncSecretKeyNewAsync(byte[] asymSecKeyBytes) {
       var encSecKeyH = await AppBindings.EncSecretKeyNewAsync(_appPtr, asymSecKeyBytes);
-      return new NativeHandle(encSecKeyH, EncSecretKeyFreeAsync);
+      return new NativeHandle(_appPtr, encSecKeyH, EncSecretKeyFreeAsync);
     }
 
     public Task<List<byte>> SignAsync(List<byte> data, NativeHandle signSecKey) {
@@ -107,10 +108,13 @@ namespace SafeApp.Misc {
     /// <returns>Tuple of Sign Public Key NativeHandle and Sign Secret Key NativeHandle</returns>
     public async Task<(NativeHandle, NativeHandle)> SignGenerateKeyPairAsync() {
       var (publicKeyHandle, secretKeyHandle) = await AppBindings.SignGenerateKeyPairAsync(_appPtr);
-      return (new NativeHandle(publicKeyHandle, SignPubKeyFreeAsync), new NativeHandle(secretKeyHandle, SignSecKeyFreeAsync));
+      return (new NativeHandle(_appPtr, publicKeyHandle, SignPubKeyFreeAsync), new NativeHandle(
+        _appPtr,
+        secretKeyHandle,
+        SignSecKeyFreeAsync));
     }
 
-    public Task SignPubKeyFreeAsync(ulong pubSignKeyHandle) {
+    private Task SignPubKeyFreeAsync(ulong pubSignKeyHandle) {
       return AppBindings.SignPubKeyFreeAsync(_appPtr, pubSignKeyHandle);
     }
 
@@ -130,10 +134,10 @@ namespace SafeApp.Misc {
     /// <returns>Public Sign Key NativeHandle</returns>
     public async Task<NativeHandle> SignPubKeyNewAsync(byte[] rawPubSignKey) {
       var handle = await AppBindings.SignPubKeyNewAsync(_appPtr, rawPubSignKey);
-      return new NativeHandle(handle, SignPubKeyFreeAsync);
+      return new NativeHandle(_appPtr, handle, SignPubKeyFreeAsync);
     }
 
-    public Task SignSecKeyFreeAsync(ulong secSignKeyHandle) {
+    private Task SignSecKeyFreeAsync(ulong secSignKeyHandle) {
       return AppBindings.SignSecKeyFreeAsync(_appPtr, secSignKeyHandle);
     }
 
@@ -153,7 +157,7 @@ namespace SafeApp.Misc {
     /// <returns>Secret Sign Key NativeHandle</returns>
     public async Task<NativeHandle> SignSecKeyNewAsync(byte[] rawSecSignKey) {
       var handle = await AppBindings.SignSecKeyNewAsync(_appPtr, rawSecSignKey);
-      return new NativeHandle(handle, SignSecKeyFreeAsync);
+      return new NativeHandle(_appPtr, handle, SignSecKeyFreeAsync);
     }
 
     public Task<List<byte>> VerifyAsync(List<byte> signedData, NativeHandle signPubKey) {

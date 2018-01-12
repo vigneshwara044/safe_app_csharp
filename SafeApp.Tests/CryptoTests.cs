@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using SafeApp.MockAuthBindings;
 using SafeApp.Utilities;
 
 namespace SafeApp.Tests {
@@ -10,7 +9,7 @@ namespace SafeApp.Tests {
   internal class CryptoTests {
     [Test]
     public async Task GetPublicEncryptKey() {
-      var session = new Session(MockAuthResolver.Current.TestCreateApp());
+      var session = Utils.RandomSession();
       var encKeyPairTuple = await session.Crypto.EncGenerateKeyPairAsync();
       using (encKeyPairTuple.Item1)
       using (encKeyPairTuple.Item2) {
@@ -32,7 +31,7 @@ namespace SafeApp.Tests {
 
     [Test]
     public async Task SealedBoxEncryption() {
-      var session = new Session(MockAuthResolver.Current.TestCreateApp());
+      var session = Utils.RandomSession();
       var encKeyPairTuple = await session.Crypto.EncGenerateKeyPairAsync();
       using (encKeyPairTuple.Item1)
       using (encKeyPairTuple.Item2) {
@@ -48,7 +47,7 @@ namespace SafeApp.Tests {
 
     [Test]
     public async Task SignAndVerify() {
-      var session = new Session(MockAuthResolver.Current.TestCreateApp());
+      var session = Utils.RandomSession();
       var signKeyPairTuple = await session.Crypto.SignGenerateKeyPairAsync();
       using (signKeyPairTuple.Item1)
       using (signKeyPairTuple.Item2) {
@@ -64,7 +63,7 @@ namespace SafeApp.Tests {
 
     [Test]
     public async Task SymmetricEncryption() {
-      var session = new Session(MockAuthResolver.Current.TestCreateApp());
+      var session = Utils.RandomSession();
       var encKeyPairTuple = await session.Crypto.EncGenerateKeyPairAsync();
       using (encKeyPairTuple.Item1)
       using (encKeyPairTuple.Item2) {

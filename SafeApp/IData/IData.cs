@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -11,7 +12,7 @@ using SafeApp.Utilities;
 namespace SafeApp.IData {
   [PublicAPI]
   public class IData {
-    private readonly IAppBindings _appBindings = AppResolver.Current;
+    private static readonly IAppBindings AppBindings = AppResolver.Current;
     private SafeAppPtr _appPtr;
 
     internal IData(SafeAppPtr appPtr) {
@@ -19,42 +20,46 @@ namespace SafeApp.IData {
     }
 
     public Task<byte[]> CloseSelfEncryptorAsync(ulong seH, NativeHandle cipherOptH) {
-      return _appBindings.IDataCloseSelfEncryptorAsync(_appPtr, seH, cipherOptH);
+      return AppBindings.IDataCloseSelfEncryptorAsync(_appPtr, seH, cipherOptH);
     }
 
     public async Task<NativeHandle> FetchSelfEncryptorAsync(byte[] xorName) {
-      var sEReaderHandle = await _appBindings.IDataFetchSelfEncryptorAsync(_appPtr, xorName);
-      return new NativeHandle(sEReaderHandle, SelfEncryptorReaderFreeAsync);
+      var sEReaderHandle = await AppBindings.IDataFetchSelfEncryptorAsync(_appPtr, xorName);
+      return new NativeHandle(_appPtr, sEReaderHandle, SelfEncryptorReaderFreeAsync);
     }
 
     public async Task<NativeHandle> NewSelfEncryptorAsync() {
-      var sEWriterHandle = await _appBindings.IDataNewSelfEncryptorAsync(_appPtr);
-      return new NativeHandle(sEWriterHandle, null);
+      var sEWriterHandle = await AppBindings.IDataNewSelfEncryptorAsync(_appPtr);
+      return new NativeHandle(_appPtr, sEWriterHandle, null);
     }
 
     public async Task<List<byte>> ReadFromSelfEncryptorAsync(NativeHandle seHandle, ulong fromPos, ulong len) {
-      var dataArray = await _appBindings.IDataReadFromSelfEncryptorAsync(_appPtr, seHandle, fromPos, len);
+      var dataArray = await AppBindings.IDataReadFromSelfEncryptorAsync(_appPtr, seHandle, fromPos, len);
       return new List<byte>(dataArray);
     }
 
-    public Task SelfEncryptorReaderFreeAsync(ulong sEReaderHandle) {
-      return _appBindings.IDataSelfEncryptorReaderFreeAsync(_appPtr, sEReaderHandle);
+    private Task SelfEncryptorReaderFreeAsync(ulong sEReaderHandle) {
+      return Equals(_appPtr.Value, IntPtr.Zero) ?
+        Task.FromResult<object>(null) :
+        AppBindings.IDataSelfEncryptorReaderFreeAsync(_appPtr, sEReaderHandle);
     }
 
-    public Task SelfEncryptorWriterFreeAsync(ulong sEWriterHandle) {
-      return _appBindings.IDataSelfEncryptorWriterFreeAsync(_appPtr, sEWriterHandle);
+    private Task SelfEncryptorWriterFreeAsync(ulong sEWriterHandle) {
+      return Equals(_appPtr.Value, IntPtr.Zero) ?
+        Task.FromResult<object>(null) :
+        AppBindings.IDataSelfEncryptorWriterFreeAsync(_appPtr, sEWriterHandle);
     }
 
     public Task<ulong> SerialisedSizeAsync(byte[] xorName) {
-      return _appBindings.IDataSerialisedSizeAsync(_appPtr, xorName);
+      return AppBindings.IDataSerialisedSizeAsync(_appPtr, xorName);
     }
 
     public Task<ulong> SizeAsync(NativeHandle seHandle) {
-      return _appBindings.IDataSizeAsync(_appPtr, seHandle);
+      return AppBindings.IDataSizeAsync(_appPtr, seHandle);
     }
 
     public Task WriteToSelfEncryptorAsync(NativeHandle seHandle, List<byte> data) {
-      return _appBindings.IDataWriteToSelfEncryptorAsync(_appPtr, seHandle, data);
+      return AppBindings.IDataWriteToSelfEncryptorAsync(_appPtr, seHandle, data);
     }
   }
 }

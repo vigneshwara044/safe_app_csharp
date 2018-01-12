@@ -41,6 +41,10 @@ namespace SafeApp.Utilities {
     }
 
     public static IntPtr CopyFromByteList(List<byte> list) {
+      if (list == null || list.Count == 0) {
+        return IntPtr.Zero;
+      }
+
       var array = list.ToArray();
       var size = Marshal.SizeOf(array[0]) * array.Length;
       var ptr = Marshal.AllocHGlobal(size);
@@ -50,9 +54,10 @@ namespace SafeApp.Utilities {
     }
 
     public static IntPtr CopyFromObjectList<T>(List<T> list) {
-      if (list.Count == 0) {
+      if (list == null || list.Count == 0) {
         return IntPtr.Zero;
       }
+
       var size = Marshal.SizeOf(list[0]) * list.Count;
       var ptr = Marshal.AllocHGlobal(size);
       for (var i = 0; i < list.Count; ++i) {

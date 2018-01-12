@@ -17,7 +17,7 @@ namespace SafeApp.MData {
       _appPtr = appPtr;
     }
 
-    public Task FreeAsync(ulong entriesH) {
+    private Task FreeAsync(ulong entriesH) {
       return AppBindings.MDataEntriesFreeAsync(_appPtr, entriesH);
     }
 
@@ -30,13 +30,12 @@ namespace SafeApp.MData {
     }
 
     public Task<ulong> LenAsync(NativeHandle entriesHandle) {
-      throw new NotImplementedException();
-//      return _appBindings.MDataEntriesLenAsync(_appPtr, entriesHandle);
+      return AppBindings.MDataEntriesLenAsync(_appPtr, entriesHandle);
     }
 
     public async Task<NativeHandle> NewAsync() {
       var entriesH = await AppBindings.MDataEntriesNewAsync(_appPtr);
-      return new NativeHandle(entriesH, FreeAsync);
+      return new NativeHandle(_appPtr, entriesH, FreeAsync);
     }
   }
 }

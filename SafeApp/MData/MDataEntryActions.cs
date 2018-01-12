@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -20,8 +21,10 @@ namespace SafeApp.MData {
       return AppBindings.MDataEntryActionsDeleteAsync(_appPtr, entryActionsH, entKey, version);
     }
 
-    public Task FreeAsync(ulong entryActionsH) {
-      return AppBindings.MDataEntryActionsFreeAsync(_appPtr, entryActionsH);
+    private Task FreeAsync(ulong entryActionsH) {
+      return Equals(_appPtr.Value, IntPtr.Zero) ?
+        Task.FromResult<object>(null) :
+        AppBindings.MDataEntryActionsFreeAsync(_appPtr, entryActionsH);
     }
 
     public Task InsertAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal) {
@@ -30,7 +33,7 @@ namespace SafeApp.MData {
 
     public async Task<NativeHandle> NewAsync() {
       var entryActionsH = await AppBindings.MDataEntryActionsNewAsync(_appPtr);
-      return new NativeHandle(entryActionsH, FreeAsync);
+      return new NativeHandle(_appPtr, entryActionsH, FreeAsync);
     }
 
     public Task UpdateAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal, ulong version) {

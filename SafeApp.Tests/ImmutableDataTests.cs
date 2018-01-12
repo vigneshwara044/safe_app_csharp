@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using SafeApp.MockAuthBindings;
 
 namespace SafeApp.Tests {
   [TestFixture]
@@ -11,7 +10,7 @@ namespace SafeApp.Tests {
     public async Task WriteAndReadUsingAsymmetricCipherOpt() {
       var data = new byte[1024];
       new Random().NextBytes(data);
-      var session = new Session(MockAuthResolver.Current.TestCreateApp());
+      var session = Utils.RandomSession();
       using (var pubEncKey = await session.Crypto.AppPubEncKeyAsync()) {
         using (var cipherOptHandle = await session.CipherOpt.NewAsymmetricAsync(pubEncKey))
         using (var seHandle = await session.IData.NewSelfEncryptorAsync()) {
@@ -32,7 +31,7 @@ namespace SafeApp.Tests {
     public async Task WriteAndReadUsingPlainCipherOpt() {
       var data = new byte[1024];
       new Random().NextBytes(data);
-      var session = new Session(MockAuthResolver.Current.TestCreateApp());
+      var session = Utils.RandomSession();
       using (var cipherOptHandle = await session.CipherOpt.NewPlaintextAsync()) {
         using (var seHandle = await session.IData.NewSelfEncryptorAsync()) {
           await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());
@@ -52,7 +51,7 @@ namespace SafeApp.Tests {
     public async Task WriteAndReadUsingSymmetricCipherOpt() {
       var data = new byte[1024];
       new Random().NextBytes(data);
-      var session = new Session(MockAuthResolver.Current.TestCreateApp());
+      var session = Utils.RandomSession();
       using (var cipherOptHandle = await session.CipherOpt.NewSymmetricAsync()) {
         using (var seHandle = await session.IData.NewSelfEncryptorAsync()) {
           await session.IData.WriteToSelfEncryptorAsync(seHandle, data.ToList());

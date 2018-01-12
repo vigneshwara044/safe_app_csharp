@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -15,7 +16,7 @@ namespace SafeApp.Misc {
       _appPtr = appPtr;
     }
 
-    public Task FreeAsync(ulong cipherOptHandle) {
+    private Task FreeAsync(ulong cipherOptHandle) {
       return AppBindings.CipherOptFreeAsync(_appPtr, cipherOptHandle);
     }
 
@@ -26,7 +27,7 @@ namespace SafeApp.Misc {
     /// <returns>AsymmetricCipherOpt NativeHandle</returns>
     public async Task<NativeHandle> NewAsymmetricAsync(NativeHandle encPubKeyH) {
       var cipherOptH = await AppBindings.CipherOptNewAsymmetricAsync(_appPtr, encPubKeyH);
-      return new NativeHandle(cipherOptH, FreeAsync);
+      return new NativeHandle(_appPtr, cipherOptH, FreeAsync);
     }
 
     /// <summary>
@@ -35,7 +36,7 @@ namespace SafeApp.Misc {
     /// <returns>Plain text NativeHandle</returns>
     public async Task<NativeHandle> NewPlaintextAsync() {
       var cipherOptH = await AppBindings.CipherOptNewPlaintextAsync(_appPtr);
-      return new NativeHandle(cipherOptH, FreeAsync);
+      return new NativeHandle(_appPtr, cipherOptH, FreeAsync);
     }
 
     /// <summary>
@@ -44,7 +45,7 @@ namespace SafeApp.Misc {
     /// <returns>Symmetric NativeHandle</returns>
     public async Task<NativeHandle> NewSymmetricAsync() {
       var cipherOptH = await AppBindings.CipherOptNewSymmetricAsync(_appPtr);
-      return new NativeHandle(cipherOptH, FreeAsync);
+      return new NativeHandle(_appPtr, cipherOptH, FreeAsync);
     }
   }
 }

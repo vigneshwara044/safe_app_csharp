@@ -17,8 +17,10 @@ namespace SafeApp.MData {
       _appPtr = appPtr;
     }
 
-    public Task FreeAsync(ulong permissionsH) {
-      return AppBindings.MDataPermissionsFreeAsync(_appPtr, permissionsH);
+    private Task FreeAsync(ulong permissionsH) {
+      return Equals(_appPtr.Value, IntPtr.Zero) ?
+        Task.FromResult<object>(null) :
+        AppBindings.MDataPermissionsFreeAsync(_appPtr, permissionsH);
     }
 
     public Task<PermissionSet> GetAsync(NativeHandle permissionsHandle, NativeHandle userPubSignKey) {
@@ -30,9 +32,7 @@ namespace SafeApp.MData {
     }
 
     public Task<ulong> LenAsync(NativeHandle permissionsHandle) {
-      // TODO needs fix
-      throw new NotImplementedException();
-      // return _appBindings.MDataPermissionsLenAsync(_appPtr, permissionsHandle);
+      return AppBindings.MDataPermissionsLenAsync(_appPtr, permissionsHandle);
     }
 
     public Task<List<UserPermissionSet>> ListAsync(NativeHandle permissionHandle) {
@@ -41,7 +41,7 @@ namespace SafeApp.MData {
 
     public async Task<NativeHandle> NewAsync() {
       var permissionsH = await AppBindings.MDataPermissionsNewAsync(_appPtr);
-      return new NativeHandle(permissionsH, FreeAsync);
+      return new NativeHandle(_appPtr, permissionsH, FreeAsync);
     }
   }
 }

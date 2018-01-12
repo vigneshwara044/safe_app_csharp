@@ -15,82 +15,71 @@ using SafeApp.Utilities;
 namespace SafeApp {
   [PublicAPI]
   public sealed class Session : IDisposable {
-    private static GCHandle _disconnectedEventGcHandle;
-    private static bool _isDisconnected = true;
-
-    private static Action _networkDisconnectedNotifier = () => {
-      _isDisconnected = true;
-      OnDisconnectedHandler?.Invoke(null, null);
-    };
-
     private static readonly IAppBindings AppBindings = AppResolver.Current;
 
-    public static EventHandler OnDisconnectedHandler;
+    public static EventHandler Disconnected;
     private SafeAppPtr _appPtr;
+    private GCHandle _disconnectedHandle;
 
-    public bool IsDisconnected { get; }
+    public bool IsDisconnected { get; private set; }
 
     /// <summary>
     ///   AccessConatiner API
     /// </summary>
-    public AccessContainer AccessContainer { get; }
+    public AccessContainer AccessContainer { get; private set; }
 
     /// <summary>
     ///   Crypto API
     /// </summary>
-    public Crypto Crypto { get; }
+    public Crypto Crypto { get; private set; }
 
     /// <summary>
     ///   CipherOpt API
     /// </summary>
-    public CipherOpt CipherOpt { get; }
+    public CipherOpt CipherOpt { get; private set; }
+
+    // ReSharper disable InconsistentNaming
 
     /// <summary>
     ///   ImmutableData API
     /// </summary>
-    public IData.IData IData { get; }
+    public IData.IData IData { get; private set; }
+
+    // ReSharper enable InconsistentNaming
 
     /// <summary>
     ///   MutableData API
     /// </summary>
-    public MData.MData MData { get; }
+    public MData.MData MData { get; private set; }
 
     /// <summary>
     ///   Mutable Data Entries API
     /// </summary>
-    public MDataEntries MDataEntries { get; }
+    public MDataEntries MDataEntries { get; private set; }
 
     /// <summary>
     ///   Mutable Data Entry Actions API
     /// </summary>
-    public MDataEntryActions MDataEntryActions { get; }
+    public MDataEntryActions MDataEntryActions { get; private set; }
 
     /// <summary>
     ///   MDataInfo API
     /// </summary>
-    public MDataInfoActions MDataInfoActions { get; }
+    public MDataInfoActions MDataInfoActions { get; private set; }
 
     /// <summary>
     ///   Mutable Data Permissions API
     /// </summary>
-    public MDataPermissions MDataPermissions { get; }
+    public MDataPermissions MDataPermissions { get; private set; }
 
-    public Session(IntPtr appPtr) {
-      _appPtr = new SafeAppPtr(appPtr);
-      AccessContainer = new AccessContainer(_appPtr);
-      Crypto = new Crypto(_appPtr);
-      CipherOpt = new CipherOpt(_appPtr);
-      IData = new IData.IData(_appPtr);
-      MData = new MData.MData(_appPtr);
-      MDataEntries = new MDataEntries(_appPtr);
-      MDataEntryActions = new MDataEntryActions(_appPtr);
-      MDataInfoActions = new MDataInfoActions(_appPtr);
-      MDataPermissions = new MDataPermissions(_appPtr);
-      _isDisconnected = false;
+    // TODO make it private function once the Authenticator functions are exposed
+    public Session() {
+      IsDisconnected = true;
+      _appPtr = SafeAppPtr.Zero;
     }
 
     public void Dispose() {
-      ReleaseUnmanagedResources();
+      FreeApp();
       GC.SuppressFinalize(this);
     }
 
@@ -103,23 +92,26 @@ namespace SafeApp {
       return AppBindings.AppContainerNameAsync(appId);
     }
 
-    public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted, EventHandler disconnectedEventHandler) {
+    public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted) {
       return Task.Run(
         () => {
           var tcs = new TaskCompletionSource<Session>();
-          Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedEventGcHandle) => {
+          var session = new Session();
+          Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) => {
             if (result.ErrorCode != 0) {
-              disconnectedEventGcHandle.Free();
+              disconnectedHandle.Free();
+
               tcs.SetException(result.ToException());
               return;
             }
 
-            _disconnectedEventGcHandle = disconnectedEventGcHandle;
-            var session = new Session(ptr);
+            session.Init(ptr, disconnectedHandle);
             tcs.SetResult(session);
           };
 
-          AppBindings.AppRegistered(appId, ref authGranted, _networkDisconnectedNotifier, acctCreatedCb);
+          Action disconnectedCb = () => { OnDisconnected(session); };
+
+          AppBindings.AppRegistered(appId, ref authGranted, disconnectedCb, acctCreatedCb);
           return tcs.Task;
         });
     }
@@ -128,19 +120,22 @@ namespace SafeApp {
       return Task.Run(
         () => {
           var tcs = new TaskCompletionSource<Session>();
-          Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedEventGcHandle) => {
+          var session = new Session();
+          Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) => {
             if (result.ErrorCode != 0) {
-              disconnectedEventGcHandle.Free();
+              disconnectedHandle.Free();
+
               tcs.SetException(result.ToException());
               return;
             }
 
-            _disconnectedEventGcHandle = disconnectedEventGcHandle;
-            var session = new Session(ptr);
+            session.Init(ptr, disconnectedHandle);
             tcs.SetResult(session);
           };
 
-          AppBindings.AppUnregistered(bootstrapConfig, _networkDisconnectedNotifier, acctCreatedCb);
+          Action disconnectedCb = () => { OnDisconnected(session); };
+
+          AppBindings.AppUnregistered(bootstrapConfig, disconnectedCb, acctCreatedCb);
           return tcs.Task;
         });
     }
@@ -171,7 +166,20 @@ namespace SafeApp {
     }
 
     ~Session() {
-      ReleaseUnmanagedResources();
+      FreeApp();
+    }
+
+    private void FreeApp() {
+      if (_disconnectedHandle.IsAllocated) {
+        _disconnectedHandle.Free();
+      }
+
+      if (_appPtr == SafeAppPtr.Zero) {
+        return;
+      }
+
+      AppBindings.AppFree(_appPtr);
+      _appPtr.Clear();
     }
 
     /// <summary>
@@ -186,9 +194,31 @@ namespace SafeApp {
       return AppBindings.AppExeFileStemAsync();
     }
 
+    // TODO make it private function once the Authenticator functions are exposed
+    public void Init(IntPtr appPtr, GCHandle disconnectedHandle) {
+      IsDisconnected = false;
+      _appPtr = new SafeAppPtr(appPtr);
+      _disconnectedHandle = disconnectedHandle;
+
+      AccessContainer = new AccessContainer(_appPtr);
+      Crypto = new Crypto(_appPtr);
+      CipherOpt = new CipherOpt(_appPtr);
+      IData = new IData.IData(_appPtr);
+      MData = new MData.MData(_appPtr);
+      MDataEntries = new MDataEntries(_appPtr);
+      MDataEntryActions = new MDataEntryActions(_appPtr);
+      MDataInfoActions = new MDataInfoActions(_appPtr);
+      MDataPermissions = new MDataPermissions(_appPtr);
+    }
+
     public static async Task InitLoggingAsync(string configFilesPath) {
       await AppBindings.AppSetAdditionalSearchPathAsync(configFilesPath);
       await AppBindings.AppInitLoggingAsync(null);
+    }
+
+    private static void OnDisconnected(Session session) {
+      session.IsDisconnected = true;
+      Disconnected?.Invoke(session, EventArgs.Empty);
     }
 
     /// <summary>
@@ -198,14 +228,8 @@ namespace SafeApp {
       return Task.Run(
         async () => {
           await AppBindings.AppReconnectAsync(_appPtr);
-          _isDisconnected = false;
+          IsDisconnected = false;
         });
-    }
-
-    private void ReleaseUnmanagedResources() {
-      AppBindings.AppFree(_appPtr);
-      _appPtr.Value = IntPtr.Zero;
-//      _disconnectedEventGcHandle.Free();
     }
 
     /// <summary>
