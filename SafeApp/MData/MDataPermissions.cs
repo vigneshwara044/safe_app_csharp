@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -18,9 +17,7 @@ namespace SafeApp.MData {
     }
 
     private Task FreeAsync(ulong permissionsH) {
-      return Equals(_appPtr.Value, IntPtr.Zero) ?
-        Task.FromResult<object>(null) :
-        AppBindings.MDataPermissionsFreeAsync(_appPtr, permissionsH);
+      return AppBindings.MDataPermissionsFreeAsync(_appPtr, permissionsH);
     }
 
     public Task<PermissionSet> GetAsync(NativeHandle permissionsHandle, NativeHandle userPubSignKey) {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -39,15 +38,11 @@ namespace SafeApp.IData {
     }
 
     private Task SelfEncryptorReaderFreeAsync(ulong sEReaderHandle) {
-      return Equals(_appPtr.Value, IntPtr.Zero) ?
-        Task.FromResult<object>(null) :
-        AppBindings.IDataSelfEncryptorReaderFreeAsync(_appPtr, sEReaderHandle);
+      return AppBindings.IDataSelfEncryptorReaderFreeAsync(_appPtr, sEReaderHandle);
     }
 
     private Task SelfEncryptorWriterFreeAsync(ulong sEWriterHandle) {
-      return Equals(_appPtr.Value, IntPtr.Zero) ?
-        Task.FromResult<object>(null) :
-        AppBindings.IDataSelfEncryptorWriterFreeAsync(_appPtr, sEWriterHandle);
+      return AppBindings.IDataSelfEncryptorWriterFreeAsync(_appPtr, sEWriterHandle);
     }
 
     public Task<ulong> SerialisedSizeAsync(byte[] xorName) {

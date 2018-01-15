@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -22,9 +21,7 @@ namespace SafeApp.MData {
     }
 
     private Task FreeAsync(ulong entryActionsH) {
-      return Equals(_appPtr.Value, IntPtr.Zero) ?
-        Task.FromResult<object>(null) :
-        AppBindings.MDataEntryActionsFreeAsync(_appPtr, entryActionsH);
+      return AppBindings.MDataEntryActionsFreeAsync(_appPtr, entryActionsH);
     }
 
     public Task InsertAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal) {
