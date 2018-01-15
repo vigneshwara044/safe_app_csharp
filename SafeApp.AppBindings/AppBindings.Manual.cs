@@ -11,7 +11,7 @@ using ObjCRuntime;
 #endif
 
 namespace SafeApp.AppBindings {
-  public partial class AppBindings {
+  internal partial class AppBindings {
     public void AppRegistered(
       string appId,
       ref AuthGranted authGranted,

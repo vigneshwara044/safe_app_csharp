@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using SafeApp.MockAuthBindings;
+using SafeApp.Utilities;
 
 namespace SafeApp.Tests {
   internal static class Utils {
@@ -15,6 +17,13 @@ namespace SafeApp.Tests {
     public static Session RandomSession() {
       var session = new Session();
       session.Init(MockAuthResolver.Current.TestCreateApp(), new GCHandle());
+      return session;
+    }
+
+    public static Session RandomSessionWithAccess(List<ContainerPermissions> permissions)
+    {
+      var session = new Session();
+      session.Init(MockAuthResolver.Current.TestCreateAppWithAccess(permissions), new GCHandle());
       return session;
     }
   }

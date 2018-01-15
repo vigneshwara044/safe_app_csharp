@@ -1,4 +1,7 @@
+using JetBrains.Annotations;
+
 namespace SafeApp.Utilities {
+  [PublicAPI]
   public static class AppConstants {
     public const ulong AsymNonceLen = 24;
     public const ulong AsymPublicKeyLen = 32;

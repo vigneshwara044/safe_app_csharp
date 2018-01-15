@@ -3,8 +3,9 @@ using System.Threading;
 
 namespace SafeApp.MockAuthBindings {
   public static class MockAuthResolver {
-    private static readonly Lazy<IMockAuthBindings> Implementation =
-      new Lazy<IMockAuthBindings>(CreateBindings, LazyThreadSafetyMode.PublicationOnly);
+    private static readonly Lazy<IMockAuthBindings> Implementation = new Lazy<IMockAuthBindings>(
+      CreateBindings,
+      LazyThreadSafetyMode.PublicationOnly);
 
     public static IMockAuthBindings Current {
       get {
@@ -12,6 +13,7 @@ namespace SafeApp.MockAuthBindings {
         if (ret == null) {
           throw NotImplementedInReferenceAssembly();
         }
+
         return ret;
       }
     }

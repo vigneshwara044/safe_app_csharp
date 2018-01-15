@@ -81,6 +81,7 @@ namespace SafeApp.Utilities {
     [MarshalAs(UnmanagedType.U1)] public bool AppContainer;
     public IntPtr ContainersPtr;
     public ulong ContainersLen;
+    // ReSharper disable once NotAccessedField.Compiler
     public ulong ContainersCap;
 
     internal void Free() {
@@ -112,6 +113,7 @@ namespace SafeApp.Utilities {
     public AppExchangeInfo App;
     public IntPtr ContainersPtr;
     public ulong ContainersLen;
+    // ReSharper disable NotAccessedField.Compiler
     public ulong ContainersCap;
 
     internal void Free() {
@@ -157,6 +159,7 @@ namespace SafeApp.Utilities {
     public AppExchangeInfo App;
     public IntPtr MDataPtr;
     public ulong MDataLen;
+    // ReSharper disable once NotAccessedField.Compiler
     public ulong MDataCap;
 
     internal void Free() {
@@ -206,6 +209,7 @@ namespace SafeApp.Utilities {
     public AccessContainerEntryNative AccessContainerEntry;
     public IntPtr BootstrapConfigPtr;
     public ulong BootstrapConfigLen;
+    // ReSharper disable once NotAccessedField.Compiler
     public ulong BootstrapConfigCap;
 
     internal void Free() {
@@ -266,6 +270,7 @@ namespace SafeApp.Utilities {
   internal struct AccessContainerEntryNative {
     public IntPtr EntryPtr;
     public ulong EntryLen;
+    // ReSharper disable once NotAccessedField.Compiler
     public ulong EntryCap;
 
     internal void Free() {
@@ -395,6 +400,7 @@ namespace SafeApp.Utilities {
     public uint ModifiedNsec;
     public IntPtr UserMetadataPtr;
     public ulong UserMetadataLen;
+    // ReSharper disable once NotAccessedField.Compiler
     public ulong UserMetadataCap;
 
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]

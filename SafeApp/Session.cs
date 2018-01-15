@@ -38,14 +38,12 @@ namespace SafeApp {
     /// </summary>
     public CipherOpt CipherOpt { get; private set; }
 
-    // ReSharper disable InconsistentNaming
+    // ReSharper disable once InconsistentNaming
 
     /// <summary>
     ///   ImmutableData API
     /// </summary>
     public IData.IData IData { get; private set; }
-
-    // ReSharper restore InconsistentNaming
 
     /// <summary>
     ///   MutableData API
@@ -71,6 +69,13 @@ namespace SafeApp {
     ///   Mutable Data Permissions API
     /// </summary>
     public MDataPermissions MDataPermissions { get; private set; }
+
+    // ReSharper disable once InconsistentNaming
+
+    /// <summary>
+    ///   Mutable Data Permissions API
+    /// </summary>
+    public NFS NFS { get; private set; }
 
     // TODO make it private function once the Authenticator functions are exposed
     public Session() {
@@ -209,6 +214,7 @@ namespace SafeApp {
       MDataEntryActions = new MDataEntryActions(_appPtr);
       MDataInfoActions = new MDataInfoActions(_appPtr);
       MDataPermissions = new MDataPermissions(_appPtr);
+      NFS = new NFS(_appPtr);
     }
 
     public static async Task InitLoggingAsync(string configFilesPath) {
