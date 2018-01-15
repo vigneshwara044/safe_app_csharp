@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -122,7 +121,7 @@ namespace SafeApp.Misc {
     ///   Get raw Sign Public Key
     /// </summary>
     /// <param name="pubSignKey">Sign Public Key NativeHandle</param>
-    /// <returns>Raw Sign Public Key as List<byte></returns>
+    /// <returns>Raw Sign Public Key as List</returns>
     public Task<byte[]> SignPubKeyGetAsync(NativeHandle pubSignKey) {
       return AppBindings.SignPubKeyGetAsync(_appPtr, pubSignKey);
     }
@@ -130,7 +129,7 @@ namespace SafeApp.Misc {
     /// <summary>
     ///   Get Sign Public Key Handle from a raw key
     /// </summary>
-    /// <param name="rawPubSignKey">Raw Sign Public Key as List<byte></param>
+    /// <param name="rawPubSignKey">Raw Sign Public Key as List</param>
     /// <returns>Public Sign Key NativeHandle</returns>
     public async Task<NativeHandle> SignPubKeyNewAsync(byte[] rawPubSignKey) {
       var handle = await AppBindings.SignPubKeyNewAsync(_appPtr, rawPubSignKey);
@@ -145,7 +144,7 @@ namespace SafeApp.Misc {
     ///   Get Raw Secret Sign Key
     /// </summary>
     /// <param name="secSignKey">Secret Sign Key NativeHandle</param>
-    /// <returns>Raw Secret Sign Key as List<byte></returns>
+    /// <returns>Raw Secret Sign Key as List</returns>
     public Task<byte[]> SignSecKeyGetAsync(NativeHandle secSignKey) {
       return AppBindings.SignSecKeyGetAsync(_appPtr, secSignKey);
     }

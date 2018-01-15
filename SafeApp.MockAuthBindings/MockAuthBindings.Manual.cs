@@ -4,19 +4,19 @@ using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings {
   public partial class MockAuthBindings {
-   public IntPtr TestCreateApp() {
-      var ret = TestCreateAppNative(out IntPtr app);
+    public IntPtr TestCreateApp() {
+      var ret = TestCreateAppNative(out var app);
       if (ret != 0) {
-          throw new InvalidOperationException();
+        throw new InvalidOperationException();
       }
 
       return app;
     }
 
     public IntPtr TestCreateAppWithAccess(List<ContainerPermissions> accessInfo) {
-      var ret = TestCreateAppWithAccessNative(accessInfo.ToArray(), (ulong) accessInfo.Count, out IntPtr app);
+      var ret = TestCreateAppWithAccessNative(accessInfo.ToArray(), (ulong)accessInfo.Count, out var app);
       if (ret != 0) {
-          throw new InvalidOperationException();
+        throw new InvalidOperationException();
       }
 
       return app;

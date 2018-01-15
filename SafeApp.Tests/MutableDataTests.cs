@@ -2,13 +2,11 @@
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using SafeApp.MockAuthBindings;
 using SafeApp.Utilities;
 
 namespace SafeApp.Tests {
   [TestFixture]
   internal class MutableDataTests {
-    private readonly IMockAuthBindings MockAuthBindings = MockAuthResolver.Current;
 
     [Test]
     public async Task RandomPrivateMutableDataUpdateAction() {

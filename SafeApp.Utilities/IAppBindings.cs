@@ -1,49 +1,50 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace SafeApp.Utilities {
   public partial interface IAppBindings {
-    bool IsMockBuild();
-    Task AppReconnectAsync(IntPtr app);
-    Task<AccountInfo> AppAccountInfoAsync(IntPtr app);
-    Task<string> AppExeFileStemAsync();
-    Task AppSetAdditionalSearchPathAsync(string newPath);
-    void AppFree(IntPtr app);
-    Task AppResetObjectCacheAsync(IntPtr app);
-    Task<string> AppContainerNameAsync(string appId);
-    Task AccessContainerRefreshAccessInfoAsync(IntPtr app);
     Task<List<ContainerPermissions>> AccessContainerFetchAsync(IntPtr app);
     Task<MDataInfo> AccessContainerGetContainerMDataInfoAsync(IntPtr app, string name);
+    Task AccessContainerRefreshAccessInfoAsync(IntPtr app);
+    Task<AccountInfo> AppAccountInfoAsync(IntPtr app);
+    Task<string> AppContainerNameAsync(string appId);
+    Task<string> AppExeFileStemAsync();
+    void AppFree(IntPtr app);
+    Task<ulong> AppPubEncKeyAsync(IntPtr app);
+    Task<ulong> AppPubSignKeyAsync(IntPtr app);
+    Task AppReconnectAsync(IntPtr app);
+    Task AppResetObjectCacheAsync(IntPtr app);
+    Task AppSetAdditionalSearchPathAsync(string newPath);
+    Task CipherOptFreeAsync(IntPtr app, ulong handle);
+    Task<ulong> CipherOptNewAsymmetricAsync(IntPtr app, ulong peerEncryptKeyH);
     Task<ulong> CipherOptNewPlaintextAsync(IntPtr app);
     Task<ulong> CipherOptNewSymmetricAsync(IntPtr app);
-    Task<ulong> CipherOptNewAsymmetricAsync(IntPtr app, ulong peerEncryptKeyH);
-    Task CipherOptFreeAsync(IntPtr app, ulong handle);
-    Task<ulong> AppPubSignKeyAsync(IntPtr app);
-    Task<(ulong, ulong)> SignGenerateKeyPairAsync(IntPtr app);
-    Task<ulong> SignPubKeyNewAsync(IntPtr app, byte[] data);
-    Task<byte[]> SignPubKeyGetAsync(IntPtr app, ulong handle);
-    Task SignPubKeyFreeAsync(IntPtr app, ulong handle);
-    Task<ulong> SignSecKeyNewAsync(IntPtr app, byte[] data);
-    Task<byte[]> SignSecKeyGetAsync(IntPtr app, ulong handle);
-    Task SignSecKeyFreeAsync(IntPtr app, ulong handle);
-    Task<ulong> AppPubEncKeyAsync(IntPtr app);
-    Task<(ulong, ulong)> EncGenerateKeyPairAsync(IntPtr app);
-    Task<ulong> EncPubKeyNewAsync(IntPtr app, byte[] data);
-    Task<byte[]> EncPubKeyGetAsync(IntPtr app, ulong handle);
-    Task EncPubKeyFreeAsync(IntPtr app, ulong handle);
-    Task<ulong> EncSecretKeyNewAsync(IntPtr app, byte[] data);
-    Task<byte[]> EncSecretKeyGetAsync(IntPtr app, ulong handle);
-    Task EncSecretKeyFreeAsync(IntPtr app, ulong handle);
-    Task<List<byte>> SignAsync(IntPtr app, List<byte> data, ulong signSkH);
-    Task<List<byte>> VerifyAsync(IntPtr app, List<byte> signedData, ulong signPkH);
-    Task<List<byte>> EncryptAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH);
     Task<List<byte>> DecryptAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH);
-    Task<List<byte>> EncryptSealedBoxAsync(IntPtr app, List<byte> data, ulong pkH);
     Task<List<byte>> DecryptSealedBoxAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH);
-    Task<List<byte>> Sha3HashAsync(List<byte> data);
+    Task<(ulong, ulong)> EncGenerateKeyPairAsync(IntPtr app);
+    Task EncPubKeyFreeAsync(IntPtr app, ulong handle);
+    Task<byte[]> EncPubKeyGetAsync(IntPtr app, ulong handle);
+    Task<ulong> EncPubKeyNewAsync(IntPtr app, byte[] data);
+    Task<List<byte>> EncryptAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH);
+    Task<List<byte>> EncryptSealedBoxAsync(IntPtr app, List<byte> data, ulong pkH);
+    Task EncSecretKeyFreeAsync(IntPtr app, ulong handle);
+    Task<byte[]> EncSecretKeyGetAsync(IntPtr app, ulong handle);
+    Task<ulong> EncSecretKeyNewAsync(IntPtr app, byte[] data);
     Task<byte[]> GenerateNonceAsync();
+    bool IsMockBuild();
+    Task<List<byte>> Sha3HashAsync(List<byte> data);
+    Task<List<byte>> SignAsync(IntPtr app, List<byte> data, ulong signSkH);
+    Task<(ulong, ulong)> SignGenerateKeyPairAsync(IntPtr app);
+    Task SignPubKeyFreeAsync(IntPtr app, ulong handle);
+    Task<byte[]> SignPubKeyGetAsync(IntPtr app, ulong handle);
+    Task<ulong> SignPubKeyNewAsync(IntPtr app, byte[] data);
+    Task SignSecKeyFreeAsync(IntPtr app, ulong handle);
+    Task<byte[]> SignSecKeyGetAsync(IntPtr app, ulong handle);
+    Task<ulong> SignSecKeyNewAsync(IntPtr app, byte[] data);
+    Task<List<byte>> VerifyAsync(IntPtr app, List<byte> signedData, ulong signPkH);
+
+    // ReSharper disable InconsistentNaming
     Task<ulong> IDataNewSelfEncryptorAsync(IntPtr app);
     Task IDataWriteToSelfEncryptorAsync(IntPtr app, ulong seH, List<byte> data);
     Task<byte[]> IDataCloseSelfEncryptorAsync(IntPtr app, ulong seH, ulong cipherOptH);
@@ -53,6 +54,8 @@ namespace SafeApp.Utilities {
     Task<List<byte>> IDataReadFromSelfEncryptorAsync(IntPtr app, ulong seH, ulong fromPos, ulong len);
     Task IDataSelfEncryptorWriterFreeAsync(IntPtr app, ulong handle);
     Task IDataSelfEncryptorReaderFreeAsync(IntPtr app, ulong handle);
+    // ReSharper restore InconsistentNaming
+
     Task<(uint, string)> EncodeAuthReqAsync(ref AuthReq req);
     Task<(uint, string)> EncodeContainersReqAsync(ref ContainersReq req);
     Task<(uint, string)> EncodeUnregisteredReqAsync(List<byte> extraData);

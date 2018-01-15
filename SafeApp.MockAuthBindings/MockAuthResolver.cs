@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings {
   public static class MockAuthResolver {

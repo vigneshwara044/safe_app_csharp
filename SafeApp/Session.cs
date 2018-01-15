@@ -45,7 +45,7 @@ namespace SafeApp {
     /// </summary>
     public IData.IData IData { get; private set; }
 
-    // ReSharper enable InconsistentNaming
+    // ReSharper restore InconsistentNaming
 
     /// <summary>
     ///   MutableData API

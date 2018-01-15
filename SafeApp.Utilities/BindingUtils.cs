@@ -86,6 +86,7 @@ namespace SafeApp.Utilities {
       return list;
     }
 
+    // ReSharper disable once RedundantAssignment
     public static void FreeList(ref IntPtr ptr, ref ulong len) {
       if (ptr != IntPtr.Zero) {
         Marshal.FreeHGlobal(ptr);

@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace SafeApp.Utilities {
-  public abstract class IpcMsg {
-  }
+  public abstract class IpcMsg { }
 
   public class AuthIpcMsg : IpcMsg {
-    public uint ReqId;
     public AuthGranted AuthGranted;
+    public uint ReqId;
 
     public AuthIpcMsg(uint reqId, AuthGranted authGranted) {
-        ReqId = reqId;
-        AuthGranted = authGranted;
+      ReqId = reqId;
+      AuthGranted = authGranted;
     }
   }
 
@@ -21,8 +19,8 @@ namespace SafeApp.Utilities {
     public List<byte> SerialisedCfg;
 
     public UnregisteredIpcMsg(uint reqId, IntPtr serialisedCfgPtr, ulong serialisedCfgLen) {
-        ReqId = reqId;
-        SerialisedCfg = BindingUtils.CopyToByteList(serialisedCfgPtr, (int) serialisedCfgLen);
+      ReqId = reqId;
+      SerialisedCfg = BindingUtils.CopyToByteList(serialisedCfgPtr, (int)serialisedCfgLen);
     }
   }
 
@@ -30,7 +28,7 @@ namespace SafeApp.Utilities {
     public uint ReqId;
 
     public ContainersIpcMsg(uint reqId) {
-        ReqId = reqId;
+      ReqId = reqId;
     }
   }
 
@@ -38,21 +36,17 @@ namespace SafeApp.Utilities {
     public uint ReqId;
 
     public ShareMDataIpcMsg(uint reqId) {
-        ReqId = reqId;
+      ReqId = reqId;
     }
   }
 
-  public class RevokedIpcMsg : IpcMsg {
-
-  }
+  public class RevokedIpcMsg : IpcMsg { }
 
   public class IpcMsgException : FfiException {
     public readonly uint ReqId;
 
-    public IpcMsgException(uint reqId, int code, string description)
-        : base(code, description)
-    {
-        ReqId = reqId;
+    public IpcMsgException(uint reqId, int code, string description) : base(code, description) {
+      ReqId = reqId;
     }
   }
 }
