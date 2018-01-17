@@ -44,14 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\SafeApp.MockAuthBindings\IMockAuthBindings.Manual.cs">
-      <Link>IMockAuthBindings.Manual.cs</Link>
+    <Compile Include="..\SafeApp.MockAuthBindings\AuthBindings.cs">
+      <Link>AuthBindings.cs</Link>
     </Compile>
-    <Compile Include="..\SafeApp.MockAuthBindings\MockAuthBindings.cs">
-      <Link>MockAuthBindings.cs</Link>
+    <Compile Include="..\SafeApp.MockAuthBindings\AuthTypes.cs">
+      <Link>AuthTypes.cs</Link>
     </Compile>
-    <Compile Include="..\SafeApp.MockAuthBindings\MockAuthBindings.Manual.cs">
-      <Link>MockAuthBindings.Manual.cs</Link>
+    <Compile Include="..\SafeApp.MockAuthBindings\IAuthBindings.cs">
+      <Link>IAuthBindings.cs</Link>
     </Compile>
     <Compile Include="..\SafeApp.MockAuthBindings\MockAuthResolver.cs">
       <Link>MockAuthResolver.cs</Link>

@@ -957,14 +957,6 @@ namespace SafeApp.AppBindings {
       IntPtr userData,
       FfiResultByteListULongCb oCb);
 
-    [DllImport(DllName, EntryPoint = "mdata_entries_for_each")]
-    private static extern void MDataEntriesForEachNative(
-      IntPtr app,
-      ulong entriesH,
-      IntPtr userData,
-      ByteListByteListULongCb oEachCb,
-      FfiResultCb oDoneCb);
-
     public Task MDataEntriesFreeAsync(IntPtr app, ulong entriesH) {
       var (ret, userData) = BindingUtils.PrepareTask();
       MDataEntriesFreeNative(app, entriesH, userData, OnFfiResultCb);
@@ -1272,14 +1264,6 @@ namespace SafeApp.AppBindings {
 
     [DllImport(DllName, EntryPoint = "file_close")]
     private static extern void FileCloseNative(IntPtr app, ulong fileH, IntPtr userData, FfiResultFileCb oCb);
-
-    private delegate void ByteListByteListULongCb(
-      IntPtr userData,
-      IntPtr keyPtr,
-      ulong keyLen,
-      IntPtr valuePtr,
-      ulong valueLen,
-      ulong entryVersion);
 
     private delegate void FfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo);
 

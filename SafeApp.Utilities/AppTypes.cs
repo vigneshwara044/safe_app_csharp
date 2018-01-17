@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
 [assembly: InternalsVisibleTo("SafeApp.AppBindings")]
+[assembly: InternalsVisibleTo("SafeApp.MockAuthBindings")]
 
 namespace SafeApp.Utilities {
   [PublicAPI]
@@ -329,7 +330,7 @@ namespace SafeApp.Utilities {
     public IntPtr ContentPtr;
     public ulong ContentLen;
     public ulong EntryVersion;
-
+    // ReSharper disable once UnusedMember.Global
     internal void Free() {
       BindingUtils.FreeList(ref ContentPtr, ref ContentLen);
     }
@@ -351,7 +352,7 @@ namespace SafeApp.Utilities {
   internal struct MDataKeyNative {
     public IntPtr ValPtr;
     public ulong ValLen;
-
+    // ReSharper disable once UnusedMember.Global
     internal void Free() {
       BindingUtils.FreeList(ref ValPtr, ref ValLen);
     }

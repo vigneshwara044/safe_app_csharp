@@ -77,8 +77,7 @@ namespace SafeApp {
     /// </summary>
     public NFS NFS { get; private set; }
 
-    // TODO make it private function once the Authenticator functions are exposed
-    public Session() {
+    private Session() {
       IsDisconnected = true;
       _appPtr = SafeAppPtr.Zero;
     }
@@ -199,8 +198,7 @@ namespace SafeApp {
       return AppBindings.AppExeFileStemAsync();
     }
 
-    // TODO make it private function once the Authenticator functions are exposed
-    public void Init(IntPtr appPtr, GCHandle disconnectedHandle) {
+    private void Init(IntPtr appPtr, GCHandle disconnectedHandle) {
       IsDisconnected = false;
       _appPtr = new SafeAppPtr(appPtr);
       _disconnectedHandle = disconnectedHandle;

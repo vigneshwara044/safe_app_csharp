@@ -61,6 +61,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="log.toml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +90,12 @@
   <ItemGroup>
     <None Include="..\SafeApp.AppBindings.Desktop\lib\mock\safe_app.dll">
       <Link>safe_app.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\SafeApp.MockAuthBindings.Desktop\Lib\safe_authenticator.dll">
+      <Link>safe_authenticator.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
