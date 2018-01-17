@@ -5,6 +5,7 @@ using System.Reflection;
 using Android.App;
 #endif
 using NUnit.Framework;
+using SafeApp.MockAuthBindings;
 
 namespace SafeApp.Tests {
   [TestFixture]
@@ -38,7 +39,7 @@ namespace SafeApp.Tests {
 
     [Test]
     public void IsMockBuildTest() {
-      Assert.AreEqual(true, MockAuthBindings.MockAuthResolver.Current.IsMockBuild());
+      Assert.AreEqual(true, Authenticator.IsMockBuild());
     }
   }
 }

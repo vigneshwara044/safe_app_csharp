@@ -23,6 +23,10 @@ namespace SafeApp.MockAuthBindings {
       GC.SuppressFinalize(this);
     }
 
+    public static bool IsMockBuild() {
+      return AuthBindings.IsMockBuild();
+    }
+
     public Task<AccountInfo> AuthAccountInfoAsync() {
       return AuthBindings.AuthAccountInfoAsync(_authPtr);
     }
@@ -103,15 +107,15 @@ namespace SafeApp.MockAuthBindings {
       return AuthBindings.EncodeAuthRespAsync(_authPtr, ref authIpcReq.AuthReq, authIpcReq.ReqId, allow);
     }
 
-    public Task EncodeContainersRespAsync(ContainersIpcReq req, bool allow) {
+    public Task<string> EncodeContainersRespAsync(ContainersIpcReq req, bool allow) {
       return AuthBindings.EncodeContainersRespAsync(_authPtr, ref req.ContainersReq, req.ReqId, allow);
     }
 
-    public Task EncodeShareMdataRespAsync(ShareMDataIpcReq req, bool allow) {
+    public Task<string> EncodeShareMdataRespAsync(ShareMDataIpcReq req, bool allow) {
       return AuthBindings.EncodeShareMdataRespAsync(_authPtr, ref req.ShareMDataReq, req.ReqId, allow);
     }
 
-    public Task EncodeUnregisteredRespAsync(uint reqId, bool allow) {
+    public Task<string> EncodeUnregisteredRespAsync(uint reqId, bool allow) {
       return AuthBindings.EncodeUnregisteredRespAsync(reqId, allow);
     }
 
