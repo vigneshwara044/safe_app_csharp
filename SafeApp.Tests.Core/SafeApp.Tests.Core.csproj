@@ -24,6 +24,9 @@
     <None Include="..\SafeApp.AppBindings.Desktop\lib\mock\safe_app.dll" Link="safe_app.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="..\SafeApp.MockAuthBindings.Desktop\Lib\safe_authenticator.dll" Link="safe_authenticator.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

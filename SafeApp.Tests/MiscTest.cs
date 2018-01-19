@@ -1,15 +1,58 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
+using NUnit.Framework;
+using SafeApp.MockAuthBindings;
+using SafeApp.Utilities;
+
 #if __ANDROID__
 using Android.App;
 #endif
-using NUnit.Framework;
-using SafeApp.MockAuthBindings;
 
 namespace SafeApp.Tests {
   [TestFixture]
-  class MiscTest {
+  internal class MiscTest {
+    [Test, Ignore("")]
+    public async Task AccessAppConatinerTest() {
+      var authReq = new AuthReq {
+        App = new AppExchangeInfo {Id = Utils.GetRandomString(10), Name = Utils.GetRandomString(10), Vendor = Utils.GetRandomString(10)},
+        AppContainer = true,
+        Containers = new List<ContainerPermissions>()
+      };
+      var session = await Utils.CreateTestApp(authReq);
+      var mDataInfo = await session.AccessContainer.GetMDataInfoAsync("apps/" + authReq.App.Id);
+      var keys = await session.MData.ListKeysAsync(ref mDataInfo);
+      Assert.AreEqual(0, keys.Count);
+      using (var entriesActionHandle = await session.MDataEntryActions.NewAsync()) {
+        var encKey = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomString(15).ToUtfBytes());
+        var encVal = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomString(25).ToUtfBytes());
+        await session.MDataEntryActions.InsertAsync(entriesActionHandle, encKey, encVal);
+        await session.MData.MutateEntriesAsync(ref mDataInfo, entriesActionHandle);
+      }
+
+      using (var entriesActionHandle = await session.MDataEntryActions.NewAsync())
+      using (var entryHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
+        keys = await session.MData.ListKeysAsync(ref mDataInfo);
+        var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Val);
+        await session.MDataEntryActions.UpdateAsync(entriesActionHandle, keys[0].Val, Utils.GetRandomString(10).ToUtfBytes(), value.Item2);
+        await session.MData.MutateEntriesAsync(ref mDataInfo, entriesActionHandle);
+      }
+
+      using (var entriesActionHandle = await session.MDataEntryActions.NewAsync())
+      using (var entryHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
+        keys = await session.MData.ListKeysAsync(ref mDataInfo);
+        var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Val);
+        await session.MDataEntryActions.DeleteAsync(entriesActionHandle, keys[0].Val, value.Item2);
+        await session.MData.MutateEntriesAsync(ref mDataInfo, entriesActionHandle);
+      }
+    }
+
+    [Test]
+    public void IsMockBuildTest() {
+      Assert.AreEqual(true, Authenticator.IsMockBuild());
+    }
 
     [Test, Ignore("")]
     public void RustLoggerTest() {
@@ -34,12 +77,7 @@ namespace SafeApp.Tests {
 
       Assert.DoesNotThrowAsync(async () => await Session.InitLoggingAsync(configPath));
       Assert.ThrowsAsync<Exception>(async () => await Session.DecodeIpcMessageAsync("Some Random Invalid String"));
-      Assert.IsFalse(string.IsNullOrEmpty(File.ReadAllText(Path.Combine(configPath, "Client.log"))));
-    }
-
-    [Test]
-    public void IsMockBuildTest() {
-      Assert.AreEqual(true, Authenticator.IsMockBuild());
+      Assert.IsFalse(string.IsNullOrEmpty(System.IO.File.ReadAllText(Path.Combine(configPath, "Client.log"))));
     }
   }
 }

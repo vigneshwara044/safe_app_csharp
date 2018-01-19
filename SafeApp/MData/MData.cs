@@ -41,8 +41,9 @@ namespace SafeApp.MData {
       return AppBindings.MDataListKeysAsync(_appPtr, ref mDataInfo);
     }
 
-    public Task<ulong> ListPermissionsAsync(ref MDataInfo mDataInfo) {
-      return AppBindings.MDataListPermissionsAsync(_appPtr, ref mDataInfo);
+    public async Task<NativeHandle> ListPermissionsAsync(MDataInfo mDataInfo) {
+      var handle = await AppBindings.MDataListPermissionsAsync(_appPtr, ref mDataInfo);
+      return new NativeHandle(_appPtr, handle, (freeHandle) => AppBindings.MDataPermissionsFreeAsync(_appPtr, freeHandle));
     }
 
     public Task<PermissionSet> ListUserPermissionsAsync(ref MDataInfo mDataInfo, NativeHandle userSignPubKey) {

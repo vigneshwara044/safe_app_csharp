@@ -1,4 +1,8 @@
-﻿using System;
+﻿#if !NETSTANDARD1_2 || __DESKTOP__
+#if __IOS__
+using ObjCRuntime;
+#endif
+using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Utilities;
@@ -79,20 +83,38 @@ namespace SafeApp.MockAuthBindings {
       var metadataList = metadata.ToList<string>((IntPtr) shareMdReq.MData.Count);
       tcs.SetResult(new ShareMDataIpcReq(reqId, shareMdReq, metadataList));
     }
+
 #if __IOS__
-    [MonoPInvokeCallback(typeof(FfiResultstringCb))]
+    [MonoPInvokeCallback(typeof(IpcReqEncodeCb))]
 #endif
-    private static void OnDecodeIpcReqErrorCb(IntPtr userData, IntPtr ffiResult, string msg)
+    private static void OnIpcReqEncodeCb(IntPtr userData, IntPtr result, string msg) {
+      var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<string>>(userData);
+      var ffiResult = Marshal.PtrToStructure<FfiResult>(result);
+      if (ffiResult.ErrorCode != 0 && ffiResult.ErrorCode != -200) {
+        Task.Run(() => { tcs.SetException(ffiResult.ToException()); });
+        return;
+      }
+      Task.Run(() => { tcs.SetResult(msg); });
+    }
+
+#if __IOS__
+    [MonoPInvokeCallback(typeof(FfiResultIpcReqErrorCb))]
+#endif
+    private static void OnFfiResultIpcReqErrorCb(IntPtr userData, IntPtr result, string msg)
     {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcReq>>(userData);
-      var res = Marshal.PtrToStructure<FfiResult>(ffiResult);
-      tcs.SetException(new IpcReqException(msg, res.ErrorCode, res.Description));
+      var ffiResult = Marshal.PtrToStructure<FfiResult>(result);
+      tcs.SetResult(new IpcReqError(ffiResult.ErrorCode, ffiResult.Description, msg));
     }
 
     public Task<IpcReq> DecodeIpcMessage(IntPtr authPtr, string msg) {
       var (task, userData) = BindingUtils.PrepareTask<IpcReq>();
-      AuthDecodeIpcMsgNative(authPtr, msg, userData, OnDecodeIpcReqAuthCb, OnDecodeIpcReqContainersCb, OnDecodeIpcReqUnregisteredCb, OnDecodeIpcReqShareMDataCb, OnDecodeIpcReqErrorCb);
+      AuthDecodeIpcMsgNative(authPtr, msg, userData, OnDecodeIpcReqAuthCb, OnDecodeIpcReqContainersCb, OnDecodeIpcReqUnregisteredCb, OnDecodeIpcReqShareMDataCb, OnFfiResultIpcReqErrorCb);
       return task;
     }
+
+    private delegate void FfiResultIpcReqErrorCb(IntPtr userData, IntPtr result, string msg);
+    private delegate void IpcReqEncodeCb(IntPtr userData, IntPtr result, string msg);
   }
 }
+#endif

@@ -114,18 +114,18 @@ namespace SafeApp.MockAuthBindings {
     private static extern void AuthUnregisteredDecodeIpcMsgNative([MarshalAs(UnmanagedType.LPStr)] string msg, IntPtr userData, UIntByteListCb oUnregistered, FfiResultStringCb oErr);
 
     [DllImport(DllName, EntryPoint = "auth_decode_ipc_msg")]
-    private static extern void AuthDecodeIpcMsgNative(IntPtr auth, [MarshalAs(UnmanagedType.LPStr)] string msg, IntPtr userData, UIntAuthReqCb oAuth, UIntContainersReqCb oContainers, UIntByteListCb oUnregistered, UIntShareMDataReqMetadataResponseCb oShareMdata, FfiResultStringCb oErr);
+    private static extern void AuthDecodeIpcMsgNative(IntPtr auth, [MarshalAs(UnmanagedType.LPStr)] string msg, IntPtr userData, UIntAuthReqCb oAuth, UIntContainersReqCb oContainers, UIntByteListCb oUnregistered, UIntShareMDataReqMetadataResponseCb oShareMdata, FfiResultIpcReqErrorCb oErr);
 
     public Task<string> EncodeShareMdataRespAsync(IntPtr auth, ref ShareMDataReq req, uint reqId, bool isGranted) {
       var reqNative = req.ToNative();
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      EncodeShareMdataRespNative(auth, ref reqNative, reqId, isGranted, userData, OnFfiResultStringCb);
+      EncodeShareMdataRespNative(auth, ref reqNative, reqId, isGranted, userData, OnIpcReqEncodeCb);
       reqNative.Free();
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "encode_share_mdata_resp")]
-    private static extern void EncodeShareMdataRespNative(IntPtr auth, ref ShareMDataReqNative req, uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void EncodeShareMdataRespNative(IntPtr auth, ref ShareMDataReqNative req, uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, IpcReqEncodeCb oCb);
 
     public Task<string> AuthRevokeAppAsync(IntPtr auth, string appId) {
       var (ret, userData) = BindingUtils.PrepareTask<string>();
@@ -147,34 +147,34 @@ namespace SafeApp.MockAuthBindings {
 
     public Task<string> EncodeUnregisteredRespAsync(uint reqId, bool isGranted) {
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      EncodeUnregisteredRespNative(reqId, isGranted, userData, OnFfiResultStringCb);
+      EncodeUnregisteredRespNative(reqId, isGranted, userData, OnIpcReqEncodeCb);
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "encode_unregistered_resp")]
-    private static extern void EncodeUnregisteredRespNative(uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void EncodeUnregisteredRespNative(uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, IpcReqEncodeCb oCb);
 
     public Task<string> EncodeAuthRespAsync(IntPtr auth, ref AuthReq req, uint reqId, bool isGranted) {
       var reqNative = req.ToNative();
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      EncodeAuthRespNative(auth, ref reqNative, reqId, isGranted, userData, OnFfiResultStringCb);
+      EncodeAuthRespNative(auth, ref reqNative, reqId, isGranted, userData, OnIpcReqEncodeCb);
       reqNative.Free();
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "encode_auth_resp")]
-    private static extern void EncodeAuthRespNative(IntPtr auth, ref AuthReqNative req, uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void EncodeAuthRespNative(IntPtr auth, ref AuthReqNative req, uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, IpcReqEncodeCb oCb);
 
     public Task<string> EncodeContainersRespAsync(IntPtr auth, ref ContainersReq req, uint reqId, bool isGranted) {
       var reqNative = req.ToNative();
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      EncodeContainersRespNative(auth, ref reqNative, reqId, isGranted, userData, OnFfiResultStringCb);
+      EncodeContainersRespNative(auth, ref reqNative, reqId, isGranted, userData, OnIpcReqEncodeCb);
       reqNative.Free();
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "encode_containers_resp")]
-    private static extern void EncodeContainersRespNative(IntPtr auth, ref ContainersReqNative req, uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void EncodeContainersRespNative(IntPtr auth, ref ContainersReqNative req, uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, IpcReqEncodeCb oCb);
 
     public Task AuthInitLoggingAsync(string outputFileNameOverride) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -246,8 +246,8 @@ namespace SafeApp.MockAuthBindings {
     #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultStringCb))]
     #endif
-    private static void OnFfiResultStringCb(IntPtr userData, IntPtr result, string filename) {
-      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => filename);
+    private static void OnFfiResultStringCb(IntPtr userData, IntPtr result, string fileName) {
+      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => fileName);
     }
 
     private delegate void NoneCb(IntPtr userData);

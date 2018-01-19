@@ -14,5 +14,6 @@ namespace SafeApp.Utilities {
     public const ulong SymKeyLen = 32;
     public const ulong SymNonceLen = 24;
     public const ulong XorNameLen = 32;
+    public const string MDataMetaDataKey = "_metadata";
   }
 }

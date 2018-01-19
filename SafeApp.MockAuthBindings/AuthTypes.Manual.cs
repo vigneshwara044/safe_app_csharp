@@ -57,14 +57,29 @@ namespace SafeApp.MockAuthBindings
     }
   }
 
-  public class RevokedIpcReq : IpcReq { }
-  public class IpcReqException : FfiException
-  {
+  public class IpcReqRejected : IpcReq {
     public readonly string Msg;
 
-    public IpcReqException(string msg, int code, string description) : base(code, description)
+    public IpcReqRejected(string msg)
     {
       Msg = msg;
     }
   }
+
+  public class IpcReqError : IpcReq
+  {
+    public readonly int Code;
+    public readonly string Description;
+    public readonly string Msg;
+
+    public IpcReqError(int code, string description, string msg)
+    {
+      Code = code;
+      Description = description;
+      Msg = msg;
+    }
+  }
+
+  public class RevokedIpcReq : IpcReq { }
+
 }
