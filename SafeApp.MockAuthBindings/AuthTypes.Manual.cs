@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings
 {
+  // ReSharper disable FieldCanBeMadeReadOnly.Global
+  // ReSharper disable MemberCanBeInternal
+  // ReSharper disable NotAccessedField.Global
+  // ReSharper disable MemberCanBePrivate.Global
+  // ReSharper disable UnusedMember.Global
   public abstract class IpcReq { }
 
   public class AuthIpcReq : IpcReq

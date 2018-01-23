@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using SafeApp.MockAuthBindings;
 using SafeApp.Utilities;
 
 namespace SafeApp.Tests {
@@ -88,7 +89,7 @@ namespace SafeApp.Tests {
       var locator = Utils.GetRandomString(10);
       var secret = Utils.GetRandomString(10);
       var session = await Utils.CreateTestApp(locator, secret, authReq);
-      Assert.CatchAsync(async () => await session.AccessContainer.GetMDataInfoAsync("_public"));
+      Assert.Throws<FfiException>(async () => await session.AccessContainer.GetMDataInfoAsync("_public"));
       var containerRequest = new ContainersReq {
         App = authReq.App,
         Containers = new List<ContainerPermissions> {
@@ -129,8 +130,8 @@ namespace SafeApp.Tests {
       };
       var session = await Utils.CreateTestApp(locator, secret, authReq);
       var mdInfo = await session.MDataInfoActions.RandomPrivateAsync((ulong)typeTag);
-      var actKey = Utils.GetRandomString(10).ToUtfBytes();
-      var actValue = Utils.GetRandomString(10).ToUtfBytes();
+      var actKey = Utils.GetRandomData(10).ToList();
+      var actValue = Utils.GetRandomData(10).ToList();
       using (var userSignKeyHandle = await session.Crypto.AppPubSignKeyAsync())
       using (var permissionsHandle = await session.MDataPermissions.NewAsync()) {
         var permissionSet = new PermissionSet {Read = true, Insert = true, Delete = false, Update = false, ManagePermissions = false};
@@ -148,8 +149,9 @@ namespace SafeApp.Tests {
       var msg = await Session.EncodeAuthReqAsync(authReq);
       var authresponse = await Utils.AuthenticateAuthRequest(locator, secret, msg.Item2, true);
       var authGranted = await Session.DecodeIpcMessageAsync(authresponse) as AuthIpcMsg;
+      Assert.NotNull(authGranted);
       session = await Session.AppRegisteredAsync(authReq.App.Id, authGranted.AuthGranted);
-      Assert.CatchAsync(async () => await session.MData.ListKeysAsync(ref mdInfo));
+      Assert.Throws<FfiException>(async () => await session.MData.ListKeysAsync(ref mdInfo));
       // TODO doesn't encode request if only Read is set to true
       var shareMdReq = new ShareMDataReq {
         App = authReq.App,
@@ -185,7 +187,7 @@ namespace SafeApp.Tests {
         Name = publicMDataInfo.Name,
         TypeTag = publicMDataInfo.TypeTag
       };
-      await session.MData.GetValueAsync(mdInfo, "index.html".ToUtfBytes());
+      await session.MData.GetValueAsync(mdInfo, Encoding.UTF8.GetBytes("index.html").ToList());
       session.Dispose();
     }
   }

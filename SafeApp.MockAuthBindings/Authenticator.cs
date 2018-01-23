@@ -6,11 +6,15 @@ using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings {
   // ReSharper disable ConvertToLocalFunction
+  // ReSharper disable UnusedMember.Global
+  // ReSharper disable MemberCanBePrivate.Global
   public class Authenticator : IDisposable {
     private static readonly IAuthBindings AuthBindings = MockAuthResolver.Current;
+    //ReSharper disable once UnassignedField.Global
     public static EventHandler Disconnected;
     private IntPtr _authPtr;
     private GCHandle _disconnectedHandle;
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public bool IsDisconnected { get; private set; }
 
     private Authenticator() {

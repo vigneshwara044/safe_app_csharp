@@ -59,11 +59,11 @@ namespace SafeApp.Tests {
       var encKeyPairTuple = await session.Crypto.EncGenerateKeyPairAsync();
       using (encKeyPairTuple.Item1)
       using (encKeyPairTuple.Item2) {
-        var plainBytes = Utils.GetRandomString(100).ToUtfBytes();
+        var plainBytes = Utils.GetRandomData(100).ToList();
         var cipherBytes = await session.Crypto.EncryptSealedBoxAsync(plainBytes, encKeyPairTuple.Item1);
         var decryptedBytes = await session.Crypto.DecryptSealedBoxAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item2);
         Assert.AreEqual(plainBytes, decryptedBytes);
-        Assert.CatchAsync(async () => await session.Crypto.DecryptSealedBoxAsync(Utils.GetRandomString(10).ToUtfBytes(), encKeyPairTuple.Item1, encKeyPairTuple.Item2));
+        Assert.Throws<IpcMsgException>(async () => await session.Crypto.DecryptSealedBoxAsync(Utils.GetRandomData(10).ToList(), encKeyPairTuple.Item1, encKeyPairTuple.Item2));
         cipherBytes = await session.Crypto.EncryptSealedBoxAsync(new List<byte>(), encKeyPairTuple.Item1);
         await session.Crypto.DecryptSealedBoxAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item2);
       }
@@ -77,28 +77,28 @@ namespace SafeApp.Tests {
       var signKeyPairTuple = await session.Crypto.SignGenerateKeyPairAsync();
       using (signKeyPairTuple.Item1)
       using (signKeyPairTuple.Item2) {
-        var plainBytes = Utils.GetRandomString(200).ToUtfBytes();
+        var plainBytes = Utils.GetRandomData(200).ToList();
         var signedData = await session.Crypto.SignAsync(plainBytes, signKeyPairTuple.Item2);
         var verifiedData = await session.Crypto.VerifyAsync(signedData, signKeyPairTuple.Item1);
         Assert.AreEqual(plainBytes, verifiedData);
-        Assert.CatchAsync(async () => await session.Crypto.VerifyAsync(Utils.GetRandomString(20).ToUtfBytes(), signKeyPairTuple.Item1));
+        Assert.Throws<FfiException>(async () => await session.Crypto.VerifyAsync(Utils.GetRandomData(20).ToList(), signKeyPairTuple.Item1));
       }
 
       session.Dispose();
     }
 
     [Test]
-    public async Task SymmetricEncryption() {
+    public async Task EncryptAndDecryptTest() {
       var session = await Utils.CreateTestApp();
       var encKeyPairTuple = await session.Crypto.EncGenerateKeyPairAsync();
       using (encKeyPairTuple.Item1)
       using (encKeyPairTuple.Item2) {
-        var plainBytes = Utils.GetRandomString(200).ToUtfBytes();
+        var plainBytes = Utils.GetRandomData(200).ToList();
         var cipherBytes = await session.Crypto.EncryptAsync(plainBytes.ToList(), encKeyPairTuple.Item1, encKeyPairTuple.Item2);
         var decryptedBytes = await session.Crypto.DecryptAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item2);
         Assert.AreEqual(plainBytes, decryptedBytes);
-        Assert.CatchAsync(async () => await session.Crypto.DecryptAsync(Utils.GetRandomString(20).ToUtfBytes(), encKeyPairTuple.Item1, encKeyPairTuple.Item2));
-        Assert.CatchAsync(async () => await session.Crypto.DecryptAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item1));
+        Assert.Throws<FfiException>(async () => await session.Crypto.DecryptAsync(Utils.GetRandomData(20).ToList(), encKeyPairTuple.Item1, encKeyPairTuple.Item2));
+        Assert.Throws<FfiException>(async () => await session.Crypto.DecryptAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item1));
       }
 
       session.Dispose();

@@ -251,5 +251,9 @@ namespace SafeApp {
     public static Task SetLogOutputPathAsync(string outputFileName) {
       return AppBindings.AppOutputLogPathAsync(outputFileName);
     }
+
+    public static bool IsMockBuild() {
+      return AppBindings.IsMockBuild();
+    }
   }
 }

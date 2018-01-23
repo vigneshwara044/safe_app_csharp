@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.MockAuthBindings;
@@ -73,7 +74,7 @@ namespace SafeApp.Tests {
     }
 
     public static async Task<Session> CreateTestApp(string locator, string secret, AuthReq authReq) {
-      var authenticator = await Authenticator.CreateAccountAsync(locator, secret, Utils.GetRandomString(5));
+      var authenticator = await Authenticator.CreateAccountAsync(locator, secret, GetRandomString(5));
       var (_, reqMsg) = await Session.EncodeAuthReqAsync(authReq);
       var ipcReq = await authenticator.DecodeIpcMessageAsync(reqMsg);
       Assert.AreEqual(typeof(AuthIpcReq), ipcReq.GetType());
@@ -92,6 +93,12 @@ namespace SafeApp.Tests {
       return new string(Enumerable.Repeat(chars, length).Select(s => s[Random.Next(s.Length)]).ToArray());
     }
 
+    public static byte[] GetRandomData(int length) {
+      var data = new byte[length];
+      Random.NextBytes(data);
+      return data;
+    }
+
     public static async Task<MDataInfo> PreparePublicDirectory(Session session) {
       var mDataInfo = await session.MDataInfoActions.RandomPublicAsync(16000);
       using (var signPubKey = await session.Crypto.AppPubSignKeyAsync())
@@ -105,8 +112,8 @@ namespace SafeApp.Tests {
         };
         var encMetaData = await session.MData.EncodeMetadata(ref metadata);
         var permissions = new PermissionSet {Read = true, ManagePermissions = true, Insert = true};
-        await session.MDataEntries.InsertAsync(entryhandle, AppConstants.MDataMetaDataKey.ToUtfBytes(), encMetaData);
-        await session.MDataEntries.InsertAsync(entryhandle, "index.html".ToUtfBytes(), "<html><body>Hello</body></html>".ToUtfBytes());
+        await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes(AppConstants.MDataMetaDataKey).ToList(), encMetaData);
+        await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes("index.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
         await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, ref permissions);
         await session.MData.PutAsync(ref mDataInfo, permissionHandle, entryhandle);
       }

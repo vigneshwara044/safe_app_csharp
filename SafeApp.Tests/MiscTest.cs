@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.MockAuthBindings;
 using SafeApp.Utilities;
 
+#if __ANDROID__ || __IOS__
+using System;
+#endif
 #if __ANDROID__
 using Android.App;
 #endif
@@ -33,8 +35,8 @@ namespace SafeApp.Tests {
       var keys = await session.MData.ListKeysAsync(ref mDataInfo);
       Assert.AreEqual(0, keys.Count);
       using (var entriesActionHandle = await session.MDataEntryActions.NewAsync()) {
-        var encKey = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomString(15).ToUtfBytes());
-        var encVal = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomString(25).ToUtfBytes());
+        var encKey = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomData(15).ToList());
+        var encVal = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomData(25).ToList());
         await session.MDataEntryActions.InsertAsync(entriesActionHandle, encKey, encVal);
         await session.MData.MutateEntriesAsync(ref mDataInfo, entriesActionHandle);
       }
@@ -43,7 +45,7 @@ namespace SafeApp.Tests {
       using (var entryHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
         keys = await session.MData.ListKeysAsync(ref mDataInfo);
         var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Val);
-        await session.MDataEntryActions.UpdateAsync(entriesActionHandle, keys[0].Val, Utils.GetRandomString(10).ToUtfBytes(), value.Item2 + 1);
+        await session.MDataEntryActions.UpdateAsync(entriesActionHandle, keys[0].Val, Utils.GetRandomData(10).ToList(), value.Item2 + 1);
         await session.MData.MutateEntriesAsync(ref mDataInfo, entriesActionHandle);
       }
 
