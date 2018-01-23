@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings {
-
+  [PublicAPI]
   public struct RegisteredApp {
     public AppExchangeInfo AppInfo;
     public List<ContainerPermissions> Containers;

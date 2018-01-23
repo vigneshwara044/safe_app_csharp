@@ -67,6 +67,9 @@ namespace SafeApp.Utilities {
     }
 
     internal AuthReqNative ToNative() {
+//      if (App.Id == null || App.Name == null || App.Vendor == null) {
+//        throw new ArgumentNullException(nameof(AppExchangeInfo));
+//      }
       return new AuthReqNative {
         App = App,
         AppContainer = AppContainer,
@@ -124,10 +127,17 @@ namespace SafeApp.Utilities {
 
   [PublicAPI]
   public struct AppExchangeInfo {
-    [MarshalAs(UnmanagedType.LPStr)] public string Id;
-    [MarshalAs(UnmanagedType.LPStr)] public string Scope;
-    [MarshalAs(UnmanagedType.LPStr)] public string Name;
-    [MarshalAs(UnmanagedType.LPStr)] public string Vendor;
+    [MarshalAs(UnmanagedType.LPStr)]
+    public string Id;
+
+    [CanBeNull, MarshalAs(UnmanagedType.LPStr)]
+    public string Scope;
+
+    [MarshalAs(UnmanagedType.LPStr)]
+    public string Name;
+
+    [MarshalAs(UnmanagedType.LPStr)]
+    public string Vendor;
   }
 
   [PublicAPI]

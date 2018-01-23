@@ -105,8 +105,10 @@
     <AndroidNativeLibrary Include="..\SafeApp.AppBindings.Android\lib\mock\x86\libsafe_app.so">
       <Link>lib\x86\libsafe_app.so</Link>
     </AndroidNativeLibrary>
+    <AndroidAsset Include="..\SafeApp.Tests\log.toml">
+      <Link>Assets\log.toml</Link>
+    </AndroidAsset>
     <None Include="app.config" />
-    <AndroidAsset Include="Assets\log.toml" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />

@@ -94,12 +94,14 @@
     <Compile Include="iOSTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Content Include="..\SafeApp.Tests\log.toml">
+      <Link>log.toml</Link>
+    </Content>
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork@2x" />
-    <Content Include="log.toml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

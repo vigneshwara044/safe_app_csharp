@@ -38,7 +38,7 @@ namespace SafeApp.Misc {
       return AppBindings.DirUpdateFileAsync(_appPtr, ref mDataInfo, fileName, ref file, version);
     }
 
-    public Task FileCloseAsync(NativeHandle fileContextHandle) {
+    public Task<File> FileCloseAsync(NativeHandle fileContextHandle) {
       return AppBindings.FileCloseAsync(_appPtr, fileContextHandle);
     }
 

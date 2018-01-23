@@ -574,13 +574,13 @@ namespace SafeApp.AppBindings {
     public Task<(uint, string)> EncodeAuthReqAsync(ref AuthReq req) {
       var reqNative = req.ToNative();
       var (ret, userData) = BindingUtils.PrepareTask<(uint, string)>();
-      EncodeAuthReqNative(ref reqNative, userData, OnFfiResultUIntStringCb);
+      EncodeAuthReqNative(reqNative, userData, OnFfiResultUIntStringCb);
       reqNative.Free();
       return ret;
     }
 
     [DllImport(DllName, EntryPoint = "encode_auth_req")]
-    private static extern void EncodeAuthReqNative(ref AuthReqNative req, IntPtr userData, FfiResultUIntStringCb oCb);
+    private static extern void EncodeAuthReqNative(AuthReqNative req, IntPtr userData, FfiResultUIntStringCb oCb);
 
     public Task<(uint, string)> EncodeContainersReqAsync(ref ContainersReq req) {
       var reqNative = req.ToNative();

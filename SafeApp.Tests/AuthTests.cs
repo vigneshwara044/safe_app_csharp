@@ -14,6 +14,7 @@ namespace SafeApp.Tests {
         AppContainer = true,
         Containers = new List<ContainerPermissions>()
       };
+      
       using (var session = await Utils.CreateTestApp(authReq)) {
         using (await session.Crypto.AppPubSignKeyAsync()) { }
       }
@@ -73,8 +74,8 @@ namespace SafeApp.Tests {
       //      authReq.App = new AppExchangeInfo { Id = "", Name = "", Scope = "", Vendor = "" };
       //      Assert.CatchAsync(async () => { await Utils.CreateTestApp(authReq); });
       // TODO - Fix should throw an error. It is crashing with unhandled exception
-      //      authReq.App = new AppExchangeInfo();
-      //      Assert.CatchAsync(async () => { await Utils.CreateTestApp(authReq); });
+            authReq.App = new AppExchangeInfo();
+            Assert.CatchAsync(async () => { await Utils.CreateTestApp(authReq); });
     }
 
     [Test]
@@ -166,8 +167,11 @@ namespace SafeApp.Tests {
       session.Dispose();
     }
 
-    [Test]
+    [Test, Ignore("")]
     public async Task UnregisteredRequestTest() {
+      var someRandomSession = await Utils.CreateTestApp();
+      var publicMDataInfo = await Utils.PreparePublicDirectory(someRandomSession);
+      someRandomSession.Dispose();
       var uniqueId = Utils.GetRandomString(10);
       var (reqId, req) = await Session.EncodeUnregisteredRequestAsync(uniqueId);
       var response = await Utils.AuthenticateUnregisteredRequest(req);
@@ -177,6 +181,11 @@ namespace SafeApp.Tests {
       Assert.NotNull(unregisteredClientResponse);
       Assert.AreEqual(reqId, unregisteredClientResponse.ReqId);
       var session = await Session.AppUnregisteredAsync(unregisteredClientResponse.SerialisedCfg);
+      var mdInfo = new MDataInfo {
+        Name = publicMDataInfo.Name,
+        TypeTag = publicMDataInfo.TypeTag
+      };
+      await session.MData.GetValueAsync(mdInfo, "index.html".ToUtfBytes());
       session.Dispose();
     }
   }
