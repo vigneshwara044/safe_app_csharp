@@ -26,35 +26,35 @@ namespace SafeApp.Tests {
       };
       var session = await Utils.CreateTestApp(authReq);
       var mDataInfo = await session.AccessContainer.GetMDataInfoAsync("apps/" + authReq.App.Id);
-      var perms = await session.MData.ListUserPermissionsAsync(ref mDataInfo, await session.Crypto.AppPubSignKeyAsync());
+      var perms = await session.MData.ListUserPermissionsAsync(mDataInfo, await session.Crypto.AppPubSignKeyAsync());
       Assert.IsTrue(perms.Insert);
       Assert.IsTrue(perms.Update);
       Assert.IsTrue(perms.Delete);
       Assert.IsTrue(perms.Read);
       Assert.IsTrue(perms.ManagePermissions);
-      var keys = await session.MData.ListKeysAsync(ref mDataInfo);
+      var keys = await session.MData.ListKeysAsync(mDataInfo);
       Assert.AreEqual(0, keys.Count);
       using (var entriesActionHandle = await session.MDataEntryActions.NewAsync()) {
         var encKey = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomData(15).ToList());
         var encVal = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomData(25).ToList());
         await session.MDataEntryActions.InsertAsync(entriesActionHandle, encKey, encVal);
-        await session.MData.MutateEntriesAsync(ref mDataInfo, entriesActionHandle);
+        await session.MData.MutateEntriesAsync(mDataInfo, entriesActionHandle);
       }
 
       using (var entriesActionHandle = await session.MDataEntryActions.NewAsync())
       using (var entryHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
-        keys = await session.MData.ListKeysAsync(ref mDataInfo);
+        keys = await session.MData.ListKeysAsync(mDataInfo);
         var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Val);
         await session.MDataEntryActions.UpdateAsync(entriesActionHandle, keys[0].Val, Utils.GetRandomData(10).ToList(), value.Item2 + 1);
-        await session.MData.MutateEntriesAsync(ref mDataInfo, entriesActionHandle);
+        await session.MData.MutateEntriesAsync(mDataInfo, entriesActionHandle);
       }
 
       using (var entriesActionHandle = await session.MDataEntryActions.NewAsync())
       using (var entryHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
-        keys = await session.MData.ListKeysAsync(ref mDataInfo);
+        keys = await session.MData.ListKeysAsync(mDataInfo);
         var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Val);
         await session.MDataEntryActions.DeleteAsync(entriesActionHandle, keys[0].Val, value.Item2 + 1);
-        await session.MData.MutateEntriesAsync(ref mDataInfo, entriesActionHandle);
+        await session.MData.MutateEntriesAsync(mDataInfo, entriesActionHandle);
       }
     }
 

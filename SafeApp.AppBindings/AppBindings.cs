@@ -15,7 +15,7 @@ namespace SafeApp.AppBindings {
     private const string DllName = "__Internal";
 #else
     private const string DllName = "safe_app";
-    #endif
+#endif
 
     public bool IsMockBuild() {
       var ret = IsMockBuildNative();

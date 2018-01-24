@@ -67,9 +67,13 @@ namespace SafeApp.Utilities {
     }
 
     internal AuthReqNative ToNative() {
-//      if (App.Id == null || App.Name == null || App.Vendor == null) {
-//        throw new ArgumentNullException(nameof(AppExchangeInfo));
-//      }
+      if (App.Id == null || App.Name == null || App.Vendor == null) {
+        throw new ArgumentNullException(nameof(AppExchangeInfo));
+      }
+      if (string.IsNullOrEmpty(App.Id) || string.IsNullOrEmpty(App.Name) || string.IsNullOrEmpty(App.Vendor))
+      {
+        throw new ArgumentException(nameof(AppExchangeInfo));
+      }
       return new AuthReqNative {
         App = App,
         AppContainer = AppContainer,

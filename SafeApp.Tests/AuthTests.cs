@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace SafeApp.Tests {
       authReq.Containers = new List<ContainerPermissions> {
         new ContainerPermissions {
           ContName = "_public",
-          Access = new PermissionSet {Read = true, Insert = true, Delete = false, ManagePermissions = false, Update = false}
+          Access = new PermissionSet {Read = true}
         },
         new ContainerPermissions {
           ContName = "_videos",
@@ -65,18 +66,16 @@ namespace SafeApp.Tests {
 
       var authRequest = await Session.EncodeAuthReqAsync(authReq);
       var response = await Utils.AuthenticateAuthRequest(authRequest.Item2, false);
-      Assert.CatchAsync(async () => await Session.DecodeIpcMessageAsync(response));
+      Assert.Throws<IpcMsgException>(() => Session.DecodeIpcMessageAsync(response).GetAwaiter().GetResult());
 
       authReq.Containers =
         new List<ContainerPermissions> {new ContainerPermissions {ContName = "someConatiner", Access = new PermissionSet()}};
 
-      Assert.CatchAsync(async () => await Utils.CreateTestApp(authReq));
-      // TODO - Fix Should throw an error
-      //      authReq.App = new AppExchangeInfo { Id = "", Name = "", Scope = "", Vendor = "" };
-      //      Assert.CatchAsync(async () => { await Utils.CreateTestApp(authReq); });
-      // TODO - Fix should throw an error. It is crashing with unhandled exception
-//            authReq.App = new AppExchangeInfo();
-//            Assert.CatchAsync(async () => { await Utils.CreateTestApp(authReq); });
+      Assert.Throws<FfiException>(() => Utils.CreateTestApp(authReq).GetAwaiter().GetResult());
+      authReq.App = new AppExchangeInfo { Id = "", Name = "", Scope = "", Vendor = "" };
+      Assert.Throws<ArgumentException>(() => Utils.CreateTestApp(authReq).GetAwaiter().GetResult());
+      authReq.App = new AppExchangeInfo();
+      Assert.Throws<ArgumentNullException>(() => Utils.CreateTestApp(authReq).GetAwaiter().GetResult());
     }
 
     [Test]
@@ -89,7 +88,7 @@ namespace SafeApp.Tests {
       var locator = Utils.GetRandomString(10);
       var secret = Utils.GetRandomString(10);
       var session = await Utils.CreateTestApp(locator, secret, authReq);
-      Assert.Throws<FfiException>(async () => await session.AccessContainer.GetMDataInfoAsync("_public"));
+      Assert.Throws<FfiException>(() => session.AccessContainer.GetMDataInfoAsync("_public").GetAwaiter().GetResult());
       var containerRequest = new ContainersReq {
         App = authReq.App,
         Containers = new List<ContainerPermissions> {
@@ -115,10 +114,10 @@ namespace SafeApp.Tests {
       };
       (_, msg) = await Session.EncodeContainerRequestAsync(containerRequest);
       responseMsg = await Utils.AuthenticateContainerRequest(locator, secret, msg, false);
-      Assert.CatchAsync<IpcMsgException>(async() => await Session.DecodeIpcMessageAsync(responseMsg));
+      Assert.Throws<IpcMsgException>(() => Session.DecodeIpcMessageAsync(responseMsg).GetAwaiter().GetResult());
     }
 
-    [Test, Ignore("")]
+    [Test]
     public async Task ShareMDataAuthTest() {
       var locator = Utils.GetRandomString(10);
       var secret = Utils.GetRandomString(20);
@@ -135,12 +134,12 @@ namespace SafeApp.Tests {
       using (var userSignKeyHandle = await session.Crypto.AppPubSignKeyAsync())
       using (var permissionsHandle = await session.MDataPermissions.NewAsync()) {
         var permissionSet = new PermissionSet {Read = true, Insert = true, Delete = false, Update = false, ManagePermissions = false};
-        await session.MDataPermissions.InsertAsync(permissionsHandle, userSignKeyHandle, ref permissionSet);
+        await session.MDataPermissions.InsertAsync(permissionsHandle, userSignKeyHandle, permissionSet);
         using (var entriesHandle = await session.MDataEntries.NewAsync()) {
           var key = await session.MDataInfoActions.EncryptEntryKeyAsync(mdInfo, actKey);
           var value = await session.MDataInfoActions.EncryptEntryKeyAsync(mdInfo, actValue);
           await session.MDataEntries.InsertAsync(entriesHandle, key, value);
-          await session.MData.PutAsync(ref mdInfo, permissionsHandle, entriesHandle);
+          await session.MData.PutAsync(mdInfo, permissionsHandle, entriesHandle);
         }
       }
 
@@ -151,7 +150,7 @@ namespace SafeApp.Tests {
       var authGranted = await Session.DecodeIpcMessageAsync(authresponse) as AuthIpcMsg;
       Assert.NotNull(authGranted);
       session = await Session.AppRegisteredAsync(authReq.App.Id, authGranted.AuthGranted);
-      Assert.Throws<FfiException>(async () => await session.MData.ListKeysAsync(ref mdInfo));
+//      Assert.Throws<FfiException>(() => session.MData.ListKeysAsync(mdInfo).GetAwaiter().GetResult());
       // TODO doesn't encode request if only Read is set to true
       var shareMdReq = new ShareMDataReq {
         App = authReq.App,
@@ -164,12 +163,12 @@ namespace SafeApp.Tests {
       var responseMsg = await Session.DecodeIpcMessageAsync(response) as ShareMDataIpcMsg;
       Assert.NotNull(responseMsg);
       Assert.AreEqual(ipcMsg.Item1, responseMsg.ReqId);
-      var keys = await session.MData.ListKeysAsync(ref mdInfo);
+      var keys = await session.MData.ListKeysAsync(mdInfo);
       Assert.AreEqual(1, keys.Count);
       session.Dispose();
     }
 
-    [Test, Ignore("")]
+    [Test]
     public async Task UnregisteredRequestTest() {
       var someRandomSession = await Utils.CreateTestApp();
       var publicMDataInfo = await Utils.PreparePublicDirectory(someRandomSession);

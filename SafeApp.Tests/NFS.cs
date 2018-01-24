@@ -16,8 +16,8 @@ namespace SafeApp.Tests {
       using (var permissionHandle = await session.MDataPermissions.NewAsync()) {
         var permissions = new PermissionSet {Read = true, ManagePermissions = true, Insert = true, Update = true, Delete = true};
         await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes("index.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
-        await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, ref permissions);
-        await session.MData.PutAsync(ref mDataInfo, permissionHandle, NativeHandle.Zero);
+        await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, permissions);
+        await session.MData.PutAsync(mDataInfo, permissionHandle, NativeHandle.Zero);
       }
 
       var fileHandle = await session.NFS.FileOpenAsync(mDataInfo, new File(), Misc.NFS.OpenMode.Overwrite);

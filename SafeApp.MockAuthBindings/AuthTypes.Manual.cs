@@ -26,12 +26,12 @@ namespace SafeApp.MockAuthBindings
   public class UnregisteredIpcReq : IpcReq
   {
     public uint ReqId;
-    public List<byte> SerialisedCfg;
+    public List<byte> ExtraData;
 
-    public UnregisteredIpcReq(uint reqId, IntPtr serialisedCfgPtr, ulong serialisedCfgLen)
+    public UnregisteredIpcReq(uint reqId, IntPtr extraDataPtr, ulong extraDataLength)
     {
       ReqId = reqId;
-      SerialisedCfg = BindingUtils.CopyToByteList(serialisedCfgPtr, (int)serialisedCfgLen);
+      ExtraData = BindingUtils.CopyToByteList(extraDataPtr, (int)extraDataLength);
     }
   }
 

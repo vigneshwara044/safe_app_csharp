@@ -18,8 +18,8 @@ namespace SafeApp.Tests {
       var mDataPermissionSet = new PermissionSet {Insert = true, ManagePermissions = true, Read = true};
       using (var permissionsH = await session.MDataPermissions.NewAsync()) {
         using (var appSignKeyH = await session.Crypto.AppPubSignKeyAsync()) {
-          await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, ref mDataPermissionSet);
-          await session.MData.PutAsync(ref mdInfo, permissionsH, NativeHandle.Zero);
+          await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, mDataPermissionSet);
+          await session.MData.PutAsync(mdInfo, permissionsH, NativeHandle.Zero);
         }
       }
 
@@ -29,10 +29,10 @@ namespace SafeApp.Tests {
         key = await session.MDataInfoActions.EncryptEntryKeyAsync(mdInfo, key);
         value = await session.MDataInfoActions.EncryptEntryValueAsync(mdInfo, value);
         await session.MDataEntryActions.InsertAsync(entryActionsH, key, value);
-        await session.MData.MutateEntriesAsync(ref mdInfo, entryActionsH);
+        await session.MData.MutateEntriesAsync(mdInfo, entryActionsH);
       }
 
-      var keys = await session.MData.ListKeysAsync(ref mdInfo);
+      var keys = await session.MData.ListKeysAsync(mdInfo);
       Assert.AreEqual(1, keys.Count);
 
       foreach (var key in keys) {
@@ -43,11 +43,11 @@ namespace SafeApp.Tests {
         Assert.AreEqual(actValue, Encoding.ASCII.GetString(decryptedValue.ToArray()));
       }
 
-      await session.MData.SerialisedSizeAsync(ref mdInfo);
+      await session.MData.SerialisedSizeAsync(mdInfo);
       var serialisedData = await session.MDataInfoActions.SerialiseAsync(mdInfo);
       mdInfo = await session.MDataInfoActions.DeserialiseAsync(serialisedData);
 
-      keys = await session.MData.ListKeysAsync(ref mdInfo);
+      keys = await session.MData.ListKeysAsync(mdInfo);
       Assert.AreEqual(1, keys.Count);
     }
 
@@ -61,8 +61,8 @@ namespace SafeApp.Tests {
       var mDataPermissionSet = new PermissionSet {Insert = true, ManagePermissions = true, Read = true};
       using (var permissionsH = await session.MDataPermissions.NewAsync()) {
         using (var appSignKeyH = await session.Crypto.AppPubSignKeyAsync()) {
-          await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, ref mDataPermissionSet);
-          await session.MData.PutAsync(ref mdInfo, permissionsH, NativeHandle.Zero);
+          await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, mDataPermissionSet);
+          await session.MData.PutAsync(mdInfo, permissionsH, NativeHandle.Zero);
         }
       }
 
@@ -70,10 +70,10 @@ namespace SafeApp.Tests {
         var key = Encoding.ASCII.GetBytes(actKey).ToList();
         var value = Encoding.ASCII.GetBytes(actValue).ToList();
         await session.MDataEntryActions.InsertAsync(entryActionsH, key, value);
-        await session.MData.MutateEntriesAsync(ref mdInfo, entryActionsH);
+        await session.MData.MutateEntriesAsync(mdInfo, entryActionsH);
       }
 
-      var keys = await session.MData.ListKeysAsync(ref mdInfo);
+      var keys = await session.MData.ListKeysAsync(mdInfo);
       Assert.AreEqual(1, keys.Count);
 
       foreach (var key in keys) {
@@ -82,11 +82,11 @@ namespace SafeApp.Tests {
         Assert.AreEqual(actValue, Encoding.ASCII.GetString(value.ToArray()));
       }
 
-      await session.MData.SerialisedSizeAsync(ref mdInfo);
+      await session.MData.SerialisedSizeAsync(mdInfo);
       var serialisedData = await session.MDataInfoActions.SerialiseAsync(mdInfo);
       mdInfo = await session.MDataInfoActions.DeserialiseAsync(serialisedData);
 
-      keys = await session.MData.ListKeysAsync(ref mdInfo);
+      keys = await session.MData.ListKeysAsync(mdInfo);
       Assert.AreEqual(1, keys.Count);
     }
 
@@ -104,10 +104,10 @@ namespace SafeApp.Tests {
       using (var permissionsH = await session.MDataPermissions.NewAsync()) {
         using (var appSignKeyH = await session.Crypto.AppPubSignKeyAsync()) {
           var ownerPermission = new PermissionSet {Insert = true, ManagePermissions = true, Read = true};
-          await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, ref ownerPermission);
+          await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, ownerPermission);
           var sharePermissions = new PermissionSet {Insert = true};
-          await session.MDataPermissions.InsertAsync(permissionsH, NativeHandle.Zero, ref sharePermissions);
-          await session.MData.PutAsync(ref mDataInfo, permissionsH, NativeHandle.Zero);
+          await session.MDataPermissions.InsertAsync(permissionsH, NativeHandle.Zero, sharePermissions);
+          await session.MData.PutAsync(mDataInfo, permissionsH, NativeHandle.Zero);
         }
       }
 
@@ -115,11 +115,11 @@ namespace SafeApp.Tests {
         var key = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomData(10).ToList());
         var value = await session.MDataInfoActions.EncryptEntryValueAsync(mDataInfo, Utils.GetRandomData(10).ToList());
         await session.MDataEntryActions.InsertAsync(entriesHandle, key, value);
-        await session.MData.MutateEntriesAsync(ref mDataInfo, entriesHandle);
+        await session.MData.MutateEntriesAsync(mDataInfo, entriesHandle);
       }
 
       using (var entriesHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
-        var keys = await session.MData.ListKeysAsync(ref mDataInfo);
+        var keys = await session.MData.ListKeysAsync(mDataInfo);
         foreach (var key in keys) {
           var encKey = await session.MDataEntries.GetAsync(entriesHandle, key.Val);
           await session.MDataInfoActions.DecryptAsync(mDataInfo, encKey.Item1);
@@ -138,11 +138,11 @@ namespace SafeApp.Tests {
         var key = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomData(10).ToList());
         var value = await session.MDataInfoActions.EncryptEntryValueAsync(mDataInfo, Utils.GetRandomData(10).ToList());
         await session.MDataEntryActions.InsertAsync(entriesHandle, key, value);
-        await session.MData.MutateEntriesAsync(ref mDataInfo, entriesHandle);
+        await session.MData.MutateEntriesAsync(mDataInfo, entriesHandle);
       }
 
       using (var entriesHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
-        var keys = await session.MData.ListKeysAsync(ref mDataInfo);
+        var keys = await session.MData.ListKeysAsync(mDataInfo);
         foreach (var key in keys) {
           var encKey = await session.MDataEntries.GetAsync(entriesHandle, key.Val);
           await session.MDataInfoActions.DecryptAsync(mDataInfo, encKey.Item1);
@@ -152,20 +152,20 @@ namespace SafeApp.Tests {
       using (var entryAction = await session.MDataEntryActions.NewAsync())
       using (var entriesHandle = await session.MData.ListEntriesAsync(mDataInfo))
       {
-        var keys = await session.MData.ListKeysAsync(ref mDataInfo);
+        var keys = await session.MData.ListKeysAsync(mDataInfo);
         foreach (var key in keys)
         {
           var encKey = await session.MDataEntries.GetAsync(entriesHandle, key.Val);
           await session.MDataEntryActions.DeleteAsync(entryAction, key.Val, encKey.Item2);
         }
 
-        Assert.Throws<FfiException>(async () => await session.MData.MutateEntriesAsync(ref mDataInfo, entryAction));
+        Assert.Throws<FfiException>(() => session.MData.MutateEntriesAsync(mDataInfo, entryAction).GetAwaiter().GetResult());
       }
 
       session.Dispose();
     }
 
-    [Test, Ignore("")]
+    [Test]
     public async Task AddRemoveUserPermission() {
       var locator = Utils.GetRandomString(10);
       var secret = Utils.GetRandomString(10);
@@ -194,24 +194,25 @@ namespace SafeApp.Tests {
         }
       });
       await Utils.AuthenticateShareMDataRequest(locator, secret, ipcReq.Item2, true);
-      using (var entryhandle = await hostingApp.MData.ListEntriesAsync(mDataInfo))
+      await hostingApp.AccessContainer.RefreshAccessInfoAsync();
+      using (var entryhandle = await hostingApp.MDataEntryActions.NewAsync())
       {
         await hostingApp.MDataEntryActions.InsertAsync(entryhandle, Encoding.UTF8.GetBytes("default.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello Default</body></html>").ToList());
-        await hostingApp.MData.MutateEntriesAsync(ref mDataInfo, entryhandle);
+        await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryhandle);
       }
 
-      var version = await cmsApp.MData.GetVersionAsync(ref mDataInfo);
+      var version = await cmsApp.MData.GetVersionAsync(mDataInfo);
       using (var permissionHandle = await cmsApp.MData.ListPermissionsAsync(mDataInfo)) {
         var userPermissions = await cmsApp.MDataPermissions.ListAsync(permissionHandle);
         Assert.AreEqual(userPermissions.Count, await cmsApp.MDataPermissions.LenAsync(permissionHandle));
-        var hostingAppPubSignKey = await hostingApp.Crypto.AppPubSignKeyAsync();
-        await cmsApp.MData.DelUserPermissionsAsync(ref mDataInfo, hostingAppPubSignKey, version);
+        var userPermissionToDel = userPermissions.Find(userPerm => userPerm.PermSet.ManagePermissions == false);
+        await cmsApp.MData.DelUserPermissionsAsync(mDataInfo, userPermissionToDel.UserH, version + 1);
       }
 
       using (var entryhandle = await hostingApp.MData.ListEntriesAsync(mDataInfo))
       {
         await hostingApp.MDataEntryActions.InsertAsync(entryhandle, Encoding.UTF8.GetBytes("home.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello Home!</body></html>").ToList());
-        await hostingApp.MData.MutateEntriesAsync(ref mDataInfo, entryhandle);
+        await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryhandle);
       }
       cmsApp.Dispose();
       hostingApp.Dispose();

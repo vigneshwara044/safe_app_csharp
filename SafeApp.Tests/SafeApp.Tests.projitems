@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AuthTests.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CrossPlatformTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CryptoTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ImmutableDataTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MiscTest.cs" />

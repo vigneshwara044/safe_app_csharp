@@ -3,6 +3,7 @@
 using ObjCRuntime;
 #endif
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Utilities;
@@ -68,9 +69,9 @@ namespace SafeApp.MockAuthBindings {
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntByteListCb))]
 #endif
-    private static void OnDecodeIpcReqUnregisteredCb(IntPtr userData, uint reqId, IntPtr authReq, ulong size) {
+    private static void OnDecodeIpcReqUnregisteredCb(IntPtr userData, uint reqId, IntPtr extraData, ulong size) {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcReq>>(userData);
-      tcs.SetResult(new UnregisteredIpcReq(reqId, authReq, size));
+      tcs.SetResult(new UnregisteredIpcReq(reqId, extraData, size));
     }
 
 #if __IOS__
@@ -79,8 +80,8 @@ namespace SafeApp.MockAuthBindings {
     private static void OnDecodeIpcReqShareMDataCb(IntPtr userData, uint reqId, IntPtr authReq, IntPtr metadata)
     {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcReq>>(userData);
-      var shareMdReq = new ShareMDataReq(Marshal.PtrToStructure<ShareMDataReqNative>(authReq));Marshal.PtrToStructure<ShareMDataReqNative>(authReq);
-      var metadataList = metadata.ToList<string>((IntPtr) shareMdReq.MData.Count);
+      var shareMdReq = new ShareMDataReq(Marshal.PtrToStructure<ShareMDataReqNative>(authReq));
+      var metadataList = new List<string>();//metadata.ToList<string>((IntPtr) shareMdReq.MData.Count);
       tcs.SetResult(new ShareMDataIpcReq(reqId, shareMdReq, metadataList));
     }
 
@@ -111,6 +112,12 @@ namespace SafeApp.MockAuthBindings {
       var (task, userData) = BindingUtils.PrepareTask<IpcReq>();
       AuthDecodeIpcMsgNative(authPtr, msg, userData, OnDecodeIpcReqAuthCb, OnDecodeIpcReqContainersCb, OnDecodeIpcReqUnregisteredCb, OnDecodeIpcReqShareMDataCb, OnFfiResultIpcReqErrorCb);
       return task;
+    }
+
+    public Task<IpcReq> UnRegisteredDecodeIpcMsgAsync(string msg) {
+        var (task, userData) = BindingUtils.PrepareTask<IpcReq>();
+        AuthUnregisteredDecodeIpcMsgNative(msg, userData, OnDecodeIpcReqUnregisteredCb, OnFfiResultIpcReqErrorCb);
+        return task;
     }
 
     private delegate void FfiResultIpcReqErrorCb(IntPtr userData, IntPtr result, string msg);

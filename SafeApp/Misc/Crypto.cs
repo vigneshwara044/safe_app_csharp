@@ -16,6 +16,16 @@ namespace SafeApp.Misc {
       _appPtr = appPtr;
     }
 
+    public static Task<byte[]> GenerateNonceAsync()
+    {
+      return AppBindings.GenerateNonceAsync();
+    }
+
+    public static Task<List<byte>> Sha3HashAsync(List<byte> source)
+    {
+      return AppBindings.Sha3HashAsync(source);
+    }
+
     /// <summary>
     ///   Get App's Public Sign Key
     /// </summary>

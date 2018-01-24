@@ -24,7 +24,7 @@ namespace SafeApp.MData {
       return AppBindings.MDataPermissionsGetAsync(_appPtr, permissionsHandle, userPubSignKey);
     }
 
-    public Task InsertAsync(NativeHandle permissionsH, NativeHandle forUserH, ref PermissionSet permissionSet) {
+    public Task InsertAsync(NativeHandle permissionsH, NativeHandle forUserH, PermissionSet permissionSet) {
       return AppBindings.MDataPermissionsInsertAsync(_appPtr, permissionsH, forUserH, ref permissionSet);
     }
 

@@ -48,11 +48,9 @@ namespace SafeApp.Tests {
     }
 
     public static async Task<string> AuthenticateUnregisteredRequest(string ipcMsg) {
-      var authenticator = await Authenticator.CreateAccountAsync(GetRandomString(5), GetRandomString(5), "");
-      var ipcReq = await authenticator.DecodeIpcMessageAsync(ipcMsg);
+      var ipcReq = await Authenticator.UnRegisteredDecodeIpcMsgAsync(ipcMsg);
       Assert.AreEqual(typeof(UnregisteredIpcReq), ipcReq.GetType());
-      var response = await authenticator.EncodeUnregisteredRespAsync(((UnregisteredIpcReq)ipcReq).ReqId, true);
-      authenticator.Dispose();
+      var response = await Authenticator.EncodeUnregisteredRespAsync(((UnregisteredIpcReq)ipcReq).ReqId, true);
       return response;
     }
 
@@ -110,12 +108,12 @@ namespace SafeApp.Tests {
           TypeTag = mDataInfo.TypeTag,
           XorName = mDataInfo.Name
         };
-        var encMetaData = await session.MData.EncodeMetadata(ref metadata);
+        var encMetaData = await session.MData.EncodeMetadata(metadata);
         var permissions = new PermissionSet {Read = true, ManagePermissions = true, Insert = true};
         await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes(AppConstants.MDataMetaDataKey).ToList(), encMetaData);
         await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes("index.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
-        await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, ref permissions);
-        await session.MData.PutAsync(ref mDataInfo, permissionHandle, entryhandle);
+        await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, permissions);
+        await session.MData.PutAsync(mDataInfo, permissionHandle, entryhandle);
       }
 
       return mDataInfo;

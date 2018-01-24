@@ -107,6 +107,10 @@ namespace SafeApp.MockAuthBindings {
       return AuthBindings.DecodeIpcMessage(_authPtr, msg);
     }
 
+    public static Task<IpcReq> UnRegisteredDecodeIpcMsgAsync(string msg) {
+      return AuthBindings.UnRegisteredDecodeIpcMsgAsync(msg);
+    }
+
     public Task<string> EncodeAuthRespAsync(AuthIpcReq authIpcReq, bool allow) {
       return AuthBindings.EncodeAuthRespAsync(_authPtr, ref authIpcReq.AuthReq, authIpcReq.ReqId, allow);
     }
@@ -119,7 +123,7 @@ namespace SafeApp.MockAuthBindings {
       return AuthBindings.EncodeShareMdataRespAsync(_authPtr, ref req.ShareMDataReq, req.ReqId, allow);
     }
 
-    public Task<string> EncodeUnregisteredRespAsync(uint reqId, bool allow) {
+    public static Task<string> EncodeUnregisteredRespAsync(uint reqId, bool allow) {
       return AuthBindings.EncodeUnregisteredRespAsync(reqId, allow);
     }
 
