@@ -209,10 +209,7 @@ namespace SafeApp.Tests {
         Assert.That(await cmsApp.MDataPermissions.LenAsync(permissionHandle),Is.EqualTo(userPermissions.Count));
         var userPermissionToDel = userPermissions.Find(userPerm => userPerm.Item2.ManagePermissions == false);
         await cmsApp.MData.DelUserPermissionsAsync(mDataInfo, userPermissionToDel.Item1, version + 1);
-        // TODO convert this to a Disposible Type
-        foreach (var userPermission in userPermissions) {
-          userPermission.Item1.Dispose();
-        }
+        userPermissions.ForEach(perm => perm.Item1.Dispose());
       }
 
       using (var entryHandle = await hostingApp.MDataEntryActions.NewAsync())
