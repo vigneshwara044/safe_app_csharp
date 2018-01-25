@@ -3,7 +3,6 @@
 using ObjCRuntime;
 #endif
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Utilities;
@@ -81,8 +80,8 @@ namespace SafeApp.MockAuthBindings {
     {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcReq>>(userData);
       var shareMdReq = new ShareMDataReq(Marshal.PtrToStructure<ShareMDataReqNative>(authReq));
-      var metadataList = new List<string>();//metadata.ToList<string>((IntPtr) shareMdReq.MData.Count);
-      tcs.SetResult(new ShareMDataIpcReq(reqId, shareMdReq, metadataList));
+      var metadataResponse = Marshal.PtrToStructure<MetadataResponse>(metadata);
+      tcs.SetResult(new ShareMDataIpcReq(reqId, shareMdReq, metadataResponse));
     }
 
 #if __IOS__

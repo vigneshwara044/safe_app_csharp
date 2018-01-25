@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings {
-
-  // ReSharper disable MemberCanBePrivate.Global
-  // ReSharper disable UnunsedMember.Global
+  [PublicAPI]
   public struct RegisteredApp {
     public AppExchangeInfo AppInfo;
-    // ReSharper disable FieldCanBeMadeReadOnly.Global
     public List<ContainerPermissions> Containers;
-
     internal RegisteredApp(RegisteredAppNative native) {
       AppInfo = native.AppInfo;
       Containers = BindingUtils.CopyToObjectList<ContainerPermissions>(native.ContainersPtr, (int)native.ContainersLen);

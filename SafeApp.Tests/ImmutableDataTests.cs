@@ -19,7 +19,7 @@ namespace SafeApp.Tests {
           using (var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress)) {
             var len = await session.IData.SizeAsync(seReaderHandle);
             var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
-            Assert.AreEqual(data, readData);
+            Assert.That(readData, Is.EqualTo(data));
           }
         }
       }
@@ -39,7 +39,7 @@ namespace SafeApp.Tests {
           using (var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress)) {
             var len = await session.IData.SizeAsync(seReaderHandle);
             var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
-            Assert.AreEqual(data, readData);
+            Assert.That(readData, Is.EqualTo(data));
           }
         }
       }
@@ -59,7 +59,7 @@ namespace SafeApp.Tests {
           using (var seReaderHandle = await session.IData.FetchSelfEncryptorAsync(dataMapAddress)) {
             var len = await session.IData.SizeAsync(seReaderHandle);
             var readData = await session.IData.ReadFromSelfEncryptorAsync(seReaderHandle, 0, len);
-            Assert.AreEqual(data, readData);
+            Assert.That(readData, Is.EqualTo(data));
           }
         }
       }

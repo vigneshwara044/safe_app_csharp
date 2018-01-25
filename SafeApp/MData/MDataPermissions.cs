@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
@@ -32,8 +33,13 @@ namespace SafeApp.MData {
       return AppBindings.MDataPermissionsLenAsync(_appPtr, permissionsHandle);
     }
 
-    public Task<List<UserPermissionSet>> ListAsync(NativeHandle permissionHandle) {
-      return AppBindings.MDataListPermissionSetsAsync(_appPtr, permissionHandle);
+    public async Task<List<(NativeHandle, PermissionSet)>> ListAsync(NativeHandle permissionHandle) {
+      var userPermissions = await AppBindings.MDataListPermissionSetsAsync(_appPtr, permissionHandle);
+      return userPermissions.Select(
+        userPermission => {
+          var userHandle = new NativeHandle(_appPtr, (ulong) userPermission.UserH, (handle) => AppBindings.SignPubKeyFreeAsync(_appPtr, handle));
+          return (userHandle, userPermission.PermSet);
+        }).ToList();
     }
 
     public async Task<NativeHandle> NewAsync() {

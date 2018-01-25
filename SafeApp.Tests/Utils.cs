@@ -13,7 +13,7 @@ namespace SafeApp.Tests {
 
     private static async Task<string> AuthenticateAuthRequest(Authenticator authenticator, string ipcMsg, bool allow) {
       var ipcReq = await authenticator.DecodeIpcMessageAsync(ipcMsg);
-      Assert.AreEqual(typeof(AuthIpcReq), ipcReq.GetType());
+      Assert.That(ipcReq, Is.TypeOf<AuthIpcReq>());
       var response = await authenticator.EncodeAuthRespAsync(ipcReq as AuthIpcReq, allow);
       authenticator.Dispose();
       return response;
@@ -32,7 +32,7 @@ namespace SafeApp.Tests {
     public static async Task<string> AuthenticateContainerRequest(string locator, string secret, string ipcMsg, bool allow) {
       using (var authenticator = await Authenticator.LoginAsync(locator, secret)) {
         var ipcReq = await authenticator.DecodeIpcMessageAsync(ipcMsg);
-        Assert.AreEqual(typeof(ContainersIpcReq), ipcReq.GetType());
+        Assert.That(ipcReq, Is.TypeOf<ContainersIpcReq>());
         var response = await authenticator.EncodeContainersRespAsync(ipcReq as ContainersIpcReq, allow);
         return response;
       }
@@ -41,7 +41,7 @@ namespace SafeApp.Tests {
     public static async Task<string> AuthenticateShareMDataRequest(string locator, string secret, string ipcMsg, bool allow) {
       var authenticator = await Authenticator.LoginAsync(locator, secret);
       var ipcReq = await authenticator.DecodeIpcMessageAsync(ipcMsg);
-      Assert.AreEqual(typeof(ShareMDataIpcReq), ipcReq.GetType());
+      Assert.That(ipcReq, Is.TypeOf<ShareMDataIpcReq>());
       var response = await authenticator.EncodeShareMdataRespAsync(ipcReq as ShareMDataIpcReq, allow);
       authenticator.Dispose();
       return response;
@@ -49,7 +49,7 @@ namespace SafeApp.Tests {
 
     public static async Task<string> AuthenticateUnregisteredRequest(string ipcMsg) {
       var ipcReq = await Authenticator.UnRegisteredDecodeIpcMsgAsync(ipcMsg);
-      Assert.AreEqual(typeof(UnregisteredIpcReq), ipcReq.GetType());
+      Assert.That(ipcReq, Is.TypeOf<UnregisteredIpcReq>());
       var response = await Authenticator.EncodeUnregisteredRespAsync(((UnregisteredIpcReq)ipcReq).ReqId, true);
       return response;
     }
@@ -75,13 +75,13 @@ namespace SafeApp.Tests {
       var authenticator = await Authenticator.CreateAccountAsync(locator, secret, GetRandomString(5));
       var (_, reqMsg) = await Session.EncodeAuthReqAsync(authReq);
       var ipcReq = await authenticator.DecodeIpcMessageAsync(reqMsg);
-      Assert.AreEqual(typeof(AuthIpcReq), ipcReq.GetType());
+      Assert.That(ipcReq, Is.TypeOf<AuthIpcReq>());
       var authIpcReq = ipcReq as AuthIpcReq;
       var resMsg = await authenticator.EncodeAuthRespAsync(authIpcReq, true);
       var ipcResponse = await Session.DecodeIpcMessageAsync(resMsg);
-      Assert.AreEqual(typeof(AuthIpcMsg), ipcResponse.GetType());
+      Assert.That(ipcResponse, Is.TypeOf<AuthIpcMsg>());
       var authResponse = ipcResponse as AuthIpcMsg;
-      Assert.NotNull(authResponse);
+      Assert.That(authResponse, Is.Not.Null);
       authenticator.Dispose();
       return await Session.AppRegisteredAsync(authReq.App.Id, authResponse.AuthGranted);
     }

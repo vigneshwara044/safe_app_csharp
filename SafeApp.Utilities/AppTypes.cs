@@ -425,10 +425,9 @@ namespace SafeApp.Utilities {
       BindingUtils.FreeList(ref UserMetadataPtr, ref UserMetadataLen);
     }
   }
-
   [PublicAPI]
   public struct UserPermissionSet {
-    public ulong UserH;
+    public long UserH;
     public PermissionSet PermSet;
   }
 }

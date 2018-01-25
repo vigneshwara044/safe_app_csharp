@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.Utilities;
 
+// ReSharper disable AccessToDisposedClosure
+
 namespace SafeApp.Tests {
   [TestFixture]
   internal class MutableDataTests {
@@ -33,14 +35,14 @@ namespace SafeApp.Tests {
       }
 
       var keys = await session.MData.ListKeysAsync(mdInfo);
-      Assert.AreEqual(1, keys.Count);
+      Assert.That(keys.Count, Is.EqualTo(1));
 
       foreach (var key in keys) {
         var (value, _) = await session.MData.GetValueAsync(mdInfo, key.Val.ToList());
         var decryptedKey = await session.MDataInfoActions.DecryptAsync(mdInfo, key.Val.ToList());
         var decryptedValue = await session.MDataInfoActions.DecryptAsync(mdInfo, value.ToList());
-        Assert.AreEqual(actKey, Encoding.ASCII.GetString(decryptedKey.ToArray()));
-        Assert.AreEqual(actValue, Encoding.ASCII.GetString(decryptedValue.ToArray()));
+        Assert.That(actKey, Is.EqualTo(Encoding.ASCII.GetString(decryptedKey.ToArray())));
+        Assert.That(actValue, Is.EqualTo(Encoding.ASCII.GetString(decryptedValue.ToArray())));
       }
 
       await session.MData.SerialisedSizeAsync(mdInfo);
@@ -48,7 +50,7 @@ namespace SafeApp.Tests {
       mdInfo = await session.MDataInfoActions.DeserialiseAsync(serialisedData);
 
       keys = await session.MData.ListKeysAsync(mdInfo);
-      Assert.AreEqual(1, keys.Count);
+      Assert.That(keys.Count, Is.EqualTo(1));
     }
 
     [Test]
@@ -74,12 +76,12 @@ namespace SafeApp.Tests {
       }
 
       var keys = await session.MData.ListKeysAsync(mdInfo);
-      Assert.AreEqual(1, keys.Count);
+      Assert.That(keys.Count, Is.EqualTo(1));
 
       foreach (var key in keys) {
         var (value, _) = await session.MData.GetValueAsync(mdInfo, key.Val.ToList());
-        Assert.AreEqual(actKey, Encoding.ASCII.GetString(key.Val.ToArray()));
-        Assert.AreEqual(actValue, Encoding.ASCII.GetString(value.ToArray()));
+        Assert.That(actKey, Is.EqualTo(Encoding.ASCII.GetString(key.Val.ToArray())));
+        Assert.That(actValue, Is.EqualTo(Encoding.ASCII.GetString(value.ToArray())));
       }
 
       await session.MData.SerialisedSizeAsync(mdInfo);
@@ -87,7 +89,7 @@ namespace SafeApp.Tests {
       mdInfo = await session.MDataInfoActions.DeserialiseAsync(serialisedData);
 
       keys = await session.MData.ListKeysAsync(mdInfo);
-      Assert.AreEqual(1, keys.Count);
+      Assert.That(keys.Count, Is.EqualTo(1));
     }
 
     [Test]
@@ -133,36 +135,36 @@ namespace SafeApp.Tests {
         AppContainer = false,
         Containers = new List<ContainerPermissions>()
       };
-      session = await Utils.CreateTestApp(authReq);
-      using (var entriesHandle = await session.MDataEntryActions.NewAsync()) {
-        var key = await session.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomData(10).ToList());
-        var value = await session.MDataInfoActions.EncryptEntryValueAsync(mDataInfo, Utils.GetRandomData(10).ToList());
-        await session.MDataEntryActions.InsertAsync(entriesHandle, key, value);
-        await session.MData.MutateEntriesAsync(mDataInfo, entriesHandle);
+      var session2 = await Utils.CreateTestApp(authReq);
+      using (var entriesHandle = await session2.MDataEntryActions.NewAsync()) {
+        var key = await session2.MDataInfoActions.EncryptEntryKeyAsync(mDataInfo, Utils.GetRandomData(10).ToList());
+        var value = await session2.MDataInfoActions.EncryptEntryValueAsync(mDataInfo, Utils.GetRandomData(10).ToList());
+        await session2.MDataEntryActions.InsertAsync(entriesHandle, key, value);
+        await session2.MData.MutateEntriesAsync(mDataInfo, entriesHandle);
       }
 
-      using (var entriesHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
-        var keys = await session.MData.ListKeysAsync(mDataInfo);
+      using (var entriesHandle = await session2.MData.ListEntriesAsync(mDataInfo)) {
+        var keys = await session2.MData.ListKeysAsync(mDataInfo);
         foreach (var key in keys) {
-          var encKey = await session.MDataEntries.GetAsync(entriesHandle, key.Val);
-          await session.MDataInfoActions.DecryptAsync(mDataInfo, encKey.Item1);
+          var encKey = await session2.MDataEntries.GetAsync(entriesHandle, key.Val);
+          await session2.MDataInfoActions.DecryptAsync(mDataInfo, encKey.Item1);
         }
       }
 
-      using (var entryAction = await session.MDataEntryActions.NewAsync())
-      using (var entriesHandle = await session.MData.ListEntriesAsync(mDataInfo))
+      using (var entryAction = await session2.MDataEntryActions.NewAsync())
+      using (var entriesHandle = await session2.MData.ListEntriesAsync(mDataInfo))
       {
-        var keys = await session.MData.ListKeysAsync(mDataInfo);
+        var keys = await session2.MData.ListKeysAsync(mDataInfo);
         foreach (var key in keys)
         {
-          var encKey = await session.MDataEntries.GetAsync(entriesHandle, key.Val);
-          await session.MDataEntryActions.DeleteAsync(entryAction, key.Val, encKey.Item2);
+          var encKey = await session2.MDataEntries.GetAsync(entriesHandle, key.Val);
+          await session2.MDataEntryActions.DeleteAsync(entryAction, key.Val, encKey.Item2);
         }
-
-        Assert.Throws<FfiException>(() => session.MData.MutateEntriesAsync(mDataInfo, entryAction).GetAwaiter().GetResult());
+        Assert.That(async () => {
+          await session2.MData.MutateEntriesAsync(mDataInfo, entryAction);
+        }, Throws.TypeOf<FfiException>());
       }
-
-      session.Dispose();
+      session2.Dispose();
     }
 
     [Test]
@@ -204,15 +206,21 @@ namespace SafeApp.Tests {
       var version = await cmsApp.MData.GetVersionAsync(mDataInfo);
       using (var permissionHandle = await cmsApp.MData.ListPermissionsAsync(mDataInfo)) {
         var userPermissions = await cmsApp.MDataPermissions.ListAsync(permissionHandle);
-        Assert.AreEqual(userPermissions.Count, await cmsApp.MDataPermissions.LenAsync(permissionHandle));
-        var userPermissionToDel = userPermissions.Find(userPerm => userPerm.PermSet.ManagePermissions == false);
-        await cmsApp.MData.DelUserPermissionsAsync(mDataInfo, userPermissionToDel.UserH, version + 1);
+        Assert.That(await cmsApp.MDataPermissions.LenAsync(permissionHandle),Is.EqualTo(userPermissions.Count));
+        var userPermissionToDel = userPermissions.Find(userPerm => userPerm.Item2.ManagePermissions == false);
+        await cmsApp.MData.DelUserPermissionsAsync(mDataInfo, userPermissionToDel.Item1, version + 1);
+        // TODO convert this to a Disposible Type
+        foreach (var userPermission in userPermissions) {
+          userPermission.Item1.Dispose();
+        }
       }
 
-      using (var entryhandle = await hostingApp.MData.ListEntriesAsync(mDataInfo))
+      using (var entryHandle = await hostingApp.MDataEntryActions.NewAsync())
       {
-        await hostingApp.MDataEntryActions.InsertAsync(entryhandle, Encoding.UTF8.GetBytes("home.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello Home!</body></html>").ToList());
-        await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryhandle);
+        await hostingApp.MDataEntryActions.InsertAsync(entryHandle, Encoding.UTF8.GetBytes("home.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello Home!</body></html>").ToList());
+        Assert.That(async () => {
+          await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryHandle);
+        }, Throws.TypeOf<FfiException>());
       }
       cmsApp.Dispose();
       hostingApp.Dispose();

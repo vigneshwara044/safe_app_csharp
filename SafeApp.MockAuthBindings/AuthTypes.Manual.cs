@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings
 {
-  // ReSharper disable FieldCanBeMadeReadOnly.Global
-  // ReSharper disable MemberCanBeInternal
-  // ReSharper disable NotAccessedField.Global
-  // ReSharper disable MemberCanBePrivate.Global
-  // ReSharper disable UnusedMember.Global
   public abstract class IpcReq { }
-
+  [PublicAPI]
   public class AuthIpcReq : IpcReq
   {
     public AuthReq AuthReq;
@@ -22,7 +18,7 @@ namespace SafeApp.MockAuthBindings
       AuthReq = authReq;
     }
   }
-
+  [PublicAPI]
   public class UnregisteredIpcReq : IpcReq
   {
     public uint ReqId;
@@ -34,7 +30,7 @@ namespace SafeApp.MockAuthBindings
       ExtraData = BindingUtils.CopyToByteList(extraDataPtr, (int)extraDataLength);
     }
   }
-
+  [PublicAPI]
   public class ContainersIpcReq : IpcReq
   {
     public uint ReqId;
@@ -46,21 +42,21 @@ namespace SafeApp.MockAuthBindings
       ContainersReq = containersReq;
     }
   }
-
+  [PublicAPI]
   public class ShareMDataIpcReq : IpcReq
   {
     public uint ReqId;
     public ShareMDataReq ShareMDataReq;
-    public List<string> MetadataList;
+    public MetadataResponse MetadataResponse;
 
-    public ShareMDataIpcReq(uint reqId, ShareMDataReq shareMDataReq, List<string> metadataList)
+    public ShareMDataIpcReq(uint reqId, ShareMDataReq shareMDataReq, MetadataResponse metadataResponse)
     {
       ReqId = reqId;
       ShareMDataReq = shareMDataReq;
-      MetadataList = metadataList;
+      MetadataResponse = metadataResponse;
     }
   }
-
+  [PublicAPI]
   public class IpcReqRejected : IpcReq {
     public readonly string Msg;
 
@@ -69,7 +65,7 @@ namespace SafeApp.MockAuthBindings
       Msg = msg;
     }
   }
-
+  [PublicAPI]
   public class IpcReqError : IpcReq
   {
     public readonly int Code;
@@ -83,7 +79,4 @@ namespace SafeApp.MockAuthBindings
       Msg = msg;
     }
   }
-
-  public class RevokedIpcReq : IpcReq { }
-
 }

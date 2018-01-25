@@ -66,16 +66,16 @@ namespace SafeApp.Tests {
 
       var authRequest = await Session.EncodeAuthReqAsync(authReq);
       var response = await Utils.AuthenticateAuthRequest(authRequest.Item2, false);
-      Assert.Throws<IpcMsgException>(() => Session.DecodeIpcMessageAsync(response).GetAwaiter().GetResult());
+      Assert.That(async () =>  await Session.DecodeIpcMessageAsync(response), Throws.TypeOf<IpcMsgException>());
 
       authReq.Containers =
         new List<ContainerPermissions> {new ContainerPermissions {ContName = "someConatiner", Access = new PermissionSet()}};
 
-      Assert.Throws<FfiException>(() => Utils.CreateTestApp(authReq).GetAwaiter().GetResult());
+      Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<FfiException>());
       authReq.App = new AppExchangeInfo { Id = "", Name = "", Scope = "", Vendor = "" };
-      Assert.Throws<ArgumentException>(() => Utils.CreateTestApp(authReq).GetAwaiter().GetResult());
+      Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<ArgumentException>());
       authReq.App = new AppExchangeInfo();
-      Assert.Throws<ArgumentNullException>(() => Utils.CreateTestApp(authReq).GetAwaiter().GetResult());
+      Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<ArgumentNullException>());
     }
 
     [Test]
@@ -103,7 +103,7 @@ namespace SafeApp.Tests {
       Assert.AreEqual(reqId, containerResponse?.ReqId);
       await session.AccessContainer.RefreshAccessInfoAsync();
       var mDataInfo = await session.AccessContainer.GetMDataInfoAsync("_public");
-      Assert.AreEqual(15000, mDataInfo.TypeTag);
+      Assert.That(mDataInfo.TypeTag, Is.EqualTo(15000));
       session.Dispose();
       containerRequest = new ContainersReq
       {
@@ -114,7 +114,7 @@ namespace SafeApp.Tests {
       };
       (_, msg) = await Session.EncodeContainerRequestAsync(containerRequest);
       responseMsg = await Utils.AuthenticateContainerRequest(locator, secret, msg, false);
-      Assert.Throws<IpcMsgException>(() => Session.DecodeIpcMessageAsync(responseMsg).GetAwaiter().GetResult());
+      Assert.That(async () => await Session.DecodeIpcMessageAsync(responseMsg), Throws.TypeOf<IpcMsgException>());
     }
 
     [Test]
@@ -146,12 +146,10 @@ namespace SafeApp.Tests {
       session.Dispose();
       authReq.App = new AppExchangeInfo {Id = "net.maidsafe.test.app", Name = "Test App", Scope = null, Vendor = "MaidSafe.net Ltd."};
       var msg = await Session.EncodeAuthReqAsync(authReq);
-      var authresponse = await Utils.AuthenticateAuthRequest(locator, secret, msg.Item2, true);
-      var authGranted = await Session.DecodeIpcMessageAsync(authresponse) as AuthIpcMsg;
-      Assert.NotNull(authGranted);
+      var authResponse = await Utils.AuthenticateAuthRequest(locator, secret, msg.Item2, true);
+      var authGranted = await Session.DecodeIpcMessageAsync(authResponse) as AuthIpcMsg;
+      Assert.That(authGranted, Is.Not.Null);
       session = await Session.AppRegisteredAsync(authReq.App.Id, authGranted.AuthGranted);
-//      Assert.Throws<FfiException>(() => session.MData.ListKeysAsync(mdInfo).GetAwaiter().GetResult());
-      // TODO doesn't encode request if only Read is set to true
       var shareMdReq = new ShareMDataReq {
         App = authReq.App,
         MData = new List<ShareMData> {
@@ -161,10 +159,10 @@ namespace SafeApp.Tests {
       var ipcMsg = await Session.EncodeShareMDataRequestAsync(shareMdReq);
       var response = await Utils.AuthenticateShareMDataRequest(locator, secret, ipcMsg.Item2, true);
       var responseMsg = await Session.DecodeIpcMessageAsync(response) as ShareMDataIpcMsg;
-      Assert.NotNull(responseMsg);
-      Assert.AreEqual(ipcMsg.Item1, responseMsg.ReqId);
+      Assert.That(responseMsg, Is.Not.Null);
+      Assert.That(ipcMsg.Item1, Is.EqualTo(responseMsg.ReqId));
       var keys = await session.MData.ListKeysAsync(mdInfo);
-      Assert.AreEqual(1, keys.Count);
+      Assert.That(keys.Count, Is.EqualTo(1));
       session.Dispose();
     }
 
@@ -177,10 +175,10 @@ namespace SafeApp.Tests {
       var (reqId, req) = await Session.EncodeUnregisteredRequestAsync(uniqueId);
       var response = await Utils.AuthenticateUnregisteredRequest(req);
       var ipcMsg = await Session.DecodeIpcMessageAsync(response);
-      Assert.AreEqual(typeof(UnregisteredIpcMsg), ipcMsg.GetType());
+      Assert.That(ipcMsg, Is.TypeOf<UnregisteredIpcMsg>());
       var unregisteredClientResponse = ipcMsg as UnregisteredIpcMsg;
-      Assert.NotNull(unregisteredClientResponse);
-      Assert.AreEqual(reqId, unregisteredClientResponse.ReqId);
+      Assert.That(unregisteredClientResponse, Is.Not.Null);
+      Assert.That(unregisteredClientResponse.ReqId, Is.EqualTo(reqId));
       var session = await Session.AppUnregisteredAsync(unregisteredClientResponse.SerialisedCfg);
       var mdInfo = new MDataInfo {
         Name = publicMDataInfo.Name,

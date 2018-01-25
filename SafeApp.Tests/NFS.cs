@@ -6,6 +6,7 @@ using SafeApp.Utilities;
 
 namespace SafeApp.Tests {
   [TestFixture]
+  // ReSharper disable once InconsistentNaming
   internal class NFS {
     [Test]
     public async Task CrudUsingNfsApi() {
@@ -29,7 +30,7 @@ namespace SafeApp.Tests {
       var (file, version) = await session.NFS.DirFetchFileAsync(mDataInfo, fileName);
       fileHandle = await session.NFS.FileOpenAsync(mDataInfo, file, Misc.NFS.OpenMode.Read);
       var fetchedContent = await session.NFS.FileReadAsync(fileHandle, 0, 0);
-      Assert.AreEqual(fileContent, fetchedContent);
+      Assert.That(fileContent, Is.EqualTo(fetchedContent));
       fileHandle = await session.NFS.FileOpenAsync(mDataInfo, file, Misc.NFS.OpenMode.Append);
       var appendedContent = Encoding.UTF8.GetBytes(Utils.GetRandomString(10)).ToList();
       await session.NFS.FileWriteAsync(fileHandle, appendedContent);
@@ -38,9 +39,9 @@ namespace SafeApp.Tests {
       (file, version) = await session.NFS.DirFetchFileAsync(mDataInfo, fileName);
       fileHandle = await session.NFS.FileOpenAsync(mDataInfo, file, Misc.NFS.OpenMode.Read);
       fetchedContent = await session.NFS.FileReadAsync(fileHandle, 0, 0);
-      Assert.AreEqual(fileContent.Count + appendedContent.Count, fetchedContent.Count);
+      Assert.That(fileContent.Count + appendedContent.Count, Is.EqualTo(fetchedContent.Count));
       await session.NFS.DirDeleteFileAsync(mDataInfo, fileName, version + 1);
-      Assert.CatchAsync(async () => await session.NFS.DirFetchFileAsync(mDataInfo, fileName));
+      Assert.That(async () => await session.NFS.DirFetchFileAsync(mDataInfo, fileName), Throws.TypeOf<FfiException>());
     }
   }
 }

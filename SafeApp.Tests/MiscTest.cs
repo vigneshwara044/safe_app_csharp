@@ -60,7 +60,7 @@ namespace SafeApp.Tests {
 
     [Test]
     public void IsMockBuildTest() {
-      Assert.AreEqual(true, Authenticator.IsMockBuild());
+      Assert.That(Authenticator.IsMockBuild(), Is.True);
     }
 
     [Test]
@@ -85,12 +85,12 @@ namespace SafeApp.Tests {
         reader.Close();
       }
 
-      Assert.DoesNotThrowAsync(async () => await Session.InitLoggingAsync(configPath));
-      Assert.ThrowsAsync<IpcMsgException>(async () => await Session.DecodeIpcMessageAsync("Some Random Invalid String"));
+      Assert.That(async () => await Session.InitLoggingAsync(configPath), Throws.Nothing);
+      Assert.That(async () => await Session.DecodeIpcMessageAsync("Some Random Invalid String"), Throws.TypeOf<IpcMsgException>());
       using (var fs = new FileStream(Path.Combine(configPath, "Client.log"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
       using (var sr = new StreamReader(fs, Encoding.Default))
       {
-        Assert.IsFalse(string.IsNullOrEmpty(sr.ReadToEnd()));
+        Assert.That(string.IsNullOrEmpty(sr.ReadToEnd()), Is.False);
       }
     }
   }
