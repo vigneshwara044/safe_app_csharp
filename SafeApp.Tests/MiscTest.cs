@@ -14,11 +14,13 @@ using System;
 using Android.App;
 #endif
 
+// ReSharper disable AccessToDisposedClosure
+
 namespace SafeApp.Tests {
   [TestFixture]
   internal class MiscTest {
     [Test]
-    public async Task AccessAppConatinerTest() {
+    public async Task AppConatinerTest() {
       var authReq = new AuthReq {
         App = new AppExchangeInfo {Id = Utils.GetRandomString(10), Name = Utils.GetRandomString(10), Vendor = Utils.GetRandomString(10)},
         AppContainer = true,
@@ -92,6 +94,55 @@ namespace SafeApp.Tests {
       {
         Assert.That(string.IsNullOrEmpty(sr.ReadToEnd()), Is.False);
       }
+    }
+
+    [Test]
+    public async Task AppScopeTest() {
+      var authReq = new AuthReq {
+        App = new AppExchangeInfo {Id = "net.maidsafe.scope.test", Name = "SampleTest", Scope = "Web", Vendor = "MaidSafe.net Ltd"},
+        AppContainer = true,
+        Containers = new List<ContainerPermissions>()
+      };
+      var session = await Utils.CreateTestApp(authReq);
+      var mdInfoWeb = await session.AccessContainer.GetMDataInfoAsync("apps/" + authReq.App.Id);
+      var keys = await session.MData.ListKeysAsync(mdInfoWeb);
+      Assert.That(0, Is.EqualTo(keys.Count));
+      session.Dispose();
+      authReq.App.Scope = "mobile";
+      session = await Utils.CreateTestApp(authReq);
+      var mdInfoMobile = await session.AccessContainer.GetMDataInfoAsync("apps/" + authReq.App.Id);
+      Assert.That(mdInfoMobile.Name, Is.Not.EqualTo(mdInfoWeb.Name));
+      session.Dispose();
+    }
+
+    [Test]
+    public async Task AccountOverflowTest() {
+      var session = await Utils.CreateTestApp();
+      var mdInfo = await session.MDataInfoActions.RandomPublicAsync(16000);
+      var accountInfo = await session.GetAccountInfoAsyc();
+      Assert.That(987, Is.EqualTo(accountInfo.MutationsAvailable));
+      Assert.That(13, Is.EqualTo(accountInfo.MutationsDone));
+      using (var permissionsHandle = await session.MDataPermissions.NewAsync())
+      using (var userHandle = await session.Crypto.AppPubSignKeyAsync()) {
+        await session.MDataPermissions.InsertAsync(permissionsHandle, userHandle, new PermissionSet { Insert = true, Delete = true });
+        await session.MData.PutAsync(mdInfo, permissionsHandle, NativeHandle.Zero);
+        for (var i = 0; i < (long)accountInfo.MutationsAvailable - 1; i++) {
+          var entryHandle = await session.MDataEntryActions.NewAsync();
+          await session.MDataEntryActions.InsertAsync(entryHandle, Utils.GetRandomData(10).ToList(), Utils.GetRandomData(15).ToList());
+          await session.MData.MutateEntriesAsync(mdInfo, entryHandle);
+          entryHandle.Dispose();
+        }
+      }
+      accountInfo = await session.GetAccountInfoAsyc();
+      Assert.That(1000, Is.EqualTo(accountInfo.MutationsDone));
+      Assert.That(0, Is.EqualTo(accountInfo.MutationsAvailable));
+      using (var entryActionHandle = await session.MDataEntryActions.NewAsync()) {
+        await session.MDataEntryActions.InsertAsync(entryActionHandle, Utils.GetRandomData(10).ToList(), Utils.GetRandomData(15).ToList());
+        Assert.That(async () => {
+          await session.MData.MutateEntriesAsync(mdInfo, entryActionHandle);
+        }, Throws.TypeOf<FfiException>());
+      }
+      session.Dispose();
     }
   }
 }
