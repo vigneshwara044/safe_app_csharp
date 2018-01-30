@@ -32,10 +32,7 @@ namespace SafeApp.Tests {
       }
 
       authReq.Containers = new List<ContainerPermissions> {
-        new ContainerPermissions {
-          ContName = "_public",
-          Access = new PermissionSet {Read = true}
-        },
+        new ContainerPermissions {ContName = "_public", Access = new PermissionSet {Read = true}},
         new ContainerPermissions {
           ContName = "_videos",
           Access = new PermissionSet {Read = true, Insert = true, Delete = false, ManagePermissions = false, Update = false}
@@ -66,13 +63,13 @@ namespace SafeApp.Tests {
 
       var authRequest = await Session.EncodeAuthReqAsync(authReq);
       var response = await Utils.AuthenticateAuthRequest(authRequest.Item2, false);
-      Assert.That(async () =>  await Session.DecodeIpcMessageAsync(response), Throws.TypeOf<IpcMsgException>());
+      Assert.That(async () => await Session.DecodeIpcMessageAsync(response), Throws.TypeOf<IpcMsgException>());
 
       authReq.Containers =
         new List<ContainerPermissions> {new ContainerPermissions {ContName = "someConatiner", Access = new PermissionSet()}};
 
       Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<FfiException>());
-      authReq.App = new AppExchangeInfo { Id = "", Name = "", Scope = "", Vendor = "" };
+      authReq.App = new AppExchangeInfo {Id = "", Name = "", Scope = "", Vendor = ""};
       Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<ArgumentException>());
       authReq.App = new AppExchangeInfo();
       Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<ArgumentNullException>());
@@ -105,8 +102,7 @@ namespace SafeApp.Tests {
       var mDataInfo = await session.AccessContainer.GetMDataInfoAsync("_public");
       Assert.That(mDataInfo.TypeTag, Is.EqualTo(15000));
       session.Dispose();
-      containerRequest = new ContainersReq
-      {
+      containerRequest = new ContainersReq {
         App = authReq.App,
         Containers = new List<ContainerPermissions> {
           new ContainerPermissions {ContName = "_videos", Access = new PermissionSet {Read = true}}
@@ -180,10 +176,7 @@ namespace SafeApp.Tests {
       Assert.That(unregisteredClientResponse, Is.Not.Null);
       Assert.That(unregisteredClientResponse.ReqId, Is.EqualTo(reqId));
       var session = await Session.AppUnregisteredAsync(unregisteredClientResponse.SerialisedCfg);
-      var mdInfo = new MDataInfo {
-        Name = publicMDataInfo.Name,
-        TypeTag = publicMDataInfo.TypeTag
-      };
+      var mdInfo = new MDataInfo {Name = publicMDataInfo.Name, TypeTag = publicMDataInfo.TypeTag};
       await session.MData.GetValueAsync(mdInfo, Encoding.UTF8.GetBytes("index.html").ToList());
       session.Dispose();
     }

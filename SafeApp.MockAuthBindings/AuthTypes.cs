@@ -8,10 +8,12 @@ namespace SafeApp.MockAuthBindings {
   public struct RegisteredApp {
     public AppExchangeInfo AppInfo;
     public List<ContainerPermissions> Containers;
+
     internal RegisteredApp(RegisteredAppNative native) {
       AppInfo = native.AppInfo;
       Containers = BindingUtils.CopyToObjectList<ContainerPermissions>(native.ContainersPtr, (int)native.ContainersLen);
     }
+
     // ReSharper disable once UnusedMember.Global
     internal RegisteredAppNative ToNative() {
       return new RegisteredAppNative {
@@ -30,6 +32,7 @@ namespace SafeApp.MockAuthBindings {
 
     // ReSharper disable once NotAccessedField.Compiler
     public ulong ContainersCap;
+
     // ReSharper disable once UnusedMember.Global
     internal void Free() {
       BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);

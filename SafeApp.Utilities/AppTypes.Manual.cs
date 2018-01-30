@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 
 namespace SafeApp.Utilities {
   public abstract class IpcMsg { }
+
   [PublicAPI]
   public class AuthIpcMsg : IpcMsg {
     public AuthGranted AuthGranted;
@@ -14,6 +15,7 @@ namespace SafeApp.Utilities {
       AuthGranted = authGranted;
     }
   }
+
   [PublicAPI]
   public class UnregisteredIpcMsg : IpcMsg {
     public uint ReqId;
@@ -24,6 +26,7 @@ namespace SafeApp.Utilities {
       SerialisedCfg = BindingUtils.CopyToByteList(serialisedCfgPtr, (int)serialisedCfgLen);
     }
   }
+
   [PublicAPI]
   public class ContainersIpcMsg : IpcMsg {
     public uint ReqId;
@@ -41,8 +44,10 @@ namespace SafeApp.Utilities {
       ReqId = reqId;
     }
   }
+
   [PublicAPI]
   public class RevokedIpcMsg : IpcMsg { }
+
   [PublicAPI]
   public class IpcMsgException : FfiException {
     public readonly uint ReqId;

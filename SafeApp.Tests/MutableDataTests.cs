@@ -11,6 +11,62 @@ namespace SafeApp.Tests {
   [TestFixture]
   internal class MutableDataTests {
     [Test]
+    public async Task AddRemoveUserPermission() {
+      var locator = Utils.GetRandomString(10);
+      var secret = Utils.GetRandomString(10);
+      var authReq = new AuthReq {
+        App = new AppExchangeInfo {Id = "net.maidsafe.mdata.permission", Name = "CMS", Vendor = "MaidSafe.net Ltd"},
+        AppContainer = true,
+        Containers = new List<ContainerPermissions>()
+      };
+      var cmsApp = await Utils.CreateTestApp(locator, secret, authReq);
+      var mDataInfo = await Utils.PreparePublicDirectory(cmsApp);
+      authReq.App.Name = "Hosting";
+      authReq.App.Id = "net.maidsafe.mdata.host";
+      var ipcMsg = await Session.EncodeAuthReqAsync(authReq);
+      var response = await Utils.AuthenticateAuthRequest(locator, secret, ipcMsg.Item2, true);
+      var decodedResponse = await Session.DecodeIpcMessageAsync(response) as AuthIpcMsg;
+      Assert.NotNull(decodedResponse);
+      var hostingApp = await Session.AppRegisteredAsync(authReq.App.Id, decodedResponse.AuthGranted);
+      var ipcReq = await Session.EncodeShareMDataRequestAsync(
+        new ShareMDataReq {
+          App = authReq.App,
+          MData = new List<ShareMData> {
+            new ShareMData {Name = mDataInfo.Name, TypeTag = mDataInfo.TypeTag, Perms = new PermissionSet {Insert = true, Read = true}}
+          }
+        });
+      await Utils.AuthenticateShareMDataRequest(locator, secret, ipcReq.Item2, true);
+      await hostingApp.AccessContainer.RefreshAccessInfoAsync();
+      using (var entryhandle = await hostingApp.MDataEntryActions.NewAsync()) {
+        await hostingApp.MDataEntryActions.InsertAsync(
+          entryhandle,
+          Encoding.UTF8.GetBytes("default.html").ToList(),
+          Encoding.UTF8.GetBytes("<html><body>Hello Default</body></html>").ToList());
+        await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryhandle);
+      }
+
+      var version = await cmsApp.MData.GetVersionAsync(mDataInfo);
+      using (var permissionHandle = await cmsApp.MData.ListPermissionsAsync(mDataInfo)) {
+        var userPermissions = await cmsApp.MDataPermissions.ListAsync(permissionHandle);
+        Assert.That(await cmsApp.MDataPermissions.LenAsync(permissionHandle), Is.EqualTo(userPermissions.Count));
+        var userPermissionToDel = userPermissions.Find(userPerm => userPerm.Item2.ManagePermissions == false);
+        await cmsApp.MData.DelUserPermissionsAsync(mDataInfo, userPermissionToDel.Item1, version + 1);
+        userPermissions.ForEach(perm => perm.Item1.Dispose());
+      }
+
+      using (var entryHandle = await hostingApp.MDataEntryActions.NewAsync()) {
+        await hostingApp.MDataEntryActions.InsertAsync(
+          entryHandle,
+          Encoding.UTF8.GetBytes("home.html").ToList(),
+          Encoding.UTF8.GetBytes("<html><body>Hello Home!</body></html>").ToList());
+        Assert.That(async () => { await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryHandle); }, Throws.TypeOf<FfiException>());
+      }
+
+      cmsApp.Dispose();
+      hostingApp.Dispose();
+    }
+
+    [Test]
     public async Task RandomPrivateMutableDataUpdateAction() {
       var session = await Utils.CreateTestApp();
       const ulong tagType = 15001;
@@ -152,75 +208,17 @@ namespace SafeApp.Tests {
       }
 
       using (var entryAction = await session2.MDataEntryActions.NewAsync())
-      using (var entriesHandle = await session2.MData.ListEntriesAsync(mDataInfo))
-      {
+      using (var entriesHandle = await session2.MData.ListEntriesAsync(mDataInfo)) {
         var keys = await session2.MData.ListKeysAsync(mDataInfo);
-        foreach (var key in keys)
-        {
+        foreach (var key in keys) {
           var encKey = await session2.MDataEntries.GetAsync(entriesHandle, key.Val);
           await session2.MDataEntryActions.DeleteAsync(entryAction, key.Val, encKey.Item2);
         }
-        Assert.That(async () => {
-          await session2.MData.MutateEntriesAsync(mDataInfo, entryAction);
-        }, Throws.TypeOf<FfiException>());
+
+        Assert.That(async () => { await session2.MData.MutateEntriesAsync(mDataInfo, entryAction); }, Throws.TypeOf<FfiException>());
       }
+
       session2.Dispose();
-    }
-
-    [Test]
-    public async Task AddRemoveUserPermission() {
-      var locator = Utils.GetRandomString(10);
-      var secret = Utils.GetRandomString(10);
-      var authReq = new AuthReq {
-        App = new AppExchangeInfo { Id = "net.maidsafe.mdata.permission", Name = "CMS", Vendor = "MaidSafe.net Ltd"},
-        AppContainer = true,
-        Containers = new List<ContainerPermissions>()
-      };
-      var cmsApp = await Utils.CreateTestApp(locator, secret, authReq);
-      var mDataInfo = await Utils.PreparePublicDirectory(cmsApp);
-      authReq.App.Name = "Hosting";
-      authReq.App.Id = "net.maidsafe.mdata.host";
-      var ipcMsg = await Session.EncodeAuthReqAsync(authReq);
-      var response = await Utils.AuthenticateAuthRequest(locator, secret, ipcMsg.Item2, true);
-      var decodedResponse = await Session.DecodeIpcMessageAsync(response) as AuthIpcMsg;
-      Assert.NotNull(decodedResponse);
-      var hostingApp = await Session.AppRegisteredAsync(authReq.App.Id, decodedResponse.AuthGranted);
-      var ipcReq = await Session.EncodeShareMDataRequestAsync(new ShareMDataReq {
-        App = authReq.App,
-        MData = new List<ShareMData> {
-          new ShareMData {
-            Name = mDataInfo.Name,
-            TypeTag = mDataInfo.TypeTag,
-            Perms = new PermissionSet {  Insert = true, Read = true }
-          }
-        }
-      });
-      await Utils.AuthenticateShareMDataRequest(locator, secret, ipcReq.Item2, true);
-      await hostingApp.AccessContainer.RefreshAccessInfoAsync();
-      using (var entryhandle = await hostingApp.MDataEntryActions.NewAsync())
-      {
-        await hostingApp.MDataEntryActions.InsertAsync(entryhandle, Encoding.UTF8.GetBytes("default.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello Default</body></html>").ToList());
-        await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryhandle);
-      }
-
-      var version = await cmsApp.MData.GetVersionAsync(mDataInfo);
-      using (var permissionHandle = await cmsApp.MData.ListPermissionsAsync(mDataInfo)) {
-        var userPermissions = await cmsApp.MDataPermissions.ListAsync(permissionHandle);
-        Assert.That(await cmsApp.MDataPermissions.LenAsync(permissionHandle),Is.EqualTo(userPermissions.Count));
-        var userPermissionToDel = userPermissions.Find(userPerm => userPerm.Item2.ManagePermissions == false);
-        await cmsApp.MData.DelUserPermissionsAsync(mDataInfo, userPermissionToDel.Item1, version + 1);
-        userPermissions.ForEach(perm => perm.Item1.Dispose());
-      }
-
-      using (var entryHandle = await hostingApp.MDataEntryActions.NewAsync())
-      {
-        await hostingApp.MDataEntryActions.InsertAsync(entryHandle, Encoding.UTF8.GetBytes("home.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello Home!</body></html>").ToList());
-        Assert.That(async () => {
-          await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryHandle);
-        }, Throws.TypeOf<FfiException>());
-      }
-      cmsApp.Dispose();
-      hostingApp.Dispose();
     }
   }
 }

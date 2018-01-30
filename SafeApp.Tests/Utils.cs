@@ -86,15 +86,15 @@ namespace SafeApp.Tests {
       return await Session.AppRegisteredAsync(authReq.App.Id, authResponse.AuthGranted);
     }
 
-    public static string GetRandomString(int length) {
-      const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      return new string(Enumerable.Repeat(chars, length).Select(s => s[Random.Next(s.Length)]).ToArray());
-    }
-
     public static byte[] GetRandomData(int length) {
       var data = new byte[length];
       Random.NextBytes(data);
       return data;
+    }
+
+    public static string GetRandomString(int length) {
+      const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      return new string(Enumerable.Repeat(chars, length).Select(s => s[Random.Next(s.Length)]).ToArray());
     }
 
     public static async Task<MDataInfo> PreparePublicDirectory(Session session) {
@@ -111,7 +111,10 @@ namespace SafeApp.Tests {
         var encMetaData = await session.MData.EncodeMetadata(metadata);
         var permissions = new PermissionSet {Read = true, ManagePermissions = true, Insert = true};
         await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes(AppConstants.MDataMetaDataKey).ToList(), encMetaData);
-        await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes("index.html").ToList(), Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
+        await session.MDataEntries.InsertAsync(
+          entryhandle,
+          Encoding.UTF8.GetBytes("index.html").ToList(),
+          Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
         await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, permissions);
         await session.MData.PutAsync(mDataInfo, permissionHandle, entryhandle);
       }

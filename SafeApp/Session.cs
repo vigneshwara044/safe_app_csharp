@@ -79,7 +79,7 @@ namespace SafeApp {
 
     private Session() {
       IsDisconnected = true;
-      _appPtr = SafeAppPtr.Zero;
+      _appPtr = new SafeAppPtr();
     }
 
     public void Dispose() {
@@ -178,7 +178,7 @@ namespace SafeApp {
         _disconnectedHandle.Free();
       }
 
-      if (_appPtr == SafeAppPtr.Zero) {
+      if (_appPtr == IntPtr.Zero) {
         return;
       }
 
@@ -220,6 +220,10 @@ namespace SafeApp {
       await AppBindings.AppInitLoggingAsync(null);
     }
 
+    public static bool IsMockBuild() {
+      return AppBindings.IsMockBuild();
+    }
+
     private static void OnDisconnected(Session session) {
       session.IsDisconnected = true;
       Disconnected?.Invoke(session, EventArgs.Empty);
@@ -250,10 +254,6 @@ namespace SafeApp {
 
     public static Task SetLogOutputPathAsync(string outputFileName) {
       return AppBindings.AppOutputLogPathAsync(outputFileName);
-    }
-
-    public static bool IsMockBuild() {
-      return AppBindings.IsMockBuild();
     }
   }
 }
