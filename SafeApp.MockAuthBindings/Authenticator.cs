@@ -120,7 +120,7 @@ namespace SafeApp.MockAuthBindings {
     }
 
     public Task<string> EncodeShareMdataRespAsync(ShareMDataIpcReq req, bool allow) {
-      return AuthBindings.EncodeShareMdataRespAsync(_authPtr, ref req.ShareMDataReq, req.ReqId, allow);
+      return AuthBindings.EncodeShareMDataRespAsync(_authPtr, ref req.ShareMDataReq, req.ReqId, allow);
     }
 
     public static Task<string> EncodeUnregisteredRespAsync(uint reqId, bool allow) {

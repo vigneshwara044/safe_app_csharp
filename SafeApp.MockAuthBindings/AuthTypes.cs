@@ -14,13 +14,12 @@ namespace SafeApp.MockAuthBindings {
       Containers = BindingUtils.CopyToObjectList<ContainerPermissions>(native.ContainersPtr, (int)native.ContainersLen);
     }
 
-    // ReSharper disable once UnusedMember.Global
     internal RegisteredAppNative ToNative() {
-      return new RegisteredAppNative {
+      return new RegisteredAppNative() {
         AppInfo = AppInfo,
         ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
-        ContainersLen = (ulong)(Containers?.Count ?? 0),
-        ContainersCap = 0
+        ContainersLen = (IntPtr)(Containers?.Count ?? 0),
+        ContainersCap = IntPtr.Zero
       };
     }
   }
@@ -28,12 +27,11 @@ namespace SafeApp.MockAuthBindings {
   internal struct RegisteredAppNative {
     public AppExchangeInfo AppInfo;
     public IntPtr ContainersPtr;
-    public ulong ContainersLen;
+    public IntPtr ContainersLen;
 
     // ReSharper disable once NotAccessedField.Compiler
-    public ulong ContainersCap;
+    public IntPtr ContainersCap;
 
-    // ReSharper disable once UnusedMember.Global
     internal void Free() {
       BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
     }

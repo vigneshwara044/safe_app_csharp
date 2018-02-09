@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Utilities;
 
@@ -15,7 +16,7 @@ namespace SafeApp.MockAuthBindings {
     Task<List<AppExchangeInfo>> AuthRevokedAppsAsync(IntPtr auth);
     Task<List<RegisteredApp>> AuthRegisteredAppsAsync(IntPtr auth);
     Task<List<AppAccess>> AuthAppsAccessingMutableDataAsync(IntPtr auth, byte[] mdName, ulong mdTypeTag);
-    Task<string> EncodeShareMdataRespAsync(IntPtr auth, ref ShareMDataReq req, uint reqId, bool isGranted);
+    Task<string> EncodeShareMDataRespAsync(IntPtr auth, ref ShareMDataReq req, uint reqId, bool isGranted);
     Task<string> AuthRevokeAppAsync(IntPtr auth, string appId);
     Task AuthFlushAppRevocationQueueAsync(IntPtr auth);
     Task<string> EncodeUnregisteredRespAsync(uint reqId, bool isGranted);

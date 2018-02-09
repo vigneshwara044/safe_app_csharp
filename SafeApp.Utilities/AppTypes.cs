@@ -1,6 +1,6 @@
+using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
@@ -13,7 +13,7 @@ namespace SafeApp.Utilities {
     Insert,
     Update,
     Delete,
-    ManagePermissions
+    ManagePermissions,
   }
 
   [PublicAPI]
@@ -24,34 +24,35 @@ namespace SafeApp.Utilities {
 
   [PublicAPI]
   public struct MDataInfo {
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.XorNameLen)]
     public byte[] Name;
-
     public ulong TypeTag;
-    [MarshalAs(UnmanagedType.U1)] public bool HasEncInfo;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymKeyLen)]
+    [MarshalAs(UnmanagedType.U1)]
+    public bool HasEncInfo;
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SymKeyLen)]
     public byte[] EncKey;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymNonceLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SymNonceLen)]
     public byte[] EncNonce;
-
-    [MarshalAs(UnmanagedType.U1)] public bool HasNewEncInfo;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymKeyLen)]
+    [MarshalAs(UnmanagedType.U1)]
+    public bool HasNewEncInfo;
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SymKeyLen)]
     public byte[] NewEncKey;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymNonceLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SymNonceLen)]
     public byte[] NewEncNonce;
   }
 
   [PublicAPI]
   public struct PermissionSet {
-    [MarshalAs(UnmanagedType.U1)] public bool Read;
-    [MarshalAs(UnmanagedType.U1)] public bool Insert;
-    [MarshalAs(UnmanagedType.U1)] public bool Update;
-    [MarshalAs(UnmanagedType.U1)] public bool Delete;
-    [MarshalAs(UnmanagedType.U1)] public bool ManagePermissions;
+    [MarshalAs(UnmanagedType.U1)]
+    public bool Read;
+    [MarshalAs(UnmanagedType.U1)]
+    public bool Insert;
+    [MarshalAs(UnmanagedType.U1)]
+    public bool Update;
+    [MarshalAs(UnmanagedType.U1)]
+    public bool Delete;
+    [MarshalAs(UnmanagedType.U1)]
+    public bool ManagePermissions;
   }
 
   [PublicAPI]
@@ -63,34 +64,28 @@ namespace SafeApp.Utilities {
     internal AuthReq(AuthReqNative native) {
       App = native.App;
       AppContainer = native.AppContainer;
-      Containers = BindingUtils.CopyToObjectList<ContainerPermissions>(native.ContainersPtr, (int)native.ContainersLen);
+      Containers = BindingUtils.CopyToObjectList<ContainerPermissions>(native.ContainersPtr, (int) native.ContainersLen);
     }
 
     internal AuthReqNative ToNative() {
-      if (App.Id == null || App.Name == null || App.Vendor == null) {
-        throw new ArgumentNullException(nameof(AppExchangeInfo));
-      }
-      if (string.IsNullOrEmpty(App.Id) || string.IsNullOrEmpty(App.Name) || string.IsNullOrEmpty(App.Vendor))
-      {
-        throw new ArgumentException(nameof(AppExchangeInfo));
-      }
-      return new AuthReqNative {
+      return new AuthReqNative() {
         App = App,
         AppContainer = AppContainer,
         ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
-        ContainersLen = (ulong)(Containers?.Count ?? 0),
-        ContainersCap = 0
+        ContainersLen = (IntPtr) (Containers?.Count ?? 0),
+        ContainersCap = IntPtr.Zero
       };
     }
   }
 
   internal struct AuthReqNative {
     public AppExchangeInfo App;
-    [MarshalAs(UnmanagedType.U1)] public bool AppContainer;
+    [MarshalAs(UnmanagedType.U1)]
+    public bool AppContainer;
     public IntPtr ContainersPtr;
-    public ulong ContainersLen;
+    public IntPtr ContainersLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public ulong ContainersCap;
+    public IntPtr ContainersCap;
 
     internal void Free() {
       BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
@@ -104,15 +99,15 @@ namespace SafeApp.Utilities {
 
     internal ContainersReq(ContainersReqNative native) {
       App = native.App;
-      Containers = BindingUtils.CopyToObjectList<ContainerPermissions>(native.ContainersPtr, (int)native.ContainersLen);
+      Containers = BindingUtils.CopyToObjectList<ContainerPermissions>(native.ContainersPtr, (int) native.ContainersLen);
     }
 
     internal ContainersReqNative ToNative() {
-      return new ContainersReqNative {
+      return new ContainersReqNative() {
         App = App,
         ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
-        ContainersLen = (ulong)(Containers?.Count ?? 0),
-        ContainersCap = 0
+        ContainersLen = (IntPtr) (Containers?.Count ?? 0),
+        ContainersCap = IntPtr.Zero
       };
     }
   }
@@ -120,9 +115,9 @@ namespace SafeApp.Utilities {
   internal struct ContainersReqNative {
     public AppExchangeInfo App;
     public IntPtr ContainersPtr;
-    public ulong ContainersLen;
-    // ReSharper disable NotAccessedField.Compiler
-    public ulong ContainersCap;
+    public IntPtr ContainersLen;
+    // ReSharper disable once NotAccessedField.Compiler
+    public IntPtr ContainersCap;
 
     internal void Free() {
       BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
@@ -133,20 +128,18 @@ namespace SafeApp.Utilities {
   public struct AppExchangeInfo {
     [MarshalAs(UnmanagedType.LPStr)]
     public string Id;
-
-    [CanBeNull, MarshalAs(UnmanagedType.LPStr)]
+    [MarshalAs(UnmanagedType.LPStr)]
     public string Scope;
-
     [MarshalAs(UnmanagedType.LPStr)]
     public string Name;
-
     [MarshalAs(UnmanagedType.LPStr)]
     public string Vendor;
   }
 
   [PublicAPI]
   public struct ContainerPermissions {
-    [MarshalAs(UnmanagedType.LPStr)] public string ContName;
+    [MarshalAs(UnmanagedType.LPStr)]
+    public string ContName;
     public PermissionSet Access;
   }
 
@@ -157,15 +150,15 @@ namespace SafeApp.Utilities {
 
     internal ShareMDataReq(ShareMDataReqNative native) {
       App = native.App;
-      MData = BindingUtils.CopyToObjectList<ShareMData>(native.MDataPtr, (int)native.MDataLen);
+      MData = BindingUtils.CopyToObjectList<ShareMData>(native.MDataPtr, (int) native.MDataLen);
     }
 
     internal ShareMDataReqNative ToNative() {
-      return new ShareMDataReqNative {
+      return new ShareMDataReqNative() {
         App = App,
         MDataPtr = BindingUtils.CopyFromObjectList(MData),
-        MDataLen = (ulong)(MData?.Count ?? 0),
-        MDataCap = 0
+        MDataLen = (IntPtr) (MData?.Count ?? 0),
+        MDataCap = IntPtr.Zero
       };
     }
   }
@@ -173,9 +166,9 @@ namespace SafeApp.Utilities {
   internal struct ShareMDataReqNative {
     public AppExchangeInfo App;
     public IntPtr MDataPtr;
-    public ulong MDataLen;
+    public IntPtr MDataLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public ulong MDataCap;
+    public IntPtr MDataCap;
 
     internal void Free() {
       BindingUtils.FreeList(ref MDataPtr, ref MDataLen);
@@ -185,10 +178,8 @@ namespace SafeApp.Utilities {
   [PublicAPI]
   public struct ShareMData {
     public ulong TypeTag;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.XorNameLen)]
     public byte[] Name;
-
     public PermissionSet Perms;
   }
 
@@ -203,17 +194,17 @@ namespace SafeApp.Utilities {
       AppKeys = native.AppKeys;
       AccessContainerInfo = native.AccessContainerInfo;
       AccessContainerEntry = new AccessContainerEntry(native.AccessContainerEntry);
-      BootstrapConfig = BindingUtils.CopyToByteList(native.BootstrapConfigPtr, (int)native.BootstrapConfigLen);
+      BootstrapConfig = BindingUtils.CopyToByteList(native.BootstrapConfigPtr, (int) native.BootstrapConfigLen);
     }
 
     internal AuthGrantedNative ToNative() {
-      return new AuthGrantedNative {
+      return new AuthGrantedNative() {
         AppKeys = AppKeys,
         AccessContainerInfo = AccessContainerInfo,
         AccessContainerEntry = AccessContainerEntry.ToNative(),
         BootstrapConfigPtr = BindingUtils.CopyFromByteList(BootstrapConfig),
-        BootstrapConfigLen = (ulong)(BootstrapConfig?.Count ?? 0),
-        BootstrapConfigCap = 0
+        BootstrapConfigLen = (IntPtr) (BootstrapConfig?.Count ?? 0),
+        BootstrapConfigCap = IntPtr.Zero
       };
     }
   }
@@ -223,9 +214,9 @@ namespace SafeApp.Utilities {
     public AccessContInfo AccessContainerInfo;
     public AccessContainerEntryNative AccessContainerEntry;
     public IntPtr BootstrapConfigPtr;
-    public ulong BootstrapConfigLen;
+    public IntPtr BootstrapConfigLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public ulong BootstrapConfigCap;
+    public IntPtr BootstrapConfigCap;
 
     internal void Free() {
       AccessContainerEntry.Free();
@@ -235,89 +226,84 @@ namespace SafeApp.Utilities {
 
   [PublicAPI]
   public struct AppKeys {
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SignPublicKeyLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SignPublicKeyLen)]
     public byte[] OwnerKey;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymKeyLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SymKeyLen)]
     public byte[] EncKey;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SignPublicKeyLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SignPublicKeyLen)]
     public byte[] SignPk;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SignSecretKeyLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SignSecretKeyLen)]
     public byte[] SignSk;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.AsymPublicKeyLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.AsymPublicKeyLen)]
     public byte[] EncPk;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.AsymSecretKeyLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.AsymSecretKeyLen)]
     public byte[] EncSk;
   }
 
   [PublicAPI]
   public struct AccessContInfo {
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.XorNameLen)]
     public byte[] Id;
-
     public ulong Tag;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymNonceLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SymNonceLen)]
     public byte[] Nonce;
   }
 
   [PublicAPI]
   public struct AccessContainerEntry {
-    public List<ContainerInfo> Entry;
+    public List<ContainerInfo> Containers;
 
     internal AccessContainerEntry(AccessContainerEntryNative native) {
-      Entry = BindingUtils.CopyToObjectList<ContainerInfo>(native.EntryPtr, (int)native.EntryLen);
+      Containers = BindingUtils.CopyToObjectList<ContainerInfo>(native.ContainersPtr, (int) native.ContainersLen);
     }
 
     internal AccessContainerEntryNative ToNative() {
-      return new AccessContainerEntryNative {
-        EntryPtr = BindingUtils.CopyFromObjectList(Entry),
-        EntryLen = (ulong)(Entry?.Count ?? 0),
-        EntryCap = 0
+      return new AccessContainerEntryNative() {
+        ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
+        ContainersLen = (IntPtr) (Containers?.Count ?? 0),
+        ContainersCap = IntPtr.Zero
       };
     }
   }
 
   internal struct AccessContainerEntryNative {
-    public IntPtr EntryPtr;
-    public ulong EntryLen;
+    public IntPtr ContainersPtr;
+    public IntPtr ContainersLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public ulong EntryCap;
+    public IntPtr ContainersCap;
 
     internal void Free() {
-      BindingUtils.FreeList(ref EntryPtr, ref EntryLen);
+      BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
     }
   }
 
   [PublicAPI]
   public struct ContainerInfo {
-    [MarshalAs(UnmanagedType.LPStr)] public string Name;
+    [MarshalAs(UnmanagedType.LPStr)]
+    public string Name;
     public MDataInfo MDataInfo;
     public PermissionSet Permissions;
   }
 
   [PublicAPI]
   public struct AppAccess {
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SignPublicKeyLen)]
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.SignPublicKeyLen)]
     public byte[] SignKey;
-
     public PermissionSet Permissions;
-    [MarshalAs(UnmanagedType.LPStr)] public string Name;
-    [MarshalAs(UnmanagedType.LPStr)] public string AppId;
+    [MarshalAs(UnmanagedType.LPStr)]
+    public string Name;
+    [MarshalAs(UnmanagedType.LPStr)]
+    public string AppId;
   }
 
   [PublicAPI]
   public struct MetadataResponse {
-    [MarshalAs(UnmanagedType.LPStr)] public string Name;
-    [MarshalAs(UnmanagedType.LPStr)] public string Description;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
+    [MarshalAs(UnmanagedType.LPStr)]
+    public string Name;
+    [MarshalAs(UnmanagedType.LPStr)]
+    public string Description;
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.XorNameLen)]
     public byte[] XorName;
-
     public ulong TypeTag;
   }
 
@@ -327,14 +313,14 @@ namespace SafeApp.Utilities {
     public ulong EntryVersion;
 
     internal MDataValue(MDataValueNative native) {
-      Content = BindingUtils.CopyToByteList(native.ContentPtr, (int)native.ContentLen);
+      Content = BindingUtils.CopyToByteList(native.ContentPtr, (int) native.ContentLen);
       EntryVersion = native.EntryVersion;
     }
 
     internal MDataValueNative ToNative() {
-      return new MDataValueNative {
+      return new MDataValueNative() {
         ContentPtr = BindingUtils.CopyFromByteList(Content),
-        ContentLen = (ulong)(Content?.Count ?? 0),
+        ContentLen = (IntPtr) (Content?.Count ?? 0),
         EntryVersion = EntryVersion
       };
     }
@@ -342,9 +328,9 @@ namespace SafeApp.Utilities {
 
   internal struct MDataValueNative {
     public IntPtr ContentPtr;
-    public ulong ContentLen;
+    public IntPtr ContentLen;
     public ulong EntryVersion;
-    // ReSharper disable once UnusedMember.Global
+
     internal void Free() {
       BindingUtils.FreeList(ref ContentPtr, ref ContentLen);
     }
@@ -355,18 +341,21 @@ namespace SafeApp.Utilities {
     public List<byte> Val;
 
     internal MDataKey(MDataKeyNative native) {
-      Val = BindingUtils.CopyToByteList(native.ValPtr, (int)native.ValLen);
+      Val = BindingUtils.CopyToByteList(native.ValPtr, (int) native.ValLen);
     }
 
     internal MDataKeyNative ToNative() {
-      return new MDataKeyNative {ValPtr = BindingUtils.CopyFromByteList(Val), ValLen = (ulong)(Val?.Count ?? 0)};
+      return new MDataKeyNative() {
+        ValPtr = BindingUtils.CopyFromByteList(Val),
+        ValLen = (IntPtr) (Val?.Count ?? 0)
+      };
     }
   }
 
   internal struct MDataKeyNative {
     public IntPtr ValPtr;
-    public ulong ValLen;
-    // ReSharper disable once UnusedMember.Global
+    public IntPtr ValLen;
+
     internal void Free() {
       BindingUtils.FreeList(ref ValPtr, ref ValLen);
     }
@@ -388,20 +377,20 @@ namespace SafeApp.Utilities {
       CreatedNsec = native.CreatedNsec;
       ModifiedSec = native.ModifiedSec;
       ModifiedNsec = native.ModifiedNsec;
-      UserMetadata = BindingUtils.CopyToByteList(native.UserMetadataPtr, (int)native.UserMetadataLen);
+      UserMetadata = BindingUtils.CopyToByteList(native.UserMetadataPtr, (int) native.UserMetadataLen);
       DataMapName = native.DataMapName;
     }
 
     internal FileNative ToNative() {
-      return new FileNative {
+      return new FileNative() {
         Size = Size,
         CreatedSec = CreatedSec,
         CreatedNsec = CreatedNsec,
         ModifiedSec = ModifiedSec,
         ModifiedNsec = ModifiedNsec,
         UserMetadataPtr = BindingUtils.CopyFromByteList(UserMetadata),
-        UserMetadataLen = (ulong)(UserMetadata?.Count ?? 0),
-        UserMetadataCap = 0,
+        UserMetadataLen = (IntPtr) (UserMetadata?.Count ?? 0),
+        UserMetadataCap = IntPtr.Zero,
         DataMapName = DataMapName
       };
     }
@@ -414,20 +403,21 @@ namespace SafeApp.Utilities {
     public long ModifiedSec;
     public uint ModifiedNsec;
     public IntPtr UserMetadataPtr;
-    public ulong UserMetadataLen;
+    public IntPtr UserMetadataLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public ulong UserMetadataCap;
-
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
+    public IntPtr UserMetadataCap;
+    [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.XorNameLen)]
     public byte[] DataMapName;
 
     internal void Free() {
       BindingUtils.FreeList(ref UserMetadataPtr, ref UserMetadataLen);
     }
   }
+
   [PublicAPI]
   public struct UserPermissionSet {
-    public long UserH;
+    public ulong UserH;
     public PermissionSet PermSet;
   }
+
 }

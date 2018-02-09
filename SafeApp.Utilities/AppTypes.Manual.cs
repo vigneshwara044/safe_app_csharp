@@ -1,59 +1,58 @@
 using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+using System.Runtime.InteropServices;
 
 namespace SafeApp.Utilities {
-  public abstract class IpcMsg { }
+  public abstract class IpcMsg {
+  }
 
-  [PublicAPI]
   public class AuthIpcMsg : IpcMsg {
-    public AuthGranted AuthGranted;
     public uint ReqId;
+    public AuthGranted AuthGranted;
 
     public AuthIpcMsg(uint reqId, AuthGranted authGranted) {
-      ReqId = reqId;
-      AuthGranted = authGranted;
+        ReqId = reqId;
+        AuthGranted = authGranted;
     }
   }
 
-  [PublicAPI]
   public class UnregisteredIpcMsg : IpcMsg {
     public uint ReqId;
     public List<byte> SerialisedCfg;
 
-    public UnregisteredIpcMsg(uint reqId, IntPtr serialisedCfgPtr, ulong serialisedCfgLen) {
-      ReqId = reqId;
-      SerialisedCfg = BindingUtils.CopyToByteList(serialisedCfgPtr, (int)serialisedCfgLen);
+    public UnregisteredIpcMsg(uint reqId, IntPtr serialisedCfgPtr, IntPtr serialisedCfgLen) {
+        ReqId = reqId;
+        SerialisedCfg = BindingUtils.CopyToByteList(serialisedCfgPtr, (int) serialisedCfgLen);
     }
   }
 
-  [PublicAPI]
   public class ContainersIpcMsg : IpcMsg {
     public uint ReqId;
 
     public ContainersIpcMsg(uint reqId) {
-      ReqId = reqId;
+        ReqId = reqId;
     }
   }
 
-  [PublicAPI]
   public class ShareMDataIpcMsg : IpcMsg {
     public uint ReqId;
 
     public ShareMDataIpcMsg(uint reqId) {
-      ReqId = reqId;
+        ReqId = reqId;
     }
   }
 
-  [PublicAPI]
-  public class RevokedIpcMsg : IpcMsg { }
+  public class RevokedIpcMsg : IpcMsg {
 
-  [PublicAPI]
+  }
+
   public class IpcMsgException : FfiException {
     public readonly uint ReqId;
 
-    public IpcMsgException(uint reqId, int code, string description) : base(code, description) {
-      ReqId = reqId;
+    public IpcMsgException(uint reqId, int code, string description)
+        : base(code, description)
+    {
+        ReqId = reqId;
     }
   }
 }

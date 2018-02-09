@@ -70,9 +70,9 @@ namespace SafeApp.Tests {
 
       Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<FfiException>());
       authReq.App = new AppExchangeInfo {Id = "", Name = "", Scope = "", Vendor = ""};
-      Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<ArgumentException>());
+      Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<FfiException>());
       authReq.App = new AppExchangeInfo();
-      Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<ArgumentNullException>());
+      Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<FfiException>());
     }
 
     [Test]
