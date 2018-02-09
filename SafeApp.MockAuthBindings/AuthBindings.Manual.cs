@@ -1,12 +1,12 @@
 ﻿#if !NETSTANDARD1_2 || __DESKTOP__
-#if __IOS__
 using SafeApp.Utilities;
 using System;
+
+#if __IOS__
 using ObjCRuntime;
 #endif
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings {
   internal partial class AuthBindings {
