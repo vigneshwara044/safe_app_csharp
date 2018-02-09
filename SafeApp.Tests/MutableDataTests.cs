@@ -10,7 +10,6 @@ using SafeApp.Utilities;
 namespace SafeApp.Tests {
   [TestFixture]
   internal class MutableDataTests {
-    
     [Test]
     public async Task AddRemoveUserPermission() {
       var locator = Utils.GetRandomString(10);

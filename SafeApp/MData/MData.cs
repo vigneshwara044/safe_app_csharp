@@ -43,7 +43,7 @@ namespace SafeApp.MData {
 
     public async Task<NativeHandle> ListPermissionsAsync(MDataInfo mDataInfo) {
       var handle = await AppBindings.MDataListPermissionsAsync(_appPtr, ref mDataInfo);
-      return new NativeHandle(_appPtr, handle, (freeHandle) => AppBindings.MDataPermissionsFreeAsync(_appPtr, freeHandle));
+      return new NativeHandle(_appPtr, handle, freeHandle => AppBindings.MDataPermissionsFreeAsync(_appPtr, freeHandle));
     }
 
     public Task<PermissionSet> ListUserPermissionsAsync(MDataInfo mDataInfo, NativeHandle userSignPubKey) {

@@ -1,9 +1,9 @@
 ﻿#if !NETSTANDARD1_2 || __DESKTOP__
 #if __IOS__
+using SafeApp.Utilities;
 using System;
 using ObjCRuntime;
 #endif
-using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Utilities;
@@ -37,12 +37,6 @@ namespace SafeApp.MockAuthBindings {
     public void Login(string locator, string secret, Action disconnnectedCb, Action<FfiResult, IntPtr, GCHandle> cb) {
       var userData = BindingUtils.ToHandlePtr((disconnnectedCb, cb));
       LoginNative(locator, secret, userData, OnAuthenticatorDisconnectCb, OnAuthenticatorCreateCb);
-    }
-
-    public Task<IpcReq> UnRegisteredDecodeIpcMsgAsync(string msg) {
-      var (task, userData) = BindingUtils.PrepareTask<IpcReq>();
-      AuthUnregisteredDecodeIpcMsgNative(msg, userData, OnDecodeIpcReqUnregisteredCb, OnFfiResultIpcReqErrorCb);
-      return task;
     }
 
 #if __IOS__
@@ -93,7 +87,7 @@ namespace SafeApp.MockAuthBindings {
 #endif
     private static void OnDecodeIpcReqUnregisteredCb(IntPtr userData, uint reqId, IntPtr extraData, IntPtr size) {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcReq>>(userData);
-      tcs.SetResult(new UnregisteredIpcReq(reqId, extraData, (ulong) size));
+      tcs.SetResult(new UnregisteredIpcReq(reqId, extraData, (ulong)size));
     }
 
 #if __IOS__
@@ -117,6 +111,12 @@ namespace SafeApp.MockAuthBindings {
       }
 
       Task.Run(() => { tcs.SetResult(msg); });
+    }
+
+    public Task<IpcReq> UnRegisteredDecodeIpcMsgAsync(string msg) {
+      var (task, userData) = BindingUtils.PrepareTask<IpcReq>();
+      AuthUnregisteredDecodeIpcMsgNative(msg, userData, OnDecodeIpcReqUnregisteredCb, OnFfiResultIpcReqErrorCb);
+      return task;
     }
 
     private delegate void FfiResultIpcReqErrorCb(IntPtr userData, IntPtr result, string msg);

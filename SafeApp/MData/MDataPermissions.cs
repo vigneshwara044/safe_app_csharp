@@ -37,10 +37,7 @@ namespace SafeApp.MData {
       var userPermissions = await AppBindings.MDataListPermissionSetsAsync(_appPtr, permissionHandle);
       return userPermissions.Select(
         userPermission => {
-          var userHandle = new NativeHandle(
-            _appPtr,
-            (ulong)userPermission.UserH,
-            handle => AppBindings.SignPubKeyFreeAsync(_appPtr, handle));
+          var userHandle = new NativeHandle(_appPtr, userPermission.UserH, handle => AppBindings.SignPubKeyFreeAsync(_appPtr, handle));
           return (userHandle, userPermission.PermSet);
         }).ToList();
     }
