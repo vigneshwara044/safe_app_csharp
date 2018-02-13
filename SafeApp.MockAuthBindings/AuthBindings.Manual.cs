@@ -85,7 +85,7 @@ namespace SafeApp.MockAuthBindings {
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntByteListCb))]
 #endif
-    private static void OnDecodeIpcReqUnregisteredCb(IntPtr userData, uint reqId, IntPtr extraData, IntPtr size) {
+    private static void OnDecodeIpcReqUnregisteredCb(IntPtr userData, uint reqId, IntPtr extraData, UIntPtr size) {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcReq>>(userData);
       tcs.SetResult(new UnregisteredIpcReq(reqId, extraData, (ulong)size));
     }

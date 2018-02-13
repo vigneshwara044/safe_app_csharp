@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace SafeApp.Utilities {
+  [PublicAPI]
   public class FfiException : Exception {
     public readonly int ErrorCode;
 
@@ -86,13 +88,13 @@ namespace SafeApp.Utilities {
       return list;
     }
 
-    public static void FreeList(ref IntPtr ptr, ref IntPtr len) {
+    public static void FreeList(ref IntPtr ptr, ref UIntPtr len) {
       if (ptr != IntPtr.Zero) {
         Marshal.FreeHGlobal(ptr);
       }
 
       ptr = IntPtr.Zero;
-      len = IntPtr.Zero;
+      len = UIntPtr.Zero;
     }
 
     public static T FromHandlePtr<T>(IntPtr ptr, bool free = true) {

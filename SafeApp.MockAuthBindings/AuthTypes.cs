@@ -18,7 +18,7 @@ namespace SafeApp.MockAuthBindings {
       return new RegisteredAppNative() {
         AppInfo = AppInfo,
         ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
-        ContainersLen = (IntPtr)(Containers?.Count ?? 0),
+        ContainersLen = (UIntPtr)(Containers?.Count ?? 0),
         ContainersCap = IntPtr.Zero
       };
     }
@@ -27,7 +27,7 @@ namespace SafeApp.MockAuthBindings {
   internal struct RegisteredAppNative {
     public AppExchangeInfo AppInfo;
     public IntPtr ContainersPtr;
-    public IntPtr ContainersLen;
+    public UIntPtr ContainersLen;
 
     // ReSharper disable once NotAccessedField.Compiler
     public IntPtr ContainersCap;

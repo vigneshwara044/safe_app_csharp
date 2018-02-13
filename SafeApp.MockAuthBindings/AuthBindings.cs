@@ -203,21 +203,21 @@ namespace SafeApp.MockAuthBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => Marshal.PtrToStructure<AccountInfo>(accountInfo));
     }
 
-    private delegate void FfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, IntPtr appAccessLen);
+    private delegate void FfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, UIntPtr appAccessLen);
 
     #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAppAccessListCb))]
     #endif
-    private static void OnFfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, IntPtr appAccessLen) {
+    private static void OnFfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, UIntPtr appAccessLen) {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => BindingUtils.CopyToObjectList<AppAccess>(appAccessPtr, (int) appAccessLen));
     }
 
-    private delegate void FfiResultAppExchangeInfoListCb(IntPtr userData, IntPtr result, IntPtr appExchangeInfoPtr, IntPtr appExchangeInfoLen);
+    private delegate void FfiResultAppExchangeInfoListCb(IntPtr userData, IntPtr result, IntPtr appExchangeInfoPtr, UIntPtr appExchangeInfoLen);
 
     #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAppExchangeInfoListCb))]
     #endif
-    private static void OnFfiResultAppExchangeInfoListCb(IntPtr userData, IntPtr result, IntPtr appExchangeInfoPtr, IntPtr appExchangeInfoLen) {
+    private static void OnFfiResultAppExchangeInfoListCb(IntPtr userData, IntPtr result, IntPtr appExchangeInfoPtr, UIntPtr appExchangeInfoLen) {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => BindingUtils.CopyToObjectList<AppExchangeInfo>(appExchangeInfoPtr, (int) appExchangeInfoLen));
     }
 
@@ -232,12 +232,12 @@ namespace SafeApp.MockAuthBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result));
     }
 
-    private delegate void FfiResultRegisteredAppListCb(IntPtr userData, IntPtr result, IntPtr registeredAppPtr, IntPtr registeredAppLen);
+    private delegate void FfiResultRegisteredAppListCb(IntPtr userData, IntPtr result, IntPtr registeredAppPtr, UIntPtr registeredAppLen);
 
     #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultRegisteredAppListCb))]
     #endif
-    private static void OnFfiResultRegisteredAppListCb(IntPtr userData, IntPtr result, IntPtr registeredAppPtr, IntPtr registeredAppLen) {
+    private static void OnFfiResultRegisteredAppListCb(IntPtr userData, IntPtr result, IntPtr registeredAppPtr, UIntPtr registeredAppLen) {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => BindingUtils.CopyToObjectList<RegisteredAppNative>(registeredAppPtr, (int) registeredAppLen).Select(native => new RegisteredApp(native)).ToList());
     }
 
@@ -254,7 +254,7 @@ namespace SafeApp.MockAuthBindings {
 
     private delegate void UIntAuthReqCb(IntPtr userData, uint reqId, IntPtr req);
 
-    private delegate void UIntByteListCb(IntPtr userData, uint reqId, IntPtr extraDataPtr, IntPtr extraDataLen);
+    private delegate void UIntByteListCb(IntPtr userData, uint reqId, IntPtr extraDataPtr, UIntPtr extraDataLen);
 
     private delegate void UIntContainersReqCb(IntPtr userData, uint reqId, IntPtr req);
 

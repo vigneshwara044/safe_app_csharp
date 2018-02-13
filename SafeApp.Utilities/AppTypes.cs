@@ -72,8 +72,8 @@ namespace SafeApp.Utilities {
         App = App,
         AppContainer = AppContainer,
         ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
-        ContainersLen = (IntPtr) (Containers?.Count ?? 0),
-        ContainersCap = IntPtr.Zero
+        ContainersLen = (UIntPtr) (Containers?.Count ?? 0),
+        ContainersCap = UIntPtr.Zero
       };
     }
   }
@@ -83,9 +83,9 @@ namespace SafeApp.Utilities {
     [MarshalAs(UnmanagedType.U1)]
     public bool AppContainer;
     public IntPtr ContainersPtr;
-    public IntPtr ContainersLen;
+    public UIntPtr ContainersLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public IntPtr ContainersCap;
+    public UIntPtr ContainersCap;
 
     internal void Free() {
       BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
@@ -106,8 +106,8 @@ namespace SafeApp.Utilities {
       return new ContainersReqNative() {
         App = App,
         ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
-        ContainersLen = (IntPtr) (Containers?.Count ?? 0),
-        ContainersCap = IntPtr.Zero
+        ContainersLen = (UIntPtr) (Containers?.Count ?? 0),
+        ContainersCap = UIntPtr.Zero
       };
     }
   }
@@ -115,9 +115,9 @@ namespace SafeApp.Utilities {
   internal struct ContainersReqNative {
     public AppExchangeInfo App;
     public IntPtr ContainersPtr;
-    public IntPtr ContainersLen;
+    public UIntPtr ContainersLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public IntPtr ContainersCap;
+    public UIntPtr ContainersCap;
 
     internal void Free() {
       BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
@@ -157,8 +157,8 @@ namespace SafeApp.Utilities {
       return new ShareMDataReqNative() {
         App = App,
         MDataPtr = BindingUtils.CopyFromObjectList(MData),
-        MDataLen = (IntPtr) (MData?.Count ?? 0),
-        MDataCap = IntPtr.Zero
+        MDataLen = (UIntPtr) (MData?.Count ?? 0),
+        MDataCap = UIntPtr.Zero
       };
     }
   }
@@ -166,9 +166,9 @@ namespace SafeApp.Utilities {
   internal struct ShareMDataReqNative {
     public AppExchangeInfo App;
     public IntPtr MDataPtr;
-    public IntPtr MDataLen;
+    public UIntPtr MDataLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public IntPtr MDataCap;
+    public UIntPtr MDataCap;
 
     internal void Free() {
       BindingUtils.FreeList(ref MDataPtr, ref MDataLen);
@@ -203,8 +203,8 @@ namespace SafeApp.Utilities {
         AccessContainerInfo = AccessContainerInfo,
         AccessContainerEntry = AccessContainerEntry.ToNative(),
         BootstrapConfigPtr = BindingUtils.CopyFromByteList(BootstrapConfig),
-        BootstrapConfigLen = (IntPtr) (BootstrapConfig?.Count ?? 0),
-        BootstrapConfigCap = IntPtr.Zero
+        BootstrapConfigLen = (UIntPtr) (BootstrapConfig?.Count ?? 0),
+        BootstrapConfigCap = UIntPtr.Zero
       };
     }
   }
@@ -214,9 +214,9 @@ namespace SafeApp.Utilities {
     public AccessContInfo AccessContainerInfo;
     public AccessContainerEntryNative AccessContainerEntry;
     public IntPtr BootstrapConfigPtr;
-    public IntPtr BootstrapConfigLen;
+    public UIntPtr BootstrapConfigLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public IntPtr BootstrapConfigCap;
+    public UIntPtr BootstrapConfigCap;
 
     internal void Free() {
       AccessContainerEntry.Free();
@@ -260,17 +260,17 @@ namespace SafeApp.Utilities {
     internal AccessContainerEntryNative ToNative() {
       return new AccessContainerEntryNative() {
         ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
-        ContainersLen = (IntPtr) (Containers?.Count ?? 0),
-        ContainersCap = IntPtr.Zero
+        ContainersLen = (UIntPtr) (Containers?.Count ?? 0),
+        ContainersCap = UIntPtr.Zero
       };
     }
   }
 
   internal struct AccessContainerEntryNative {
     public IntPtr ContainersPtr;
-    public IntPtr ContainersLen;
+    public UIntPtr ContainersLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public IntPtr ContainersCap;
+    public UIntPtr ContainersCap;
 
     internal void Free() {
       BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
@@ -320,7 +320,7 @@ namespace SafeApp.Utilities {
     internal MDataValueNative ToNative() {
       return new MDataValueNative() {
         ContentPtr = BindingUtils.CopyFromByteList(Content),
-        ContentLen = (IntPtr) (Content?.Count ?? 0),
+        ContentLen = (UIntPtr) (Content?.Count ?? 0),
         EntryVersion = EntryVersion
       };
     }
@@ -328,7 +328,7 @@ namespace SafeApp.Utilities {
 
   internal struct MDataValueNative {
     public IntPtr ContentPtr;
-    public IntPtr ContentLen;
+    public UIntPtr ContentLen;
     public ulong EntryVersion;
 
     internal void Free() {
@@ -347,14 +347,14 @@ namespace SafeApp.Utilities {
     internal MDataKeyNative ToNative() {
       return new MDataKeyNative() {
         ValPtr = BindingUtils.CopyFromByteList(Val),
-        ValLen = (IntPtr) (Val?.Count ?? 0)
+        ValLen = (UIntPtr) (Val?.Count ?? 0)
       };
     }
   }
 
   internal struct MDataKeyNative {
     public IntPtr ValPtr;
-    public IntPtr ValLen;
+    public UIntPtr ValLen;
 
     internal void Free() {
       BindingUtils.FreeList(ref ValPtr, ref ValLen);
@@ -389,8 +389,8 @@ namespace SafeApp.Utilities {
         ModifiedSec = ModifiedSec,
         ModifiedNsec = ModifiedNsec,
         UserMetadataPtr = BindingUtils.CopyFromByteList(UserMetadata),
-        UserMetadataLen = (IntPtr) (UserMetadata?.Count ?? 0),
-        UserMetadataCap = IntPtr.Zero,
+        UserMetadataLen = (UIntPtr) (UserMetadata?.Count ?? 0),
+        UserMetadataCap = UIntPtr.Zero,
         DataMapName = DataMapName
       };
     }
@@ -403,9 +403,9 @@ namespace SafeApp.Utilities {
     public long ModifiedSec;
     public uint ModifiedNsec;
     public IntPtr UserMetadataPtr;
-    public IntPtr UserMetadataLen;
+    public UIntPtr UserMetadataLen;
     // ReSharper disable once NotAccessedField.Compiler
-    public IntPtr UserMetadataCap;
+    public UIntPtr UserMetadataCap;
     [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int) AppConstants.XorNameLen)]
     public byte[] DataMapName;
 
