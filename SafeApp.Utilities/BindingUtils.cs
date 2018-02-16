@@ -26,10 +26,9 @@ namespace SafeApp.Utilities {
   public class BindingUtils {
     public static void CompleteTask<T>(TaskCompletionSource<T> tcs, FfiResult result, Func<T> argFunc) {
       if (result.ErrorCode != 0) {
-        Task.Run(() => { tcs.SetException(result.ToException()); });
+        tcs.SetException(result.ToException());
       } else {
-        var arg = argFunc();
-        Task.Run(() => { tcs.SetResult(arg); });
+        tcs.SetResult(argFunc());
       }
     }
 
@@ -109,7 +108,7 @@ namespace SafeApp.Utilities {
     }
 
     public static (Task<T>, IntPtr) PrepareTask<T>() {
-      var tcs = new TaskCompletionSource<T>();
+      var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
       var userData = ToHandlePtr(tcs);
 
       return (tcs.Task, userData);

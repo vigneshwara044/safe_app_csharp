@@ -106,11 +106,11 @@ namespace SafeApp.MockAuthBindings {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<string>>(userData);
       var ffiResult = Marshal.PtrToStructure<FfiResult>(result);
       if (ffiResult.ErrorCode != 0 && ffiResult.ErrorCode != -200) {
-        Task.Run(() => { tcs.SetException(ffiResult.ToException()); });
+        tcs.SetException(ffiResult.ToException());
         return;
       }
 
-      Task.Run(() => { tcs.SetResult(msg); });
+      tcs.SetResult(msg);
     }
 
     public Task<IpcReq> UnRegisteredDecodeIpcMsgAsync(string msg) {

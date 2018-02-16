@@ -83,7 +83,7 @@ namespace SafeApp.MockAuthBindings {
       return Task.Run(
         () => {
           var authenticator = new Authenticator();
-          var tcs = new TaskCompletionSource<Authenticator>();
+          var tcs = new TaskCompletionSource<Authenticator>(TaskCreationOptions.RunContinuationsAsynchronously);
           Action disconnect = () => { OnDisconnected(authenticator); };
           Action<FfiResult, IntPtr, GCHandle> cb = (result, ptr, disconnectHandle) => {
             if (result.ErrorCode != 0) {
@@ -154,7 +154,7 @@ namespace SafeApp.MockAuthBindings {
       return Task.Run(
         () => {
           var authenticator = new Authenticator();
-          var tcs = new TaskCompletionSource<Authenticator>();
+          var tcs = new TaskCompletionSource<Authenticator>(TaskCreationOptions.RunContinuationsAsynchronously);
           Action disconnect = () => { OnDisconnected(authenticator); };
           Action<FfiResult, IntPtr, GCHandle> cb = (result, ptr, disconnectHandle) => {
             if (result.ErrorCode != 0) {

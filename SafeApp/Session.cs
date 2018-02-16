@@ -99,7 +99,7 @@ namespace SafeApp {
     public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted) {
       return Task.Run(
         () => {
-          var tcs = new TaskCompletionSource<Session>();
+          var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
           var session = new Session();
           Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) => {
             if (result.ErrorCode != 0) {
@@ -123,7 +123,7 @@ namespace SafeApp {
     public static Task<Session> AppUnregisteredAsync(List<byte> bootstrapConfig) {
       return Task.Run(
         () => {
-          var tcs = new TaskCompletionSource<Session>();
+          var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
           var session = new Session();
           Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) => {
             if (result.ErrorCode != 0) {
