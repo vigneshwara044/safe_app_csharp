@@ -14,6 +14,7 @@ namespace SafeApp.Utilities {
       if (freePtr) {
         cbPtr.Free();
       }
+
       return action;
     }
 
@@ -33,6 +34,7 @@ namespace SafeApp.Utilities {
       for (var i = 0; i < list.Count; ++i) {
         Marshal.StructureToPtr(list[i], ptr + structSize * i, false);
       }
+
       return ptr;
     }
 
@@ -64,6 +66,7 @@ namespace SafeApp.Utilities {
       for (var i = 0; i < numberChars; i += 2) {
         bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
       }
+
       return bytes.ToList();
     }
 
@@ -72,6 +75,7 @@ namespace SafeApp.Utilities {
       foreach (var b in bytes) {
         sb.Append(b + ", ");
       }
+
       sb.Append("}");
       return sb.ToString();
     }

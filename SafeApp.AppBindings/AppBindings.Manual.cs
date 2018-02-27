@@ -1,4 +1,5 @@
 #if !NETSTANDARD1_2 || __DESKTOP__
+
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -32,7 +33,7 @@ namespace SafeApp.AppBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(NoneCb))]
-#endif
+    #endif
     private static void OnAppDisconnectCb(IntPtr userData) {
       var (action, _) = BindingUtils.FromHandlePtr<(Action, Action<FfiResult, IntPtr, GCHandle>)>(userData, false);
 
@@ -41,7 +42,7 @@ namespace SafeApp.AppBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAppCb))]
-#endif
+    #endif
     private static void OnAppCreateCb(IntPtr userData, IntPtr result, IntPtr app) {
       var (_, action) = BindingUtils.FromHandlePtr<(Action, Action<FfiResult, IntPtr, GCHandle>)>(userData, false);
 
@@ -65,7 +66,7 @@ namespace SafeApp.AppBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntAuthGrantedCb))]
-#endif
+    #endif
     private static void OnDecodeIpcMsgAuthCb(IntPtr userData, uint reqId, IntPtr authGranted) {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcMsg>>(userData);
       tcs.SetResult(new AuthIpcMsg(reqId, new AuthGranted(Marshal.PtrToStructure<AuthGrantedNative>(authGranted))));
@@ -73,7 +74,7 @@ namespace SafeApp.AppBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntByteListCb))]
-#endif
+    #endif
     private static void OnDecodeIpcMsgUnregisteredCb(IntPtr userData, uint reqId, IntPtr serialisedCfgPtr, UIntPtr serialisedCfgLen) {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcMsg>>(userData);
       tcs.SetResult(new UnregisteredIpcMsg(reqId, serialisedCfgPtr, serialisedCfgLen));
@@ -81,7 +82,7 @@ namespace SafeApp.AppBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntCb))]
-#endif
+    #endif
     private static void OnDecodeIpcMsgContainersCb(IntPtr userData, uint reqId) {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcMsg>>(userData);
       tcs.SetResult(new ContainersIpcMsg(reqId));
@@ -89,7 +90,7 @@ namespace SafeApp.AppBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntCb))]
-#endif
+    #endif
     private static void OnDecodeIpcMsgShareMdataCb(IntPtr userData, uint reqId) {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcMsg>>(userData);
       tcs.SetResult(new ShareMDataIpcMsg(reqId));
@@ -97,7 +98,7 @@ namespace SafeApp.AppBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(NoneCb))]
-#endif
+    #endif
     private static void OnDecodeIpcMsgRevokedCb(IntPtr userData) {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcMsg>>(userData);
       tcs.SetResult(new RevokedIpcMsg());
@@ -105,7 +106,7 @@ namespace SafeApp.AppBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultUIntCb))]
-#endif
+    #endif
     private static void OnDecodeIpcMsgErrCb(IntPtr userData, IntPtr result, uint reqId) {
       var res = Marshal.PtrToStructure<FfiResult>(result);
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcMsg>>(userData);

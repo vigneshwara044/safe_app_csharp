@@ -15,11 +15,11 @@ namespace SafeApp.MockAuthBindings {
     }
 
     internal RegisteredAppNative ToNative() {
-      return new RegisteredAppNative() {
+      return new RegisteredAppNative {
         AppInfo = AppInfo,
         ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
         ContainersLen = (UIntPtr)(Containers?.Count ?? 0),
-        ContainersCap = IntPtr.Zero
+        ContainersCap = UIntPtr.Zero
       };
     }
   }
@@ -30,7 +30,7 @@ namespace SafeApp.MockAuthBindings {
     public UIntPtr ContainersLen;
 
     // ReSharper disable once NotAccessedField.Compiler
-    public IntPtr ContainersCap;
+    public UIntPtr ContainersCap;
 
     internal void Free() {
       BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);

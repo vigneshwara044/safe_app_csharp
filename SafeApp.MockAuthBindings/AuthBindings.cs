@@ -11,11 +11,11 @@ using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings {
   internal partial class AuthBindings : IAuthBindings {
-    #if __IOS__
+#if __IOS__
     private const string DllName = "__Internal";
     #else
     private const string DllName = "safe_app";
-    #endif
+#endif
 
     public bool IsMockBuild() {
       var ret = IsMockBuildNative();
@@ -26,10 +26,21 @@ namespace SafeApp.MockAuthBindings {
     private static extern bool IsMockBuildNative();
 
     [DllImport(DllName, EntryPoint = "create_acc")]
-    private static extern void CreateAccNative([MarshalAs(UnmanagedType.LPStr)] string accountLocator, [MarshalAs(UnmanagedType.LPStr)] string accountPassword, [MarshalAs(UnmanagedType.LPStr)] string invitation, IntPtr userData, NoneCb oDisconnectNotifierCb, FfiResultAuthenticatorCb oCb);
+    private static extern void CreateAccNative(
+      [MarshalAs(UnmanagedType.LPStr)] string accountLocator,
+      [MarshalAs(UnmanagedType.LPStr)] string accountPassword,
+      [MarshalAs(UnmanagedType.LPStr)] string invitation,
+      IntPtr userData,
+      NoneCb oDisconnectNotifierCb,
+      FfiResultAuthenticatorCb oCb);
 
     [DllImport(DllName, EntryPoint = "login")]
-    private static extern void LoginNative([MarshalAs(UnmanagedType.LPStr)] string accountLocator, [MarshalAs(UnmanagedType.LPStr)] string accountPassword, IntPtr userData, NoneCb oDisconnectNotifierCb, FfiResultAuthenticatorCb oCb);
+    private static extern void LoginNative(
+      [MarshalAs(UnmanagedType.LPStr)] string accountLocator,
+      [MarshalAs(UnmanagedType.LPStr)] string accountPassword,
+      IntPtr userData,
+      NoneCb oDisconnectNotifierCb,
+      FfiResultAuthenticatorCb oCb);
 
     public Task AuthReconnectAsync(IntPtr auth) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -65,7 +76,10 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "auth_set_additional_search_path")]
-    private static extern void AuthSetAdditionalSearchPathNative([MarshalAs(UnmanagedType.LPStr)] string newPath, IntPtr userData, FfiResultCb oCb);
+    private static extern void AuthSetAdditionalSearchPathNative(
+      [MarshalAs(UnmanagedType.LPStr)] string newPath,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public void AuthFree(IntPtr auth) {
       AuthFreeNative(auth);
@@ -81,7 +95,11 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "auth_rm_revoked_app")]
-    private static extern void AuthRmRevokedAppNative(IntPtr auth, [MarshalAs(UnmanagedType.LPStr)] string appId, IntPtr userData, FfiResultCb oCb);
+    private static extern void AuthRmRevokedAppNative(
+      IntPtr auth,
+      [MarshalAs(UnmanagedType.LPStr)] string appId,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task<List<AppExchangeInfo>> AuthRevokedAppsAsync(IntPtr auth) {
       var (ret, userData) = BindingUtils.PrepareTask<List<AppExchangeInfo>>();
@@ -108,13 +126,31 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "auth_apps_accessing_mutable_data")]
-    private static extern void AuthAppsAccessingMutableDataNative(IntPtr auth, [MarshalAs(UnmanagedType.LPArray, SizeConst = (int) AppConstants.XorNameLen)] byte[] mdName, ulong mdTypeTag, IntPtr userData, FfiResultAppAccessListCb oCb);
+    private static extern void AuthAppsAccessingMutableDataNative(
+      IntPtr auth,
+      [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.XorNameLen)]
+      byte[] mdName,
+      ulong mdTypeTag,
+      IntPtr userData,
+      FfiResultAppAccessListCb oCb);
 
     [DllImport(DllName, EntryPoint = "auth_unregistered_decode_ipc_msg")]
-    private static extern void AuthUnregisteredDecodeIpcMsgNative([MarshalAs(UnmanagedType.LPStr)] string msg, IntPtr userData, UIntByteListCb oUnregistered, FfiResultStringCb oErr);
+    private static extern void AuthUnregisteredDecodeIpcMsgNative(
+      [MarshalAs(UnmanagedType.LPStr)] string msg,
+      IntPtr userData,
+      UIntByteListCb oUnregistered,
+      FfiResultStringCb oErr);
 
     [DllImport(DllName, EntryPoint = "auth_decode_ipc_msg")]
-    private static extern void AuthDecodeIpcMsgNative(IntPtr auth, [MarshalAs(UnmanagedType.LPStr)] string msg, IntPtr userData, UIntAuthReqCb oAuth, UIntContainersReqCb oContainers, UIntByteListCb oUnregistered, UIntShareMDataReqMetadataResponseCb oShareMData, FfiResultStringCb oErr);
+    private static extern void AuthDecodeIpcMsgNative(
+      IntPtr auth,
+      [MarshalAs(UnmanagedType.LPStr)] string msg,
+      IntPtr userData,
+      UIntAuthReqCb oAuth,
+      UIntContainersReqCb oContainers,
+      UIntByteListCb oUnregistered,
+      UIntShareMDataReqMetadataResponseCb oShareMData,
+      FfiResultStringCb oErr);
 
     public Task<string> EncodeShareMDataRespAsync(IntPtr auth, ref ShareMDataReq req, uint reqId, bool isGranted) {
       var reqNative = req.ToNative();
@@ -125,7 +161,13 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "encode_share_mdata_resp")]
-    private static extern void EncodeShareMDataRespNative(IntPtr auth, ref ShareMDataReqNative req, uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void EncodeShareMDataRespNative(
+      IntPtr auth,
+      ref ShareMDataReqNative req,
+      uint reqId,
+      [MarshalAs(UnmanagedType.U1)] bool isGranted,
+      IntPtr userData,
+      FfiResultStringCb oCb);
 
     public Task<string> AuthRevokeAppAsync(IntPtr auth, string appId) {
       var (ret, userData) = BindingUtils.PrepareTask<string>();
@@ -134,7 +176,11 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "auth_revoke_app")]
-    private static extern void AuthRevokeAppNative(IntPtr auth, [MarshalAs(UnmanagedType.LPStr)] string appId, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void AuthRevokeAppNative(
+      IntPtr auth,
+      [MarshalAs(UnmanagedType.LPStr)] string appId,
+      IntPtr userData,
+      FfiResultStringCb oCb);
 
     public Task AuthFlushAppRevocationQueueAsync(IntPtr auth) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -152,7 +198,11 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "encode_unregistered_resp")]
-    private static extern void EncodeUnregisteredRespNative(uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void EncodeUnregisteredRespNative(
+      uint reqId,
+      [MarshalAs(UnmanagedType.U1)] bool isGranted,
+      IntPtr userData,
+      FfiResultStringCb oCb);
 
     public Task<string> EncodeAuthRespAsync(IntPtr auth, ref AuthReq req, uint reqId, bool isGranted) {
       var reqNative = req.ToNative();
@@ -163,7 +213,13 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "encode_auth_resp")]
-    private static extern void EncodeAuthRespNative(IntPtr auth, ref AuthReqNative req, uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void EncodeAuthRespNative(
+      IntPtr auth,
+      ref AuthReqNative req,
+      uint reqId,
+      [MarshalAs(UnmanagedType.U1)] bool isGranted,
+      IntPtr userData,
+      FfiResultStringCb oCb);
 
     public Task<string> EncodeContainersRespAsync(IntPtr auth, ref ContainersReq req, uint reqId, bool isGranted) {
       var reqNative = req.ToNative();
@@ -174,7 +230,13 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "encode_containers_resp")]
-    private static extern void EncodeContainersRespNative(IntPtr auth, ref ContainersReqNative req, uint reqId, [MarshalAs(UnmanagedType.U1)] bool isGranted, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void EncodeContainersRespNative(
+      IntPtr auth,
+      ref ContainersReqNative req,
+      uint reqId,
+      [MarshalAs(UnmanagedType.U1)] bool isGranted,
+      IntPtr userData,
+      FfiResultStringCb oCb);
 
     public Task AuthInitLoggingAsync(string outputFileNameOverride) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -183,7 +245,10 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "auth_init_logging")]
-    private static extern void AuthInitLoggingNative([MarshalAs(UnmanagedType.LPStr)] string outputFileNameOverride, IntPtr userData, FfiResultCb oCb);
+    private static extern void AuthInitLoggingNative(
+      [MarshalAs(UnmanagedType.LPStr)] string outputFileNameOverride,
+      IntPtr userData,
+      FfiResultCb oCb);
 
     public Task<string> AuthOutputLogPathAsync(string outputFileName) {
       var (ret, userData) = BindingUtils.PrepareTask<string>();
@@ -192,40 +257,60 @@ namespace SafeApp.MockAuthBindings {
     }
 
     [DllImport(DllName, EntryPoint = "auth_output_log_path")]
-    private static extern void AuthOutputLogPathNative([MarshalAs(UnmanagedType.LPStr)] string outputFileName, IntPtr userData, FfiResultStringCb oCb);
+    private static extern void AuthOutputLogPathNative(
+      [MarshalAs(UnmanagedType.LPStr)] string outputFileName,
+      IntPtr userData,
+      FfiResultStringCb oCb);
 
     private delegate void FfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAccountInfoCb))]
     #endif
     private static void OnFfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo) {
-      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => Marshal.PtrToStructure<AccountInfo>(accountInfo));
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => Marshal.PtrToStructure<AccountInfo>(accountInfo));
     }
 
     private delegate void FfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, UIntPtr appAccessLen);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAppAccessListCb))]
     #endif
     private static void OnFfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, UIntPtr appAccessLen) {
-      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => BindingUtils.CopyToObjectList<AppAccess>(appAccessPtr, (int) appAccessLen));
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToObjectList<AppAccess>(appAccessPtr, (int)appAccessLen));
     }
 
-    private delegate void FfiResultAppExchangeInfoListCb(IntPtr userData, IntPtr result, IntPtr appExchangeInfoPtr, UIntPtr appExchangeInfoLen);
+    private delegate void FfiResultAppExchangeInfoListCb(
+      IntPtr userData,
+      IntPtr result,
+      IntPtr appExchangeInfoPtr,
+      UIntPtr appExchangeInfoLen);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAppExchangeInfoListCb))]
     #endif
-    private static void OnFfiResultAppExchangeInfoListCb(IntPtr userData, IntPtr result, IntPtr appExchangeInfoPtr, UIntPtr appExchangeInfoLen) {
-      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => BindingUtils.CopyToObjectList<AppExchangeInfo>(appExchangeInfoPtr, (int) appExchangeInfoLen));
+    private static void OnFfiResultAppExchangeInfoListCb(
+      IntPtr userData,
+      IntPtr result,
+      IntPtr appExchangeInfoPtr,
+      UIntPtr appExchangeInfoLen) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToObjectList<AppExchangeInfo>(appExchangeInfoPtr, (int)appExchangeInfoLen));
     }
 
     private delegate void FfiResultAuthenticatorCb(IntPtr userData, IntPtr result, IntPtr authenticator);
 
     private delegate void FfiResultCb(IntPtr userData, IntPtr result);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultCb))]
     #endif
     private static void OnFfiResultCb(IntPtr userData, IntPtr result) {
@@ -234,16 +319,20 @@ namespace SafeApp.MockAuthBindings {
 
     private delegate void FfiResultRegisteredAppListCb(IntPtr userData, IntPtr result, IntPtr registeredAppPtr, UIntPtr registeredAppLen);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultRegisteredAppListCb))]
     #endif
     private static void OnFfiResultRegisteredAppListCb(IntPtr userData, IntPtr result, IntPtr registeredAppPtr, UIntPtr registeredAppLen) {
-      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => BindingUtils.CopyToObjectList<RegisteredAppNative>(registeredAppPtr, (int) registeredAppLen).Select(native => new RegisteredApp(native)).ToList());
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToObjectList<RegisteredAppNative>(registeredAppPtr, (int)registeredAppLen).
+          Select(native => new RegisteredApp(native)).ToList());
     }
 
     private delegate void FfiResultStringCb(IntPtr userData, IntPtr result, string filename);
 
-    #if __IOS__
+#if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultStringCb))]
     #endif
     private static void OnFfiResultStringCb(IntPtr userData, IntPtr result, string filename) {
@@ -259,7 +348,6 @@ namespace SafeApp.MockAuthBindings {
     private delegate void UIntContainersReqCb(IntPtr userData, uint reqId, IntPtr req);
 
     private delegate void UIntShareMDataReqMetadataResponseCb(IntPtr userData, uint reqId, IntPtr req, IntPtr metadata);
-
   }
 }
 #endif

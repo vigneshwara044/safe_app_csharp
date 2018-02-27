@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace SafeApp.Utilities {
-  [PublicAPI]
   public class FfiException : Exception {
     public readonly int ErrorCode;
 
