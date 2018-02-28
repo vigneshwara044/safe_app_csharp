@@ -67,6 +67,69 @@ namespace SafeApp.Tests {
     }
 
     [Test]
+    public async Task CrudPrivateMutableData() {
+      var locator = Utils.GetRandomString(10);
+      var secret = Utils.GetRandomString(10);
+      var authReq = new AuthReq {
+        App = new AppExchangeInfo {
+          Id = "net.maidsafe.mdata.permission.delete",
+          Name = Utils.GetRandomString(5),
+          Vendor = "MaidSafe.net Ltd"
+        },
+        AppContainer = true,
+        Containers = new List<ContainerPermissions>()
+      };
+      var app = await Utils.CreateTestApp(locator, secret, authReq);
+      var mdInfo = await app.MDataInfoActions.RandomPrivateAsync(16000);
+      using (var entriesHandle = await app.MDataEntries.NewAsync())
+      using (var permissions = await app.MDataPermissions.NewAsync())
+      using (var appKey = await app.Crypto.AppPubSignKeyAsync()) {
+        await app.MDataPermissions.InsertAsync(
+          permissions,
+          appKey,
+          new PermissionSet {Insert = true, Delete = true, Update = true, Read = true});
+        for (var i = 0; i < 5; i++) {
+          var key = await app.MDataInfoActions.EncryptEntryKeyAsync(mdInfo, Utils.GetRandomString(10).ToUtfBytes());
+          var value = await app.MDataInfoActions.EncryptEntryValueAsync(mdInfo, Utils.GetRandomString(10).ToUtfBytes());
+          await app.MDataEntries.InsertAsync(entriesHandle, key, value);
+        }
+
+        await app.MData.PutAsync(mdInfo, permissions, entriesHandle);
+      }
+
+      var keys = await app.MData.ListKeysAsync(mdInfo);
+      Assert.That(keys.Count, Is.EqualTo(5));
+      var keyToDelete = keys[0];
+      using (var entriesHandle = await app.MDataEntryActions.NewAsync()) {
+        var value = await app.MData.GetValueAsync(mdInfo, keyToDelete.Val);
+        await app.MDataEntryActions.UpdateAsync(entriesHandle, keyToDelete.Val, Utils.GetRandomString(5).ToUtfBytes(), value.Item2 + 1);
+        await app.MData.MutateEntriesAsync(mdInfo, entriesHandle);
+      }
+
+      using (var entriesHandle = await app.MDataEntryActions.NewAsync()) {
+        var value = await app.MData.GetValueAsync(mdInfo, keyToDelete.Val);
+        await app.MDataEntryActions.DeleteAsync(entriesHandle, keyToDelete.Val, value.Item2 + 1);
+        await app.MData.MutateEntriesAsync(mdInfo, entriesHandle);
+      }
+
+      keys = await app.MData.ListKeysAsync(mdInfo);
+      Assert.That(keys.Count, Is.EqualTo(5));
+      var deletedValue = await app.MData.GetValueAsync(mdInfo, keyToDelete.Val);
+      using (var entriesHandle = await app.MDataEntryActions.NewAsync()) {
+        await app.MDataEntryActions.UpdateAsync(
+          entriesHandle,
+          keyToDelete.Val,
+          Utils.GetRandomString(5).ToUtfBytes(),
+          deletedValue.Item2 + 1);
+        await app.MData.MutateEntriesAsync(mdInfo, entriesHandle);
+      }
+
+      deletedValue = await app.MData.GetValueAsync(mdInfo, keyToDelete.Val);
+      Assert.That(deletedValue.Item2, Is.EqualTo(3));
+      app.Dispose();
+    }
+
+    [Test]
     public async Task RandomPrivateMutableDataUpdateAction() {
       var session = await Utils.CreateTestApp();
       const ulong tagType = 15001;

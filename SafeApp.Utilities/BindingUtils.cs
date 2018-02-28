@@ -72,7 +72,9 @@ namespace SafeApp.Utilities {
 
     public static byte[] CopyToByteArray(IntPtr ptr, int len) {
       var array = new byte[len];
-      Marshal.Copy(ptr, array, 0, len);
+      if (len > 0) {
+        Marshal.Copy(ptr, array, 0, len);
+      }
       return array;
     }
 
