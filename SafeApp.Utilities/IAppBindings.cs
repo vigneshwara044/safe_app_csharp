@@ -46,7 +46,7 @@ namespace SafeApp.Utilities {
     Task<List<byte>> FileReadAsync(IntPtr app, ulong fileH, ulong position, ulong len);
     Task<ulong> FileSizeAsync(IntPtr app, ulong fileH);
     Task FileWriteAsync(IntPtr app, ulong fileH, List<byte> data);
-    Task<byte[]> GenerateNonceAsync();
+    Task<byte[]> GenerateNonceAsync(); // ReSharper disable InconsistentNaming
     Task<byte[]> IDataCloseSelfEncryptorAsync(IntPtr app, ulong seH, ulong cipherOptH);
     Task<ulong> IDataFetchSelfEncryptorAsync(IntPtr app, byte[] name);
     Task<ulong> IDataNewSelfEncryptorAsync(IntPtr app);
@@ -54,7 +54,10 @@ namespace SafeApp.Utilities {
     Task IDataSelfEncryptorReaderFreeAsync(IntPtr app, ulong handle);
     Task IDataSelfEncryptorWriterFreeAsync(IntPtr app, ulong handle);
     Task<ulong> IDataSerialisedSizeAsync(IntPtr app, byte[] name);
+
     Task<ulong> IDataSizeAsync(IntPtr app, ulong seH);
+
+    // ReSharper enable InconsistentNaming
     Task IDataWriteToSelfEncryptorAsync(IntPtr app, ulong seH, List<byte> data);
     bool IsMockBuild();
     Task MDataDelUserPermissionsAsync(IntPtr app, ref MDataInfo info, ulong userH, ulong version);

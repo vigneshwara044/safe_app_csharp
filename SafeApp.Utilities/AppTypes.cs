@@ -335,7 +335,7 @@ namespace SafeApp.Utilities {
     public IntPtr ContentPtr;
     public UIntPtr ContentLen;
     public ulong EntryVersion;
-
+    // ReSharper disable once UnusedMember.Global
     internal void Free() {
       BindingUtils.FreeList(ref ContentPtr, ref ContentLen);
     }
@@ -357,7 +357,7 @@ namespace SafeApp.Utilities {
   internal struct MDataKeyNative {
     public IntPtr ValPtr;
     public UIntPtr ValLen;
-
+    // ReSharper disable once UnusedMember.Global
     internal void Free() {
       BindingUtils.FreeList(ref ValPtr, ref ValLen);
     }

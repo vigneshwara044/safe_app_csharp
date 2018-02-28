@@ -1,12 +1,11 @@
 ﻿#if !NETSTANDARD1_2 || __DESKTOP__
-using SafeApp.Utilities;
 using System;
-
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using SafeApp.Utilities;
 #if __IOS__
 using ObjCRuntime;
 #endif
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 
 namespace SafeApp.MockAuthBindings {
   internal partial class AuthBindings {
@@ -37,6 +36,12 @@ namespace SafeApp.MockAuthBindings {
     public void Login(string locator, string secret, Action disconnnectedCb, Action<FfiResult, IntPtr, GCHandle> cb) {
       var userData = BindingUtils.ToHandlePtr((disconnnectedCb, cb));
       LoginNative(locator, secret, userData, OnAuthenticatorDisconnectCb, OnAuthenticatorCreateCb);
+    }
+
+    public Task<IpcReq> UnRegisteredDecodeIpcMsgAsync(string msg) {
+      var (task, userData) = BindingUtils.PrepareTask<IpcReq>();
+      AuthUnregisteredDecodeIpcMsgNative(msg, userData, OnDecodeIpcReqUnregisteredCb, OnFfiResultIpcReqErrorCb);
+      return task;
     }
 
 #if __IOS__
@@ -99,29 +104,8 @@ namespace SafeApp.MockAuthBindings {
       tcs.SetResult(new IpcReqError(ffiResult.ErrorCode, ffiResult.Description, msg));
     }
 
-#if __IOS__
-    [MonoPInvokeCallback(typeof(IpcReqEncodeCb))]
-#endif
-    private static void OnIpcReqEncodeCb(IntPtr userData, IntPtr result, string msg) {
-      var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<string>>(userData);
-      var ffiResult = Marshal.PtrToStructure<FfiResult>(result);
-      if (ffiResult.ErrorCode != 0 && ffiResult.ErrorCode != -200) {
-        tcs.SetException(ffiResult.ToException());
-        return;
-      }
-
-      tcs.SetResult(msg);
-    }
-
-    public Task<IpcReq> UnRegisteredDecodeIpcMsgAsync(string msg) {
-      var (task, userData) = BindingUtils.PrepareTask<IpcReq>();
-      AuthUnregisteredDecodeIpcMsgNative(msg, userData, OnDecodeIpcReqUnregisteredCb, OnFfiResultIpcReqErrorCb);
-      return task;
-    }
-
+    // ReSharper disable once UnusedMember.Local
     private delegate void FfiResultIpcReqErrorCb(IntPtr userData, IntPtr result, string msg);
-
-    private delegate void IpcReqEncodeCb(IntPtr userData, IntPtr result, string msg);
   }
 }
 #endif

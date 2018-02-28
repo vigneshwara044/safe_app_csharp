@@ -7,13 +7,6 @@ using NUnit.Framework;
 using SafeApp.MockAuthBindings;
 using SafeApp.Utilities;
 
-#if __ANDROID__ || __IOS__
-using System;
-#endif
-#if __ANDROID__
-using Android.App;
-#endif
-
 // ReSharper disable AccessToDisposedClosure
 
 namespace SafeApp.Tests {

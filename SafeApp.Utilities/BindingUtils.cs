@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace SafeApp.Utilities {
+  [PublicAPI]
   public class FfiException : Exception {
     public readonly int ErrorCode;
 
@@ -12,6 +14,7 @@ namespace SafeApp.Utilities {
     }
   }
 
+  [PublicAPI]
   public struct FfiResult {
     public int ErrorCode;
     [MarshalAs(UnmanagedType.LPStr)] public string Description;
@@ -21,8 +24,9 @@ namespace SafeApp.Utilities {
     }
   }
 
-  public class BindingUtils {
-    public static void CompleteTask<T>(TaskCompletionSource<T> tcs, FfiResult result, Func<T> argFunc) {
+  // ReSharper disable once ClassNeverInstantiated.Global
+  internal class BindingUtils {
+    private static void CompleteTask<T>(TaskCompletionSource<T> tcs, FfiResult result, Func<T> argFunc) {
       if (result.ErrorCode != 0) {
         tcs.SetException(result.ToException());
       } else {
@@ -85,7 +89,8 @@ namespace SafeApp.Utilities {
       return list;
     }
 
-    public static void FreeList(ref IntPtr ptr, ref UIntPtr len) {
+    // ReSharper disable once RedundantAssignment
+    internal static void FreeList(ref IntPtr ptr, ref UIntPtr len) {
       if (ptr != IntPtr.Zero) {
         Marshal.FreeHGlobal(ptr);
       }
