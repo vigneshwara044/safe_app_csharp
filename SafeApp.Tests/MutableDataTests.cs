@@ -239,7 +239,7 @@ namespace SafeApp.Tests {
         await session.MData.MutateEntriesAsync(mDataInfo, entriesHandle);
       }
 
-      using (var entriesHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
+      using (var entriesHandle = await session.MDataEntries.GetHandleAsync(mDataInfo)) {
         var keys = await session.MData.ListKeysAsync(mDataInfo);
         foreach (var key in keys) {
           var encKey = await session.MDataEntries.GetAsync(entriesHandle, key.Val);
@@ -262,16 +262,15 @@ namespace SafeApp.Tests {
         await session2.MData.MutateEntriesAsync(mDataInfo, entriesHandle);
       }
 
-      using (var entriesHandle = await session2.MData.ListEntriesAsync(mDataInfo)) {
-        var keys = await session2.MData.ListKeysAsync(mDataInfo);
-        foreach (var key in keys) {
-          var encKey = await session2.MDataEntries.GetAsync(entriesHandle, key.Val);
-          await session2.MDataInfoActions.DecryptAsync(mDataInfo, encKey.Item1);
+      using (var entriesHandle = await session2.MDataEntries.GetHandleAsync(mDataInfo)) {
+        var entries = await session2.MData.ListEntriesAsync(entriesHandle);
+        foreach (var entry in entries) {
+          await session2.MDataInfoActions.DecryptAsync(mDataInfo, entry.Key.Val);
         }
       }
 
       using (var entryAction = await session2.MDataEntryActions.NewAsync())
-      using (var entriesHandle = await session2.MData.ListEntriesAsync(mDataInfo)) {
+      using (var entriesHandle = await session2.MDataEntries.GetHandleAsync(mDataInfo)) {
         var keys = await session2.MData.ListKeysAsync(mDataInfo);
         foreach (var key in keys) {
           var encKey = await session2.MDataEntries.GetAsync(entriesHandle, key.Val);

@@ -313,6 +313,28 @@ namespace SafeApp.Utilities {
   }
 
   [PublicAPI]
+  public struct MDataKey {
+    public List<byte> Val;
+
+    internal MDataKey(MDataKeyNative native) {
+      Val = BindingUtils.CopyToByteList(native.ValPtr, (int)native.ValLen);
+    }
+
+    internal MDataKeyNative ToNative() {
+      return new MDataKeyNative {ValPtr = BindingUtils.CopyFromByteList(Val), ValLen = (UIntPtr)(Val?.Count ?? 0)};
+    }
+  }
+
+  internal struct MDataKeyNative {
+    public IntPtr ValPtr;
+    public UIntPtr ValLen;
+
+    internal void Free() {
+      BindingUtils.FreeList(ref ValPtr, ref ValLen);
+    }
+  }
+
+  [PublicAPI]
   public struct MDataValue {
     public List<byte> Content;
     public ulong EntryVersion;
@@ -335,31 +357,35 @@ namespace SafeApp.Utilities {
     public IntPtr ContentPtr;
     public UIntPtr ContentLen;
     public ulong EntryVersion;
-    // ReSharper disable once UnusedMember.Global
+
     internal void Free() {
       BindingUtils.FreeList(ref ContentPtr, ref ContentLen);
     }
   }
 
   [PublicAPI]
-  public struct MDataKey {
-    public List<byte> Val;
+  public struct MDataEntry {
+    public MDataKey Key;
+    public MDataValue Value;
 
-    internal MDataKey(MDataKeyNative native) {
-      Val = BindingUtils.CopyToByteList(native.ValPtr, (int)native.ValLen);
+    internal MDataEntry(MDataEntryNative native) {
+      Key = new MDataKey(native.Key);
+      Value = new MDataValue(native.Value);
     }
 
-    internal MDataKeyNative ToNative() {
-      return new MDataKeyNative {ValPtr = BindingUtils.CopyFromByteList(Val), ValLen = (UIntPtr)(Val?.Count ?? 0)};
+    internal MDataEntryNative ToNative() {
+      return new MDataEntryNative {Key = Key.ToNative(), Value = Value.ToNative()};
     }
   }
 
-  internal struct MDataKeyNative {
-    public IntPtr ValPtr;
-    public UIntPtr ValLen;
-    // ReSharper disable once UnusedMember.Global
+  internal struct MDataEntryNative {
+    public MDataKeyNative Key;
+    public MDataValueNative Value;
+
+    //ReSharper disable once UnusedMember.Global
     internal void Free() {
-      BindingUtils.FreeList(ref ValPtr, ref ValLen);
+      Key.Free();
+      Value.Free();
     }
   }
 

@@ -67,7 +67,7 @@ namespace SafeApp.Tests {
       }
 
       using (var entriesActionHandle = await session.MDataEntryActions.NewAsync())
-      using (var entryHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
+      using (var entryHandle = await session.MDataEntries.GetHandleAsync(mDataInfo)) {
         keys = await session.MData.ListKeysAsync(mDataInfo);
         var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Val);
         await session.MDataEntryActions.UpdateAsync(entriesActionHandle, keys[0].Val, Utils.GetRandomData(10).ToList(), value.Item2 + 1);
@@ -75,7 +75,7 @@ namespace SafeApp.Tests {
       }
 
       using (var entriesActionHandle = await session.MDataEntryActions.NewAsync())
-      using (var entryHandle = await session.MData.ListEntriesAsync(mDataInfo)) {
+      using (var entryHandle = await session.MDataEntries.GetHandleAsync(mDataInfo)) {
         keys = await session.MData.ListKeysAsync(mDataInfo);
         var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Val);
         await session.MDataEntryActions.DeleteAsync(entriesActionHandle, keys[0].Val, value.Item2 + 1);

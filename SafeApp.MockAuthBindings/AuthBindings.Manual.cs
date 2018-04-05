@@ -1,8 +1,10 @@
-﻿#if !NETSTANDARD1_2 || __DESKTOP__
+#if !NETSTANDARD1_2 || __DESKTOP__
+
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Utilities;
+
 #if __IOS__
 using ObjCRuntime;
 #endif

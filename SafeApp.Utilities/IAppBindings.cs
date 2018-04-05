@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SafeApp.Utilities {
+  // ReSharper disable InconsistentNaming
   public partial interface IAppBindings {
     Task<List<ContainerPermissions>> AccessContainerFetchAsync(IntPtr app);
     Task<MDataInfo> AccessContainerGetContainerMDataInfoAsync(IntPtr app, string name);
@@ -46,7 +47,7 @@ namespace SafeApp.Utilities {
     Task<List<byte>> FileReadAsync(IntPtr app, ulong fileH, ulong position, ulong len);
     Task<ulong> FileSizeAsync(IntPtr app, ulong fileH);
     Task FileWriteAsync(IntPtr app, ulong fileH, List<byte> data);
-    Task<byte[]> GenerateNonceAsync(); // ReSharper disable InconsistentNaming
+    Task<byte[]> GenerateNonceAsync();
     Task<byte[]> IDataCloseSelfEncryptorAsync(IntPtr app, ulong seH, ulong cipherOptH);
     Task<ulong> IDataFetchSelfEncryptorAsync(IntPtr app, byte[] name);
     Task<ulong> IDataNewSelfEncryptorAsync(IntPtr app);
@@ -54,14 +55,12 @@ namespace SafeApp.Utilities {
     Task IDataSelfEncryptorReaderFreeAsync(IntPtr app, ulong handle);
     Task IDataSelfEncryptorWriterFreeAsync(IntPtr app, ulong handle);
     Task<ulong> IDataSerialisedSizeAsync(IntPtr app, byte[] name);
-
     Task<ulong> IDataSizeAsync(IntPtr app, ulong seH);
-
-    // ReSharper enable InconsistentNaming
     Task IDataWriteToSelfEncryptorAsync(IntPtr app, ulong seH, List<byte> data);
     bool IsMockBuild();
     Task MDataDelUserPermissionsAsync(IntPtr app, ref MDataInfo info, ulong userH, ulong version);
     Task<List<byte>> MDataEncodeMetadataAsync(ref MetadataResponse metadata);
+    Task<ulong> MDataEntriesAsync(IntPtr app, ref MDataInfo info);
     Task MDataEntriesFreeAsync(IntPtr app, ulong entriesH);
     Task<(List<byte>, ulong)> MDataEntriesGetAsync(IntPtr app, ulong entriesH, List<byte> key);
     Task MDataEntriesInsertAsync(IntPtr app, ulong entriesH, List<byte> key, List<byte> value);
@@ -82,7 +81,7 @@ namespace SafeApp.Utilities {
     Task<MDataInfo> MDataInfoRandomPrivateAsync(ulong typeTag);
     Task<MDataInfo> MDataInfoRandomPublicAsync(ulong typeTag);
     Task<List<byte>> MDataInfoSerialiseAsync(ref MDataInfo info);
-    Task<ulong> MDataListEntriesAsync(IntPtr app, ref MDataInfo info);
+    Task<List<MDataEntry>> MDataListEntriesAsync(IntPtr app, ulong entriesH);
     Task<List<MDataKey>> MDataListKeysAsync(IntPtr app, ref MDataInfo info);
     Task<ulong> MDataListPermissionsAsync(IntPtr app, ref MDataInfo info);
     Task<List<UserPermissionSet>> MDataListPermissionSetsAsync(IntPtr app, ulong permissionsH);
@@ -106,6 +105,7 @@ namespace SafeApp.Utilities {
     Task SignSecKeyFreeAsync(IntPtr app, ulong handle);
     Task<byte[]> SignSecKeyGetAsync(IntPtr app, ulong handle);
     Task<ulong> SignSecKeyNewAsync(IntPtr app, byte[] data);
+    Task TestSimulateNetworkDisconnectAsync(IntPtr app);
     Task<List<byte>> VerifyAsync(IntPtr app, List<byte> signedData, ulong signPkH);
   }
 }

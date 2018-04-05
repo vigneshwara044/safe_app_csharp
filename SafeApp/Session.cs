@@ -255,5 +255,9 @@ namespace SafeApp {
     public static Task SetLogOutputPathAsync(string outputFileName) {
       return AppBindings.AppOutputLogPathAsync(outputFileName);
     }
+
+    public Task TestSimulateNetworkDisconnectAsync() {
+      return AppBindings.TestSimulateNetworkDisconnectAsync(_appPtr);
+    }
   }
 }

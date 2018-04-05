@@ -9,7 +9,7 @@ namespace SafeApp.Utilities {
   public class FfiException : Exception {
     public readonly int ErrorCode;
 
-    public FfiException(int code, string description) : base($"Error Code: {code}. Description: {description}") {
+    internal FfiException(int code, string description) : base($"Error Code: {code}. Description: {description}") {
       ErrorCode = code;
     }
   }
@@ -75,6 +75,7 @@ namespace SafeApp.Utilities {
       if (len > 0) {
         Marshal.Copy(ptr, array, 0, len);
       }
+
       return array;
     }
 
@@ -92,7 +93,7 @@ namespace SafeApp.Utilities {
     }
 
     // ReSharper disable once RedundantAssignment
-    internal static void FreeList(ref IntPtr ptr, ref UIntPtr len) {
+    public static void FreeList(ref IntPtr ptr, ref UIntPtr len) {
       if (ptr != IntPtr.Zero) {
         Marshal.FreeHGlobal(ptr);
       }

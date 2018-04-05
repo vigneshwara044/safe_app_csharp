@@ -808,14 +808,14 @@ namespace SafeApp.AppBindings {
       IntPtr userData,
       FfiResultByteListULongCb oCb);
 
-    public Task<ulong> MDataListEntriesAsync(IntPtr app, ref MDataInfo info) {
+    public Task<ulong> MDataEntriesAsync(IntPtr app, ref MDataInfo info) {
       var (ret, userData) = BindingUtils.PrepareTask<ulong>();
-      MDataListEntriesNative(app, ref info, userData, OnFfiResultULongCb);
+      MDataEntriesNative(app, ref info, userData, OnFfiResultULongCb);
       return ret;
     }
 
-    [DllImport(DllName, EntryPoint = "mdata_list_entries")]
-    private static extern void MDataListEntriesNative(IntPtr app, ref MDataInfo info, IntPtr userData, FfiResultULongCb oCb);
+    [DllImport(DllName, EntryPoint = "mdata_entries")]
+    private static extern void MDataEntriesNative(IntPtr app, ref MDataInfo info, IntPtr userData, FfiResultULongCb oCb);
 
     public Task<List<MDataKey>> MDataListKeysAsync(IntPtr app, ref MDataInfo info) {
       var (ret, userData) = BindingUtils.PrepareTask<List<MDataKey>>();
@@ -958,6 +958,15 @@ namespace SafeApp.AppBindings {
       UIntPtr keyLen,
       IntPtr userData,
       FfiResultByteListULongCb oCb);
+
+    public Task<List<MDataEntry>> MDataListEntriesAsync(IntPtr app, ulong entriesH) {
+      var (ret, userData) = BindingUtils.PrepareTask<List<MDataEntry>>();
+      MDataListEntriesNative(app, entriesH, userData, OnFfiResultMDataEntryListCb);
+      return ret;
+    }
+
+    [DllImport(DllName, EntryPoint = "mdata_list_entries")]
+    private static extern void MDataListEntriesNative(IntPtr app, ulong entriesH, IntPtr userData, FfiResultMDataEntryListCb oCb);
 
     public Task MDataEntriesFreeAsync(IntPtr app, ulong entriesH) {
       var (ret, userData) = BindingUtils.PrepareTask();
@@ -1261,6 +1270,15 @@ namespace SafeApp.AppBindings {
     [DllImport(DllName, EntryPoint = "file_close")]
     private static extern void FileCloseNative(IntPtr app, ulong fileH, IntPtr userData, FfiResultFileCb oCb);
 
+    public Task TestSimulateNetworkDisconnectAsync(IntPtr app) {
+      var (ret, userData) = BindingUtils.PrepareTask();
+      TestSimulateNetworkDisconnectNative(app, userData, OnFfiResultCb);
+      return ret;
+    }
+
+    [DllImport(DllName, EntryPoint = "test_simulate_network_disconnect")]
+    private static extern void TestSimulateNetworkDisconnectNative(IntPtr app, IntPtr userData, FfiResultCb oCb);
+
     private delegate void FfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo);
 
 #if __IOS__
@@ -1422,6 +1440,19 @@ namespace SafeApp.AppBindings {
         userData,
         Marshal.PtrToStructure<FfiResult>(result),
         () => (new File(Marshal.PtrToStructure<FileNative>(file)), version));
+    }
+
+    private delegate void FfiResultMDataEntryListCb(IntPtr userData, IntPtr result, IntPtr entriesPtr, UIntPtr entriesLen);
+
+#if __IOS__
+    [MonoPInvokeCallback(typeof(FfiResultMDataEntryListCb))]
+    #endif
+    private static void OnFfiResultMDataEntryListCb(IntPtr userData, IntPtr result, IntPtr entriesPtr, UIntPtr entriesLen) {
+      BindingUtils.CompleteTask(
+        userData,
+        Marshal.PtrToStructure<FfiResult>(result),
+        () => BindingUtils.CopyToObjectList<MDataEntryNative>(entriesPtr, (int)entriesLen).Select(native => new MDataEntry(native)).
+          ToList());
     }
 
     private delegate void FfiResultMDataInfoCb(IntPtr userData, IntPtr result, IntPtr mdataInfo);

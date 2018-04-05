@@ -24,6 +24,11 @@ namespace SafeApp.MData {
       return AppBindings.MDataEntriesGetAsync(_appPtr, entriesHandle, key);
     }
 
+    public async Task<NativeHandle> GetHandleAsync(MDataInfo mDataInfo) {
+      var handle = await AppBindings.MDataEntriesAsync(_appPtr, ref mDataInfo);
+      return new NativeHandle(_appPtr, handle, FreeAsync);
+    }
+
     public Task InsertAsync(NativeHandle entriesH, List<byte> entKey, List<byte> entVal) {
       return AppBindings.MDataEntriesInsertAsync(_appPtr, entriesH, entKey, entVal);
     }

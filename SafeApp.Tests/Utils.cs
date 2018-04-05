@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.MockAuthBindings;
 using SafeApp.Utilities;
+
 #if __ANDROID__
 using Android.App;
 #endif
@@ -101,31 +102,6 @@ namespace SafeApp.Tests {
       return new string(Enumerable.Repeat(chars, length).Select(s => s[Random.Next(s.Length)]).ToArray());
     }
 
-    public static async Task<MDataInfo> PreparePublicDirectory(Session session) {
-      var mDataInfo = await session.MDataInfoActions.RandomPublicAsync(16000);
-      using (var signPubKey = await session.Crypto.AppPubSignKeyAsync())
-      using (var entryhandle = await session.MDataEntries.NewAsync())
-      using (var permissionHandle = await session.MDataPermissions.NewAsync()) {
-        var metadata = new MetadataResponse {
-          Name = "Random Pubic Container",
-          Description = "Public container for web files",
-          TypeTag = mDataInfo.TypeTag,
-          XorName = mDataInfo.Name
-        };
-        var encMetaData = await session.MData.EncodeMetadata(metadata);
-        var permissions = new PermissionSet {Read = true, ManagePermissions = true, Insert = true};
-        await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes(AppConstants.MDataMetaDataKey).ToList(), encMetaData);
-        await session.MDataEntries.InsertAsync(
-          entryhandle,
-          Encoding.UTF8.GetBytes("index.html").ToList(),
-          Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
-        await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, permissions);
-        await session.MData.PutAsync(mDataInfo, permissionHandle, entryhandle);
-      }
-
-      return mDataInfo;
-    }
-
     public static async Task<string> InitRustLogging() {
 #if __IOS__
       var configPath = Environment.GetFolderPath(Environment.SpecialFolder.Resources);
@@ -149,6 +125,31 @@ namespace SafeApp.Tests {
 
       await Session.InitLoggingAsync(configPath);
       return configPath;
+    }
+
+    public static async Task<MDataInfo> PreparePublicDirectory(Session session) {
+      var mDataInfo = await session.MDataInfoActions.RandomPublicAsync(16000);
+      using (var signPubKey = await session.Crypto.AppPubSignKeyAsync())
+      using (var entryhandle = await session.MDataEntries.NewAsync())
+      using (var permissionHandle = await session.MDataPermissions.NewAsync()) {
+        var metadata = new MetadataResponse {
+          Name = "Random Pubic Container",
+          Description = "Public container for web files",
+          TypeTag = mDataInfo.TypeTag,
+          XorName = mDataInfo.Name
+        };
+        var encMetaData = await session.MData.EncodeMetadata(metadata);
+        var permissions = new PermissionSet {Read = true, ManagePermissions = true, Insert = true};
+        await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes(AppConstants.MDataMetaDataKey).ToList(), encMetaData);
+        await session.MDataEntries.InsertAsync(
+          entryhandle,
+          Encoding.UTF8.GetBytes("index.html").ToList(),
+          Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
+        await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, permissions);
+        await session.MData.PutAsync(mDataInfo, permissionHandle, entryhandle);
+      }
+
+      return mDataInfo;
     }
   }
 }

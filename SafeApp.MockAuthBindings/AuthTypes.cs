@@ -31,6 +31,7 @@ namespace SafeApp.MockAuthBindings {
 
     // ReSharper disable once NotAccessedField.Compiler
     public UIntPtr ContainersCap;
+
     // ReSharper disable once UnusedMember.Global
     internal void Free() {
       BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
