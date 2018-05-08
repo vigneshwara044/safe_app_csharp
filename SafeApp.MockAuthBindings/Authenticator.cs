@@ -178,5 +178,10 @@ namespace SafeApp.MockAuthBindings {
       authenticator.IsDisconnected = true;
       Disconnected?.Invoke(authenticator, EventArgs.Empty);
     }
+
+    public Task TestSimulateNetworkDisconnectAsync()
+    {
+      return AuthBindings.TestSimulateNetworkDisconnectAsync(_authPtr);
+    }
   }
 }

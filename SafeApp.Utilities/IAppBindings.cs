@@ -105,7 +105,6 @@ namespace SafeApp.Utilities {
     Task SignSecKeyFreeAsync(IntPtr app, ulong handle);
     Task<byte[]> SignSecKeyGetAsync(IntPtr app, ulong handle);
     Task<ulong> SignSecKeyNewAsync(IntPtr app, byte[] data);
-    Task TestSimulateNetworkDisconnectAsync(IntPtr app);
     Task<List<byte>> VerifyAsync(IntPtr app, List<byte> signedData, ulong signPkH);
   }
 }

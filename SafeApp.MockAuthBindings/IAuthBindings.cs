@@ -22,6 +22,7 @@ namespace SafeApp.MockAuthBindings {
     Task<string> EncodeContainersRespAsync(IntPtr auth, ref ContainersReq req, uint reqId, bool isGranted);
     Task<string> EncodeShareMDataRespAsync(IntPtr auth, ref ShareMDataReq req, uint reqId, bool isGranted);
     Task<string> EncodeUnregisteredRespAsync(uint reqId, bool isGranted);
+    Task TestSimulateNetworkDisconnectAsync(IntPtr authPtr);
     bool IsMockBuild();
   }
 }
