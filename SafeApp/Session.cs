@@ -23,6 +23,12 @@ namespace SafeApp {
 
     public bool IsDisconnected { get; private set; }
 
+#if SAFE_APP_MOCK
+    public IntPtr SafeApPtr() {
+      return _appPtr;
+    }
+#endif
+
     /// <summary>
     ///   AccessConatiner API
     /// </summary>
