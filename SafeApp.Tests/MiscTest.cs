@@ -110,7 +110,6 @@ namespace SafeApp.Tests {
     [Test]
     public async Task RustLoggerTest() {
       var configPath = string.Empty;
-      var filecontent = string.Empty;
       Assert.That(async () => configPath = await Utils.InitRustLogging(), Throws.Nothing);
       Assert.That(async () => await Session.DecodeIpcMessageAsync("Some Random Invalid String"), Throws.TypeOf<IpcMsgException>());
             var fileEmpty = true;
