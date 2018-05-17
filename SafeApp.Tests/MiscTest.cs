@@ -108,14 +108,26 @@ namespace SafeApp.Tests {
     }
 
     [Test]
-    public void RustLoggerTest() {
+    public async Task RustLoggerTest() {
       var configPath = string.Empty;
       Assert.That(async () => configPath = await Utils.InitRustLogging(), Throws.Nothing);
       Assert.That(async () => await Session.DecodeIpcMessageAsync("Some Random Invalid String"), Throws.TypeOf<IpcMsgException>());
-      using (var fs = new FileStream(Path.Combine(configPath, "Client.log"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-      using (var sr = new StreamReader(fs, Encoding.Default)) {
-        Assert.That(string.IsNullOrEmpty(sr.ReadToEnd()), Is.False);
-      }
+            var fileEmpty = true;
+            for (var i = 0; i < 10; ++i)
+            {
+                await Task.Delay(1000);
+                using (var fs = new FileStream(Path.Combine(configPath, "Client.log"), FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var sr = new StreamReader(fs, Encoding.Default))
+                {
+
+                    fileEmpty = string.IsNullOrEmpty(sr.ReadToEnd());
+                    if (!fileEmpty)
+                    {
+                        break;
+                    }
+                }
+            }
+            Assert.That(fileEmpty, Is.False);
+        }
     }
-  }
 }
