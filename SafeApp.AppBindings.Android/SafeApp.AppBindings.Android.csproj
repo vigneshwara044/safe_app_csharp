@@ -76,11 +76,7 @@
     <Exec ConsoleToMSBuild="true" Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0' AND '$(OS)' == 'Windows_NT'" Command="cd.. &amp; powershell -ExecutionPolicy ByPass -File .\build.ps1 -Configuration Release -target UnZip-Libs">
       <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
     </Exec>
-<<<<<<< HEAD
     <Exec ConsoleToMSBuild="true" Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0' AND '$(OS)' == 'UNIX'" Command="cd .. &amp;&amp; ./build.sh --Configuration=Release --target=Unzip-Libs">
-=======
-    <Exec ConsoleToMSBuild="true" Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0' AND '$(OS)' == 'UNIX'" Command="cd .. &amp;&amp; sudo ./build.sh --Configuration=Release --target=Unzip-Libs">
->>>>>>> b5a8ea5636c78d82e0c2fb39cfc29506983aca82
       <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
     </Exec>
   </Target>

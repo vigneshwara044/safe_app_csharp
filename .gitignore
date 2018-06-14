@@ -203,11 +203,6 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
-# Misc folders
-[Bb]in/
-[Oo]bj/
-[Pp]ackages/
-
 # Build related
 tools/**
 !tools/packages.config

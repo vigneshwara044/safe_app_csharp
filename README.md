@@ -16,33 +16,11 @@ safe_app CSharp Library. Currently supports
 
 
 ## Build Setup
-Before building the solution you should download the native libs and add to the corresponding app projects for each platform. You can use following commands in root directory of repo.
-#### Windows
-Run this command in powershell to download and extract native libs in respective platform projects
-```
-.\build.ps1 -target Unzip-Libs
-```
-In case if you see some policy issue
-```
-powershell -ExecutionPolicy ByPass -File build.ps1 -target "Unzip-Libs"
-```
-
-#### Mac
-To be able to execute the bash script on macOS you should give the owner of the script permission to execute it using following command.
+#### Mac & Linux
+To be able to build the solution you should give the permission to execute the script using following command in root of repo.
 ```
 chmod +x build.sh
 ```
-Then run this command to download and extract native libs in respective platform projects
-```
-.\build.sh --target=Unzip-Libs
-```
-if you face access denied issues, then run same command with sudo
-```
-sudo .\build.sh --target=Unzip-Libs
-```
-
-Once this process is completed. Restore nuget packages and your solution is ready for build.
-
 
 # TODO
 - [x] Extend Native API Scope to full Alpha-2 client APIs.
