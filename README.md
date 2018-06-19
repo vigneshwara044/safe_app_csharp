@@ -14,14 +14,6 @@ safe_app CSharp Library. Currently supports
 | [MaidSafe website](https://maidsafe.net) | [SAFE Dev Forum](https://forum.safedev.org) | [SAFE Network Forum](https://safenetforum.org) |
 |:----:|:----:|:----:|
 
-
-## Build Setup
-#### Mac & Linux
-To be able to build the solution you should give the permission to execute the script using following command in root of repo.
-```
-chmod +x build.sh
-```
-
 # TODO
 - [x] Extend Native API Scope to full Alpha-2 client APIs.
 - [ ] Tests
