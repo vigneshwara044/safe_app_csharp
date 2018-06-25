@@ -1,5 +1,3 @@
-#addin Cake.Curl
-
 var TAG = "6be5558";
 var ANDROID_DIR_NAME = "SafeApp.AppBindings.Android";
 var IOS_DIR_NAME = "SafeApp.AppBindings.iOS";
@@ -66,13 +64,7 @@ Task("Download-Libs")
         Information("Downloading : {0}", mockZipFilename);
         if(!FileExists(mockZipSavePath))
         {
-          CurlDownloadFile(
-            new Uri(mockZipUrl),
-            new CurlDownloadSettings {
-              OutputPaths = new FilePath[]{
-                mockZipSavePath
-              } 
-            });
+          DownloadFile(mockZipUrl, File(mockZipSavePath));
         }
         else
         {
@@ -82,13 +74,7 @@ Task("Download-Libs")
         Information("Downloading : {0}", nonMockZipFilename);
         if(!FileExists(nonMockZipSavePath))
         {
-          CurlDownloadFile(
-            new Uri(nonMockZipUrl),
-            new CurlDownloadSettings {
-              OutputPaths = new FilePath[]{
-                nonMockZipSavePath
-                }
-            });
+          DownloadFile(nonMockZipUrl, File(nonMockZipSavePath));
         }
         else
         {

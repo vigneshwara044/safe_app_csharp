@@ -61,15 +61,14 @@ Task("Run-Tests")
           Configuration = configuration,
           ArgumentCustomization = args => args.Append("--logger \"trx;LogFileName=results.xml\"")
         });
-        
-        var resultsFile = File("SafeApp.Tests.Core/TestResults/results.xml");
-        if(AppVeyor.IsRunningOnAppVeyor)
-        {
-          AppVeyor.UploadTestResults(resultsFile.Path.FullPath, AppVeyorTestResultsType.MSTest);
-        }
   })
-  .ReportError(exception => {
-    Information(exception.Message);
+  .Finally(() =>
+  {  
+    var resultsFile = File("SafeApp.Tests.Core/TestResults/results.xml");
+    if(AppVeyor.IsRunningOnAppVeyor)
+    {
+      AppVeyor.UploadTestResults(resultsFile.Path.FullPath, AppVeyorTestResultsType.MSTest);
+    }
   });
 
 Task("Default")

@@ -25,14 +25,17 @@ Task("Analyze-Project-Report")
       InspectCodeIssuesFromFilePath(logPath),
       buildDirectory);
     
-    var issueMessage = string.Format("Code inspection failed. ");
-    var issueDetail = string.Format("{0} issues are found.", issues.Count());
-    
     if(issues.Count()>0) {
+      foreach (var item in issues)
+      {
+        var issueMessage = $"Priority: {item.PriorityName}, Details: {item.Message}, Line: {item.Line}, File: {item.AffectedFileRelativePath}";
+        if(AppVeyor.IsRunningOnAppVeyor)
+          AppVeyor.AddMessage(item.Message,  AppVeyorMessageCategoryType.Error, issueMessage);
+        else
+          Information(issueMessage);
+      }
       if(AppVeyor.IsRunningOnAppVeyor)
-        AppVeyor.AddMessage(issueMessage,  AppVeyorMessageCategoryType.Error, issueDetail);
-      else
-        Information(issueMessage + issueDetail);
+        throw new Exception("Build Failed : InspectCode issues found. Check message tab for details.");
     }
     else {
       if(AppVeyor.IsRunningOnAppVeyor)

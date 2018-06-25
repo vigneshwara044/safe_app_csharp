@@ -15,6 +15,7 @@ file_timestamp = false
 
 [root]
 level = "error"
+appenders = ["async_file"] 
 
 [loggers."crust"]
 level = "debug"
