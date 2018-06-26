@@ -11,11 +11,8 @@ safe_app CSharp Library. Currently supports
 - netcoreapp1.0 (for use via NET Core targets. Runtime support limited to x64)
 - netframework46 (for use via classic NET Framework targets. Platform support limited to x64)
 
-**Note**: Just adding a package dependency to the Portable Library will not be enough. Package also needs to be added to the corresponding app projects for platform specific Native libraries to get included.
-
 | [MaidSafe website](https://maidsafe.net) | [SAFE Dev Forum](https://forum.safedev.org) | [SAFE Network Forum](https://safenetforum.org) |
 |:----:|:----:|:----:|
-
 
 # TODO
 - [x] Extend Native API Scope to full Alpha-2 client APIs.

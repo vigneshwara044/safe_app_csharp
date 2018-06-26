@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
@@ -20,7 +20,11 @@
     <ItemGroup>
       <NativeSafeAppLibs Include="lib\**\*.*" />
     </ItemGroup>
-    <Error Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0'" Text="Missing Native Libs. Please run 'cargo script DownloadNativeLibs.crs' in root of repo." />
+    <Exec ConsoleToMSBuild="true" Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0' AND '$(OS)' == 'Windows_NT'" Command="cd.. &amp; powershell -ExecutionPolicy ByPass -File .\build.ps1 -Configuration Release -target UnZip-Libs">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+    <Exec ConsoleToMSBuild="true" Condition="'@(NativeSafeAppLibs-&gt;Count())' == '0' AND '$(OS)' == 'UNIX'" Command="cd .. &amp;&amp; bash build.sh --Configuration=Release --target=Unzip-Libs">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
   </Target>
-
 </Project>
