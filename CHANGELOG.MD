@@ -1,5 +1,8 @@
 # safe_app_csharp Change Log
 
+## [0.1.1]
+- Fixed delegate garbage collection issue.
+
 ## [0.1.0]
 - API scope expanded to cover all the exposed APIs from safe_client_libs ([#6be5558](https://github.com/maidsafe/safe_client_libs/tree/6be5558)).
 - Support updated to cover:

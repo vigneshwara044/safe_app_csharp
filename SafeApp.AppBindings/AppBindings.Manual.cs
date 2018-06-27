@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+
 using SafeApp.Utilities;
 
 #if __IOS__
@@ -15,7 +16,12 @@ namespace SafeApp.AppBindings {
     public void AppUnregistered(List<byte> bootstrapConfig, Action oDisconnectNotifierCb, Action<FfiResult, IntPtr, GCHandle> oCb) {
       var userData = BindingUtils.ToHandlePtr((oDisconnectNotifierCb, oCb));
 
-      AppUnregisteredNative(bootstrapConfig.ToArray(), (UIntPtr)bootstrapConfig.Count, userData, OnAppDisconnectCb, OnAppCreateCb);
+      AppUnregisteredNative(
+        bootstrapConfig.ToArray(),
+        (UIntPtr)bootstrapConfig.Count,
+        userData,
+        DelegateOnAppDisconnectCb,
+        DelegateOnAppCreateCb);
     }
 
     public void AppRegistered(
@@ -26,7 +32,7 @@ namespace SafeApp.AppBindings {
       var authGrantedNative = authGranted.ToNative();
       var userData = BindingUtils.ToHandlePtr((oDisconnectNotifierCb, oCb));
 
-      AppRegisteredNative(appId, ref authGrantedNative, userData, OnAppDisconnectCb, OnAppCreateCb);
+      AppRegisteredNative(appId, ref authGrantedNative, userData, DelegateOnAppDisconnectCb, DelegateOnAppCreateCb);
 
       authGrantedNative.Free();
     }
@@ -40,6 +46,8 @@ namespace SafeApp.AppBindings {
       action();
     }
 
+    private static NoneCb DelegateOnAppDisconnectCb = OnAppDisconnectCb;
+
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAppCb))]
     #endif
@@ -49,17 +57,19 @@ namespace SafeApp.AppBindings {
       action(Marshal.PtrToStructure<FfiResult>(result), app, GCHandle.FromIntPtr(userData));
     }
 
+    private static FfiResultAppCb DelegateOnAppCreateCb = OnAppCreateCb;
+
     public Task<IpcMsg> DecodeIpcMsgAsync(string msg) {
       var (task, userData) = BindingUtils.PrepareTask<IpcMsg>();
       DecodeIpcMsgNative(
         msg,
         userData,
-        OnDecodeIpcMsgAuthCb,
-        OnDecodeIpcMsgUnregisteredCb,
-        OnDecodeIpcMsgContainersCb,
-        OnDecodeIpcMsgShareMdataCb,
-        OnDecodeIpcMsgRevokedCb,
-        OnDecodeIpcMsgErrCb);
+        DelegateOnDecodeIpcMsgAuthCb,
+        DelegateOnDecodeIpcMsgUnregisteredCb,
+        DelegateOnDecodeIpcMsgContainersCb,
+        DelegateOnDecodeIpcMsgShareMdataCb,
+        DelegateOnDecodeIpcMsgRevokedCb,
+        DelegateOnDecodeIpcMsgErrCb);
 
       return task;
     }
@@ -72,6 +82,8 @@ namespace SafeApp.AppBindings {
       tcs.SetResult(new AuthIpcMsg(reqId, new AuthGranted(Marshal.PtrToStructure<AuthGrantedNative>(authGranted))));
     }
 
+    private static UIntAuthGrantedCb DelegateOnDecodeIpcMsgAuthCb = OnDecodeIpcMsgAuthCb;
+
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntByteListCb))]
     #endif
@@ -79,6 +91,8 @@ namespace SafeApp.AppBindings {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcMsg>>(userData);
       tcs.SetResult(new UnregisteredIpcMsg(reqId, serialisedCfgPtr, serialisedCfgLen));
     }
+
+    private static UIntByteListCb DelegateOnDecodeIpcMsgUnregisteredCb = OnDecodeIpcMsgUnregisteredCb;
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntCb))]
@@ -88,6 +102,8 @@ namespace SafeApp.AppBindings {
       tcs.SetResult(new ContainersIpcMsg(reqId));
     }
 
+    private static UIntCb DelegateOnDecodeIpcMsgContainersCb = OnDecodeIpcMsgContainersCb;
+
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntCb))]
     #endif
@@ -95,6 +111,8 @@ namespace SafeApp.AppBindings {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcMsg>>(userData);
       tcs.SetResult(new ShareMDataIpcMsg(reqId));
     }
+
+    private static UIntCb DelegateOnDecodeIpcMsgShareMdataCb = OnDecodeIpcMsgShareMdataCb;
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(NoneCb))]
@@ -104,6 +122,8 @@ namespace SafeApp.AppBindings {
       tcs.SetResult(new RevokedIpcMsg());
     }
 
+    private static NoneCb DelegateOnDecodeIpcMsgRevokedCb = OnDecodeIpcMsgRevokedCb;
+
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultUIntCb))]
     #endif
@@ -112,6 +132,8 @@ namespace SafeApp.AppBindings {
       var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<IpcMsg>>(userData);
       tcs.SetException(new IpcMsgException(reqId, res.ErrorCode, res.Description));
     }
+
+    private static FfiResultUIntCb DelegateOnDecodeIpcMsgErrCb = OnDecodeIpcMsgErrCb;
   }
 }
 #endif
