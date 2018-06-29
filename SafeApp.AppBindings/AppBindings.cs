@@ -1290,7 +1290,7 @@ namespace SafeApp.AppBindings {
         () => Marshal.PtrToStructure<AccountInfo>(accountInfo));
     }
 
-    private static FfiResultAccountInfoCb DelegateOnFfiResultAccountInfoCb = OnFfiResultAccountInfoCb;
+    private static readonly FfiResultAccountInfoCb DelegateOnFfiResultAccountInfoCb = OnFfiResultAccountInfoCb;
 
     private delegate void FfiResultAppCb(IntPtr userData, IntPtr result, IntPtr app);
 
@@ -1306,7 +1306,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToByteArray(nonce, (int)AppConstants.AsymNonceLen));
     }
 
-    private static FfiResultByteArrayAsymNonceLenCb DelegateOnFfiResultByteArrayAsymNonceLenCb = OnFfiResultByteArrayAsymNonceLenCb;
+    private static readonly FfiResultByteArrayAsymNonceLenCb DelegateOnFfiResultByteArrayAsymNonceLenCb = OnFfiResultByteArrayAsymNonceLenCb;
 
     private delegate void FfiResultByteArrayAsymPublicKeyLenCb(IntPtr userData, IntPtr result, IntPtr pubEncKey);
 
@@ -1320,7 +1320,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToByteArray(pubEncKey, (int)AppConstants.AsymPublicKeyLen));
     }
 
-    private static FfiResultByteArrayAsymPublicKeyLenCb DelegateOnFfiResultByteArrayAsymPublicKeyLenCb =
+    private static readonly FfiResultByteArrayAsymPublicKeyLenCb DelegateOnFfiResultByteArrayAsymPublicKeyLenCb =
       OnFfiResultByteArrayAsymPublicKeyLenCb;
 
     private delegate void FfiResultByteArrayAsymSecretKeyLenCb(IntPtr userData, IntPtr result, IntPtr secEncKey);
@@ -1335,7 +1335,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToByteArray(secEncKey, (int)AppConstants.AsymSecretKeyLen));
     }
 
-    private static FfiResultByteArrayAsymSecretKeyLenCb DelegateOnFfiResultByteArrayAsymSecretKeyLenCb =
+    private static readonly FfiResultByteArrayAsymSecretKeyLenCb DelegateOnFfiResultByteArrayAsymSecretKeyLenCb =
       OnFfiResultByteArrayAsymSecretKeyLenCb;
 
     private delegate void FfiResultByteArraySignPublicKeyLenCb(IntPtr userData, IntPtr result, IntPtr pubSignKey);
@@ -1350,7 +1350,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToByteArray(pubSignKey, (int)AppConstants.SignPublicKeyLen));
     }
 
-    private static FfiResultByteArraySignPublicKeyLenCb DelegateOnFfiResultByteArraySignPublicKeyLenCb =
+    private static readonly FfiResultByteArraySignPublicKeyLenCb DelegateOnFfiResultByteArraySignPublicKeyLenCb =
       OnFfiResultByteArraySignPublicKeyLenCb;
 
     private delegate void FfiResultByteArraySignSecretKeyLenCb(IntPtr userData, IntPtr result, IntPtr pubSignKey);
@@ -1365,7 +1365,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToByteArray(pubSignKey, (int)AppConstants.SignSecretKeyLen));
     }
 
-    private static FfiResultByteArraySignSecretKeyLenCb DelegateOnFfiResultByteArraySignSecretKeyLenCb =
+    private static readonly FfiResultByteArraySignSecretKeyLenCb DelegateOnFfiResultByteArraySignSecretKeyLenCb =
       OnFfiResultByteArraySignSecretKeyLenCb;
 
     private delegate void FfiResultByteArrayXorNameLenCb(IntPtr userData, IntPtr result, IntPtr name);
@@ -1380,7 +1380,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToByteArray(name, (int)AppConstants.XorNameLen));
     }
 
-    private static FfiResultByteArrayXorNameLenCb DelegateOnFfiResultByteArrayXorNameLenCb = OnFfiResultByteArrayXorNameLenCb;
+    private static readonly FfiResultByteArrayXorNameLenCb DelegateOnFfiResultByteArrayXorNameLenCb = OnFfiResultByteArrayXorNameLenCb;
 
     private delegate void FfiResultByteListCb(IntPtr userData, IntPtr result, IntPtr signedDataPtr, UIntPtr signedDataLen);
 
@@ -1394,7 +1394,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToByteList(signedDataPtr, (int)signedDataLen));
     }
 
-    private static FfiResultByteListCb DelegateOnFfiResultByteListCb = OnFfiResultByteListCb;
+    private static readonly FfiResultByteListCb DelegateOnFfiResultByteListCb = OnFfiResultByteListCb;
 
     private delegate void FfiResultByteListULongCb(IntPtr userData, IntPtr result, IntPtr contentPtr, UIntPtr contentLen, ulong version);
 
@@ -1408,7 +1408,7 @@ namespace SafeApp.AppBindings {
         () => (BindingUtils.CopyToByteList(contentPtr, (int)contentLen), version));
     }
 
-    private static FfiResultByteListULongCb DelegateOnFfiResultByteListULongCb = OnFfiResultByteListULongCb;
+    private static readonly FfiResultByteListULongCb DelegateOnFfiResultByteListULongCb = OnFfiResultByteListULongCb;
 
     private delegate void FfiResultCb(IntPtr userData, IntPtr result);
 
@@ -1419,7 +1419,7 @@ namespace SafeApp.AppBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result));
     }
 
-    private static FfiResultCb DelegateOnFfiResultCb = OnFfiResultCb;
+    private static readonly FfiResultCb DelegateOnFfiResultCb = OnFfiResultCb;
 
     private delegate void FfiResultContainerPermissionsListCb(
       IntPtr userData,
@@ -1441,7 +1441,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToObjectList<ContainerPermissions>(containerPermsPtr, (int)containerPermsLen));
     }
 
-    private static FfiResultContainerPermissionsListCb
+    private static readonly FfiResultContainerPermissionsListCb
       DelegateOnFfiResultContainerPermissionsListCb = OnFfiResultContainerPermissionsListCb;
 
     private delegate void FfiResultFileCb(IntPtr userData, IntPtr result, IntPtr file);
@@ -1456,7 +1456,7 @@ namespace SafeApp.AppBindings {
         () => new File(Marshal.PtrToStructure<FileNative>(file)));
     }
 
-    private static FfiResultFileCb DelegateOnFfiResultFileCb = OnFfiResultFileCb;
+    private static readonly FfiResultFileCb DelegateOnFfiResultFileCb = OnFfiResultFileCb;
 
     private delegate void FfiResultFileULongCb(IntPtr userData, IntPtr result, IntPtr file, ulong version);
 
@@ -1470,7 +1470,7 @@ namespace SafeApp.AppBindings {
         () => (new File(Marshal.PtrToStructure<FileNative>(file)), version));
     }
 
-    private static FfiResultFileULongCb DelegateOnFfiResultFileULongCb = OnFfiResultFileULongCb;
+    private static readonly FfiResultFileULongCb DelegateOnFfiResultFileULongCb = OnFfiResultFileULongCb;
 
     private delegate void FfiResultMDataEntryListCb(IntPtr userData, IntPtr result, IntPtr entriesPtr, UIntPtr entriesLen);
 
@@ -1485,7 +1485,7 @@ namespace SafeApp.AppBindings {
           ToList());
     }
 
-    private static FfiResultMDataEntryListCb DelegateOnFfiResultMDataEntryListCb = OnFfiResultMDataEntryListCb;
+    private static readonly FfiResultMDataEntryListCb DelegateOnFfiResultMDataEntryListCb = OnFfiResultMDataEntryListCb;
 
     private delegate void FfiResultMDataInfoCb(IntPtr userData, IntPtr result, IntPtr mdataInfo);
 
@@ -1496,7 +1496,7 @@ namespace SafeApp.AppBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => Marshal.PtrToStructure<MDataInfo>(mdataInfo));
     }
 
-    private static FfiResultMDataInfoCb DelegateOnFfiResultMDataInfoCb = OnFfiResultMDataInfoCb;
+    private static readonly FfiResultMDataInfoCb DelegateOnFfiResultMDataInfoCb = OnFfiResultMDataInfoCb;
 
     private delegate void FfiResultMDataKeyListCb(IntPtr userData, IntPtr result, IntPtr keysPtr, UIntPtr keysLen);
 
@@ -1510,7 +1510,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToObjectList<MDataKeyNative>(keysPtr, (int)keysLen).Select(native => new MDataKey(native)).ToList());
     }
 
-    private static FfiResultMDataKeyListCb DelegateOnFfiResultMDataKeyListCb = OnFfiResultMDataKeyListCb;
+    private static readonly FfiResultMDataKeyListCb DelegateOnFfiResultMDataKeyListCb = OnFfiResultMDataKeyListCb;
 
     private delegate void FfiResultMDataValueListCb(IntPtr userData, IntPtr result, IntPtr valuesPtr, UIntPtr valuesLen);
 
@@ -1524,7 +1524,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToObjectList<MDataValueNative>(valuesPtr, (int)valuesLen).Select(native => new MDataValue(native)).ToList());
     }
 
-    private static FfiResultMDataValueListCb DelegateOnFfiResultMDataValueListCb = OnFfiResultMDataValueListCb;
+    private static readonly FfiResultMDataValueListCb DelegateOnFfiResultMDataValueListCb = OnFfiResultMDataValueListCb;
 
     private delegate void FfiResultPermissionSetCb(IntPtr userData, IntPtr result, IntPtr permSet);
 
@@ -1535,7 +1535,7 @@ namespace SafeApp.AppBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => Marshal.PtrToStructure<PermissionSet>(permSet));
     }
 
-    private static FfiResultPermissionSetCb DelegateOnFfiResultPermissionSetCb = OnFfiResultPermissionSetCb;
+    private static readonly FfiResultPermissionSetCb DelegateOnFfiResultPermissionSetCb = OnFfiResultPermissionSetCb;
 
     private delegate void FfiResultStringCb(IntPtr userData, IntPtr result, string logPath);
 
@@ -1546,7 +1546,7 @@ namespace SafeApp.AppBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => logPath);
     }
 
-    private static FfiResultStringCb DelegateOnFfiResultStringCb = OnFfiResultStringCb;
+    private static readonly FfiResultStringCb DelegateOnFfiResultStringCb = OnFfiResultStringCb;
 
     private delegate void FfiResultUIntCb(IntPtr userData, IntPtr result, uint reqId);
 
@@ -1559,7 +1559,7 @@ namespace SafeApp.AppBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => (reqId, encoded));
     }
 
-    private static FfiResultUIntStringCb DelegateOnFfiResultUIntStringCb = OnFfiResultUIntStringCb;
+    private static readonly FfiResultUIntStringCb DelegateOnFfiResultUIntStringCb = OnFfiResultUIntStringCb;
 
     private delegate void FfiResultULongCb(IntPtr userData, IntPtr result, ulong handle);
 
@@ -1570,7 +1570,7 @@ namespace SafeApp.AppBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => handle);
     }
 
-    private static FfiResultULongCb DelegateOnFfiResultULongCb = OnFfiResultULongCb;
+    private static readonly FfiResultULongCb DelegateOnFfiResultULongCb = OnFfiResultULongCb;
 
     private delegate void FfiResultULongULongCb(IntPtr userData, IntPtr result, ulong pkH, ulong skH);
 
@@ -1581,7 +1581,7 @@ namespace SafeApp.AppBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => (pkH, skH));
     }
 
-    private static FfiResultULongULongCb DelegateOnFfiResultULongULongCb = OnFfiResultULongULongCb;
+    private static readonly FfiResultULongULongCb DelegateOnFfiResultULongULongCb = OnFfiResultULongULongCb;
 
     private delegate void FfiResultUserPermissionSetListCb(IntPtr userData, IntPtr result, IntPtr userPermSetsPtr, UIntPtr userPermSetsLen);
 
@@ -1599,7 +1599,7 @@ namespace SafeApp.AppBindings {
         () => BindingUtils.CopyToObjectList<UserPermissionSet>(userPermSetsPtr, (int)userPermSetsLen));
     }
 
-    private static FfiResultUserPermissionSetListCb DelegateOnFfiResultUserPermissionSetListCb = OnFfiResultUserPermissionSetListCb;
+    private static readonly FfiResultUserPermissionSetListCb DelegateOnFfiResultUserPermissionSetListCb = OnFfiResultUserPermissionSetListCb;
 
     private delegate void NoneCb(IntPtr userData);
 

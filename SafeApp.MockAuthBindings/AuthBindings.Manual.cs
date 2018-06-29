@@ -56,7 +56,7 @@ namespace SafeApp.MockAuthBindings {
       action(Marshal.PtrToStructure<FfiResult>(result), app, GCHandle.FromIntPtr(userData));
     }
 
-    private static FfiResultAuthenticatorCb DelegateOnAuthenticatorCreateCb = OnAuthenticatorCreateCb;
+    private static readonly FfiResultAuthenticatorCb DelegateOnAuthenticatorCreateCb = OnAuthenticatorCreateCb;
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(NoneCb))]
@@ -67,7 +67,7 @@ namespace SafeApp.MockAuthBindings {
       action();
     }
 
-    private static NoneCb DelegateOnAuthenticatorDisconnectCb = OnAuthenticatorDisconnectCb;
+    private static readonly NoneCb DelegateOnAuthenticatorDisconnectCb = OnAuthenticatorDisconnectCb;
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntAuthReqCb))]
@@ -77,7 +77,7 @@ namespace SafeApp.MockAuthBindings {
       tcs.SetResult(new AuthIpcReq(reqId, new AuthReq(Marshal.PtrToStructure<AuthReqNative>(authReq))));
     }
 
-    private static UIntAuthReqCb DelegateOnDecodeIpcReqAuthCb = OnDecodeIpcReqAuthCb;
+    private static readonly UIntAuthReqCb DelegateOnDecodeIpcReqAuthCb = OnDecodeIpcReqAuthCb;
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntContainersReqCb))]
@@ -87,7 +87,7 @@ namespace SafeApp.MockAuthBindings {
       tcs.SetResult(new ContainersIpcReq(reqId, new ContainersReq(Marshal.PtrToStructure<ContainersReqNative>(authReq))));
     }
 
-    private static UIntContainersReqCb DelegateOnDecodeIpcReqContainersCb = OnDecodeIpcReqContainersCb;
+    private static readonly UIntContainersReqCb DelegateOnDecodeIpcReqContainersCb = OnDecodeIpcReqContainersCb;
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntShareMDataReqMetadataResponseCb))]
@@ -99,7 +99,7 @@ namespace SafeApp.MockAuthBindings {
       tcs.SetResult(new ShareMDataIpcReq(reqId, shareMdReq, metadataResponse));
     }
 
-    private static UIntShareMDataReqMetadataResponseCb DelegateOnDecodeIpcReqShareMDataCb = OnDecodeIpcReqShareMDataCb;
+    private static readonly UIntShareMDataReqMetadataResponseCb DelegateOnDecodeIpcReqShareMDataCb = OnDecodeIpcReqShareMDataCb;
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(UIntByteListCb))]
@@ -109,7 +109,7 @@ namespace SafeApp.MockAuthBindings {
       tcs.SetResult(new UnregisteredIpcReq(reqId, extraData, (ulong)size));
     }
 
-    private static UIntByteListCb DelegateOnDecodeIpcReqUnregisteredCb = OnDecodeIpcReqUnregisteredCb;
+    private static readonly UIntByteListCb DelegateOnDecodeIpcReqUnregisteredCb = OnDecodeIpcReqUnregisteredCb;
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultIpcReqErrorCb))]
@@ -120,7 +120,7 @@ namespace SafeApp.MockAuthBindings {
       tcs.SetResult(new IpcReqError(ffiResult.ErrorCode, ffiResult.Description, msg));
     }
 
-    private static FfiResultStringCb DelegateOnFfiResultIpcReqErrorCb = OnFfiResultIpcReqErrorCb;
+    private static readonly FfiResultStringCb DelegateOnFfiResultIpcReqErrorCb = OnFfiResultIpcReqErrorCb;
 
     // ReSharper disable once UnusedMember.Local
     private delegate void FfiResultIpcReqErrorCb(IntPtr userData, IntPtr result, string msg);

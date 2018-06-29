@@ -275,7 +275,7 @@ namespace SafeApp.MockAuthBindings {
         () => Marshal.PtrToStructure<AccountInfo>(accountInfo));
     }
 
-    private static FfiResultAccountInfoCb DelegateOnFfiResultAccountInfoCb = OnFfiResultAccountInfoCb;
+    private static readonly FfiResultAccountInfoCb DelegateOnFfiResultAccountInfoCb = OnFfiResultAccountInfoCb;
 
     private delegate void FfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, UIntPtr appAccessLen);
 
@@ -289,7 +289,7 @@ namespace SafeApp.MockAuthBindings {
         () => BindingUtils.CopyToObjectList<AppAccess>(appAccessPtr, (int)appAccessLen));
     }
 
-    private static FfiResultAppAccessListCb DelegateOnFfiResultAppAccessListCb = OnFfiResultAppAccessListCb;
+    private static readonly FfiResultAppAccessListCb DelegateOnFfiResultAppAccessListCb = OnFfiResultAppAccessListCb;
 
     private delegate void FfiResultAppExchangeInfoListCb(
       IntPtr userData,
@@ -311,7 +311,7 @@ namespace SafeApp.MockAuthBindings {
         () => BindingUtils.CopyToObjectList<AppExchangeInfo>(appExchangeInfoPtr, (int)appExchangeInfoLen));
     }
 
-    private static FfiResultAppExchangeInfoListCb DelegateOnFfiResultAppExchangeInfoListCb = OnFfiResultAppExchangeInfoListCb;
+    private static readonly FfiResultAppExchangeInfoListCb DelegateOnFfiResultAppExchangeInfoListCb = OnFfiResultAppExchangeInfoListCb;
 
     private delegate void FfiResultAuthenticatorCb(IntPtr userData, IntPtr result, IntPtr authenticator);
 
@@ -324,7 +324,7 @@ namespace SafeApp.MockAuthBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result));
     }
 
-    private static FfiResultCb DelegateOnFfiResultCb = OnFfiResultCb;
+    private static readonly FfiResultCb DelegateOnFfiResultCb = OnFfiResultCb;
 
     private delegate void FfiResultRegisteredAppListCb(IntPtr userData, IntPtr result, IntPtr registeredAppPtr, UIntPtr registeredAppLen);
 
@@ -339,7 +339,7 @@ namespace SafeApp.MockAuthBindings {
           Select(native => new RegisteredApp(native)).ToList());
     }
 
-    private static FfiResultRegisteredAppListCb DelegateOnFfiResultRegisteredAppListCb = OnFfiResultRegisteredAppListCb;
+    private static readonly FfiResultRegisteredAppListCb DelegateOnFfiResultRegisteredAppListCb = OnFfiResultRegisteredAppListCb;
 
     private delegate void FfiResultStringCb(IntPtr userData, IntPtr result, string response);
 
@@ -350,7 +350,7 @@ namespace SafeApp.MockAuthBindings {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => response);
     }
 
-    private static FfiResultStringCb DelegateOnFfiResultStringCb = OnFfiResultStringCb;
+    private static readonly FfiResultStringCb DelegateOnFfiResultStringCb = OnFfiResultStringCb;
 
     public Task TestSimulateNetworkDisconnectAsync(IntPtr authPtr) {
       var (ret, userData) = BindingUtils.PrepareTask();
