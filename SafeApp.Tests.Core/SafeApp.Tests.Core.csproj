@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -52,4 +52,5 @@
   </Target>
 
   <Import Project="..\SafeApp.Tests\SafeApp.Tests.projitems" Label="Shared" />
+  <Import Project="$(MSBuildThisFileDirectory)..\CodeStyles.targets" />
 </Project>
