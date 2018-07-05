@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+
 using SafeApp.Utilities;
 
 namespace SafeApp.MockAuthBindings {
   internal partial class AuthBindings : IAuthBindings {
 #if __IOS__
     private const string DllName = "__Internal";
-    #else
+#else
     private const string DllName = "safe_app";
 #endif
 
@@ -44,7 +45,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task AuthReconnectAsync(IntPtr auth) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      AuthReconnectNative(auth, userData, OnFfiResultCb);
+      AuthReconnectNative(auth, userData, DelegateOnFfiResultCb);
       return ret;
     }
 
@@ -53,7 +54,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task<AccountInfo> AuthAccountInfoAsync(IntPtr auth) {
       var (ret, userData) = BindingUtils.PrepareTask<AccountInfo>();
-      AuthAccountInfoNative(auth, userData, OnFfiResultAccountInfoCb);
+      AuthAccountInfoNative(auth, userData, DelegateOnFfiResultAccountInfoCb);
       return ret;
     }
 
@@ -62,7 +63,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task<string> AuthExeFileStemAsync() {
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      AuthExeFileStemNative(userData, OnFfiResultStringCb);
+      AuthExeFileStemNative(userData, DelegateOnFfiResultStringCb);
       return ret;
     }
 
@@ -71,7 +72,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task AuthSetAdditionalSearchPathAsync(string newPath) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      AuthSetAdditionalSearchPathNative(newPath, userData, OnFfiResultCb);
+      AuthSetAdditionalSearchPathNative(newPath, userData, DelegateOnFfiResultCb);
       return ret;
     }
 
@@ -90,7 +91,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task AuthRmRevokedAppAsync(IntPtr auth, string appId) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      AuthRmRevokedAppNative(auth, appId, userData, OnFfiResultCb);
+      AuthRmRevokedAppNative(auth, appId, userData, DelegateOnFfiResultCb);
       return ret;
     }
 
@@ -103,7 +104,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task<List<AppExchangeInfo>> AuthRevokedAppsAsync(IntPtr auth) {
       var (ret, userData) = BindingUtils.PrepareTask<List<AppExchangeInfo>>();
-      AuthRevokedAppsNative(auth, userData, OnFfiResultAppExchangeInfoListCb);
+      AuthRevokedAppsNative(auth, userData, DelegateOnFfiResultAppExchangeInfoListCb);
       return ret;
     }
 
@@ -112,7 +113,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task<List<RegisteredApp>> AuthRegisteredAppsAsync(IntPtr auth) {
       var (ret, userData) = BindingUtils.PrepareTask<List<RegisteredApp>>();
-      AuthRegisteredAppsNative(auth, userData, OnFfiResultRegisteredAppListCb);
+      AuthRegisteredAppsNative(auth, userData, DelegateOnFfiResultRegisteredAppListCb);
       return ret;
     }
 
@@ -121,7 +122,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task<List<AppAccess>> AuthAppsAccessingMutableDataAsync(IntPtr auth, byte[] mdName, ulong mdTypeTag) {
       var (ret, userData) = BindingUtils.PrepareTask<List<AppAccess>>();
-      AuthAppsAccessingMutableDataNative(auth, mdName, mdTypeTag, userData, OnFfiResultAppAccessListCb);
+      AuthAppsAccessingMutableDataNative(auth, mdName, mdTypeTag, userData, DelegateOnFfiResultAppAccessListCb);
       return ret;
     }
 
@@ -155,7 +156,7 @@ namespace SafeApp.MockAuthBindings {
     public Task<string> EncodeShareMDataRespAsync(IntPtr auth, ref ShareMDataReq req, uint reqId, bool isGranted) {
       var reqNative = req.ToNative();
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      EncodeShareMDataRespNative(auth, ref reqNative, reqId, isGranted, userData, OnFfiResultStringCb);
+      EncodeShareMDataRespNative(auth, ref reqNative, reqId, isGranted, userData, DelegateOnFfiResultStringCb);
       reqNative.Free();
       return ret;
     }
@@ -171,7 +172,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task<string> AuthRevokeAppAsync(IntPtr auth, string appId) {
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      AuthRevokeAppNative(auth, appId, userData, OnFfiResultStringCb);
+      AuthRevokeAppNative(auth, appId, userData, DelegateOnFfiResultStringCb);
       return ret;
     }
 
@@ -184,7 +185,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task AuthFlushAppRevocationQueueAsync(IntPtr auth) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      AuthFlushAppRevocationQueueNative(auth, userData, OnFfiResultCb);
+      AuthFlushAppRevocationQueueNative(auth, userData, DelegateOnFfiResultCb);
       return ret;
     }
 
@@ -193,7 +194,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task<string> EncodeUnregisteredRespAsync(uint reqId, bool isGranted) {
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      EncodeUnregisteredRespNative(reqId, isGranted, userData, OnFfiResultStringCb);
+      EncodeUnregisteredRespNative(reqId, isGranted, userData, DelegateOnFfiResultStringCb);
       return ret;
     }
 
@@ -207,7 +208,7 @@ namespace SafeApp.MockAuthBindings {
     public Task<string> EncodeAuthRespAsync(IntPtr auth, ref AuthReq req, uint reqId, bool isGranted) {
       var reqNative = req.ToNative();
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      EncodeAuthRespNative(auth, ref reqNative, reqId, isGranted, userData, OnFfiResultStringCb);
+      EncodeAuthRespNative(auth, ref reqNative, reqId, isGranted, userData, DelegateOnFfiResultStringCb);
       reqNative.Free();
       return ret;
     }
@@ -224,7 +225,7 @@ namespace SafeApp.MockAuthBindings {
     public Task<string> EncodeContainersRespAsync(IntPtr auth, ref ContainersReq req, uint reqId, bool isGranted) {
       var reqNative = req.ToNative();
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      EncodeContainersRespNative(auth, ref reqNative, reqId, isGranted, userData, OnFfiResultStringCb);
+      EncodeContainersRespNative(auth, ref reqNative, reqId, isGranted, userData, DelegateOnFfiResultStringCb);
       reqNative.Free();
       return ret;
     }
@@ -240,7 +241,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task AuthInitLoggingAsync(string outputFileNameOverride) {
       var (ret, userData) = BindingUtils.PrepareTask();
-      AuthInitLoggingNative(outputFileNameOverride, userData, OnFfiResultCb);
+      AuthInitLoggingNative(outputFileNameOverride, userData, DelegateOnFfiResultCb);
       return ret;
     }
 
@@ -252,7 +253,7 @@ namespace SafeApp.MockAuthBindings {
 
     public Task<string> AuthOutputLogPathAsync(string outputFileName) {
       var (ret, userData) = BindingUtils.PrepareTask<string>();
-      AuthOutputLogPathNative(outputFileName, userData, OnFfiResultStringCb);
+      AuthOutputLogPathNative(outputFileName, userData, DelegateOnFfiResultStringCb);
       return ret;
     }
 
@@ -266,7 +267,7 @@ namespace SafeApp.MockAuthBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAccountInfoCb))]
-    #endif
+#endif
     private static void OnFfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo) {
       BindingUtils.CompleteTask(
         userData,
@@ -274,17 +275,21 @@ namespace SafeApp.MockAuthBindings {
         () => Marshal.PtrToStructure<AccountInfo>(accountInfo));
     }
 
+    private static readonly FfiResultAccountInfoCb DelegateOnFfiResultAccountInfoCb = OnFfiResultAccountInfoCb;
+
     private delegate void FfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, UIntPtr appAccessLen);
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAppAccessListCb))]
-    #endif
+#endif
     private static void OnFfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, UIntPtr appAccessLen) {
       BindingUtils.CompleteTask(
         userData,
         Marshal.PtrToStructure<FfiResult>(result),
         () => BindingUtils.CopyToObjectList<AppAccess>(appAccessPtr, (int)appAccessLen));
     }
+
+    private static readonly FfiResultAppAccessListCb DelegateOnFfiResultAppAccessListCb = OnFfiResultAppAccessListCb;
 
     private delegate void FfiResultAppExchangeInfoListCb(
       IntPtr userData,
@@ -294,7 +299,7 @@ namespace SafeApp.MockAuthBindings {
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultAppExchangeInfoListCb))]
-    #endif
+#endif
     private static void OnFfiResultAppExchangeInfoListCb(
       IntPtr userData,
       IntPtr result,
@@ -306,22 +311,26 @@ namespace SafeApp.MockAuthBindings {
         () => BindingUtils.CopyToObjectList<AppExchangeInfo>(appExchangeInfoPtr, (int)appExchangeInfoLen));
     }
 
+    private static readonly FfiResultAppExchangeInfoListCb DelegateOnFfiResultAppExchangeInfoListCb = OnFfiResultAppExchangeInfoListCb;
+
     private delegate void FfiResultAuthenticatorCb(IntPtr userData, IntPtr result, IntPtr authenticator);
 
     private delegate void FfiResultCb(IntPtr userData, IntPtr result);
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultCb))]
-    #endif
+#endif
     private static void OnFfiResultCb(IntPtr userData, IntPtr result) {
       BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result));
     }
+
+    private static readonly FfiResultCb DelegateOnFfiResultCb = OnFfiResultCb;
 
     private delegate void FfiResultRegisteredAppListCb(IntPtr userData, IntPtr result, IntPtr registeredAppPtr, UIntPtr registeredAppLen);
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultRegisteredAppListCb))]
-    #endif
+#endif
     private static void OnFfiResultRegisteredAppListCb(IntPtr userData, IntPtr result, IntPtr registeredAppPtr, UIntPtr registeredAppLen) {
       BindingUtils.CompleteTask(
         userData,
@@ -330,17 +339,20 @@ namespace SafeApp.MockAuthBindings {
           Select(native => new RegisteredApp(native)).ToList());
     }
 
-    private delegate void FfiResultStringCb(IntPtr userData, IntPtr result, string filename);
+    private static readonly FfiResultRegisteredAppListCb DelegateOnFfiResultRegisteredAppListCb = OnFfiResultRegisteredAppListCb;
+
+    private delegate void FfiResultStringCb(IntPtr userData, IntPtr result, string response);
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultStringCb))]
-    #endif
-    private static void OnFfiResultStringCb(IntPtr userData, IntPtr result, string filename) {
-      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => filename);
+#endif
+    private static void OnFfiResultStringCb(IntPtr userData, IntPtr result, string response) {
+      BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => response);
     }
 
-    public Task TestSimulateNetworkDisconnectAsync(IntPtr authPtr)
-    {
+    private static readonly FfiResultStringCb DelegateOnFfiResultStringCb = OnFfiResultStringCb;
+
+    public Task TestSimulateNetworkDisconnectAsync(IntPtr authPtr) {
       var (ret, userData) = BindingUtils.PrepareTask();
       TestSimulateNetworkDisconnectNative(authPtr, userData, OnFfiResultCb);
       return ret;
