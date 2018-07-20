@@ -9,12 +9,20 @@ using SafeApp.Utilities;
 
 namespace SafeApp.MData
 {
+    /// <summary>
+    /// Holds the permissions API fo mutable data.
+    /// </summary>
     [PublicAPI]
     public class MDataPermissions
     {
         private static readonly IAppBindings AppBindings = AppResolver.Current;
         private SafeAppPtr _appPtr;
 
+        /// <summary>
+        /// Initializes an MDataPermissions object for the Session instance.
+        /// The app pointer is required to perform network operations.
+        /// </summary>
+        /// <param name="appPtr">SafeApp pointer.</param>
         internal MDataPermissions(SafeAppPtr appPtr)
         {
             _appPtr = appPtr;
@@ -25,21 +33,46 @@ namespace SafeApp.MData
             return AppBindings.MDataPermissionsFreeAsync(_appPtr, permissionsH);
         }
 
+        /// <summary>
+        /// Lookup the permissions of a specific key.
+        /// </summary>
+        /// <param name="permissionsHandle">Permission handle.</param>
+        /// <param name="userPubSignKey">The key to lookup for.</param>
+        /// <returns>The permission set for that key.</returns>
         public Task<PermissionSet> GetAsync(NativeHandle permissionsHandle, NativeHandle userPubSignKey)
         {
             return AppBindings.MDataPermissionsGetAsync(_appPtr, permissionsHandle, userPubSignKey);
         }
 
+        /// <summary>
+        /// Insert a new permission set mapped to a specific key.
+        /// Directly commits to the netowrk.
+        /// Requires 'ManagePermissions'-Permission for the app.
+        /// </summary>
+        /// <param name="permissionsH">Permission handle.</param>
+        /// <param name="forUserH">User handle to insert permissions for.</param>
+        /// <param name="permissionSet">The permission set to insert.</param>
+        /// <returns></returns>
         public Task InsertAsync(NativeHandle permissionsH, NativeHandle forUserH, PermissionSet permissionSet)
         {
             return AppBindings.MDataPermissionsInsertAsync(_appPtr, permissionsH, forUserH, ref permissionSet);
         }
 
+        /// <summary>
+        /// Total number of permission entries.
+        /// </summary>
+        /// <param name="permissionsHandle">Permission handle.</param>
+        /// <returns>Number of permission entries.</returns>
         public Task<ulong> LenAsync(NativeHandle permissionsHandle)
         {
             return AppBindings.MDataPermissionsLenAsync(_appPtr, permissionsHandle);
         }
 
+        /// <summary>
+        /// Returns the list of all associated permission sets.
+        /// </summary>
+        /// <param name="permissionHandle">Permission handle.</param>
+        /// <returns>List of permission sets an associated handles.</returns>
         public async Task<List<(NativeHandle, PermissionSet)>> ListAsync(NativeHandle permissionHandle)
         {
             var userPermissions = await AppBindings.MDataListPermissionSetsAsync(_appPtr, permissionHandle);
@@ -51,6 +84,10 @@ namespace SafeApp.MData
               }).ToList();
         }
 
+        /// <summary>
+        /// Create a handle to the permission associated with the mutable data.
+        /// </summary>
+        /// <returns>Newly create mutable data permissions handle.</returns>
         public async Task<NativeHandle> NewAsync()
         {
             var permissionsH = await AppBindings.MDataPermissionsNewAsync(_appPtr);
