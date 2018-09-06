@@ -1,76 +1,94 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using SafeApp.Utilities;
 
-namespace SafeApp.MockAuthBindings {
-  public abstract class IpcReq { }
-
-  [PublicAPI]
-  public class AuthIpcReq : IpcReq {
-    public AuthReq AuthReq;
-    public uint ReqId;
-
-    public AuthIpcReq(uint reqId, AuthReq authReq) {
-      ReqId = reqId;
-      AuthReq = authReq;
+#pragma warning disable SA1401 // Fields should be private
+namespace SafeApp.MockAuthBindings
+{
+    public abstract class IpcReq
+    {
     }
-  }
 
-  [PublicAPI]
-  public class UnregisteredIpcReq : IpcReq {
-    public List<byte> ExtraData;
-    public uint ReqId;
+    [PublicAPI]
+    public class AuthIpcReq : IpcReq
+    {
+        public AuthReq AuthReq;
 
-    public UnregisteredIpcReq(uint reqId, IntPtr extraDataPtr, ulong extraDataLength) {
-      ReqId = reqId;
-      ExtraData = BindingUtils.CopyToByteList(extraDataPtr, (int)extraDataLength);
+        public uint ReqId;
+
+        public AuthIpcReq(uint reqId, AuthReq authReq)
+        {
+            ReqId = reqId;
+            AuthReq = authReq;
+        }
     }
-  }
 
-  [PublicAPI]
-  public class ContainersIpcReq : IpcReq {
-    public ContainersReq ContainersReq;
-    public uint ReqId;
+    [PublicAPI]
+    public class UnregisteredIpcReq : IpcReq
+    {
+        public List<byte> ExtraData;
+        public uint ReqId;
 
-    public ContainersIpcReq(uint reqId, ContainersReq containersReq) {
-      ReqId = reqId;
-      ContainersReq = containersReq;
+        public UnregisteredIpcReq(uint reqId, IntPtr extraDataPtr, ulong extraDataLength)
+        {
+            ReqId = reqId;
+            ExtraData = BindingUtils.CopyToByteList(extraDataPtr, (int)extraDataLength);
+        }
     }
-  }
 
-  [PublicAPI]
-  public class ShareMDataIpcReq : IpcReq {
-    public MetadataResponse MetadataResponse;
-    public uint ReqId;
-    public ShareMDataReq ShareMDataReq;
+    [PublicAPI]
+    public class ContainersIpcReq : IpcReq
+    {
+        public ContainersReq ContainersReq;
+        public uint ReqId;
 
-    public ShareMDataIpcReq(uint reqId, ShareMDataReq shareMDataReq, MetadataResponse metadataResponse) {
-      ReqId = reqId;
-      ShareMDataReq = shareMDataReq;
-      MetadataResponse = metadataResponse;
+        public ContainersIpcReq(uint reqId, ContainersReq containersReq)
+        {
+            ReqId = reqId;
+            ContainersReq = containersReq;
+        }
     }
-  }
 
-  [PublicAPI]
-  public class IpcReqRejected : IpcReq {
-    public readonly string Msg;
+    [PublicAPI]
+    public class ShareMDataIpcReq : IpcReq
+    {
+        public MetadataResponse MetadataResponse;
+        public uint ReqId;
+        public ShareMDataReq ShareMDataReq;
 
-    public IpcReqRejected(string msg) {
-      Msg = msg;
+        public ShareMDataIpcReq(uint reqId, ShareMDataReq shareMDataReq, MetadataResponse metadataResponse)
+        {
+            ReqId = reqId;
+            ShareMDataReq = shareMDataReq;
+            MetadataResponse = metadataResponse;
+        }
     }
-  }
 
-  [PublicAPI]
-  public class IpcReqError : IpcReq {
-    public readonly int Code;
-    public readonly string Description;
-    public readonly string Msg;
+    [PublicAPI]
+    public class IpcReqRejected : IpcReq
+    {
+        public readonly string Msg;
 
-    public IpcReqError(int code, string description, string msg) {
-      Code = code;
-      Description = description;
-      Msg = msg;
+        public IpcReqRejected(string msg)
+        {
+            Msg = msg;
+        }
     }
-  }
+
+    [PublicAPI]
+    public class IpcReqError : IpcReq
+    {
+        public readonly int Code;
+        public readonly string Description;
+        public readonly string Msg;
+
+        public IpcReqError(int code, string description, string msg)
+        {
+            Code = code;
+            Description = description;
+            Msg = msg;
+        }
+    }
 }
+#pragma warning restore SA1401 // Fields should be private
