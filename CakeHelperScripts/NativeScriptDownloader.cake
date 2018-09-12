@@ -3,10 +3,8 @@ var ANDROID_DIR_NAME = "SafeApp.AppBindings.Android";
 var IOS_DIR_NAME = "SafeApp.AppBindings.iOS";
 var DESKTOP_DIR_NAME = "SafeApp.AppBindings.Desktop";
 
-var ANDROID_X86 = "android-x86";
 var ANDROID_ARMEABI_V7A = "android-armeabiv7a";
 var ANDROID_ARCHITECTURES = new string[] {
-  ANDROID_X86,
   ANDROID_ARMEABI_V7A
 };
 var IOS_ARCHITECTURES = new string[] {
@@ -131,10 +129,8 @@ Task("UnZip-Libs")
           {
             platformOutputDirectory.Append("/non-mock");
           }
-
-          if(target.Equals(ANDROID_X86))
-            platformOutputDirectory.Append("/x86");
-          else if(target.Equals(ANDROID_ARMEABI_V7A))
+          
+          if(target.Equals(ANDROID_ARMEABI_V7A))
             platformOutputDirectory.Append("/armeabi-v7a");
 
           Unzip(zip, platformOutputDirectory.ToString());
