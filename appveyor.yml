@@ -1,6 +1,6 @@
 environment:
   github_access_token:
-    secure: zxK6jEUbrpVEs2a5jCphsn4iBJ5b/KaGkuGB0uJS7nHoV8UdZLxaSNR8DGSq0MqJ
+    secure: 7XRuu+gUArQP1WgU+Eg0rjurjpPvhdaA+4G1YzsjvoEkoWHaFz7ULSIoeoJzBG93
 
 init:
   - ps: if(-not $env:APPVEYOR_PULL_REQUEST_NUMBER) { $env:is_not_pr = "true"; }
@@ -20,15 +20,15 @@ image: Visual Studio 2017
 
 install:
   - IF NOT EXIST C:\ProgramData\chocolatey\bin\docfx.exe choco install docfx
-  - cinst docfx
+  - npm install gh-pages -g
 
 build_script:
   - ps: ./build.ps1
 
 deploy_script:
   - ps: if(-not $env:is_not_pr) { return }
-  - git config --global credential.helper store
-  - ps: Add-Content "$env:USERPROFILE\.git-credentials" "https://$($env:github_access_token):x-oauth-basic@github.com`n"
-  - git config --global user.email "ravinderjangra@live.com"
-  - git config --global user.name "Ravinder Jangra"
-  - bash ReleaseDocs.sh
+  - docfx ./docs/docfx.json
+  - ps: gh-pages-clean
+  - ps: gh-pages deploy --silent --message "doc update from CI" --dist "./docs/_site" --repo "https://$env:github_access_token@github.com/maidsafe/safe_app_csharp.git" --user "MaidSafe-QA <qa@maidsafe.net>"
+
+  
