@@ -7,7 +7,7 @@ init:
 
 branches:
   only:
-    - generate-release-docs
+    - master
 
 cache:
   - '%temp%\nativelibs'
