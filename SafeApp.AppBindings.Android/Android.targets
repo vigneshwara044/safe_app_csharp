@@ -18,6 +18,8 @@
   </Choose>
   <ItemGroup>
     <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)lib\$(NativeLibType)\armeabi-v7a\libsafe_app.so" />
-    <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)lib\$(NativeLibType)\x86\libsafe_app.so" />
   </ItemGroup>
+  <Target Name="CheckProjectPlatform" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(AndroidSupportedAbis)' != 'armeabi-v7a'" Text="SafeApp package currently supports armeabi-v7a. Please set the Project Platform to armeabi-v7a." />
+  </Target>
 </Project>
