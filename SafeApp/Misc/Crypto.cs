@@ -28,7 +28,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Generate a nonce that can be used when creating private mutable data.
+        /// Generate a nonce.
         /// </summary>
         /// <returns>Generated nonce.</returns>
         public static Task<byte[]> GenerateNonceAsync()
@@ -37,9 +37,9 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Hash the given input with SHA3 Hash.
+        /// Get SHA3 of the data.
         /// </summary>
-        /// <param name="source">Data you want to hash.</param>
+        /// <param name="source">Data to be hashed.</param>
         /// <returns>Generated hash.</returns>
         public static Task<List<byte>> Sha3HashAsync(List<byte> source)
         {
@@ -122,7 +122,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Interprete the public encryption key from a given raw string.
+        /// Get a PublicKey NativeHandle from raw bytes.
         /// </summary>
         /// <param name="asymPublicKeyBytes">raw public encryption key raw bytes as string</param>
         /// <returns></returns>
@@ -133,8 +133,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Encrypt the input (buffer) using given public encryption key
-        /// and the given secret key.
+        /// Asymmetric encryption using public and private key pair.
         /// </summary>
         /// <param name="data">Data to be encrypted.</param>
         /// <param name="encPubKey">Public encryption key.</param>
@@ -150,7 +149,7 @@ namespace SafeApp.Misc
         /// </summary>
         /// <param name="inputData">Data to be encrypted.</param>
         /// <param name="pkHandle"></param>
-        /// <returns>Ciphertext</returns>
+        /// <returns>Ciphered text in byte list format.</returns>
         public Task<List<byte>> EncryptSealedBoxAsync(List<byte> inputData, NativeHandle pkHandle)
         {
             return AppBindings.EncryptSealedBoxAsync(_appPtr, inputData, pkHandle);
@@ -172,7 +171,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Interprete the secret encryption Key from a given raw string.
+        /// Interpret the secret encryption Key from a given raw string.
         /// </summary>
         /// <param name="asymSecKeyBytes">raw secret encryption key raw bytes as string</param>
         /// <returns></returns>

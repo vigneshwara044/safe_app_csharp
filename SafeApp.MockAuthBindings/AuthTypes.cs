@@ -58,12 +58,12 @@ namespace SafeApp.MockAuthBindings
         public AppExchangeInfo AppInfo;
 
         /// <summary>
-        /// Pointer to containers.
+        /// Pointer to the array of ContainerInfo.
         /// </summary>
         public IntPtr ContainersPtr;
 
         /// <summary>
-        /// Length of cotainers array.
+        /// Length of containers array.
         /// </summary>
         public UIntPtr ContainersLen;
 

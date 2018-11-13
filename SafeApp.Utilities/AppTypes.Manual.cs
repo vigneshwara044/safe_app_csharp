@@ -58,7 +58,7 @@ namespace SafeApp.Utilities
         public List<byte> SerialisedCfg;
 
         /// <summary>
-        /// Initialize IPCmsg.
+        /// Initialize IPC msg.
         /// </summary>
         /// <param name="reqId"></param>
         /// <param name="serialisedCfgPtr"></param>
@@ -82,7 +82,7 @@ namespace SafeApp.Utilities
         public uint ReqId;
 
         /// <summary>
-        /// Initialize Containters IPCMsg.
+        /// Initialize Containers IPCMsg.
         /// </summary>
         /// <param name="reqId"></param>
         public ContainersIpcMsg(uint reqId)

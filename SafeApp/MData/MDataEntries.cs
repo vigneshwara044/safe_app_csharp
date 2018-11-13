@@ -28,7 +28,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Used to clean the mutable data keys references.
+        /// Free the entries from memory.
         /// </summary>
         /// <param name="entriesH">Mutable data entries handle.</param>
         /// <returns></returns>
@@ -38,11 +38,11 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Look up the value of a specific key.
+        /// Get the value for the specified key.
         /// </summary>
         /// <param name="entriesHandle">MDataEntries handle.</param>
         /// <param name="key">The key to lookup.</param>
-        /// <returns>Ihe entry's value and the current version.</returns>
+        /// <returns>Value corresponding to the specified key and it's version.</returns>
         public Task<(List<byte>, ulong)> GetAsync(NativeHandle entriesHandle, List<byte> key)
         {
             return AppBindings.MDataEntriesGetAsync(_appPtr, entriesHandle, key);
@@ -75,6 +75,7 @@ namespace SafeApp.MData
 
         /// <summary>
         /// Get the total number of entries in the mutable data.
+        /// Deleted entries are also included in total number.
         /// </summary>
         /// <param name="entriesHandle">Handle to Mutable data entries.</param>
         /// <returns>Number of mutable data entries.</returns>
@@ -84,7 +85,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Create a handle for new entry in mutable data.
+        /// Create a new handle to add entries in a MutableData.
         /// </summary>
         /// <returns>Newly created mutable data entry handle.</returns>
         public async Task<NativeHandle> NewAsync()

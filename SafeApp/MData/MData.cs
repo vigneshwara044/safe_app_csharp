@@ -32,9 +32,9 @@ namespace SafeApp.MData
         /// Directly commits to the networks.
         /// Required 'ManagePermissions'-Permission for the app.
         /// </summary>
-        /// <param name="mDataInfo">MDatainfo to access mutable data.</param>
-        /// <param name="userSignPubKey">the key to loopup for.</param>
-        /// <param name="version">the version successor, to confirm you are actually asking for the right one.</param>
+        /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
+        /// <param name="userSignPubKey">the key to lookup for.</param>
+        /// <param name="version">the version successor, to handle the concurrency issue.</param>
         /// <returns></returns>
         public Task DelUserPermissionsAsync(MDataInfo mDataInfo, NativeHandle userSignPubKey, ulong version)
         {
@@ -104,7 +104,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Get a handle to the permissions associated with MutabaleData for a specific key.
+        /// Get a handle to the permissions associated with MutableData for a specific public sign key.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <param name="userSignPubKey">User public signing key.</param>
@@ -115,7 +115,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Get the list of values contained in MutableData.
+        /// Get the list of values from a MutableData.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <returns>List of mutable data values.</returns>
@@ -128,7 +128,7 @@ namespace SafeApp.MData
         /// Commit the transaction to the network.
         /// </summary>
         /// <param name="mDataInfo">MData info of mutable data.</param>
-        /// <param name="entryActionsH">Entry anction handle.</param>
+        /// <param name="entryActionsH">Entry action handle.</param>
         /// <returns></returns>
         public Task MutateEntriesAsync(MDataInfo mDataInfo, NativeHandle entryActionsH)
         {
@@ -162,7 +162,7 @@ namespace SafeApp.MData
         /// Requires 'ManagePermissions'-Permission for the app.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
-        /// <param name="userSignPubKey">key to loopup for.</param>
+        /// <param name="userSignPubKey">user public sign key.</param>
         /// <param name="permissionSet">permission set to set to.</param>
         /// <param name="version">version successor, to confirm you are actually asking for the right one.</param>
         /// <returns></returns>

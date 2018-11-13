@@ -9,7 +9,7 @@ using SafeApp.Utilities;
 namespace SafeApp.MData
 {
     /// <summary>
-    /// Holds a MDataInfo actions to be done to the MDataInfo.
+    /// Helper APIs for MDataInfo. Exposes crypto functionalities to encrypt and decrypt using MData.
     /// </summary>
     [PublicAPI]
     public class MDataInfoActions
@@ -28,11 +28,11 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Decrypt the entry key/value provided as parameter
+        /// Decrypt the entry key/value for a Private mutable data.
         /// with the encryption key contained in a Private MDataInfo.
         /// </summary>
-        /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
-        /// <param name="cipherText">The data you want to decrypt.</param>
+        /// <param name="mDataInfo">MDataInfo of a mutable data.</param>
+        /// <param name="cipherText">Data to be decrypted.</param>
         /// <returns>The decrypted key/value.</returns>
         public Task<List<byte>> DecryptAsync(MDataInfo mDataInfo, List<byte> cipherText)
         {
@@ -50,9 +50,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Encrypt the entry key provided as parameter with the encryption key
-        /// contained in a Private MDataInfo.
-        /// If the MutableData is public, the same (and uncrypted) value is returned.
+        /// Encrypt the data with the Mutable Data's encrypt key.
         /// </summary>
         /// <param name="mDataInfo"></param>
         /// <param name="inputBytes"></param>
@@ -76,7 +74,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Create a MDataInfo for MutableData at a given XOR address with private access.
+        /// Create a private MutableData at a specific XOR address.
         /// </summary>
         /// <param name="xorName">XOR address.</param>
         /// <param name="typeTag">The typeTag to use.</param>
@@ -89,7 +87,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Create a new MDataInfo for mutable data at a random address wih private access.
+        /// Create a private MutableData at a random address.
         /// </summary>
         /// <param name="typeTag">The typeTag to use.</param>
         /// <returns>Newly create MDataInfo.</returns>

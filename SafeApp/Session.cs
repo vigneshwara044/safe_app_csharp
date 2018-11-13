@@ -34,7 +34,7 @@ namespace SafeApp
         private GCHandle _disconnectedHandle;
 
         /// <summary>
-        /// Returns true if current network connection state is DISCONNECTED.
+        /// true if current network connection state is DISCONNECTED.
         /// </summary>
         public bool IsDisconnected { get; private set; }
 
@@ -45,7 +45,7 @@ namespace SafeApp
 #endif
 
         /// <summary>
-        /// AccessConatiner API
+        /// AccessContainer API
         /// </summary>
         public AccessContainer AccessContainer { get; private set; }
 
@@ -108,7 +108,7 @@ namespace SafeApp
         /// Create a new authenticated session using the provided IPC response.
         /// </summary>
         /// <param name="appId">Application id.</param>
-        /// <param name="authGranted">Authentication reponse.</param>
+        /// <param name="authGranted">Authentication response.</param>
         /// <returns>New session based on appid and authentication response.</returns>
         public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted)
         {
@@ -182,7 +182,7 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Encodes an authorisation request to send to Authenticator.
+        /// Encodes an authentication request.
         /// </summary>
         /// <param name="authReq">Authentication Request.</param>
         /// <returns>RequestId, Encoded authentication request.</returns>
@@ -202,7 +202,7 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Generate a 'safe-auth'-URI to request permissions on arbitrary owned MutableData's.
+        /// Generate a 'safe-auth'-URI to request permissions on arbitrary owned MutableData.
         /// </summary>
         /// <param name="shareMDataReq">Mutable data share request.</param>
         /// <returns>Request Id, Encoded mutable data share request.</returns>
@@ -333,9 +333,9 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Retuns true if the underlying library was compiled against mock-routing.
+        /// Check if the underlying library was compiled against mock-routing.
         /// </summary>
-        /// <returns>True/False</returns>
+        /// <returns>True if underlying library was compiled against mock-routing otherwise false.</returns>
         public static bool IsMockBuild()
         {
             return AppBindings.IsMockBuild();

@@ -42,7 +42,7 @@ namespace SafeApp.MockAuthBindings
     }
 
     /// <summary>
-    /// Unregisterest IPC request.
+    /// Unregistered IPC request.
     /// </summary>
     [PublicAPI]
     public class UnregisteredIpcReq : IpcReq
@@ -68,7 +68,7 @@ namespace SafeApp.MockAuthBindings
     public class ContainersIpcReq : IpcReq
     {
         /// <summary>
-        /// Coainters request.
+        /// Container request.
         /// </summary>
         public ContainersReq ContainersReq;
 
@@ -138,6 +138,7 @@ namespace SafeApp.MockAuthBindings
     {
         /// <summary>
         /// Error code.
+        /// It's a negative value.
         /// </summary>
         public readonly int Code;
 

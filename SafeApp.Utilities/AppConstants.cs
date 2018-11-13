@@ -59,7 +59,7 @@ namespace SafeApp.Utilities
         public const string MDataMetaDataKey = "_metadata";
 
         /// <summary>
-        /// Vaule for null handle
+        /// Value for null handle
         /// </summary>
         public const ulong NullObjectHandle = 0;
 

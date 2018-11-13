@@ -26,7 +26,7 @@ namespace SafeApp.Misc
             Append = 2,
 
             /// <summary>
-            /// Replaces the entire content of the file when writing data.
+            /// Replaces the entire content of the file.
             /// </summary>
             Overwrite = 1,
 
@@ -127,7 +127,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Read a file content.
+        /// Read the file content for a specified range.
         /// </summary>
         /// <param name="fileContextHandle">File handle to access file.</param>
         /// <param name="start">Start position.</param>

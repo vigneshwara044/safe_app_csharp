@@ -34,9 +34,9 @@ namespace SafeApp.MockAuthBindings
         public bool IsDisconnected { get; private set; }
 
         /// <summary>
-        /// Retuns true if the underlyging library was compiled against mock-routing.
+        /// Returns true if the underlying library was compiled against mock-routing.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if compiled again mock-routing otherwise false.</returns>
         public static bool IsMockBuild()
         {
             return NativeBindings.IsMockBuild();
@@ -79,7 +79,7 @@ namespace SafeApp.MockAuthBindings
         /// <param name="locator">Account username/locator.</param>
         /// <param name="secret">Account password/key.</param>
         /// <param name="invitation">Invitation token.</param>
-        /// <returns></returns>
+        /// <returns>New Authenticator object.</returns>
         public static Task<Authenticator> CreateAccountAsync(string locator, string secret, string invitation)
         {
             return Task.Run(
@@ -110,21 +110,21 @@ namespace SafeApp.MockAuthBindings
         }
 
         /// <summary>
-        /// Decode IPC message.
+        /// Decode the incoming unregistered client authentication message.
         /// </summary>
         /// <param name="msg">Message string.</param>
-        /// <returns></returns>
+        /// <returns>New IpcReq object.</returns>
         public static Task<IpcReq> UnRegisteredDecodeIpcMsgAsync(string msg)
         {
             return NativeBindings.UnRegisteredDecodeIpcMsgAsync(msg);
         }
 
         /// <summary>
-        /// Encode IPC message.
+        /// Encode unregistered client authentication response.
         /// </summary>
         /// <param name="reqId">Request id.</param>
-        /// <param name="allow">true/false.</param>
-        /// <returns></returns>
+        /// <param name="allow">Pass true to allow unregistered client authentication request. False to deny.</param>
+        /// <returns>Encoded unregistered client authentication response string.</returns>
         public static Task<string> EncodeUnregisteredRespAsync(uint reqId, bool allow)
         {
             return NativeBindings.EncodeUnregisteredRespAsync(reqId, allow);
@@ -159,7 +159,7 @@ namespace SafeApp.MockAuthBindings
         /// Returns account information.
         /// e.g. number of mutations done and available.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>New AccountInfo object.</returns>
         public Task<AccountInfo> AuthAccountInfoAsync()
         {
             return NativeBindings.AuthAccountInfoAsync(_authPtr);
@@ -167,7 +167,7 @@ namespace SafeApp.MockAuthBindings
 
         /// <summary>
         /// Return a list of apps having access to an arbitrary mutable data object.
-        /// name and typeTag together correspond to a single mutabale data.
+        /// name and typeTag together correspond to a single mutable data.
         /// </summary>
         /// <param name="name">Mutable data name.</param>
         /// <param name="typeTag">Mutable data tagType.</param>
@@ -196,7 +196,7 @@ namespace SafeApp.MockAuthBindings
         }
 
         /// <summary>
-        /// Get a list of apps registered in authenticator.
+        /// Get the list of apps which was granted access by the user.
         /// </summary>
         /// <returns>List of registered apps.</returns>
         public Task<List<RegisteredApp>> AuthRegisteredAppsAsync()
@@ -217,7 +217,7 @@ namespace SafeApp.MockAuthBindings
         /// <summary>
         /// Get a list of apps revoked from authenticator.
         /// </summary>
-        /// <returns>List of revoked app's exchhange info.</returns>
+        /// <returns>List of revoked app's exchange info.</returns>
         public Task<List<AppExchangeInfo>> AuthRevokedAppsAsync()
         {
             return NativeBindings.AuthRevokedAppsAsync(_authPtr);
@@ -237,7 +237,7 @@ namespace SafeApp.MockAuthBindings
         /// Decodes a given encoded IPC message.
         /// </summary>
         /// <param name="msg">Message string.</param>
-        /// <returns></returns>
+        /// <returns>New IpcReq object.</returns>
         public Task<IpcReq> DecodeIpcMessageAsync(string msg)
         {
             return NativeBindings.DecodeIpcMessage(_authPtr, msg);
@@ -258,8 +258,8 @@ namespace SafeApp.MockAuthBindings
         /// Update containers permissions for an App.
         /// </summary>
         /// <param name="req">Containers IPC request.</param>
-        /// <param name="allow">true/false.</param>
-        /// <returns></returns>
+        /// <param name="allow">Pass true to accept the Container request and false to deny.</param>
+        /// <returns>Encoded Containers permissions Response for an App.</returns>
         public Task<string> EncodeContainersRespAsync(ContainersIpcReq req, bool allow)
         {
             return NativeBindings.EncodeContainersRespAsync(_authPtr, ref req.ContainersReq, req.ReqId, allow);
@@ -269,8 +269,8 @@ namespace SafeApp.MockAuthBindings
         /// Encode share mutable data response.
         /// </summary>
         /// <param name="req">Share mutable data IPC request.</param>
-        /// <param name="allow">true/false.</param>
-        /// <returns></returns>
+        /// <param name="allow">Pass true to accept the ShareMData request and false to deny.</param>
+        /// <returns>Encoded ShareMData response.</returns>
         public Task<string> EncodeShareMdataRespAsync(ShareMDataIpcReq req, bool allow)
         {
             return NativeBindings.EncodeShareMDataRespAsync(_authPtr, ref req.ShareMDataReq, req.ReqId, allow);
@@ -308,11 +308,11 @@ namespace SafeApp.MockAuthBindings
         }
 
         /// <summary>
-        /// Log into a registered account.
+        /// Log-in to a registered account.
         /// </summary>
         /// <param name="locator">Account location/username.</param>
         /// <param name="secret">Account key/password.</param>
-        /// <returns></returns>
+        /// <returns>New authenticator object.</returns>
         public static Task<Authenticator> LoginAsync(string locator, string secret)
         {
             return Task.Run(

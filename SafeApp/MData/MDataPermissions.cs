@@ -46,7 +46,7 @@ namespace SafeApp.MData
 
         /// <summary>
         /// Insert a new permission set mapped to a specific key.
-        /// Directly commits to the netowrk.
+        /// Directly commits to the network.
         /// Requires 'ManagePermissions'-Permission for the app.
         /// </summary>
         /// <param name="permissionsH">Permission handle.</param>

@@ -39,7 +39,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Information allowing to locate and access Mutabe Data on the network.
+    /// Information allowing to locate and access Mutable Data on the network.
     /// </summary>
     [PublicAPI]
     public struct MDataInfo
@@ -145,7 +145,7 @@ namespace SafeApp.Utilities
         public AppExchangeInfo App;
 
         /// <summary>
-        /// true if the app wants dedicated container for iteself,
+        /// true if the app wants dedicated container for itself,
         /// false otherwise.
         /// </summary>
         public bool AppContainer;
@@ -194,7 +194,7 @@ namespace SafeApp.Utilities
         public AppExchangeInfo App;
 
         /// <summary>
-        /// true if the app wants dedicated container for iteself,
+        /// true if the app wants dedicated container for itself,
         /// false otherwise.
         /// </summary>
         [MarshalAs(UnmanagedType.U1)]
@@ -491,7 +491,7 @@ namespace SafeApp.Utilities
         }
 
         /// <summary>
-        /// Returns native authentication reponse (AuthGrantedNative).
+        /// Returns native authentication response (AuthGrantedNative).
         /// </summary>
         /// <returns></returns>
         internal AuthGrantedNative ToNative()
@@ -573,7 +573,7 @@ namespace SafeApp.Utilities
         public byte[] EncKey;
 
         /// <summary>
-        /// Asymmmetric sign public key.
+        /// Asymmetric sign public key.
         /// This is the identity of the App in the network.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SignPublicKeyLen)]
@@ -634,7 +634,7 @@ namespace SafeApp.Utilities
         public List<ContainerInfo> Containers;
 
         /// <summary>
-        /// Initialize a new access container entry object from native access conainer entry
+        /// Initialize a new access container entry object from native access container entry
         /// </summary>
         /// <param name="native"></param>
         internal AccessContainerEntry(AccessContainerEntryNative native)
@@ -700,7 +700,7 @@ namespace SafeApp.Utilities
         public string Name;
 
         /// <summary>
-        /// Container's MdataInfo.
+        /// Container's MDataInfo.
         /// </summary>
         public MDataInfo MDataInfo;
 
@@ -759,7 +759,7 @@ namespace SafeApp.Utilities
         public string Description;
 
         /// <summary>
-        /// Xor name of this stryct's correponsing mutable data
+        /// Xor name of this struct's corresponding mutable data
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] XorName;
@@ -777,7 +777,7 @@ namespace SafeApp.Utilities
     public struct MDataKey
     {
         /// <summary>
-        /// Key value in byter array format.
+        /// Key value in byte array format.
         /// </summary>
         public List<byte> Val;
 
@@ -836,7 +836,7 @@ namespace SafeApp.Utilities
         public List<byte> Content;
 
         /// <summary>
-        /// Entry verion.
+        /// Entry version.
         /// </summary>
         public ulong EntryVersion;
 
@@ -895,7 +895,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represnets the FFI-safe mutable data entry (key, value).
+    /// Represents the FFI-safe mutable data entry (key, value).
     /// </summary>
     [PublicAPI]
     public struct MDataEntry
@@ -1095,7 +1095,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the User Permission (key, permissionset).
+    /// Represents the User Permission (key, PermissionSet).
     /// </summary>
     [PublicAPI]
     public struct UserPermissionSet

@@ -28,10 +28,10 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Get the names of all containers found and app's granted.
+        /// Get the list of container access permissions granted for the app.
         /// Permission for each of them.
         /// </summary>
-        /// <returns>List of containers and permissions.</returns>
+        /// <returns>List of ContainerPermissions.</returns>
         public async Task<List<ContainerPermissions>> AccessContainerFetchAsync()
         {
             var array = await AppBindings.AccessContainerFetchAsync(_appPtr);
@@ -39,7 +39,8 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Lookup and return the information necessary to access a container.
+        /// Get the access information for a specific container.
+        /// Would throw exception if the container specified is not granted access.
         /// </summary>
         /// <param name="containerId">Name of the container.</param>
         /// <returns>MDataInfo of access container's mutable data.</returns>
@@ -49,8 +50,8 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Refresh the access persmissions from the network.
-        /// Useful when you just connected or received a response from the authenticator in the IPC protocol.
+        /// Refresh the access permissions from the network.
+        /// Invoked to keep the access container information updated.
         /// </summary>
         /// <returns></returns>
         public Task RefreshAccessInfoAsync()

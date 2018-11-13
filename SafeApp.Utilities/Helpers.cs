@@ -81,7 +81,7 @@ namespace SafeApp.Utilities
         /// </summary>
         /// <typeparam name="T">Object type.</typeparam>
         /// <param name="ptr">IntPtr to fetch.</param>
-        /// <param name="length">Lenth</param>
+        /// <param name="length">Length</param>
         /// <returns>list of objects.</returns>
         public static List<T> ToList<T>(this IntPtr ptr, IntPtr length)
         {
