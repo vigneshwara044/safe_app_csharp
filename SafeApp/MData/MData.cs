@@ -164,7 +164,7 @@ namespace SafeApp.MData
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <param name="userSignPubKey">user public sign key.</param>
         /// <param name="permissionSet">permission set to set to.</param>
-        /// <param name="version">version successor, to confirm you are actually asking for the right one.</param>
+        /// <param name="version">version successor, to handle the concurrency issue.</param>
         /// <returns></returns>
         public Task SetUserPermissionsAsync(MDataInfo mDataInfo, NativeHandle userSignPubKey, PermissionSet permissionSet, ulong version)
         {

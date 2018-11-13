@@ -66,7 +66,7 @@ namespace SafeApp.MData
         /// If the MutableData is Public, the same (and unencrypted) value is returned.
         /// </summary>
         /// <param name="mDataInfo"></param>
-        /// <param name="inputBytes">The data you want to encrypt.</param>
+        /// <param name="inputBytes">The data to be encrypted.</param>
         /// <returns>The encrypted entry value.</returns>
         public Task<List<byte>> EncryptEntryValueAsync(MDataInfo mDataInfo, List<byte> inputBytes)
         {

@@ -60,13 +60,13 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Insert a new entry. Once you call mutable data put with this entry,
+        /// Insert a new entry.
         /// it will fail if the entry already exists or
         /// the current app doesn't have the permissions to edit that mutable data.
         /// </summary>
         /// <param name="entriesH">Handle to MDataEntries.</param>
-        /// <param name="entKey">The key you want to store the data under.</param>
-        /// <param name="entVal">The value you want to store.</param>
+        /// <param name="entKey">The key to store the data under.</param>
+        /// <param name="entVal">The value to be stored.</param>
         /// <returns></returns>
         public Task InsertAsync(NativeHandle entriesH, List<byte> entKey, List<byte> entVal)
         {

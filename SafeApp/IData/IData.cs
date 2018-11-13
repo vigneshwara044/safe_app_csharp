@@ -21,7 +21,7 @@ namespace SafeApp.IData
 
         /// <summary>
         /// Initializes an IData object for the Session instance.
-        /// The app pointer will is required to perform network operations.
+        /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr">SafeApp pointer.</param>
         internal IData(SafeAppPtr appPtr)
@@ -30,18 +30,21 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// Close and write the immutable Data to the network
+        /// Close the writer.
+        /// When invoked, the DataMap is generated and saved in the network.
+        /// The address of the DataMap is returned on success.
         /// </summary>
         /// <param name="seH"></param>
         /// <param name="cipherOptH"></param>
-        /// <returns>the address to the data written to the network</returns>
+        /// <returns>Address as XOR Name in byte array format.</returns>
         public Task<byte[]> CloseSelfEncryptorAsync(ulong seH, NativeHandle cipherOptH)
         {
             return AppBindings.IDataCloseSelfEncryptorAsync(_appPtr, seH, cipherOptH);
         }
 
         /// <summary>
-        /// Loop up an existing Immutable Data for the given address
+        /// Look up an existing Immutable Data for the given address
+        /// to prepare a reader to read the immutable data chunks from the network.
         /// </summary>
         /// <param name="xorName">the XorName on the network</param>
         /// <returns>SE handle</returns>
@@ -52,9 +55,9 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// Create a new ImmutableDataInterface
+        /// Create a new writer instance for storing Immutable data in the network.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>New writer NativeHandle</returns>
         public async Task<NativeHandle> NewSelfEncryptorAsync()
         {
             var sEWriterHandle = await AppBindings.IDataNewSelfEncryptorAsync(_appPtr);
@@ -62,11 +65,11 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// Read the given amount of bytes from the network
+        /// Read the data for a specific range.
         /// </summary>
-        /// <param name="seHandle">SE handle.</param>
-        /// <param name="fromPos">start position</param>
-        /// <param name="len">end position or end of data</param>
+        /// <param name="seHandle">Reader handle.</param>
+        /// <param name="fromPos">Start position.</param>
+        /// <param name="len">end position or end of data.</param>
         /// <returns></returns>
         public async Task<List<byte>> ReadFromSelfEncryptorAsync(NativeHandle seHandle, ulong fromPos, ulong len)
         {
@@ -75,9 +78,9 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// Free the reference of reader of the app on the native side
+        /// Invoked to free the reader reference from memory.
         /// </summary>
-        /// <param name="sEReaderHandle"></param>
+        /// <param name="sEReaderHandle">Reader handle.</param>
         /// <returns></returns>
         private Task SelfEncryptorReaderFreeAsync(ulong sEReaderHandle)
         {
@@ -85,9 +88,9 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// Free the reference of writer of the app on the native side.
+        /// Invoked to free the writer reference from memory.
         /// </summary>
-        /// <param name="sEWriterHandle">SE Writer handle of immutable data.</param>
+        /// <param name="sEWriterHandle">Writer handle of immutable data.</param>
         /// <returns></returns>
         private Task SelfEncryptorWriterFreeAsync(ulong sEWriterHandle)
         {

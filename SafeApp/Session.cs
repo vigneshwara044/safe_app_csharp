@@ -139,7 +139,8 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Create a new unregistered session using the provided IPC response.
+        /// Creates an unregistered session based on the config provided.
+        /// Config information can be obtained from the UnregisteredIpcResponse.
         /// </summary>
         /// <param name="bootstrapConfig"></param>
         /// <returns></returns>

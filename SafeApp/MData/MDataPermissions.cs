@@ -34,11 +34,11 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Lookup the permissions of a specific key.
+        /// Get the permissions granted for a Public Sign Key.
         /// </summary>
         /// <param name="permissionsHandle">Permission handle.</param>
         /// <param name="userPubSignKey">The key to lookup for.</param>
-        /// <returns>The permission set for that key.</returns>
+        /// <returns>The permission set for the key.</returns>
         public Task<PermissionSet> GetAsync(NativeHandle permissionsHandle, NativeHandle userPubSignKey)
         {
             return AppBindings.MDataPermissionsGetAsync(_appPtr, permissionsHandle, userPubSignKey);
@@ -85,7 +85,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Create a handle to the permission associated with the mutable data.
+        /// Create a PermissionHandle to to insert permissions.
         /// </summary>
         /// <returns>Newly create mutable data permissions handle.</returns>
         public async Task<NativeHandle> NewAsync()

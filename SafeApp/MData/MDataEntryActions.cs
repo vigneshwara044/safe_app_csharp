@@ -10,7 +10,7 @@ namespace SafeApp.MData
 {
     /// <summary>
     /// Holds a mutation action to be done to the MutableData entries within one transaction on the network.
-    /// You need this whenever you want to change the content of the entries.
+    /// Used to change the content of the entries.
     /// </summary>
     [PublicAPI]
     public class MDataEntryActions
@@ -32,8 +32,8 @@ namespace SafeApp.MData
         /// Store a new Remove-Action in the transaction to remove an existing entry.
         /// </summary>
         /// <param name="entryActionsH">EntryActions handle.</param>
-        /// <param name="entKey">The key you want to remove.</param>
-        /// <param name="version">The version successor, to confirm you are actually asking for the right version.</param>
+        /// <param name="entKey">Corresponding entry key to remove.</param>
+        /// <param name="version">The version successor, to handle the concurrency issue.</param>
         /// <returns></returns>
         public Task DeleteAsync(NativeHandle entryActionsH, List<byte> entKey, ulong version)
         {
@@ -49,8 +49,8 @@ namespace SafeApp.MData
         /// Store a new Insert-Action in the transaction to store a new entry.
         /// </summary>
         /// <param name="entryActionsH">EntryActions handle.</param>
-        /// <param name="entKey">The key you want to insert.</param>
-        /// <param name="entVal">The value you want to insert.</param>
+        /// <param name="entKey">The key to be inserted.</param>
+        /// <param name="entVal">The value to be inserted.</param>
         /// <returns></returns>
         public Task InsertAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal)
         {
@@ -71,9 +71,9 @@ namespace SafeApp.MData
         /// Store a Update-Action in the transaction to update an existing entry.
         /// </summary>
         /// <param name="entryActionsH">EntryActions handle.</param>
-        /// <param name="entKey">the key for the entry you want to update</param>
-        /// <param name="entVal">the value to update to</param>
-        /// <param name="version">the version successor, to confirm you are actually asking for the right version</param>
+        /// <param name="entKey">The key for which the value to be updated.</param>
+        /// <param name="entVal">New value.</param>
+        /// <param name="version">The version successor, to handle the concurrency issue.</param>
         /// <returns></returns>
         public Task UpdateAsync(NativeHandle entryActionsH, List<byte> entKey, List<byte> entVal, ulong version)
         {

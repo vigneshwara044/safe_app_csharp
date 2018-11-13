@@ -55,7 +55,7 @@ namespace SafeApp.Misc
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <param name="fileName">The path/file name.</param>
-        /// <param name="version">Version successor, to ensure you are deleting the right one.</param>
+        /// <param name="version">Version successor, to handle the concurrency issue.</param>
         /// <returns></returns>
         public Task DirDeleteFileAsync(MDataInfo mDataInfo, string fileName, ulong version)
         {
@@ -93,7 +93,7 @@ namespace SafeApp.Misc
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <param name="fileName">The path to store the file under.</param>
         /// <param name="file">The file to serialize and store.</param>
-        /// <param name="version">Version successor, to ensure you are overwriting the right one.</param>
+        /// <param name="version">Version successor, to handle the concurrency issue.</param>
         /// <returns></returns>
         public Task DirUpdateFileAsync(MDataInfo mDataInfo, string fileName, File file, ulong version)
         {
@@ -114,7 +114,7 @@ namespace SafeApp.Misc
         /// Open a file for reading or writing.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
-        /// <param name="file">The file you want to open.</param>
+        /// <param name="file">The file to be opened.</param>
         /// <param name="openMode">File opening Mode.</param>
         /// <returns></returns>
         public async Task<NativeHandle> FileOpenAsync(MDataInfo mDataInfo, File file, OpenMode openMode)

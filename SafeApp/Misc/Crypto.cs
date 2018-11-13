@@ -67,8 +67,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Decrypt the given cipher text (buffer or string) using given public
-        /// encryption key and the given secret key.
+        /// Asymmetric decryption using public and private key pair.
         /// </summary>
         /// <param name="cipherText">Cipher to decrypt.</param>
         /// <param name="encPubKey">Public encryption key.</param>

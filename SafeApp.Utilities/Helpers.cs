@@ -35,7 +35,7 @@ namespace SafeApp.Utilities
         /// <summary>
         /// Allocate memory to hold the struct.
         /// </summary>
-        /// <typeparam name="T">Structure you want to marshal.</typeparam>
+        /// <typeparam name="T">Structure to be marshaled.</typeparam>
         /// <param name="obj"></param>
         /// <returns>Pointer to the structure in unmanaged memory.</returns>
         public static IntPtr StructToPtr<T>(T obj)
@@ -93,7 +93,7 @@ namespace SafeApp.Utilities
         /// <summary>
         /// Convert byte list into string.
         /// </summary>
-        /// <param name="input">byte list you want to convert.</param>
+        /// <param name="input">byte list to be converted.</param>
         /// <returns>new utf-8 string.</returns>
         public static string ToUtfString(this List<byte> input)
         {
@@ -104,7 +104,7 @@ namespace SafeApp.Utilities
         /// <summary>
         /// Converts a string to utf-8 bytes.
         /// </summary>
-        /// <param name="input">string you want to convert.</param>
+        /// <param name="input">string to be converted.</param>
         /// <returns>a byte list</returns>
         public static List<byte> ToUtfBytes(this string input)
         {
@@ -127,7 +127,7 @@ namespace SafeApp.Utilities
         /// <summary>
         /// Convert string into hexadecimal bytes.
         /// </summary>
-        /// <param name="hex">String you want to convert.</param>
+        /// <param name="hex">String to be converted.</param>
         /// <returns>List of bytes in hexadecimal format.</returns>
         public static List<byte> ToHexBytes(this string hex)
         {
@@ -144,7 +144,7 @@ namespace SafeApp.Utilities
         /// <summary>
         /// Converts byte list into string using StringBuilder.
         /// </summary>
-        /// <param name="bytes">byte list you want to convert.</param>
+        /// <param name="bytes">byte list to be converted.</param>
         /// <returns>new String containing byte array.</returns>
         public static string PrintByteArray(List<byte> bytes)
         {
