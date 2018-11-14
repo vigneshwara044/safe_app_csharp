@@ -1,0 +1,879 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/projects/safe-app-csharp/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Conceptual",
+      "source_relative_path": "../CHANGELOG.MD",
+      "output": {
+        ".html": {
+          "relative_path": "CHANGELOG.html",
+          "hash": "jp0mo0vVQTEN7YMjPDp6CA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.AccessContainer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.AccessContainer.html",
+          "hash": "qYXVDJAc2gdPkFTQwUa1dQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.IData.IData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.IData.IData.html",
+          "hash": "LLqZyw37v21TyhvvOHLwLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.IData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.IData.html",
+          "hash": "suPTuUKjOnCz2ACcCMxCJA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MData.MData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MData.MData.html",
+          "hash": "6tB0FRsFBWob9XMa4Z7rOA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MData.MDataEntries.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MData.MDataEntries.html",
+          "hash": "+dvezIvecYkIa+TWgO5DDQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MData.MDataEntryActions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MData.MDataEntryActions.html",
+          "hash": "qo5hs4W+VcyFmLsm+68zOQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MData.MDataInfoActions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MData.MDataInfoActions.html",
+          "hash": "Nt5DmejE1b8iVrSIgQYkkA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MData.MDataPermissions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MData.MDataPermissions.html",
+          "hash": "O9++m7W43WAhV86Bc1kTEw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MData.html",
+          "hash": "8dOKcFvMi0aLwIns5vRAZQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Misc.CipherOpt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Misc.CipherOpt.html",
+          "hash": "e2nbTvcn8PCvKumFGguD6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Misc.Crypto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Misc.Crypto.html",
+          "hash": "AJXOlf667j474zD7y8fV6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Misc.NFS.OpenMode.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Misc.NFS.OpenMode.html",
+          "hash": "YNftFFh65D0NXDxHN/L81g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Misc.NFS.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Misc.NFS.html",
+          "hash": "uChb1Pu73NkhlhkoMSIusA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Misc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Misc.html",
+          "hash": "ehSCPFtKAa66JLDXOA2iyA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.AuthIpcReq.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.AuthIpcReq.html",
+          "hash": "vU26BKnhos35d1JPd/citg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.Authenticator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.Authenticator.html",
+          "hash": "qpAwkuNksoz2bdkheTu7Fg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.ContainersIpcReq.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.ContainersIpcReq.html",
+          "hash": "YxFrixidCE9gxRCw5UmTNA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.IpcReq.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.IpcReq.html",
+          "hash": "Q4dLw/1GaMBbv70FRTII3g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.IpcReqError.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.IpcReqError.html",
+          "hash": "5tUlwZDSVFz0Nb08YePRkw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.IpcReqRejected.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.IpcReqRejected.html",
+          "hash": "rEWKqIpN/yqit9haXg0uqg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.RegisteredApp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.RegisteredApp.html",
+          "hash": "TZ8B//kvvXhs4TIErEwRtQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.ShareMDataIpcReq.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.ShareMDataIpcReq.html",
+          "hash": "h4qnDV/8iL3U1Vu/hlxixQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.UnregisteredIpcReq.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.UnregisteredIpcReq.html",
+          "hash": "KguHYKAPIPFo1j8pA1rECg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.MockAuthBindings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.MockAuthBindings.html",
+          "hash": "w4U9JQggzkmgfaLwR5FxpA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.NativeHandle.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.NativeHandle.html",
+          "hash": "XJa8Cd+joLLKJ1tHwoGeHA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Session.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Session.html",
+          "hash": "s1t7YiiAlEyYf6MiJwH4gQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AccessContInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AccessContInfo.html",
+          "hash": "A9fdLlw2e6o3yjcndefz6A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AccessContainerEntry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AccessContainerEntry.html",
+          "hash": "3ezEGHNIfbz4IcYsPyPuog=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AccountInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AccountInfo.html",
+          "hash": "L9mOSIQ7Ud0tlrIl2WJuGw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AppAccess.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AppAccess.html",
+          "hash": "2GaleDUOvRX7BuS3CP37Kw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AppConstants.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AppConstants.html",
+          "hash": "v194gJBlS9tdjmsBTCsFSA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AppExchangeInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AppExchangeInfo.html",
+          "hash": "O7nYrfMgaH6UIPE92Oh7kQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AppKeys.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AppKeys.html",
+          "hash": "UxVKCO5VOnrDCHeSTkRr0Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AuthGranted.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AuthGranted.html",
+          "hash": "GshWQm0eRfP/F86RGH9PmA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AuthIpcMsg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AuthIpcMsg.html",
+          "hash": "9++doWLvnuRSawvOgJFuoQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.AuthReq.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.AuthReq.html",
+          "hash": "jct8xJD1TuQao3uNNCpfmQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.ContainerInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.ContainerInfo.html",
+          "hash": "ZXCRYzUTiINmpltfM+iZfw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.ContainerPermissions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.ContainerPermissions.html",
+          "hash": "zkLMZaeCaP+6hAEe+akmFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.ContainersIpcMsg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.ContainersIpcMsg.html",
+          "hash": "AttXC5aPDpJcXjC3OTRhEQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.ContainersReq.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.ContainersReq.html",
+          "hash": "RUwdi9Vbh6EbppNzSdKCOA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.FfiException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.FfiException.html",
+          "hash": "DDc3AMxWsmocAUd5gVPn3w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.FfiResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.FfiResult.html",
+          "hash": "eCTcSh/1qLgRd/XnjMalOQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.File.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.File.html",
+          "hash": "eh6r83+qD6S2GGYbUx/dNg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.Helpers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.Helpers.html",
+          "hash": "JHuvOzD4iVEGmBPBCKSoOw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.IAppBindings.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.IAppBindings.html",
+          "hash": "gTjios90KKgUFrsCSfmUow=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.IpcMsg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.IpcMsg.html",
+          "hash": "8ypJBD8rfS/Hdvt+IHwq7g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.IpcMsgException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.IpcMsgException.html",
+          "hash": "2kHtJQpKMotBiE+M+O+7UA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.MDataAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.MDataAction.html",
+          "hash": "/74pHIYKtvNMXZT98tk3sA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.MDataEntry.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.MDataEntry.html",
+          "hash": "f+PXF3ERDvsLP50UJrL2Ug=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.MDataInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.MDataInfo.html",
+          "hash": "C9+TgD77TkgrVbP2JQYwgQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.MDataKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.MDataKey.html",
+          "hash": "1LIxiQs44GQ76YClhHQyog=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.MDataValue.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.MDataValue.html",
+          "hash": "mcrDnFSh4FdczGR/hLCeAQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.MetadataResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.MetadataResponse.html",
+          "hash": "2t1SVUxBu5Jn9Jpm5IIqFA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.PermissionSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.PermissionSet.html",
+          "hash": "1PWJspxFyLUk76c7pHNrEQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.RevokedIpcMsg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.RevokedIpcMsg.html",
+          "hash": "BXzeEMZz8nopOdY1vPAYDA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.ShareMData.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.ShareMData.html",
+          "hash": "TvdjcC+EA2ax7GA2JwPL6g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.ShareMDataIpcMsg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.ShareMDataIpcMsg.html",
+          "hash": "4a4CTgVniYJ9OaRBphKyjg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.ShareMDataReq.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.ShareMDataReq.html",
+          "hash": "TCuQ9i1Y95I0LKJHuKWYFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.UnregisteredIpcMsg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.UnregisteredIpcMsg.html",
+          "hash": "gn2Rf4ny84uF10SF/DuInQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.UserPermissionSet.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.UserPermissionSet.html",
+          "hash": "Nm13gYRwwqKfMGw0vScw2A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.Utilities.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.Utilities.html",
+          "hash": "DfAMDfzpLyAm9GIhYC5COA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/SafeApp.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/SafeApp.html",
+          "hash": "nyhd5MBxYADJkRfmGCgeEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "OL9bkSnavcswsHh/rHdzww=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "uTYlx4HcTNoDomXxMLhb2Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/favicon.ico",
+      "output": {
+        "resource": {
+          "relative_path": "images/favicon.ico"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/logo.svg",
+      "output": {
+        "resource": {
+          "relative_path": "images/logo.svg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "YXAFYywYu2QpfY8UdkVbcw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "FTDdHHM3VdljSLrdClR88g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
+        "incrementalPhase": "build"
+      },
+      "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build"
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build"
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: last post processor info is null.",
+        "incrementalPhase": "postProcessing"
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
