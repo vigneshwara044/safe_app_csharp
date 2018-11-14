@@ -10,7 +10,7 @@ using SafeApp.Utilities;
 namespace SafeApp.MData
 {
     /// <summary>
-    /// Holds the permissions API fo mutable data.
+    /// Mutable data Permission APIs.
     /// </summary>
     [PublicAPI]
     public class MDataPermissions
@@ -19,7 +19,7 @@ namespace SafeApp.MData
         private SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an MDataPermissions object for the Session instance.
+        /// Initialises an MDataPermissions object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr">SafeApp pointer.</param>
@@ -45,7 +45,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Insert a new permission set mapped to a specific key.
+        /// Insert a new permission set mapped to a specific sign key.
         /// Directly commits to the network.
         /// Requires 'ManagePermissions'-Permission for the app.
         /// </summary>

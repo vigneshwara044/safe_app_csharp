@@ -7,14 +7,14 @@ using SafeApp.Utilities;
 namespace SafeApp.MockAuthBindings
 {
     /// <summary>
-    /// IPC message
+    /// Base IPC request
     /// </summary>
     public abstract class IpcReq
     {
     }
 
     /// <summary>
-    /// Authentication IPC message
+    /// Authentication IPC Request
     /// </summary>
     [PublicAPI]
     public class AuthIpcReq : IpcReq
@@ -25,14 +25,14 @@ namespace SafeApp.MockAuthBindings
         public AuthReq AuthReq;
 
         /// <summary>
-        /// Request id.
+        /// Request Id.
         /// </summary>
         public uint ReqId;
 
         /// <summary>
-        /// Initialize AuthIPC request.
+        /// Initialise Authentication IPC request.
         /// </summary>
-        /// <param name="reqId">Request id.</param>
+        /// <param name="reqId">Request Id.</param>
         /// <param name="authReq">Authentication request.</param>
         public AuthIpcReq(uint reqId, AuthReq authReq)
         {
@@ -50,7 +50,7 @@ namespace SafeApp.MockAuthBindings
         public List<byte> ExtraData;
 
         /// <summary>
-        /// Request id.
+        /// Request Id.
         /// </summary>
         public uint ReqId;
 
@@ -71,9 +71,9 @@ namespace SafeApp.MockAuthBindings
         /// Container request.
         /// </summary>
         public ContainersReq ContainersReq;
-
+        
         /// <summary>
-        /// Request id.
+        /// Request Id.
         /// </summary>
         public uint ReqId;
 
@@ -96,7 +96,7 @@ namespace SafeApp.MockAuthBindings
         public MetadataResponse MetadataResponse;
 
         /// <summary>
-        /// Request id.
+        /// Request Id.
         /// </summary>
         public uint ReqId;
 
@@ -131,14 +131,13 @@ namespace SafeApp.MockAuthBindings
     }
 
     /// <summary>
-    /// IPC Error request.
+    /// IPC Request Error.
     /// </summary>
     [PublicAPI]
     public class IpcReqError : IpcReq
     {
         /// <summary>
-        /// Error code.
-        /// It's a negative value.
+        /// Error code is respresnted by negative value.
         /// </summary>
         public readonly int Code;
 

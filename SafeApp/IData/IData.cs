@@ -11,7 +11,7 @@ using SafeApp.Utilities;
 namespace SafeApp.IData
 {
     /// <summary>
-    /// Interact with Immutable Data of the Network through this Interface.
+    /// Immutable Data APIs.
     /// </summary>
     [PublicAPI]
     public class IData
@@ -43,10 +43,10 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// Look up an existing Immutable Data for the given address
+        /// Fetch an existing Immutable Data for the given address
         /// to prepare a reader to read the immutable data chunks from the network.
         /// </summary>
-        /// <param name="xorName">the XorName on the network</param>
+        /// <param name="xorName">The XorName on the network.</param>
         /// <returns>SE handle</returns>
         public async Task<NativeHandle> FetchSelfEncryptorAsync(byte[] xorName)
         {
@@ -98,7 +98,7 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// The size of the serialized Immutable Data on the network.
+        /// The size of the serialized Immutable Data.
         /// </summary>
         /// <param name="xorName">XOR address of Immutable Data.</param>
         /// <returns>length in bytes.</returns>
@@ -108,7 +108,7 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// Get the size of the Immutable data on the network.
+        /// Get the size of the Immutable data.
         /// </summary>
         /// <param name="seHandle">SE handle.</param>
         /// <returns>length in bytes.</returns>
@@ -118,7 +118,8 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// Append the data to Immutable data.
+        /// Write Immutable data.
+        /// Only when CloseSelfEncryptorAsync is invoked, the DataMap is generated and saved in the network.
         /// </summary>
         /// <param name="seHandle">SE handle</param>
         /// <param name="data">Data to append in existing immutable data.</param>

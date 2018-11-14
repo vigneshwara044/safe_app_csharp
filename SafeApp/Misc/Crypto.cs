@@ -9,7 +9,7 @@ using SafeApp.Utilities;
 namespace SafeApp.Misc
 {
     /// <summary>
-    /// Encryption functionality for the SafeApp
+    /// Encryption functionality for the SafeApp.
     /// </summary>
     [PublicAPI]
     public class Crypto
@@ -18,7 +18,7 @@ namespace SafeApp.Misc
         private SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an Crypto object for the Session instance.
+        /// Initialises an Crypto instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr">SafeApp pointer</param>
@@ -37,7 +37,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Get SHA3 of the data.
+        /// Get SHA3 hash of the data.
         /// </summary>
         /// <param name="source">Data to be hashed.</param>
         /// <returns>Generated hash.</returns>
@@ -181,7 +181,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Sign the given data (buffer) using the secret sign key.
+        /// Sign the given data (buffer) using a secret sign key.
         /// </summary>
         /// <param name="data">Data to sign.</param>
         /// <param name="signSecKey">Secret sign key to sign the given data.</param>
@@ -192,7 +192,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        ///   Generate a new Sign Key Pair
+        /// Generate a new Sign Key Pair
         /// </summary>
         /// <returns>Tuple of Sign Public Key NativeHandle and Sign Secret Key NativeHandle</returns>
         public async Task<(NativeHandle, NativeHandle)> SignGenerateKeyPairAsync()
@@ -257,7 +257,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Verify the given signed data buffer is using the public sign key
+        /// Verify the given signed data buffer is using a public sign key
         /// </summary>
         /// <param name="signedData">Data to verify signature.</param>
         /// <param name="signPubKey">Public sign key to verify.</param>

@@ -9,7 +9,7 @@ using SafeApp.Utilities;
 namespace SafeApp.MData
 {
     /// <summary>
-    /// Provides the Mutable Data APIs for the session.
+    /// Provides the Mutable Data APIs.
     /// </summary>
     [PublicAPI]
     public class MData
@@ -18,7 +18,7 @@ namespace SafeApp.MData
         private SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an MData object for the Session instance.
+        /// Initialises an MData object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr">SafeApp pointer.</param>
@@ -33,8 +33,8 @@ namespace SafeApp.MData
         /// Required 'ManagePermissions'-Permission for the app.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
-        /// <param name="userSignPubKey">the key to lookup for.</param>
-        /// <param name="version">the version successor, to handle the concurrency issue.</param>
+        /// <param name="userSignPubKey">The key to lookup for.</param>
+        /// <param name="version">The version successor, to handle the concurrency issue.</param>
         /// <returns></returns>
         public Task DelUserPermissionsAsync(MDataInfo mDataInfo, NativeHandle userSignPubKey, ulong version)
         {
@@ -52,18 +52,18 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Loop up the value of a specific key.
+        /// Get the value of a specific key.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
-        /// <param name="key">Mutable data entry key</param>
-        /// <returns>Mutable data entry value and its current version</returns>
+        /// <param name="key">Mutable data entry key.</param>
+        /// <returns>Mutable data entry value and its current version.</returns>
         public Task<(List<byte>, ulong)> GetValueAsync(MDataInfo mDataInfo, List<byte> key)
         {
             return AppBindings.MDataGetValueAsync(_appPtr, ref mDataInfo, key);
         }
 
         /// <summary>
-        /// Loop up the Mutable data version on the network
+        /// Get the Mutable data version on the network.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <returns>Mutable data version.</returns>
@@ -73,7 +73,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Get the list of Mutable data entries associated with handle.
+        /// Get the list of Mutable data entries associated with the handle.
         /// </summary>
         /// <param name="entriesHandle">Mutable data entry handle.</param>
         /// <returns>List of mutable data Entries.</returns>
@@ -93,7 +93,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Get a handle to the permissions associated with mutable data.
+        /// Get a permission handle for the permissions associated with mutable data.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <returns>Permission handle for mutable data.</returns>
@@ -104,7 +104,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Get a handle to the permissions associated with MutableData for a specific public sign key.
+        /// Get a permission handle for the permissions associated with MutableData for a specific public sign key.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <param name="userSignPubKey">User public signing key.</param>
@@ -148,7 +148,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Get serialized size of mutable data.
+        /// Get the size of serialized mutable data.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <returns>Size of mutable data.</returns>

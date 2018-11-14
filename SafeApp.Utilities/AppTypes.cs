@@ -10,7 +10,7 @@ using JetBrains.Annotations;
 namespace SafeApp.Utilities
 {
     /// <summary>
-    /// Actions which can be performed on mutable data.
+    /// Actions which can be performed on a mutable data.
     /// </summary>
     [PublicAPI]
     public enum MDataAction
@@ -33,25 +33,26 @@ namespace SafeApp.Utilities
         public ulong MutationsDone;
 
         /// <summary>
-        /// Number of remaining Mutations.
+        /// Number of remaining mutations.
         /// </summary>
         public ulong MutationsAvailable;
     }
 
     /// <summary>
+    /// Mutable data shell.
     /// Information allowing to locate and access Mutable Data on the network.
     /// </summary>
     [PublicAPI]
     public struct MDataInfo
     {
         /// <summary>
-        /// Name of the data where the directory is stored.
+        /// Name of the mutable data.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] Name;
 
         /// <summary>
-        /// Type tag of the data where directory is stored.
+        /// Type tag.
         /// </summary>
         public ulong TypeTag;
 
@@ -82,14 +83,14 @@ namespace SafeApp.Utilities
         public bool HasNewEncInfo;
 
         /// <summary>
-        /// New encryption key(used for two-phase reencryption).
+        /// New encryption key(used for two-phase re-encryption).
         /// Meaningful only if `HasNewEncInfo` is `true`.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymKeyLen)]
         public byte[] NewEncKey;
 
         /// <summary>
-        /// New encryption nonce (used for two-phase data reencryption).
+        /// New encryption nonce (used for two-phase data re-encryption).
         /// Meaningful only if `HasNewEncInfo` is `true`.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymNonceLen)]
@@ -151,12 +152,12 @@ namespace SafeApp.Utilities
         public bool AppContainer;
 
         /// <summary>
-        /// The list of containers it wishes to access (and desired permissions).
+        /// The list of containers requesting access for.
         /// </summary>
         public List<ContainerPermissions> Containers;
 
         /// <summary>
-        /// Initialize new auth request object from native auth request.
+        /// Initialise new auth request object from native auth request.
         /// </summary>
         /// <param name="native"></param>
         internal AuthReq(AuthReqNative native)
@@ -242,7 +243,7 @@ namespace SafeApp.Utilities
         public List<ContainerPermissions> Containers;
 
         /// <summary>
-        /// Initialize a new container request object from native container request.
+        /// Initialise a new container request object from native container request.
         /// </summary>
         /// <param name="native"></param>
         internal ContainersReq(ContainersReqNative native)
@@ -303,7 +304,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents an application ID in the process of asking permissions.
+    /// Represents an application information.
     /// </summary>
     [PublicAPI]
     public struct AppExchangeInfo
@@ -340,7 +341,7 @@ namespace SafeApp.Utilities
     public struct ContainerPermissions
     {
         /// <summary>
-        /// Container id.
+        /// Default container name.
         /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string ContName;
@@ -352,7 +353,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents a wrapper for native request to share mutable data.
+    /// Represents a request to share mutable data.
     /// </summary>
     [PublicAPI]
     public struct ShareMDataReq
@@ -369,7 +370,7 @@ namespace SafeApp.Utilities
         public List<ShareMData> MData;
 
         /// <summary>
-        /// Initialize a new mutable data share request object from native request.
+        /// Initialise a new mutable data share request object from native request.
         /// </summary>
         /// <param name="native"></param>
         internal ShareMDataReq(ShareMDataReqNative native)
@@ -430,7 +431,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents a specific mutable data that is being shared.
+    /// Holds a mutable data information and requested permission set.
     /// </summary>
     [PublicAPI]
     public struct ShareMData
@@ -453,7 +454,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the wrapper for native authentication response.
+    /// Represents the authentication response.
     /// </summary>
     [PublicAPI]
     public struct AuthGranted
@@ -474,12 +475,12 @@ namespace SafeApp.Utilities
         public AccessContainerEntry AccessContainerEntry;
 
         /// <summary>
-        /// Crust's bootstrap config
+        /// Bootstrap configuration.
         /// </summary>
         public List<byte> BootstrapConfig;
 
         /// <summary>
-        /// Initialize a new auth response object from native auth response.
+        /// Initialise a new auth response object from native auth response.
         /// </summary>
         /// <param name="native"></param>
         internal AuthGranted(AuthGrantedNative native)
@@ -555,7 +556,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the needed keys to work with the data.
+    /// Represents the application keys.
     /// </summary>
     [PublicAPI]
     public struct AppKeys
@@ -599,7 +600,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents container info.
+    /// Represents access container information.
     /// </summary>
     [PublicAPI]
     public struct AccessContInfo
@@ -611,7 +612,7 @@ namespace SafeApp.Utilities
         public byte[] Id;
 
         /// <summary>
-        /// Type tag.
+        /// tagType.
         /// </summary>
         public ulong Tag;
 
@@ -634,7 +635,7 @@ namespace SafeApp.Utilities
         public List<ContainerInfo> Containers;
 
         /// <summary>
-        /// Initialize a new access container entry object from native access container entry
+        /// Initialise a new access container entry object from native access container entry
         /// </summary>
         /// <param name="native"></param>
         internal AccessContainerEntry(AccessContainerEntryNative native)
@@ -688,13 +689,13 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Information about the container.
+    /// Container information with permission set.
     /// </summary>
     [PublicAPI]
     public struct ContainerInfo
     {
         /// <summary>
-        /// Container name
+        /// Container name.
         /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string Name;
@@ -711,7 +712,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Information about an application that has access to an MD through SignKey
+    /// Information about an application that has access to a mutable data.
     /// </summary>
     [PublicAPI]
     public struct AppAccess
@@ -734,14 +735,14 @@ namespace SafeApp.Utilities
         public string Name;
 
         /// <summary>
-        /// App id.
+        /// App Id.
         /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string AppId;
     }
 
     /// <summary>
-    /// User metadata for mutable data.
+    /// User metadata response for mutable data.
     /// </summary>
     [PublicAPI]
     public struct MetadataResponse
@@ -771,7 +772,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents an FFI-Safe mutable data key.
+    /// Represents a mutable data key.
     /// </summary>
     [PublicAPI]
     public struct MDataKey
@@ -782,7 +783,7 @@ namespace SafeApp.Utilities
         public List<byte> Val;
 
         /// <summary>
-        /// Initialize new mutable data key from native key
+        /// Initialise new mutable data key from native key.
         /// </summary>
         /// <param name="native"></param>
         internal MDataKey(MDataKeyNative native)
@@ -791,7 +792,7 @@ namespace SafeApp.Utilities
         }
 
         /// <summary>
-        /// Returns a native FFI-Safe mutable data key.
+        /// Returns a native mutable data key.
         /// </summary>
         /// <returns></returns>
         internal MDataKeyNative ToNative()
@@ -801,7 +802,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents a native FFI-Safe mutable data key.
+    /// Represents a native mutable data key.
     /// </summary>
     internal struct MDataKeyNative
     {
@@ -825,7 +826,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the FFI-safe mutable data value.
+    /// Represents the mutable data value.
     /// </summary>
     [PublicAPI]
     public struct MDataValue
@@ -841,7 +842,7 @@ namespace SafeApp.Utilities
         public ulong EntryVersion;
 
         /// <summary>
-        /// Initialize new mutable data value
+        /// Initialise new mutable data value
         /// </summary>
         /// <param name="native"></param>
         internal MDataValue(MDataValueNative native)
@@ -851,7 +852,7 @@ namespace SafeApp.Utilities
         }
 
         /// <summary>
-        /// Returns the native FFI-safe mutable data value.
+        /// Returns the native mutable data value.
         /// </summary>
         /// <returns></returns>
         internal MDataValueNative ToNative()
@@ -866,7 +867,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the native FFI-safe mutable data value.
+    /// Represents the native mutable data value.
     /// </summary>
     internal struct MDataValueNative
     {
@@ -895,7 +896,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the FFI-safe mutable data entry (key, value).
+    /// Represents the mutable data entry (key, value).
     /// </summary>
     [PublicAPI]
     public struct MDataEntry
@@ -911,7 +912,7 @@ namespace SafeApp.Utilities
         public MDataValue Value;
 
         /// <summary>
-        /// Initialize new mutable data entry from native entry
+        /// Initialise new mutable data entry from native entry
         /// </summary>
         /// <param name="native"></param>
         internal MDataEntry(MDataEntryNative native)
@@ -921,7 +922,7 @@ namespace SafeApp.Utilities
         }
 
         /// <summary>
-        /// Returns native FFI-safe mutable data entry.
+        /// Returns native mutable data entry.
         /// </summary>
         /// <returns></returns>
         internal MDataEntryNative ToNative()
@@ -931,17 +932,17 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the native FFI-safe mutable data entry (key, value).
+    /// Represents the native mutable data entry (key, value).
     /// </summary>
     internal struct MDataEntryNative
     {
         /// <summary>
-        /// Native FFI-safe mutable data key.
+        /// Native mutable data key.
         /// </summary>
         public MDataKeyNative Key;
 
         /// <summary>
-        /// Native FFI-safe mutable data value.
+        /// Native mutable data value.
         /// </summary>
         public MDataValueNative Value;
 
@@ -957,7 +958,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents a wrapper for native file.
+    /// Represents a wrapper for NFS file.
     /// </summary>
     [PublicAPI]
     public struct File
@@ -998,7 +999,7 @@ namespace SafeApp.Utilities
         public byte[] DataMapName;
 
         /// <summary>
-        /// Initialize a new file object from native file FFI-Wrapper.
+        /// Initialise a new file object from native NFS file.
         /// </summary>
         /// <param name="native"></param>
         internal File(FileNative native)
@@ -1013,7 +1014,7 @@ namespace SafeApp.Utilities
         }
 
         /// <summary>
-        /// Returns native FFI-Wrapper for File (FileNative).
+        /// Returns native NFS File.
         /// </summary>
         /// <returns></returns>
         internal FileNative ToNative()
@@ -1034,7 +1035,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents native FFI-wrapper for File.
+    /// Represents native for File.
     /// </summary>
     internal struct FileNative
     {

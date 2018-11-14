@@ -6,7 +6,7 @@ using SafeApp.Utilities;
 namespace SafeApp.MockAuthBindings
 {
     /// <summary>
-    /// Represents Application registered in the authenticator.
+    /// Represents an application registered with the authenticator.
     /// </summary>
     [PublicAPI]
     public struct RegisteredApp
@@ -17,12 +17,12 @@ namespace SafeApp.MockAuthBindings
         public AppExchangeInfo AppInfo;
 
         /// <summary>
-        /// List of containers that this application has access to.
+        /// List of containers the application has access to.
         /// </summary>
         public List<ContainerPermissions> Containers;
 
         /// <summary>
-        /// Initialize new Registered app object using native registered app.
+        /// Initialize new registered app object using native registered app.
         /// </summary>
         /// <param name="native"></param>
         internal RegisteredApp(RegisteredAppNative native)
@@ -48,7 +48,7 @@ namespace SafeApp.MockAuthBindings
     }
 
     /// <summary>
-    /// Represents a native application registered in the authenticator.
+    /// Represents a native application registered with the authenticator.
     /// </summary>
     internal struct RegisteredAppNative
     {

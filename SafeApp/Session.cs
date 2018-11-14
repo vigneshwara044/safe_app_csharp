@@ -173,10 +173,10 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Get Ipc message from given encoded request.
+        /// Decode the Ipc response message.
         /// </summary>
-        /// <param name="encodedReq">Encoded request string.</param>
-        /// <returns>New decoded IPCMsg.</returns>
+        /// <param name="encodedReq">Encoded response string.</param>
+        /// <returns>New decoded IPCMsg instance.</returns>
         public static Task<IpcMsg> DecodeIpcMessageAsync(string encodedReq)
         {
             return AppBindings.DecodeIpcMsgAsync(encodedReq);
@@ -193,7 +193,7 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Generate a 'safe-auth'-URI to request further container permissions.
+        /// Encodes a container permission request.
         /// </summary>
         /// <param name="containersReq">Container Request</param>
         /// <returns>Request Id, Encoded container request.</returns>
@@ -203,7 +203,7 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Generate a 'safe-auth'-URI to request permissions on arbitrary owned MutableData.
+        /// Encodes a MDataShareReq.
         /// </summary>
         /// <param name="shareMDataReq">Mutable data share request.</param>
         /// <returns>Request Id, Encoded mutable data share request.</returns>
@@ -213,9 +213,9 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Generate a unregistered connection URI for the app.
+        /// Encodes a unregistered access request.
         /// </summary>
-        /// <param name="reqId">Request id.</param>
+        /// <param name="reqId">Request Id.</param>
         /// <returns></returns>
         public static Task<(uint, string)> EncodeUnregisteredRequestAsync(string reqId)
         {
@@ -334,9 +334,9 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Check if the underlying library was compiled against mock-routing.
+        /// Check if the native library was compiled with mock-routing feature.
         /// </summary>
-        /// <returns>True if underlying library was compiled against mock-routing otherwise false.</returns>
+        /// <returns>True if native library was compiled with mock-routing feature otherwise false.</returns>
         public static bool IsMockBuild()
         {
             return AppBindings.IsMockBuild();

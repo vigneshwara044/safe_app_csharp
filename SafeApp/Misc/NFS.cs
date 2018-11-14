@@ -40,7 +40,7 @@ namespace SafeApp.Misc
         private readonly SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an NFS object for the Session instance.
+        /// Initialises an NFS object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr"></param>
@@ -63,7 +63,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Find the file of the given filename.
+        /// Get the file from the directory.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <param name="fileName">The path/file name.</param>
@@ -74,12 +74,12 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Insert the given file into the underlying MutableData.
+        /// Insert the given file in the directory.
         /// Directly commit to the network.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <param name="fileName">The path to store the file under.</param>
-        /// <param name="file">The file to serialize and store.</param>
+        /// <param name="file">The file to Serialise and store.</param>
         /// <returns></returns>
         public Task DirInsertFileAsync(MDataInfo mDataInfo, string fileName, File file)
         {
@@ -87,12 +87,12 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Replace the path with a new file.
+        /// Replace the existing file with a new file.
         /// Directly commit to the network.
         /// </summary>
         /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
         /// <param name="fileName">The path to store the file under.</param>
-        /// <param name="file">The file to serialize and store.</param>
+        /// <param name="file">The file to Serialise and store.</param>
         /// <param name="version">Version successor, to handle the concurrency issue.</param>
         /// <returns></returns>
         public Task DirUpdateFileAsync(MDataInfo mDataInfo, string fileName, File file, ulong version)
@@ -139,7 +139,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Get file size on network.
+        /// Get the file size.
         /// </summary>
         /// <param name="fileContextHandle">File handle.</param>
         /// <returns>File size.</returns>
@@ -149,7 +149,8 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Write file on network.
+        /// Write file.
+        /// File will be created on network only when FileCloseAsync is invoked.
         /// </summary>
         /// <param name="fileContextHandle">File handle.</param>
         /// <param name="data">Data to write in file.</param>

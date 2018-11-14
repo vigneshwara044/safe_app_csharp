@@ -18,7 +18,7 @@ namespace SafeApp
         private SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an AccessContainer object for the Session instance.
+        /// Initializes the accesscontainer instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr">SafeApp pointer.</param>
@@ -29,7 +29,6 @@ namespace SafeApp
 
         /// <summary>
         /// Get the list of container access permissions granted for the app.
-        /// Permission for each of them.
         /// </summary>
         /// <returns>List of ContainerPermissions.</returns>
         public async Task<List<ContainerPermissions>> AccessContainerFetchAsync()

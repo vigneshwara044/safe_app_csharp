@@ -18,7 +18,7 @@ namespace SafeApp.MData
         private SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an MDataInfoActions object for the Session instance.
+        /// Initialises an MDataInfoActions object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr"></param>
@@ -40,10 +40,10 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Create a new MDataInfo object from serialized value.
+        /// Create a new MDataInfo object from the Serialised data.
         /// </summary>
-        /// <param name="serialisedData">Serialized value to create new MDataInfo object.</param>
-        /// <returns>Newly create MDataInfo.</returns>
+        /// <param name="serialisedData">Serialised value to create new MDataInfo object.</param>
+        /// <returns>New MDataInfo instance.</returns>
         public Task<MDataInfo> DeserialiseAsync(List<byte> serialisedData)
         {
             return AppBindings.MDataInfoDeserialiseAsync(serialisedData);
@@ -52,8 +52,8 @@ namespace SafeApp.MData
         /// <summary>
         /// Encrypt the data with the Mutable Data's encrypt key.
         /// </summary>
-        /// <param name="mDataInfo"></param>
-        /// <param name="inputBytes"></param>
+        /// <param name="mDataInfo">Mdatainfo</param>
+        /// <param name="inputBytes">The data to be encrypted.</param>
         /// <returns>The encrypted entry key.</returns>
         public Task<List<byte>> EncryptEntryKeyAsync(MDataInfo mDataInfo, List<byte> inputBytes)
         {
@@ -107,10 +107,10 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Serialize the MDataInfo.
+        /// Serialise the MDataInfo.
         /// </summary>
-        /// <param name="mDataInfo">MDataInfo to serialize.</param>
-        /// <returns>List of serialized bytes.</returns>
+        /// <param name="mDataInfo">MDataInfo to be serialised.</param>
+        /// <returns>List of serialised bytes.</returns>
         public async Task<List<byte>> SerialiseAsync(MDataInfo mDataInfo)
         {
             var byteArray = await AppBindings.MDataInfoSerialiseAsync(ref mDataInfo);

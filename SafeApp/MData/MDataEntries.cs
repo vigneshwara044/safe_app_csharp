@@ -9,7 +9,7 @@ using SafeApp.Utilities;
 namespace SafeApp.MData
 {
     /// <summary>
-    /// Represent the entries of a mutable data network object.
+    /// Mutable data entries APIs.
     /// </summary>
     [PublicAPI]
     public class MDataEntries
@@ -18,7 +18,7 @@ namespace SafeApp.MData
         private SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an MDataEntries object for the Session instance.
+        /// Initialises an MDataEntries object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr">SafeApp pointer.</param>
@@ -85,7 +85,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Create a new handle to add entries in a MutableData.
+        /// Create a new entry handle to add entries in a MutableData.
         /// </summary>
         /// <returns>Newly created mutable data entry handle.</returns>
         public async Task<NativeHandle> NewAsync()

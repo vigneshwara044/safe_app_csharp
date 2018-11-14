@@ -19,7 +19,7 @@ namespace SafeApp.MData
         private SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an MDataEntryAction object for the Session instance.
+        /// Initialises an MDataEntryAction object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr">SafeApp pointer.</param>
@@ -29,7 +29,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Store a new Remove-Action in the transaction to remove an existing entry.
+        /// Add a new Remove-Action in the transaction for removing an existing entry.
         /// </summary>
         /// <param name="entryActionsH">EntryActions handle.</param>
         /// <param name="entKey">Corresponding entry key to remove.</param>
@@ -46,7 +46,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Store a new Insert-Action in the transaction to store a new entry.
+        /// Add a new Insert-Action in the transaction for inserting a new entry.
         /// </summary>
         /// <param name="entryActionsH">EntryActions handle.</param>
         /// <param name="entKey">The key to be inserted.</param>
@@ -68,7 +68,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Store a Update-Action in the transaction to update an existing entry.
+        /// Add a Update-Action in the transaction to update an existing entry.
         /// </summary>
         /// <param name="entryActionsH">EntryActions handle.</param>
         /// <param name="entKey">The key for which the value to be updated.</param>

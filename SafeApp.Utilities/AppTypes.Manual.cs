@@ -6,7 +6,7 @@ namespace SafeApp.Utilities
 {
 #pragma warning disable SA1401 // Fields should be private
     /// <summary>
-    /// IPC message
+    /// Base IPC response message.
     /// </summary>
     [PublicAPI]
     public abstract class IpcMsg
@@ -14,13 +14,13 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Authentication IPC message
+    /// Authentication IPC response message.
     /// </summary>
     [PublicAPI]
     public class AuthIpcMsg : IpcMsg
     {
         /// <summary>
-        /// Request Id
+        /// Request Id.
         /// </summary>
         public uint ReqId;
 
@@ -30,9 +30,9 @@ namespace SafeApp.Utilities
         public AuthGranted AuthGranted;
 
         /// <summary>
-        /// Initialize AuthIPC message.
+        /// Initialise AuthIPC message.
         /// </summary>
-        /// <param name="reqId">Request id.</param>
+        /// <param name="reqId">Request Id.</param>
         /// <param name="authGranted">Authentication response.</param>
         public AuthIpcMsg(uint reqId, AuthGranted authGranted)
         {
@@ -42,13 +42,13 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Unregistered IPC message
+    /// Unregistered access IPC response message.
     /// </summary>
     [PublicAPI]
     public class UnregisteredIpcMsg : IpcMsg
     {
         /// <summary>
-        /// Request id.
+        /// Request Id.
         /// </summary>
         public uint ReqId;
 
@@ -58,7 +58,7 @@ namespace SafeApp.Utilities
         public List<byte> SerialisedCfg;
 
         /// <summary>
-        /// Initialize IPC msg.
+        /// Initialise IPC response message.
         /// </summary>
         /// <param name="reqId"></param>
         /// <param name="serialisedCfgPtr"></param>
@@ -71,18 +71,18 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Containers IPC message
+    /// Containers permission IPC response message.
     /// </summary>
     [PublicAPI]
     public class ContainersIpcMsg : IpcMsg
     {
         /// <summary>
-        /// Request id.
+        /// Request Id.
         /// </summary>
         public uint ReqId;
 
         /// <summary>
-        /// Initialize Containers IPCMsg.
+        /// Initialise Containers permission IPC response message.
         /// </summary>
         /// <param name="reqId"></param>
         public ContainersIpcMsg(uint reqId)
@@ -92,18 +92,18 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// MData share IPC message
+    /// MData share IPC response message.
     /// </summary>
     [PublicAPI]
     public class ShareMDataIpcMsg : IpcMsg
     {
         /// <summary>
-        /// Request id.
+        /// Request Id.
         /// </summary>
         public uint ReqId;
 
         /// <summary>
-        /// Initialize ShareMData IPCMsg.
+        /// Initialise ShareMData IPC response message.
         /// </summary>
         /// <param name="reqId"></param>
         public ShareMDataIpcMsg(uint reqId)
@@ -113,7 +113,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Revoke IPC message
+    /// Revoke IPC response message.
     /// </summary>
     [PublicAPI]
     public class RevokedIpcMsg : IpcMsg
@@ -121,18 +121,18 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// IPC message exception
+    /// IPC response message exception
     /// </summary>
     [PublicAPI]
     public class IpcMsgException : FfiException
     {
         /// <summary>
-        /// Request id.
+        /// Request Id.
         /// </summary>
         public readonly uint ReqId;
 
         /// <summary>
-        /// Initialize IPCMsg exception.
+        /// Initialise IPCMsg exception.
         /// </summary>
         /// <param name="reqId"></param>
         /// <param name="code"></param>

@@ -14,7 +14,7 @@ namespace SafeApp.Misc
         private readonly SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an CipherOpt object for the Session instance.
+        /// Initialises an CipherOpt object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr">SafeApp pointer</param>
