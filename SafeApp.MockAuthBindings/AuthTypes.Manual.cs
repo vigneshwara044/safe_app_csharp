@@ -71,7 +71,7 @@ namespace SafeApp.MockAuthBindings
         /// Container request.
         /// </summary>
         public ContainersReq ContainersReq;
-        
+
         /// <summary>
         /// Request Id.
         /// </summary>
