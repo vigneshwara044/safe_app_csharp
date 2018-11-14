@@ -6,17 +6,34 @@ using SafeApp.Utilities;
 #pragma warning disable SA1401 // Fields should be private
 namespace SafeApp.MockAuthBindings
 {
+    /// <summary>
+    /// Base IPC request
+    /// </summary>
     public abstract class IpcReq
     {
     }
 
+    /// <summary>
+    /// Authentication IPC Request
+    /// </summary>
     [PublicAPI]
     public class AuthIpcReq : IpcReq
     {
+        /// <summary>
+        /// Authentication request.
+        /// </summary>
         public AuthReq AuthReq;
 
+        /// <summary>
+        /// Request Id.
+        /// </summary>
         public uint ReqId;
 
+        /// <summary>
+        /// Initialise Authentication IPC request.
+        /// </summary>
+        /// <param name="reqId">Request Id.</param>
+        /// <param name="authReq">Authentication request.</param>
         public AuthIpcReq(uint reqId, AuthReq authReq)
         {
             ReqId = reqId;
@@ -24,10 +41,17 @@ namespace SafeApp.MockAuthBindings
         }
     }
 
+    /// <summary>
+    /// Unregistered IPC request.
+    /// </summary>
     [PublicAPI]
     public class UnregisteredIpcReq : IpcReq
     {
         public List<byte> ExtraData;
+
+        /// <summary>
+        /// Request Id.
+        /// </summary>
         public uint ReqId;
 
         public UnregisteredIpcReq(uint reqId, IntPtr extraDataPtr, ulong extraDataLength)
@@ -37,10 +61,20 @@ namespace SafeApp.MockAuthBindings
         }
     }
 
+    /// <summary>
+    /// Containers IPC request.
+    /// </summary>
     [PublicAPI]
     public class ContainersIpcReq : IpcReq
     {
+        /// <summary>
+        /// Container request.
+        /// </summary>
         public ContainersReq ContainersReq;
+
+        /// <summary>
+        /// Request Id.
+        /// </summary>
         public uint ReqId;
 
         public ContainersIpcReq(uint reqId, ContainersReq containersReq)
@@ -50,11 +84,25 @@ namespace SafeApp.MockAuthBindings
         }
     }
 
+    /// <summary>
+    /// Share mutable data IPC request.
+    /// </summary>
     [PublicAPI]
     public class ShareMDataIpcReq : IpcReq
     {
+        /// <summary>
+        /// Metadata response.
+        /// </summary>
         public MetadataResponse MetadataResponse;
+
+        /// <summary>
+        /// Request Id.
+        /// </summary>
         public uint ReqId;
+
+        /// <summary>
+        /// Share mutable data request.
+        /// </summary>
         public ShareMDataReq ShareMDataReq;
 
         public ShareMDataIpcReq(uint reqId, ShareMDataReq shareMDataReq, MetadataResponse metadataResponse)
@@ -65,9 +113,15 @@ namespace SafeApp.MockAuthBindings
         }
     }
 
+    /// <summary>
+    /// IPC request rejected.
+    /// </summary>
     [PublicAPI]
     public class IpcReqRejected : IpcReq
     {
+        /// <summary>
+        /// Message string.
+        /// </summary>
         public readonly string Msg;
 
         public IpcReqRejected(string msg)
@@ -76,11 +130,25 @@ namespace SafeApp.MockAuthBindings
         }
     }
 
+    /// <summary>
+    /// IPC Request Error.
+    /// </summary>
     [PublicAPI]
     public class IpcReqError : IpcReq
     {
+        /// <summary>
+        /// Error code is respresnted by negative value.
+        /// </summary>
         public readonly int Code;
+
+        /// <summary>
+        /// Error description.
+        /// </summary>
         public readonly string Description;
+
+        /// <summary>
+        /// Error message.
+        /// </summary>
         public readonly string Msg;
 
         public IpcReqError(int code, string description, string msg)

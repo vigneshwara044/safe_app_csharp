@@ -7,9 +7,16 @@ using JetBrains.Annotations;
 namespace SafeApp.Utilities
 {
 #pragma warning disable SA1401 // Fields should be private
+
+    /// <summary>
+    /// FFI exception
+    /// </summary>
     [PublicAPI]
     public class FfiException : Exception
     {
+        /// <summary>
+        /// Unique error code
+        /// </summary>
         public readonly int ErrorCode;
 
         internal FfiException(int code, string description)
@@ -19,10 +26,20 @@ namespace SafeApp.Utilities
         }
     }
 
+    /// <summary>
+    /// FFI result wrapper.
+    /// </summary>
     [PublicAPI]
     public struct FfiResult
     {
+        /// <summary>
+        /// Unique error code.
+        /// </summary>
         public int ErrorCode;
+
+        /// <summary>
+        /// Error description.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string Description;
 

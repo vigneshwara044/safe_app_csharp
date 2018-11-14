@@ -18,12 +18,18 @@ namespace SafeApp
             _handle = handle;
         }
 
+        /// <summary>
+        /// Public implementation of Dispose pattern callable by developers.
+        /// </summary>
         public void Dispose()
         {
             ReleaseUnmanagedResources();
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Class destructor
+        /// </summary>
         ~NativeHandle()
         {
             ReleaseUnmanagedResources();

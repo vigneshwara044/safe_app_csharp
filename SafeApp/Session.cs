@@ -14,17 +14,28 @@ using SafeApp.Utilities;
 
 namespace SafeApp
 {
+    /// <summary>
+    /// Holds one sessions with the network and is the primary interface
+    /// to interact with the network.
+    /// As such it also provides all API-Providers connected through this session.
+    /// </summary>
     [PublicAPI]
     public sealed class Session : IDisposable
     {
         private static readonly IAppBindings AppBindings = AppResolver.Current;
 
+        /// <summary>
+        /// Event triggered if session is disconnected from network.
+        /// </summary>
 #pragma warning disable SA1401 // Fields should be private
         public static EventHandler Disconnected;
 #pragma warning restore SA1401 // Fields should be private
         private SafeAppPtr _appPtr;
         private GCHandle _disconnectedHandle;
 
+        /// <summary>
+        /// true if current network connection state is DISCONNECTED.
+        /// </summary>
         public bool IsDisconnected { get; private set; }
 
 #if SAFE_APP_MOCK
@@ -34,39 +45,39 @@ namespace SafeApp
 #endif
 
         /// <summary>
-        ///   AccessConatiner API
+        /// AccessContainer API
         /// </summary>
         public AccessContainer AccessContainer { get; private set; }
 
         /// <summary>
-        ///   Crypto API
+        /// Crypto API
         /// </summary>
         public Crypto Crypto { get; private set; }
 
         /// <summary>
-        ///   CipherOpt API
+        /// CipherOpt API
         /// </summary>
         public CipherOpt CipherOpt { get; private set; }
 
         // ReSharper disable once InconsistentNaming
 
         /// <summary>
-        ///   ImmutableData API
+        /// ImmutableData API
         /// </summary>
         public IData.IData IData { get; private set; }
 
         /// <summary>
-        ///   MutableData API
+        /// MutableData API
         /// </summary>
         public MData.MData MData { get; private set; }
 
         /// <summary>
-        ///   Mutable Data Entries API
+        /// Mutable data Entries API
         /// </summary>
         public MDataEntries MDataEntries { get; private set; }
 
         /// <summary>
-        ///   Mutable Data Entry Actions API
+        ///   Mutable data Entry Actions API
         /// </summary>
         public MDataEntryActions MDataEntryActions { get; private set; }
 
@@ -76,14 +87,14 @@ namespace SafeApp
         public MDataInfoActions MDataInfoActions { get; private set; }
 
         /// <summary>
-        ///   Mutable Data Permissions API
+        ///   Mutable data Permissions API
         /// </summary>
         public MDataPermissions MDataPermissions { get; private set; }
 
         // ReSharper disable once InconsistentNaming
 
         /// <summary>
-        ///   Mutable Data Permissions API
+        ///   Mutable data Permissions API
         /// </summary>
         public NFS NFS { get; private set; }
 
@@ -93,6 +104,12 @@ namespace SafeApp
             _appPtr = new SafeAppPtr();
         }
 
+        /// <summary>
+        /// Create a new authenticated session using the provided IPC response.
+        /// </summary>
+        /// <param name="appId">Application id.</param>
+        /// <param name="authGranted">Authentication response.</param>
+        /// <returns>New session based on appid and authentication response.</returns>
         public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted)
         {
             return Task.Run(
@@ -121,6 +138,12 @@ namespace SafeApp
               });
         }
 
+        /// <summary>
+        /// Creates an unregistered session based on the config provided.
+        /// Config information can be obtained from the UnregisteredIpcResponse.
+        /// </summary>
+        /// <param name="bootstrapConfig"></param>
+        /// <returns></returns>
         public static Task<Session> AppUnregisteredAsync(List<byte> bootstrapConfig)
         {
             return Task.Run(
@@ -149,51 +172,88 @@ namespace SafeApp
               });
         }
 
+        /// <summary>
+        /// Decode the Ipc response message.
+        /// </summary>
+        /// <param name="encodedReq">Encoded response string.</param>
+        /// <returns>New decoded IPCMsg instance.</returns>
         public static Task<IpcMsg> DecodeIpcMessageAsync(string encodedReq)
         {
             return AppBindings.DecodeIpcMsgAsync(encodedReq);
         }
 
         /// <summary>
-        ///   Encodes an authorisation request to send to Authenticator
+        /// Encodes an authentication request.
         /// </summary>
-        /// <param name="authReq"></param>
-        /// <returns>RequestId, Encoded auth request</returns>
+        /// <param name="authReq">Authentication Request.</param>
+        /// <returns>RequestId, Encoded authentication request.</returns>
         public static Task<(uint, string)> EncodeAuthReqAsync(AuthReq authReq)
         {
             return AppBindings.EncodeAuthReqAsync(ref authReq);
         }
 
+        /// <summary>
+        /// Encodes a container permission request.
+        /// </summary>
+        /// <param name="containersReq">Container Request</param>
+        /// <returns>Request Id, Encoded container request.</returns>
         public static Task<(uint, string)> EncodeContainerRequestAsync(ContainersReq containersReq)
         {
             return AppBindings.EncodeContainersReqAsync(ref containersReq);
         }
 
+        /// <summary>
+        /// Encodes a MDataShareReq.
+        /// </summary>
+        /// <param name="shareMDataReq">Mutable data share request.</param>
+        /// <returns>Request Id, Encoded mutable data share request.</returns>
         public static Task<(uint, string)> EncodeShareMDataRequestAsync(ShareMDataReq shareMDataReq)
         {
             return AppBindings.EncodeShareMDataReqAsync(ref shareMDataReq);
         }
 
+        /// <summary>
+        /// Encodes a unregistered access request.
+        /// </summary>
+        /// <param name="reqId">Request Id.</param>
+        /// <returns></returns>
         public static Task<(uint, string)> EncodeUnregisteredRequestAsync(string reqId)
         {
             return AppBindings.EncodeUnregisteredReqAsync(Encoding.UTF8.GetBytes(reqId).ToList());
         }
 
+        /// <summary>
+        /// Returns the expected name for the application executable without an extension.
+        /// </summary>
+        /// <returns>Application executable name.</returns>
         public static Task<string> GetExeFileStemAsync()
         {
             return AppBindings.AppExeFileStemAsync();
         }
 
+        /// <summary>
+        /// Sets the additional path in `config_file_handler` to search configuration files.
+        /// </summary>
+        /// <param name="path">Configuration file path.</param>
+        /// <returns></returns>
         public static Task SetAdditionalSearchPathAsync(string path)
         {
             return AppBindings.AppSetAdditionalSearchPathAsync(path);
         }
 
+        /// <summary>
+        /// Sets the output log file name.
+        /// </summary>
+        /// <param name="outputFileName">File name.</param>
+        /// <returns></returns>
         public static Task SetLogOutputPathAsync(string outputFileName)
         {
             return AppBindings.AppOutputLogPathAsync(outputFileName);
         }
 
+        /// <summary>
+        /// Public implementation of Dispose pattern callable by developers.
+        /// </summary>
         public void Dispose()
         {
             FreeApp();
@@ -201,15 +261,18 @@ namespace SafeApp
         }
 
         /// <summary>
-        ///   Invoked to fetch the app's root container name
+        /// Invoked to fetch the app's root container name.
         /// </summary>
-        /// <param name="appId"></param>
-        /// <returns>string</returns>
+        /// <param name="appId">Application id.</param>
+        /// <returns>Application's root container name.</returns>
         public Task<string> AppContainerNameAsync(string appId)
         {
             return AppBindings.AppContainerNameAsync(appId);
         }
 
+        /// <summary>
+        /// Class destructor.
+        /// </summary>
         ~Session()
         {
             FreeApp();
@@ -232,9 +295,9 @@ namespace SafeApp
         }
 
         /// <summary>
-        ///   Returns the AccountInfo of the current Session
+        /// Returns the AccountInfo of the current session.
         /// </summary>
-        /// <returns>AccountInfo</returns>
+        /// <returns>AccountInfo object.</returns>
         public Task<AccountInfo> GetAccountInfoAsyc()
         {
             return AppBindings.AppAccountInfoAsync(_appPtr);
@@ -258,12 +321,22 @@ namespace SafeApp
             NFS = new NFS(_appPtr);
         }
 
+        /// <summary>
+        /// Sets the additional path to search for config files.
+        /// Also, enable logging to a file.
+        /// </summary>
+        /// <param name="configFilesPath">Config file path.</param>
+        /// <returns></returns>
         public static async Task InitLoggingAsync(string configFilesPath)
         {
             await AppBindings.AppSetAdditionalSearchPathAsync(configFilesPath);
             await AppBindings.AppInitLoggingAsync(null);
         }
 
+        /// <summary>
+        /// Check if the native library was compiled with mock-routing feature.
+        /// </summary>
+        /// <returns>True if native library was compiled with mock-routing feature otherwise false.</returns>
         public static bool IsMockBuild()
         {
             return AppBindings.IsMockBuild();
@@ -276,7 +349,7 @@ namespace SafeApp
         }
 
         /// <summary>
-        ///   Invoked after Disconnect callback is fired to reconnect the session with the network
+        /// Invoked after Disconnect callback is fired to reconnect the session with the network.
         /// </summary>
         public Task ReconnectAsync()
         {
@@ -289,9 +362,9 @@ namespace SafeApp
         }
 
         /// <summary>
-        ///   Resets the Object Cache for the session
+        /// Resets the object cache for the session.
         /// </summary>
-        /// <returns>Void</returns>
+        /// <returns></returns>
         public Task ResetObjectCacheAsync()
         {
             return AppBindings.AppResetObjectCacheAsync(_appPtr);
