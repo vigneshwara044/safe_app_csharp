@@ -1,18 +1,18 @@
 # safe_app_csharp
 
-|NuGet Package|CI - NetCore master|
-|:-----------:|:-----------------:|
-|[![NuGet](https://img.shields.io/nuget/v/MaidSafe.SafeApp.svg)](https://www.nuget.org/packages/MaidSafe.SafeApp)|[![Build status](https://ci.appveyor.com/api/projects/status/x3m722rvosw2coao/branch/master?svg=true)](https://ci.appveyor.com/project/MaidSafe-QA/safe-app-csharp/branch/master)|
+| NuGet Package                                                                                                    | CI - NetCore master                                                                                                                                                               |
+| :--------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| [![NuGet](https://img.shields.io/nuget/v/MaidSafe.SafeApp.svg)](https://www.nuget.org/packages/MaidSafe.SafeApp) | [![Build status](https://ci.appveyor.com/api/projects/status/x3m722rvosw2coao/branch/master?svg=true)](https://ci.appveyor.com/project/MaidSafe-QA/safe-app-csharp/branch/master) |
 
 safe_app CSharp Library. Currently supports
-- Xamarin.Android ( >=4.1.2. ABI: armeabi-v7a, x86)
+- Xamarin.Android ( >=4.1.2. ABI: armeabi-v7a)
 - Xamarin.iOS ( >= 1.0, ABI: ARM64, x64)
 - netstandard1.3 (for usage via portable libs)
 - netcoreapp1.0 (for use via NET Core targets. Runtime support limited to x64)
 - netframework46 (for use via classic NET Framework targets. Platform support limited to x64)
 
 | [MaidSafe website](https://maidsafe.net) | [SAFE Dev Forum](https://forum.safedev.org) | [SAFE Network Forum](https://safenetforum.org) |
-|:----:|:----:|:----:|
+| :--------------------------------------: | :-----------------------------------------: | :--------------------------------------------: |
 
 # TODO
 - [x] Extend Native API Scope to full Alpha-2 client APIs.
@@ -32,12 +32,7 @@ safe_app CSharp Library. Currently supports
 
 ## License
 
-This SAFE Network library is dual-licensed under
-
-* the Modified BSD ([LICENSE-BSD](https://opensource.org/licenses/BSD-3-Clause)) or
-* the MIT license ([LICENSE-MIT](http://opensource.org/licenses/MIT))
-
-at your option.
+This SAFE Network library is dual-licensed under the Modified BSD ([LICENSE-BSD](LICENSE-BSD) https://opensource.org/licenses/BSD-3-Clause) or the MIT license ([LICENSE-MIT](LICENSE-MIT) https://opensource.org/licenses/MIT) at your option.
 
 ## Contribution
 
