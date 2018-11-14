@@ -71,7 +71,8 @@
             <article class="content wrap" id="_content" data-uid="SafeApp.MData.MDataInfoActions">
   <h1 id="SafeApp_MData_MDataInfoActions" data-uid="SafeApp.MData.MDataInfoActions">Class MDataInfoActions
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Helper APIs for MDataInfo. Exposes crypto functionalities to encrypt and decrypt using MData.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
 
   <div class="inheritance">
@@ -127,7 +128,7 @@ public class MDataInfoActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataInfoActions_DecryptAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataInfoActions.DecryptAsync(SafeApp.Utilities.MDataInfo%2CSystem.Collections.Generic.List%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L22" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L37" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataInfoActions_DecryptAsync_" data-uid="SafeApp.MData.MDataInfoActions.DecryptAsync*"></a>
@@ -135,7 +136,9 @@ public class MDataInfoActions</code></pre>
   <h4 id="SafeApp_MData_MDataInfoActions_DecryptAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__" data-uid="SafeApp.MData.MDataInfoActions.DecryptAsync(SafeApp.Utilities.MDataInfo,System.Collections.Generic.List{System.Byte})"><a href="#collapsible-SafeApp_MData_MDataInfoActions_DecryptAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__" class="expander" data-toggle="collapse">DecryptAsync(MDataInfo, List&lt;Byte&gt;)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataInfoActions_DecryptAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Decrypt the entry key/value for a Private mutable data.
+with the encryption key contained in a Private MDataInfo.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -149,14 +152,16 @@ public class MDataInfoActions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a></span>
         <span class="parametername">mDataInfo</span>
-        <p>
+        <p><p>MDataInfo of a mutable data.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">cipherText</span>
-        <p>
+        <p><p>Data to be decrypted.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -166,7 +171,8 @@ public class MDataInfoActions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;
-        <p>
+        <p><p>The decrypted key/value.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -187,7 +193,7 @@ public class MDataInfoActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataInfoActions_DeserialiseAsync_System_Collections_Generic_List_System_Byte__.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataInfoActions.DeserialiseAsync(System.Collections.Generic.List%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L27" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L47" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataInfoActions_DeserialiseAsync_" data-uid="SafeApp.MData.MDataInfoActions.DeserialiseAsync*"></a>
@@ -195,7 +201,8 @@ public class MDataInfoActions</code></pre>
   <h4 id="SafeApp_MData_MDataInfoActions_DeserialiseAsync_System_Collections_Generic_List_System_Byte__" data-uid="SafeApp.MData.MDataInfoActions.DeserialiseAsync(System.Collections.Generic.List{System.Byte})"><a href="#collapsible-SafeApp_MData_MDataInfoActions_DeserialiseAsync_System_Collections_Generic_List_System_Byte__" class="expander" data-toggle="collapse">DeserialiseAsync(List&lt;Byte&gt;)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataInfoActions_DeserialiseAsync_System_Collections_Generic_List_System_Byte__" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Create a new MDataInfo object from the Serialised data.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -209,7 +216,8 @@ public class MDataInfoActions</code></pre>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">serialisedData</span>
-        <p>
+        <p><p>Serialised value to create new MDataInfo object.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -219,7 +227,8 @@ public class MDataInfoActions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a>&gt;
-        <p>
+        <p><p>New MDataInfo instance.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -240,7 +249,7 @@ public class MDataInfoActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataInfoActions_EncryptEntryKeyAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataInfoActions.EncryptEntryKeyAsync(SafeApp.Utilities.MDataInfo%2CSystem.Collections.Generic.List%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L32" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L58" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataInfoActions_EncryptEntryKeyAsync_" data-uid="SafeApp.MData.MDataInfoActions.EncryptEntryKeyAsync*"></a>
@@ -248,7 +257,8 @@ public class MDataInfoActions</code></pre>
   <h4 id="SafeApp_MData_MDataInfoActions_EncryptEntryKeyAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__" data-uid="SafeApp.MData.MDataInfoActions.EncryptEntryKeyAsync(SafeApp.Utilities.MDataInfo,System.Collections.Generic.List{System.Byte})"><a href="#collapsible-SafeApp_MData_MDataInfoActions_EncryptEntryKeyAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__" class="expander" data-toggle="collapse">EncryptEntryKeyAsync(MDataInfo, List&lt;Byte&gt;)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataInfoActions_EncryptEntryKeyAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Encrypt the data with the Mutable Data's encrypt key.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -262,14 +272,16 @@ public class MDataInfoActions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a></span>
         <span class="parametername">mDataInfo</span>
-        <p>
+        <p><p>Mdatainfo</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">inputBytes</span>
-        <p>
+        <p><p>The data to be encrypted.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -279,7 +291,8 @@ public class MDataInfoActions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;
-        <p>
+        <p><p>The encrypted entry key.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -300,7 +313,7 @@ public class MDataInfoActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataInfoActions_EncryptEntryValueAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataInfoActions.EncryptEntryValueAsync(SafeApp.Utilities.MDataInfo%2CSystem.Collections.Generic.List%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L37" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L71" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataInfoActions_EncryptEntryValueAsync_" data-uid="SafeApp.MData.MDataInfoActions.EncryptEntryValueAsync*"></a>
@@ -308,7 +321,10 @@ public class MDataInfoActions</code></pre>
   <h4 id="SafeApp_MData_MDataInfoActions_EncryptEntryValueAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__" data-uid="SafeApp.MData.MDataInfoActions.EncryptEntryValueAsync(SafeApp.Utilities.MDataInfo,System.Collections.Generic.List{System.Byte})"><a href="#collapsible-SafeApp_MData_MDataInfoActions_EncryptEntryValueAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__" class="expander" data-toggle="collapse">EncryptEntryValueAsync(MDataInfo, List&lt;Byte&gt;)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataInfoActions_EncryptEntryValueAsync_SafeApp_Utilities_MDataInfo_System_Collections_Generic_List_System_Byte__" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Encrypt the entry value provided as parameter with the encryption key
+contained in a Private MDataInfo.
+If the MutableData is Public, the same (and unencrypted) value is returned.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -329,7 +345,8 @@ public class MDataInfoActions</code></pre>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">inputBytes</span>
-        <p>
+        <p><p>The data to be encrypted.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -339,7 +356,8 @@ public class MDataInfoActions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;
-        <p>
+        <p><p>The encrypted entry value.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -360,7 +378,7 @@ public class MDataInfoActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataInfoActions_NewPrivateAsync_System_Byte___System_UInt64_System_Byte___System_Byte___.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataInfoActions.NewPrivateAsync(System.Byte%5B%5D%2CSystem.UInt64%2CSystem.Byte%5B%5D%2CSystem.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L42" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L84" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataInfoActions_NewPrivateAsync_" data-uid="SafeApp.MData.MDataInfoActions.NewPrivateAsync*"></a>
@@ -368,7 +386,8 @@ public class MDataInfoActions</code></pre>
   <h4 id="SafeApp_MData_MDataInfoActions_NewPrivateAsync_System_Byte___System_UInt64_System_Byte___System_Byte___" data-uid="SafeApp.MData.MDataInfoActions.NewPrivateAsync(System.Byte[],System.UInt64,System.Byte[],System.Byte[])"><a href="#collapsible-SafeApp_MData_MDataInfoActions_NewPrivateAsync_System_Byte___System_UInt64_System_Byte___System_Byte___" class="expander" data-toggle="collapse">NewPrivateAsync(Byte[], UInt64, Byte[], Byte[])</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataInfoActions_NewPrivateAsync_System_Byte___System_UInt64_System_Byte___System_Byte___" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Create a private MutableData at a specific XOR address.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -382,28 +401,32 @@ public class MDataInfoActions</code></pre>
       <td>
         <span class="pull-right"><span class="xref">System.Byte</span>[]</span>
         <span class="parametername">xorName</span>
-        <p>
+        <p><p>XOR address.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">typeTag</span>
-        <p>
+        <p><p>The typeTag to use.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Byte</span>[]</span>
         <span class="parametername">secEncKey</span>
-        <p>
+        <p><p>Secret encryption key.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Byte</span>[]</span>
         <span class="parametername">nonce</span>
-        <p>
+        <p><p>nonce</p>
+</p>
       </td>
     </tr>
   </table>
@@ -413,7 +436,8 @@ public class MDataInfoActions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a>&gt;
-        <p>
+        <p><p>Newly created MDataInfo.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -434,7 +458,7 @@ public class MDataInfoActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataInfoActions_RandomPrivateAsync_System_UInt64_.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataInfoActions.RandomPrivateAsync(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L47" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L94" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataInfoActions_RandomPrivateAsync_" data-uid="SafeApp.MData.MDataInfoActions.RandomPrivateAsync*"></a>
@@ -442,7 +466,8 @@ public class MDataInfoActions</code></pre>
   <h4 id="SafeApp_MData_MDataInfoActions_RandomPrivateAsync_System_UInt64_" data-uid="SafeApp.MData.MDataInfoActions.RandomPrivateAsync(System.UInt64)"><a href="#collapsible-SafeApp_MData_MDataInfoActions_RandomPrivateAsync_System_UInt64_" class="expander" data-toggle="collapse">RandomPrivateAsync(UInt64)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataInfoActions_RandomPrivateAsync_System_UInt64_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Create a private MutableData at a random address.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -456,7 +481,8 @@ public class MDataInfoActions</code></pre>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">typeTag</span>
-        <p>
+        <p><p>The typeTag to use.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -466,7 +492,8 @@ public class MDataInfoActions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a>&gt;
-        <p>
+        <p><p>Newly create MDataInfo.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -487,7 +514,7 @@ public class MDataInfoActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataInfoActions_RandomPublicAsync_System_UInt64_.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataInfoActions.RandomPublicAsync(System.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L52" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L104" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataInfoActions_RandomPublicAsync_" data-uid="SafeApp.MData.MDataInfoActions.RandomPublicAsync*"></a>
@@ -495,7 +522,8 @@ public class MDataInfoActions</code></pre>
   <h4 id="SafeApp_MData_MDataInfoActions_RandomPublicAsync_System_UInt64_" data-uid="SafeApp.MData.MDataInfoActions.RandomPublicAsync(System.UInt64)"><a href="#collapsible-SafeApp_MData_MDataInfoActions_RandomPublicAsync_System_UInt64_" class="expander" data-toggle="collapse">RandomPublicAsync(UInt64)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataInfoActions_RandomPublicAsync_System_UInt64_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Create a new MDataInfo for mutable data at a random address with public access.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -509,7 +537,8 @@ public class MDataInfoActions</code></pre>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">typeTag</span>
-        <p>
+        <p><p>The typeTag to use.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -519,7 +548,8 @@ public class MDataInfoActions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a>&gt;
-        <p>
+        <p><p>Newly create MDataInfo.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -540,7 +570,7 @@ public class MDataInfoActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataInfoActions_SerialiseAsync_SafeApp_Utilities_MDataInfo_.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataInfoActions.SerialiseAsync(SafeApp.Utilities.MDataInfo)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L57" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L114" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataInfoActions_SerialiseAsync_" data-uid="SafeApp.MData.MDataInfoActions.SerialiseAsync*"></a>
@@ -548,7 +578,8 @@ public class MDataInfoActions</code></pre>
   <h4 id="SafeApp_MData_MDataInfoActions_SerialiseAsync_SafeApp_Utilities_MDataInfo_" data-uid="SafeApp.MData.MDataInfoActions.SerialiseAsync(SafeApp.Utilities.MDataInfo)"><a href="#collapsible-SafeApp_MData_MDataInfoActions_SerialiseAsync_SafeApp_Utilities_MDataInfo_" class="expander" data-toggle="collapse">SerialiseAsync(MDataInfo)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataInfoActions_SerialiseAsync_SafeApp_Utilities_MDataInfo_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Serialise the MDataInfo.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -562,7 +593,8 @@ public class MDataInfoActions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a></span>
         <span class="parametername">mDataInfo</span>
-        <p>
+        <p><p>MDataInfo to be serialised.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -572,7 +604,8 @@ public class MDataInfoActions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;
-        <p>
+        <p><p>List of serialised bytes.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -597,7 +630,7 @@ public class MDataInfoActions</code></pre>
           </div>
           <div class="contribution-panel mobile-hide">
               <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataInfoActions.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataInfoActions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc" class="fab btn-warning pull-right"><i class="glyphicon glyphicon-pencil"></i></a>
-              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L11" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
+              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataInfoActions.cs/#L14" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">

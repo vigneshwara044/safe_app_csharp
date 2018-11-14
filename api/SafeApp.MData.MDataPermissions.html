@@ -71,7 +71,8 @@
             <article class="content wrap" id="_content" data-uid="SafeApp.MData.MDataPermissions">
   <h1 id="SafeApp_MData_MDataPermissions" data-uid="SafeApp.MData.MDataPermissions">Class MDataPermissions
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Mutable data Permission APIs.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
 
   <div class="inheritance">
@@ -127,7 +128,7 @@ public class MDataPermissions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataPermissions_GetAsync_SafeApp_NativeHandle_SafeApp_NativeHandle_.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataPermissions.GetAsync(SafeApp.NativeHandle%2CSafeApp.NativeHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L28" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L42" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataPermissions_GetAsync_" data-uid="SafeApp.MData.MDataPermissions.GetAsync*"></a>
@@ -135,7 +136,8 @@ public class MDataPermissions</code></pre>
   <h4 id="SafeApp_MData_MDataPermissions_GetAsync_SafeApp_NativeHandle_SafeApp_NativeHandle_" data-uid="SafeApp.MData.MDataPermissions.GetAsync(SafeApp.NativeHandle,SafeApp.NativeHandle)"><a href="#collapsible-SafeApp_MData_MDataPermissions_GetAsync_SafeApp_NativeHandle_SafeApp_NativeHandle_" class="expander" data-toggle="collapse">GetAsync(NativeHandle, NativeHandle)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataPermissions_GetAsync_SafeApp_NativeHandle_SafeApp_NativeHandle_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get the permissions granted for a Public Sign Key.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -149,14 +151,16 @@ public class MDataPermissions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">permissionsHandle</span>
-        <p>
+        <p><p>Permission handle.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">userPubSignKey</span>
-        <p>
+        <p><p>The key to lookup for.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -166,7 +170,8 @@ public class MDataPermissions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.Utilities.PermissionSet.html">PermissionSet</a>&gt;
-        <p>
+        <p><p>The permission set for the key.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -187,7 +192,7 @@ public class MDataPermissions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataPermissions_InsertAsync_SafeApp_NativeHandle_SafeApp_NativeHandle_SafeApp_Utilities_PermissionSet_.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataPermissions.InsertAsync(SafeApp.NativeHandle%2CSafeApp.NativeHandle%2CSafeApp.Utilities.PermissionSet)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L33" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L56" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataPermissions_InsertAsync_" data-uid="SafeApp.MData.MDataPermissions.InsertAsync*"></a>
@@ -195,7 +200,10 @@ public class MDataPermissions</code></pre>
   <h4 id="SafeApp_MData_MDataPermissions_InsertAsync_SafeApp_NativeHandle_SafeApp_NativeHandle_SafeApp_Utilities_PermissionSet_" data-uid="SafeApp.MData.MDataPermissions.InsertAsync(SafeApp.NativeHandle,SafeApp.NativeHandle,SafeApp.Utilities.PermissionSet)"><a href="#collapsible-SafeApp_MData_MDataPermissions_InsertAsync_SafeApp_NativeHandle_SafeApp_NativeHandle_SafeApp_Utilities_PermissionSet_" class="expander" data-toggle="collapse">InsertAsync(NativeHandle, NativeHandle, PermissionSet)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataPermissions_InsertAsync_SafeApp_NativeHandle_SafeApp_NativeHandle_SafeApp_Utilities_PermissionSet_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Insert a new permission set mapped to a specific sign key.
+Directly commits to the network.
+Requires 'ManagePermissions'-Permission for the app.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -209,21 +217,24 @@ public class MDataPermissions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">permissionsH</span>
-        <p>
+        <p><p>Permission handle.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">forUserH</span>
-        <p>
+        <p><p>User handle to insert permissions for.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.PermissionSet.html">PermissionSet</a></span>
         <span class="parametername">permissionSet</span>
-        <p>
+        <p><p>The permission set to insert.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -254,7 +265,7 @@ public class MDataPermissions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataPermissions_LenAsync_SafeApp_NativeHandle_.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataPermissions.LenAsync(SafeApp.NativeHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L38" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L66" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataPermissions_LenAsync_" data-uid="SafeApp.MData.MDataPermissions.LenAsync*"></a>
@@ -262,7 +273,8 @@ public class MDataPermissions</code></pre>
   <h4 id="SafeApp_MData_MDataPermissions_LenAsync_SafeApp_NativeHandle_" data-uid="SafeApp.MData.MDataPermissions.LenAsync(SafeApp.NativeHandle)"><a href="#collapsible-SafeApp_MData_MDataPermissions_LenAsync_SafeApp_NativeHandle_" class="expander" data-toggle="collapse">LenAsync(NativeHandle)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataPermissions_LenAsync_SafeApp_NativeHandle_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Total number of permission entries.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -276,7 +288,8 @@ public class MDataPermissions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">permissionsHandle</span>
-        <p>
+        <p><p>Permission handle.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -286,7 +299,8 @@ public class MDataPermissions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.UInt64</span>&gt;
-        <p>
+        <p><p>Number of permission entries.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -307,7 +321,7 @@ public class MDataPermissions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataPermissions_ListAsync_SafeApp_NativeHandle_.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataPermissions.ListAsync(SafeApp.NativeHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L43" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L76" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataPermissions_ListAsync_" data-uid="SafeApp.MData.MDataPermissions.ListAsync*"></a>
@@ -315,7 +329,8 @@ public class MDataPermissions</code></pre>
   <h4 id="SafeApp_MData_MDataPermissions_ListAsync_SafeApp_NativeHandle_" data-uid="SafeApp.MData.MDataPermissions.ListAsync(SafeApp.NativeHandle)"><a href="#collapsible-SafeApp_MData_MDataPermissions_ListAsync_SafeApp_NativeHandle_" class="expander" data-toggle="collapse">ListAsync(NativeHandle)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataPermissions_ListAsync_SafeApp_NativeHandle_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Returns the list of all associated permission sets.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -329,7 +344,8 @@ public class MDataPermissions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">permissionHandle</span>
-        <p>
+        <p><p>Permission handle.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -339,7 +355,8 @@ public class MDataPermissions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a>, <a class="xref" href="SafeApp.Utilities.PermissionSet.html">PermissionSet</a>&gt;&gt;&gt;
-        <p>
+        <p><p>List of permission sets an associated handles.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -360,7 +377,7 @@ public class MDataPermissions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataPermissions_NewAsync.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataPermissions.NewAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L54" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L91" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataPermissions_NewAsync_" data-uid="SafeApp.MData.MDataPermissions.NewAsync*"></a>
@@ -368,7 +385,8 @@ public class MDataPermissions</code></pre>
   <h4 id="SafeApp_MData_MDataPermissions_NewAsync" data-uid="SafeApp.MData.MDataPermissions.NewAsync"><a href="#collapsible-SafeApp_MData_MDataPermissions_NewAsync" class="expander" data-toggle="collapse">NewAsync()</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataPermissions_NewAsync" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Create a PermissionHandle to to insert permissions.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -382,7 +400,8 @@ public class MDataPermissions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a>&gt;
-        <p>
+        <p><p>Newly create mutable data permissions handle.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -407,7 +426,7 @@ public class MDataPermissions</code></pre>
           </div>
           <div class="contribution-panel mobile-hide">
               <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataPermissions.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataPermissions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc" class="fab btn-warning pull-right"><i class="glyphicon glyphicon-pencil"></i></a>
-              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L12" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
+              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataPermissions.cs/#L15" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">

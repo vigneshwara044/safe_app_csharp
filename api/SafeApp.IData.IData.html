@@ -71,7 +71,8 @@
             <article class="content wrap" id="_content" data-uid="SafeApp.IData.IData">
   <h1 id="SafeApp_IData_IData" data-uid="SafeApp.IData.IData">Class IData
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Immutable Data APIs.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
 
   <div class="inheritance">
@@ -127,7 +128,7 @@ public class IData</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_IData_IData_CloseSelfEncryptorAsync_System_UInt64_SafeApp_NativeHandle_.md&amp;value=---%0Auid%3A%20SafeApp.IData.IData.CloseSelfEncryptorAsync(System.UInt64%2CSafeApp.NativeHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L24" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L40" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_IData_IData_CloseSelfEncryptorAsync_" data-uid="SafeApp.IData.IData.CloseSelfEncryptorAsync*"></a>
@@ -135,7 +136,10 @@ public class IData</code></pre>
   <h4 id="SafeApp_IData_IData_CloseSelfEncryptorAsync_System_UInt64_SafeApp_NativeHandle_" data-uid="SafeApp.IData.IData.CloseSelfEncryptorAsync(System.UInt64,SafeApp.NativeHandle)"><a href="#collapsible-SafeApp_IData_IData_CloseSelfEncryptorAsync_System_UInt64_SafeApp_NativeHandle_" class="expander" data-toggle="collapse">CloseSelfEncryptorAsync(UInt64, NativeHandle)</a></h4>
   
   <div id="collapsible-SafeApp_IData_IData_CloseSelfEncryptorAsync_System_UInt64_SafeApp_NativeHandle_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Close the writer.
+When invoked, the DataMap is generated and saved in the network.
+The address of the DataMap is returned on success.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -166,7 +170,8 @@ public class IData</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Byte</span>[]&gt;
-        <p>
+        <p><p>Address as XOR Name in byte array format.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -187,7 +192,7 @@ public class IData</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_IData_IData_FetchSelfEncryptorAsync_System_Byte___.md&amp;value=---%0Auid%3A%20SafeApp.IData.IData.FetchSelfEncryptorAsync(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L29" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L51" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_IData_IData_FetchSelfEncryptorAsync_" data-uid="SafeApp.IData.IData.FetchSelfEncryptorAsync*"></a>
@@ -195,7 +200,9 @@ public class IData</code></pre>
   <h4 id="SafeApp_IData_IData_FetchSelfEncryptorAsync_System_Byte___" data-uid="SafeApp.IData.IData.FetchSelfEncryptorAsync(System.Byte[])"><a href="#collapsible-SafeApp_IData_IData_FetchSelfEncryptorAsync_System_Byte___" class="expander" data-toggle="collapse">FetchSelfEncryptorAsync(Byte[])</a></h4>
   
   <div id="collapsible-SafeApp_IData_IData_FetchSelfEncryptorAsync_System_Byte___" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Fetch an existing Immutable Data for the given address
+to prepare a reader to read the immutable data chunks from the network.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -209,7 +216,8 @@ public class IData</code></pre>
       <td>
         <span class="pull-right"><span class="xref">System.Byte</span>[]</span>
         <span class="parametername">xorName</span>
-        <p>
+        <p><p>The XorName on the network.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -219,7 +227,8 @@ public class IData</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a>&gt;
-        <p>
+        <p><p>SE handle</p>
+</p>
       </td>
     </tr>
   </table>
@@ -240,7 +249,7 @@ public class IData</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_IData_IData_NewSelfEncryptorAsync.md&amp;value=---%0Auid%3A%20SafeApp.IData.IData.NewSelfEncryptorAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L35" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L61" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_IData_IData_NewSelfEncryptorAsync_" data-uid="SafeApp.IData.IData.NewSelfEncryptorAsync*"></a>
@@ -248,7 +257,8 @@ public class IData</code></pre>
   <h4 id="SafeApp_IData_IData_NewSelfEncryptorAsync" data-uid="SafeApp.IData.IData.NewSelfEncryptorAsync"><a href="#collapsible-SafeApp_IData_IData_NewSelfEncryptorAsync" class="expander" data-toggle="collapse">NewSelfEncryptorAsync()</a></h4>
   
   <div id="collapsible-SafeApp_IData_IData_NewSelfEncryptorAsync" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Create a new writer instance for storing Immutable data in the network.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -262,7 +272,8 @@ public class IData</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a>&gt;
-        <p>
+        <p><p>New writer NativeHandle</p>
+</p>
       </td>
     </tr>
   </table>
@@ -283,7 +294,7 @@ public class IData</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_IData_IData_ReadFromSelfEncryptorAsync_SafeApp_NativeHandle_System_UInt64_System_UInt64_.md&amp;value=---%0Auid%3A%20SafeApp.IData.IData.ReadFromSelfEncryptorAsync(SafeApp.NativeHandle%2CSystem.UInt64%2CSystem.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L41" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L74" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_IData_IData_ReadFromSelfEncryptorAsync_" data-uid="SafeApp.IData.IData.ReadFromSelfEncryptorAsync*"></a>
@@ -291,7 +302,8 @@ public class IData</code></pre>
   <h4 id="SafeApp_IData_IData_ReadFromSelfEncryptorAsync_SafeApp_NativeHandle_System_UInt64_System_UInt64_" data-uid="SafeApp.IData.IData.ReadFromSelfEncryptorAsync(SafeApp.NativeHandle,System.UInt64,System.UInt64)"><a href="#collapsible-SafeApp_IData_IData_ReadFromSelfEncryptorAsync_SafeApp_NativeHandle_System_UInt64_System_UInt64_" class="expander" data-toggle="collapse">ReadFromSelfEncryptorAsync(NativeHandle, UInt64, UInt64)</a></h4>
   
   <div id="collapsible-SafeApp_IData_IData_ReadFromSelfEncryptorAsync_SafeApp_NativeHandle_System_UInt64_System_UInt64_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Read the data for a specific range.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -305,21 +317,24 @@ public class IData</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">seHandle</span>
-        <p>
+        <p><p>Reader handle.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">fromPos</span>
-        <p>
+        <p><p>Start position.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">len</span>
-        <p>
+        <p><p>end position or end of data.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -350,7 +365,7 @@ public class IData</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_IData_IData_SerialisedSizeAsync_System_Byte___.md&amp;value=---%0Auid%3A%20SafeApp.IData.IData.SerialisedSizeAsync(System.Byte%5B%5D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L57" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L105" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_IData_IData_SerialisedSizeAsync_" data-uid="SafeApp.IData.IData.SerialisedSizeAsync*"></a>
@@ -358,7 +373,8 @@ public class IData</code></pre>
   <h4 id="SafeApp_IData_IData_SerialisedSizeAsync_System_Byte___" data-uid="SafeApp.IData.IData.SerialisedSizeAsync(System.Byte[])"><a href="#collapsible-SafeApp_IData_IData_SerialisedSizeAsync_System_Byte___" class="expander" data-toggle="collapse">SerialisedSizeAsync(Byte[])</a></h4>
   
   <div id="collapsible-SafeApp_IData_IData_SerialisedSizeAsync_System_Byte___" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>The size of the serialized Immutable Data.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -372,7 +388,8 @@ public class IData</code></pre>
       <td>
         <span class="pull-right"><span class="xref">System.Byte</span>[]</span>
         <span class="parametername">xorName</span>
-        <p>
+        <p><p>XOR address of Immutable Data.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -382,7 +399,8 @@ public class IData</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.UInt64</span>&gt;
-        <p>
+        <p><p>length in bytes.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -403,7 +421,7 @@ public class IData</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_IData_IData_SizeAsync_SafeApp_NativeHandle_.md&amp;value=---%0Auid%3A%20SafeApp.IData.IData.SizeAsync(SafeApp.NativeHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L62" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L115" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_IData_IData_SizeAsync_" data-uid="SafeApp.IData.IData.SizeAsync*"></a>
@@ -411,7 +429,8 @@ public class IData</code></pre>
   <h4 id="SafeApp_IData_IData_SizeAsync_SafeApp_NativeHandle_" data-uid="SafeApp.IData.IData.SizeAsync(SafeApp.NativeHandle)"><a href="#collapsible-SafeApp_IData_IData_SizeAsync_SafeApp_NativeHandle_" class="expander" data-toggle="collapse">SizeAsync(NativeHandle)</a></h4>
   
   <div id="collapsible-SafeApp_IData_IData_SizeAsync_SafeApp_NativeHandle_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get the size of the Immutable data.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -425,7 +444,8 @@ public class IData</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">seHandle</span>
-        <p>
+        <p><p>SE handle.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -435,7 +455,8 @@ public class IData</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.UInt64</span>&gt;
-        <p>
+        <p><p>length in bytes.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -456,7 +477,7 @@ public class IData</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_IData_IData_WriteToSelfEncryptorAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__.md&amp;value=---%0Auid%3A%20SafeApp.IData.IData.WriteToSelfEncryptorAsync(SafeApp.NativeHandle%2CSystem.Collections.Generic.List%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L67" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L127" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_IData_IData_WriteToSelfEncryptorAsync_" data-uid="SafeApp.IData.IData.WriteToSelfEncryptorAsync*"></a>
@@ -464,7 +485,9 @@ public class IData</code></pre>
   <h4 id="SafeApp_IData_IData_WriteToSelfEncryptorAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__" data-uid="SafeApp.IData.IData.WriteToSelfEncryptorAsync(SafeApp.NativeHandle,System.Collections.Generic.List{System.Byte})"><a href="#collapsible-SafeApp_IData_IData_WriteToSelfEncryptorAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__" class="expander" data-toggle="collapse">WriteToSelfEncryptorAsync(NativeHandle, List&lt;Byte&gt;)</a></h4>
   
   <div id="collapsible-SafeApp_IData_IData_WriteToSelfEncryptorAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Write Immutable data.
+Only when CloseSelfEncryptorAsync is invoked, the DataMap is generated and saved in the network.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -478,14 +501,16 @@ public class IData</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">seHandle</span>
-        <p>
+        <p><p>SE handle</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">data</span>
-        <p>
+        <p><p>Data to append in existing immutable data.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -520,7 +545,7 @@ public class IData</code></pre>
           </div>
           <div class="contribution-panel mobile-hide">
               <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_IData_IData.md&amp;value=---%0Auid%3A%20SafeApp.IData.IData%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc" class="fab btn-warning pull-right"><i class="glyphicon glyphicon-pencil"></i></a>
-              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L13" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
+              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/IData/IData.cs/#L16" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">

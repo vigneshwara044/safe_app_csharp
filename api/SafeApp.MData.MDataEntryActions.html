@@ -71,7 +71,9 @@
             <article class="content wrap" id="_content" data-uid="SafeApp.MData.MDataEntryActions">
   <h1 id="SafeApp_MData_MDataEntryActions" data-uid="SafeApp.MData.MDataEntryActions">Class MDataEntryActions
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Holds a mutation action to be done to the MutableData entries within one transaction on the network.
+Used to change the content of the entries.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
 
   <div class="inheritance">
@@ -127,7 +129,7 @@ public class MDataEntryActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataEntryActions_DeleteAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_UInt64_.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataEntryActions.DeleteAsync(SafeApp.NativeHandle%2CSystem.Collections.Generic.List%7BSystem.Byte%7D%2CSystem.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L22" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L38" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataEntryActions_DeleteAsync_" data-uid="SafeApp.MData.MDataEntryActions.DeleteAsync*"></a>
@@ -135,7 +137,8 @@ public class MDataEntryActions</code></pre>
   <h4 id="SafeApp_MData_MDataEntryActions_DeleteAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_UInt64_" data-uid="SafeApp.MData.MDataEntryActions.DeleteAsync(SafeApp.NativeHandle,System.Collections.Generic.List{System.Byte},System.UInt64)"><a href="#collapsible-SafeApp_MData_MDataEntryActions_DeleteAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_UInt64_" class="expander" data-toggle="collapse">DeleteAsync(NativeHandle, List&lt;Byte&gt;, UInt64)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataEntryActions_DeleteAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_UInt64_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Add a new Remove-Action in the transaction for removing an existing entry.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -149,21 +152,24 @@ public class MDataEntryActions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">entryActionsH</span>
-        <p>
+        <p><p>EntryActions handle.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">entKey</span>
-        <p>
+        <p><p>Corresponding entry key to remove.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">version</span>
-        <p>
+        <p><p>The version successor, to handle the concurrency issue.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -194,7 +200,7 @@ public class MDataEntryActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataEntryActions_InsertAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_Collections_Generic_List_System_Byte__.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataEntryActions.InsertAsync(SafeApp.NativeHandle%2CSystem.Collections.Generic.List%7BSystem.Byte%7D%2CSystem.Collections.Generic.List%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L32" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L55" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataEntryActions_InsertAsync_" data-uid="SafeApp.MData.MDataEntryActions.InsertAsync*"></a>
@@ -202,7 +208,8 @@ public class MDataEntryActions</code></pre>
   <h4 id="SafeApp_MData_MDataEntryActions_InsertAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_Collections_Generic_List_System_Byte__" data-uid="SafeApp.MData.MDataEntryActions.InsertAsync(SafeApp.NativeHandle,System.Collections.Generic.List{System.Byte},System.Collections.Generic.List{System.Byte})"><a href="#collapsible-SafeApp_MData_MDataEntryActions_InsertAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_Collections_Generic_List_System_Byte__" class="expander" data-toggle="collapse">InsertAsync(NativeHandle, List&lt;Byte&gt;, List&lt;Byte&gt;)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataEntryActions_InsertAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_Collections_Generic_List_System_Byte__" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Add a new Insert-Action in the transaction for inserting a new entry.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -216,21 +223,24 @@ public class MDataEntryActions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">entryActionsH</span>
-        <p>
+        <p><p>EntryActions handle.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">entKey</span>
-        <p>
+        <p><p>The key to be inserted.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">entVal</span>
-        <p>
+        <p><p>The value to be inserted.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -261,7 +271,7 @@ public class MDataEntryActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataEntryActions_NewAsync.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataEntryActions.NewAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L37" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L64" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataEntryActions_NewAsync_" data-uid="SafeApp.MData.MDataEntryActions.NewAsync*"></a>
@@ -269,7 +279,8 @@ public class MDataEntryActions</code></pre>
   <h4 id="SafeApp_MData_MDataEntryActions_NewAsync" data-uid="SafeApp.MData.MDataEntryActions.NewAsync"><a href="#collapsible-SafeApp_MData_MDataEntryActions_NewAsync" class="expander" data-toggle="collapse">NewAsync()</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataEntryActions_NewAsync" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get a new handle to perform mutable data entry transaction actions.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -283,7 +294,8 @@ public class MDataEntryActions</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a>&gt;
-        <p>
+        <p><p>New Handle to perform entry actions.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -304,7 +316,7 @@ public class MDataEntryActions</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataEntryActions_UpdateAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_Collections_Generic_List_System_Byte__System_UInt64_.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataEntryActions.UpdateAsync(SafeApp.NativeHandle%2CSystem.Collections.Generic.List%7BSystem.Byte%7D%2CSystem.Collections.Generic.List%7BSystem.Byte%7D%2CSystem.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L43" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L78" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_MData_MDataEntryActions_UpdateAsync_" data-uid="SafeApp.MData.MDataEntryActions.UpdateAsync*"></a>
@@ -312,7 +324,8 @@ public class MDataEntryActions</code></pre>
   <h4 id="SafeApp_MData_MDataEntryActions_UpdateAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_Collections_Generic_List_System_Byte__System_UInt64_" data-uid="SafeApp.MData.MDataEntryActions.UpdateAsync(SafeApp.NativeHandle,System.Collections.Generic.List{System.Byte},System.Collections.Generic.List{System.Byte},System.UInt64)"><a href="#collapsible-SafeApp_MData_MDataEntryActions_UpdateAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_Collections_Generic_List_System_Byte__System_UInt64_" class="expander" data-toggle="collapse">UpdateAsync(NativeHandle, List&lt;Byte&gt;, List&lt;Byte&gt;, UInt64)</a></h4>
   
   <div id="collapsible-SafeApp_MData_MDataEntryActions_UpdateAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__System_Collections_Generic_List_System_Byte__System_UInt64_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Add a Update-Action in the transaction to update an existing entry.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -326,28 +339,32 @@ public class MDataEntryActions</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">entryActionsH</span>
-        <p>
+        <p><p>EntryActions handle.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">entKey</span>
-        <p>
+        <p><p>The key for which the value to be updated.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">entVal</span>
-        <p>
+        <p><p>New value.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">version</span>
-        <p>
+        <p><p>The version successor, to handle the concurrency issue.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -382,7 +399,7 @@ public class MDataEntryActions</code></pre>
           </div>
           <div class="contribution-panel mobile-hide">
               <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_MData_MDataEntryActions.md&amp;value=---%0Auid%3A%20SafeApp.MData.MDataEntryActions%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc" class="fab btn-warning pull-right"><i class="glyphicon glyphicon-pencil"></i></a>
-              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L11" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
+              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/MData/MDataEntryActions.cs/#L15" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">

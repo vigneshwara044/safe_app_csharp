@@ -71,7 +71,8 @@
             <article class="content wrap" id="_content" data-uid="SafeApp.Misc.NFS">
   <h1 id="SafeApp_Misc_NFS" data-uid="SafeApp.Misc.NFS">Class NFS
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>NFS (Network File System) Emulation APIs on top of an MutableData.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
 
   <div class="inheritance">
@@ -127,7 +128,7 @@ public class NFS</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS_DirDeleteFileAsync_SafeApp_Utilities_MDataInfo_System_String_System_UInt64_.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS.DirDeleteFileAsync(SafeApp.Utilities.MDataInfo%2CSystem.String%2CSystem.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L30" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L60" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Misc_NFS_DirDeleteFileAsync_" data-uid="SafeApp.Misc.NFS.DirDeleteFileAsync*"></a>
@@ -135,7 +136,9 @@ public class NFS</code></pre>
   <h4 id="SafeApp_Misc_NFS_DirDeleteFileAsync_SafeApp_Utilities_MDataInfo_System_String_System_UInt64_" data-uid="SafeApp.Misc.NFS.DirDeleteFileAsync(SafeApp.Utilities.MDataInfo,System.String,System.UInt64)"><a href="#collapsible-SafeApp_Misc_NFS_DirDeleteFileAsync_SafeApp_Utilities_MDataInfo_System_String_System_UInt64_" class="expander" data-toggle="collapse">DirDeleteFileAsync(MDataInfo, String, UInt64)</a></h4>
   
   <div id="collapsible-SafeApp_Misc_NFS_DirDeleteFileAsync_SafeApp_Utilities_MDataInfo_System_String_System_UInt64_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Delete a file from Path.
+Directly commit to the network.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -149,21 +152,24 @@ public class NFS</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a></span>
         <span class="parametername">mDataInfo</span>
-        <p>
+        <p><p>MDataInfo to access mutable data.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.String</span></span>
         <span class="parametername">fileName</span>
-        <p>
+        <p><p>The path/file name.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">version</span>
-        <p>
+        <p><p>Version successor, to handle the concurrency issue.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -194,7 +200,7 @@ public class NFS</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS_DirFetchFileAsync_SafeApp_Utilities_MDataInfo_System_String_.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS.DirFetchFileAsync(SafeApp.Utilities.MDataInfo%2CSystem.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L35" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L71" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Misc_NFS_DirFetchFileAsync_" data-uid="SafeApp.Misc.NFS.DirFetchFileAsync*"></a>
@@ -202,7 +208,8 @@ public class NFS</code></pre>
   <h4 id="SafeApp_Misc_NFS_DirFetchFileAsync_SafeApp_Utilities_MDataInfo_System_String_" data-uid="SafeApp.Misc.NFS.DirFetchFileAsync(SafeApp.Utilities.MDataInfo,System.String)"><a href="#collapsible-SafeApp_Misc_NFS_DirFetchFileAsync_SafeApp_Utilities_MDataInfo_System_String_" class="expander" data-toggle="collapse">DirFetchFileAsync(MDataInfo, String)</a></h4>
   
   <div id="collapsible-SafeApp_Misc_NFS_DirFetchFileAsync_SafeApp_Utilities_MDataInfo_System_String_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get the file from the directory.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -216,14 +223,16 @@ public class NFS</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a></span>
         <span class="parametername">mDataInfo</span>
-        <p>
+        <p><p>MDataInfo to access mutable data.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.String</span></span>
         <span class="parametername">fileName</span>
-        <p>
+        <p><p>The path/file name.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -233,7 +242,8 @@ public class NFS</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.ValueTuple</span>&lt;<a class="xref" href="SafeApp.Utilities.File.html">File</a>, <span class="xref">System.UInt64</span>&gt;&gt;
-        <p>
+        <p><p>The file found for the given path.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -254,7 +264,7 @@ public class NFS</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS_DirInsertFileAsync_SafeApp_Utilities_MDataInfo_System_String_SafeApp_Utilities_File_.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS.DirInsertFileAsync(SafeApp.Utilities.MDataInfo%2CSystem.String%2CSafeApp.Utilities.File)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L40" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L84" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Misc_NFS_DirInsertFileAsync_" data-uid="SafeApp.Misc.NFS.DirInsertFileAsync*"></a>
@@ -262,7 +272,9 @@ public class NFS</code></pre>
   <h4 id="SafeApp_Misc_NFS_DirInsertFileAsync_SafeApp_Utilities_MDataInfo_System_String_SafeApp_Utilities_File_" data-uid="SafeApp.Misc.NFS.DirInsertFileAsync(SafeApp.Utilities.MDataInfo,System.String,SafeApp.Utilities.File)"><a href="#collapsible-SafeApp_Misc_NFS_DirInsertFileAsync_SafeApp_Utilities_MDataInfo_System_String_SafeApp_Utilities_File_" class="expander" data-toggle="collapse">DirInsertFileAsync(MDataInfo, String, File)</a></h4>
   
   <div id="collapsible-SafeApp_Misc_NFS_DirInsertFileAsync_SafeApp_Utilities_MDataInfo_System_String_SafeApp_Utilities_File_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Insert the given file in the directory.
+Directly commit to the network.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -276,21 +288,24 @@ public class NFS</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a></span>
         <span class="parametername">mDataInfo</span>
-        <p>
+        <p><p>MDataInfo to access mutable data.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.String</span></span>
         <span class="parametername">fileName</span>
-        <p>
+        <p><p>The path to store the file under.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.File.html">File</a></span>
         <span class="parametername">file</span>
-        <p>
+        <p><p>The file to Serialise and store.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -321,7 +336,7 @@ public class NFS</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS_DirUpdateFileAsync_SafeApp_Utilities_MDataInfo_System_String_SafeApp_Utilities_File_System_UInt64_.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS.DirUpdateFileAsync(SafeApp.Utilities.MDataInfo%2CSystem.String%2CSafeApp.Utilities.File%2CSystem.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L45" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L98" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Misc_NFS_DirUpdateFileAsync_" data-uid="SafeApp.Misc.NFS.DirUpdateFileAsync*"></a>
@@ -329,7 +344,9 @@ public class NFS</code></pre>
   <h4 id="SafeApp_Misc_NFS_DirUpdateFileAsync_SafeApp_Utilities_MDataInfo_System_String_SafeApp_Utilities_File_System_UInt64_" data-uid="SafeApp.Misc.NFS.DirUpdateFileAsync(SafeApp.Utilities.MDataInfo,System.String,SafeApp.Utilities.File,System.UInt64)"><a href="#collapsible-SafeApp_Misc_NFS_DirUpdateFileAsync_SafeApp_Utilities_MDataInfo_System_String_SafeApp_Utilities_File_System_UInt64_" class="expander" data-toggle="collapse">DirUpdateFileAsync(MDataInfo, String, File, UInt64)</a></h4>
   
   <div id="collapsible-SafeApp_Misc_NFS_DirUpdateFileAsync_SafeApp_Utilities_MDataInfo_System_String_SafeApp_Utilities_File_System_UInt64_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Replace the existing file with a new file.
+Directly commit to the network.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -343,28 +360,32 @@ public class NFS</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a></span>
         <span class="parametername">mDataInfo</span>
-        <p>
+        <p><p>MDataInfo to access mutable data.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.String</span></span>
         <span class="parametername">fileName</span>
-        <p>
+        <p><p>The path to store the file under.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.File.html">File</a></span>
         <span class="parametername">file</span>
-        <p>
+        <p><p>The file to Serialise and store.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">version</span>
-        <p>
+        <p><p>Version successor, to handle the concurrency issue.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -395,7 +416,7 @@ public class NFS</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS_FileCloseAsync_SafeApp_NativeHandle_.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS.FileCloseAsync(SafeApp.NativeHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L50" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L108" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Misc_NFS_FileCloseAsync_" data-uid="SafeApp.Misc.NFS.FileCloseAsync*"></a>
@@ -403,7 +424,8 @@ public class NFS</code></pre>
   <h4 id="SafeApp_Misc_NFS_FileCloseAsync_SafeApp_NativeHandle_" data-uid="SafeApp.Misc.NFS.FileCloseAsync(SafeApp.NativeHandle)"><a href="#collapsible-SafeApp_Misc_NFS_FileCloseAsync_SafeApp_NativeHandle_" class="expander" data-toggle="collapse">FileCloseAsync(NativeHandle)</a></h4>
   
   <div id="collapsible-SafeApp_Misc_NFS_FileCloseAsync_SafeApp_NativeHandle_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Close a file after reading or writing operation.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -448,7 +470,7 @@ public class NFS</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS_FileOpenAsync_SafeApp_Utilities_MDataInfo_SafeApp_Utilities_File_SafeApp_Misc_NFS_OpenMode_.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS.FileOpenAsync(SafeApp.Utilities.MDataInfo%2CSafeApp.Utilities.File%2CSafeApp.Misc.NFS.OpenMode)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L55" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L120" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Misc_NFS_FileOpenAsync_" data-uid="SafeApp.Misc.NFS.FileOpenAsync*"></a>
@@ -456,7 +478,8 @@ public class NFS</code></pre>
   <h4 id="SafeApp_Misc_NFS_FileOpenAsync_SafeApp_Utilities_MDataInfo_SafeApp_Utilities_File_SafeApp_Misc_NFS_OpenMode_" data-uid="SafeApp.Misc.NFS.FileOpenAsync(SafeApp.Utilities.MDataInfo,SafeApp.Utilities.File,SafeApp.Misc.NFS.OpenMode)"><a href="#collapsible-SafeApp_Misc_NFS_FileOpenAsync_SafeApp_Utilities_MDataInfo_SafeApp_Utilities_File_SafeApp_Misc_NFS_OpenMode_" class="expander" data-toggle="collapse">FileOpenAsync(MDataInfo, File, NFS.OpenMode)</a></h4>
   
   <div id="collapsible-SafeApp_Misc_NFS_FileOpenAsync_SafeApp_Utilities_MDataInfo_SafeApp_Utilities_File_SafeApp_Misc_NFS_OpenMode_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Open a file for reading or writing.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -470,21 +493,24 @@ public class NFS</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a></span>
         <span class="parametername">mDataInfo</span>
-        <p>
+        <p><p>MDataInfo to access mutable data.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Utilities.File.html">File</a></span>
         <span class="parametername">file</span>
-        <p>
+        <p><p>The file to be opened.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.Misc.NFS.OpenMode.html">NFS.OpenMode</a></span>
         <span class="parametername">openMode</span>
-        <p>
+        <p><p>File opening Mode.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -515,7 +541,7 @@ public class NFS</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS_FileReadAsync_SafeApp_NativeHandle_System_UInt64_System_UInt64_.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS.FileReadAsync(SafeApp.NativeHandle%2CSystem.UInt64%2CSystem.UInt64)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L64" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L136" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Misc_NFS_FileReadAsync_" data-uid="SafeApp.Misc.NFS.FileReadAsync*"></a>
@@ -523,7 +549,8 @@ public class NFS</code></pre>
   <h4 id="SafeApp_Misc_NFS_FileReadAsync_SafeApp_NativeHandle_System_UInt64_System_UInt64_" data-uid="SafeApp.Misc.NFS.FileReadAsync(SafeApp.NativeHandle,System.UInt64,System.UInt64)"><a href="#collapsible-SafeApp_Misc_NFS_FileReadAsync_SafeApp_NativeHandle_System_UInt64_System_UInt64_" class="expander" data-toggle="collapse">FileReadAsync(NativeHandle, UInt64, UInt64)</a></h4>
   
   <div id="collapsible-SafeApp_Misc_NFS_FileReadAsync_SafeApp_NativeHandle_System_UInt64_System_UInt64_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Read the file content for a specified range.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -537,21 +564,24 @@ public class NFS</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">fileContextHandle</span>
-        <p>
+        <p><p>File handle to access file.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">start</span>
-        <p>
+        <p><p>Start position.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.UInt64</span></span>
         <span class="parametername">end</span>
-        <p>
+        <p><p>End position.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -561,7 +591,8 @@ public class NFS</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;&gt;
-        <p>
+        <p><p>Content of file in provided range.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -582,7 +613,7 @@ public class NFS</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS_FileSizeAsync_SafeApp_NativeHandle_.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS.FileSizeAsync(SafeApp.NativeHandle)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L69" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L146" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Misc_NFS_FileSizeAsync_" data-uid="SafeApp.Misc.NFS.FileSizeAsync*"></a>
@@ -590,7 +621,8 @@ public class NFS</code></pre>
   <h4 id="SafeApp_Misc_NFS_FileSizeAsync_SafeApp_NativeHandle_" data-uid="SafeApp.Misc.NFS.FileSizeAsync(SafeApp.NativeHandle)"><a href="#collapsible-SafeApp_Misc_NFS_FileSizeAsync_SafeApp_NativeHandle_" class="expander" data-toggle="collapse">FileSizeAsync(NativeHandle)</a></h4>
   
   <div id="collapsible-SafeApp_Misc_NFS_FileSizeAsync_SafeApp_NativeHandle_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get the file size.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -604,7 +636,8 @@ public class NFS</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">fileContextHandle</span>
-        <p>
+        <p><p>File handle.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -614,7 +647,8 @@ public class NFS</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.UInt64</span>&gt;
-        <p>
+        <p><p>File size.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -635,7 +669,7 @@ public class NFS</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS_FileWriteAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS.FileWriteAsync(SafeApp.NativeHandle%2CSystem.Collections.Generic.List%7BSystem.Byte%7D)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L74" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L158" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Misc_NFS_FileWriteAsync_" data-uid="SafeApp.Misc.NFS.FileWriteAsync*"></a>
@@ -643,7 +677,9 @@ public class NFS</code></pre>
   <h4 id="SafeApp_Misc_NFS_FileWriteAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__" data-uid="SafeApp.Misc.NFS.FileWriteAsync(SafeApp.NativeHandle,System.Collections.Generic.List{System.Byte})"><a href="#collapsible-SafeApp_Misc_NFS_FileWriteAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__" class="expander" data-toggle="collapse">FileWriteAsync(NativeHandle, List&lt;Byte&gt;)</a></h4>
   
   <div id="collapsible-SafeApp_Misc_NFS_FileWriteAsync_SafeApp_NativeHandle_System_Collections_Generic_List_System_Byte__" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Write file.
+File will be created on network only when FileCloseAsync is invoked.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -657,14 +693,16 @@ public class NFS</code></pre>
       <td>
         <span class="pull-right"><a class="xref" href="SafeApp.NativeHandle.html">NativeHandle</a></span>
         <span class="parametername">fileContextHandle</span>
-        <p>
+        <p><p>File handle.</p>
+</p>
       </td>
     </tr>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.Collections.Generic.List</span>&lt;<span class="xref">System.Byte</span>&gt;</span>
         <span class="parametername">data</span>
-        <p>
+        <p><p>Data to write in file.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -699,7 +737,7 @@ public class NFS</code></pre>
           </div>
           <div class="contribution-panel mobile-hide">
               <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Misc_NFS.md&amp;value=---%0Auid%3A%20SafeApp.Misc.NFS%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc" class="fab btn-warning pull-right"><i class="glyphicon glyphicon-pencil"></i></a>
-              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L9" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
+              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Misc/NFS.cs/#L12" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">

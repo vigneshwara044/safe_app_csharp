@@ -71,7 +71,8 @@
             <article class="content wrap" id="_content" data-uid="SafeApp.AccessContainer">
   <h1 id="SafeApp_AccessContainer" data-uid="SafeApp.AccessContainer">Class AccessContainer
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Access Container APIs</p>
+</div>
   <div class="markdown level0 conceptual"></div>
 
   <div class="inheritance">
@@ -127,7 +128,7 @@ public class AccessContainer</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_AccessContainer_AccessContainerFetchAsync.md&amp;value=---%0Auid%3A%20SafeApp.AccessContainer.AccessContainerFetchAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/AccessContainer.cs/#L22" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/AccessContainer.cs/#L34" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_AccessContainer_AccessContainerFetchAsync_" data-uid="SafeApp.AccessContainer.AccessContainerFetchAsync*"></a>
@@ -135,7 +136,8 @@ public class AccessContainer</code></pre>
   <h4 id="SafeApp_AccessContainer_AccessContainerFetchAsync" data-uid="SafeApp.AccessContainer.AccessContainerFetchAsync"><a href="#collapsible-SafeApp_AccessContainer_AccessContainerFetchAsync" class="expander" data-toggle="collapse">AccessContainerFetchAsync()</a></h4>
   
   <div id="collapsible-SafeApp_AccessContainer_AccessContainerFetchAsync" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get the list of container access permissions granted for the app.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -149,7 +151,8 @@ public class AccessContainer</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.Collections.Generic.List</span>&lt;<a class="xref" href="SafeApp.Utilities.ContainerPermissions.html">ContainerPermissions</a>&gt;&gt;
-        <p>
+        <p><p>List of ContainerPermissions.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -170,7 +173,7 @@ public class AccessContainer</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_AccessContainer_GetMDataInfoAsync_System_String_.md&amp;value=---%0Auid%3A%20SafeApp.AccessContainer.GetMDataInfoAsync(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/AccessContainer.cs/#L28" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/AccessContainer.cs/#L46" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_AccessContainer_GetMDataInfoAsync_" data-uid="SafeApp.AccessContainer.GetMDataInfoAsync*"></a>
@@ -178,7 +181,9 @@ public class AccessContainer</code></pre>
   <h4 id="SafeApp_AccessContainer_GetMDataInfoAsync_System_String_" data-uid="SafeApp.AccessContainer.GetMDataInfoAsync(System.String)"><a href="#collapsible-SafeApp_AccessContainer_GetMDataInfoAsync_System_String_" class="expander" data-toggle="collapse">GetMDataInfoAsync(String)</a></h4>
   
   <div id="collapsible-SafeApp_AccessContainer_GetMDataInfoAsync_System_String_" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Get the access information for a specific container.
+Would throw exception if the container specified is not granted access.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -192,7 +197,8 @@ public class AccessContainer</code></pre>
       <td>
         <span class="pull-right"><span class="xref">System.String</span></span>
         <span class="parametername">containerId</span>
-        <p>
+        <p><p>Name of the container.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -202,7 +208,8 @@ public class AccessContainer</code></pre>
     <tr>
       <td>
         <span class="xref">System.Threading.Tasks.Task</span>&lt;<a class="xref" href="SafeApp.Utilities.MDataInfo.html">MDataInfo</a>&gt;
-        <p>
+        <p><p>MDataInfo of access container's mutable data.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -223,7 +230,7 @@ public class AccessContainer</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_AccessContainer_RefreshAccessInfoAsync.md&amp;value=---%0Auid%3A%20SafeApp.AccessContainer.RefreshAccessInfoAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/AccessContainer.cs/#L33" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/AccessContainer.cs/#L56" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_AccessContainer_RefreshAccessInfoAsync_" data-uid="SafeApp.AccessContainer.RefreshAccessInfoAsync*"></a>
@@ -231,7 +238,9 @@ public class AccessContainer</code></pre>
   <h4 id="SafeApp_AccessContainer_RefreshAccessInfoAsync" data-uid="SafeApp.AccessContainer.RefreshAccessInfoAsync"><a href="#collapsible-SafeApp_AccessContainer_RefreshAccessInfoAsync" class="expander" data-toggle="collapse">RefreshAccessInfoAsync()</a></h4>
   
   <div id="collapsible-SafeApp_AccessContainer_RefreshAccessInfoAsync" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Refresh the access permissions from the network.
+Invoked to keep the access container information updated.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -270,7 +279,7 @@ public class AccessContainer</code></pre>
           </div>
           <div class="contribution-panel mobile-hide">
               <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_AccessContainer.md&amp;value=---%0Auid%3A%20SafeApp.AccessContainer%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc" class="fab btn-warning pull-right"><i class="glyphicon glyphicon-pencil"></i></a>
-              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/AccessContainer.cs/#L11" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
+              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/AccessContainer.cs/#L14" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">

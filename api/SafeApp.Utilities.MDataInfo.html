@@ -71,7 +71,9 @@
             <article class="content wrap" id="_content" data-uid="SafeApp.Utilities.MDataInfo">
   <h1 id="SafeApp_Utilities_MDataInfo" data-uid="SafeApp.Utilities.MDataInfo">Struct MDataInfo
   </h1>
-  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 summary"><p>Mutable data shell.
+Information allowing to locate and access Mutable Data on the network.</p>
+</div>
   <div class="markdown level0 conceptual"></div>
 
   
@@ -119,14 +121,16 @@ public struct MDataInfo</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Utilities_MDataInfo_EncKey.md&amp;value=---%0Auid%3A%20SafeApp.Utilities.MDataInfo.EncKey%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L39" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L70" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   
   <h4 id="SafeApp_Utilities_MDataInfo_EncKey" data-uid="SafeApp.Utilities.MDataInfo.EncKey"><a href="#collapsible-SafeApp_Utilities_MDataInfo_EncKey" class="expander" data-toggle="collapse">EncKey</a></h4>
   
   <div id="collapsible-SafeApp_Utilities_MDataInfo_EncKey" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Key to encrypt/decrypt the content.
+Meaningful only if <code>HasEncInfo</code> is <code>true</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -161,14 +165,16 @@ public struct MDataInfo</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Utilities_MDataInfo_EncNonce.md&amp;value=---%0Auid%3A%20SafeApp.Utilities.MDataInfo.EncNonce%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L42" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L77" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   
   <h4 id="SafeApp_Utilities_MDataInfo_EncNonce" data-uid="SafeApp.Utilities.MDataInfo.EncNonce"><a href="#collapsible-SafeApp_Utilities_MDataInfo_EncNonce" class="expander" data-toggle="collapse">EncNonce</a></h4>
   
   <div id="collapsible-SafeApp_Utilities_MDataInfo_EncNonce" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Nonce to be used for encryption keys.
+Meaningful only if <code>HasEncInfo</code> is <code>true</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -203,14 +209,15 @@ public struct MDataInfo</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Utilities_MDataInfo_HasEncInfo.md&amp;value=---%0Auid%3A%20SafeApp.Utilities.MDataInfo.HasEncInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L36" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L63" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   
   <h4 id="SafeApp_Utilities_MDataInfo_HasEncInfo" data-uid="SafeApp.Utilities.MDataInfo.HasEncInfo"><a href="#collapsible-SafeApp_Utilities_MDataInfo_HasEncInfo" class="expander" data-toggle="collapse">HasEncInfo</a></h4>
   
   <div id="collapsible-SafeApp_Utilities_MDataInfo_HasEncInfo" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Flag indicating whether the encryption info (<code>enc_key</code> and <code>enc_nonce</code>) is set.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -245,14 +252,15 @@ public struct MDataInfo</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Utilities_MDataInfo_HasNewEncInfo.md&amp;value=---%0Auid%3A%20SafeApp.Utilities.MDataInfo.HasNewEncInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L45" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L83" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   
   <h4 id="SafeApp_Utilities_MDataInfo_HasNewEncInfo" data-uid="SafeApp.Utilities.MDataInfo.HasNewEncInfo"><a href="#collapsible-SafeApp_Utilities_MDataInfo_HasNewEncInfo" class="expander" data-toggle="collapse">HasNewEncInfo</a></h4>
   
   <div id="collapsible-SafeApp_Utilities_MDataInfo_HasNewEncInfo" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Flag indicating whether the new encryption info is set.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -287,14 +295,15 @@ public struct MDataInfo</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Utilities_MDataInfo_Name.md&amp;value=---%0Auid%3A%20SafeApp.Utilities.MDataInfo.Name%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L32" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L52" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   
   <h4 id="SafeApp_Utilities_MDataInfo_Name" data-uid="SafeApp.Utilities.MDataInfo.Name"><a href="#collapsible-SafeApp_Utilities_MDataInfo_Name" class="expander" data-toggle="collapse">Name</a></h4>
   
   <div id="collapsible-SafeApp_Utilities_MDataInfo_Name" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Name of the mutable data.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -329,14 +338,16 @@ public struct MDataInfo</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Utilities_MDataInfo_NewEncKey.md&amp;value=---%0Auid%3A%20SafeApp.Utilities.MDataInfo.NewEncKey%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L48" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L90" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   
   <h4 id="SafeApp_Utilities_MDataInfo_NewEncKey" data-uid="SafeApp.Utilities.MDataInfo.NewEncKey"><a href="#collapsible-SafeApp_Utilities_MDataInfo_NewEncKey" class="expander" data-toggle="collapse">NewEncKey</a></h4>
   
   <div id="collapsible-SafeApp_Utilities_MDataInfo_NewEncKey" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>New encryption key(used for two-phase re-encryption).
+Meaningful only if <code>HasNewEncInfo</code> is <code>true</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -371,14 +382,16 @@ public struct MDataInfo</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Utilities_MDataInfo_NewEncNonce.md&amp;value=---%0Auid%3A%20SafeApp.Utilities.MDataInfo.NewEncNonce%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L51" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L97" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   
   <h4 id="SafeApp_Utilities_MDataInfo_NewEncNonce" data-uid="SafeApp.Utilities.MDataInfo.NewEncNonce"><a href="#collapsible-SafeApp_Utilities_MDataInfo_NewEncNonce" class="expander" data-toggle="collapse">NewEncNonce</a></h4>
   
   <div id="collapsible-SafeApp_Utilities_MDataInfo_NewEncNonce" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>New encryption nonce (used for two-phase data re-encryption).
+Meaningful only if <code>HasNewEncInfo</code> is <code>true</code>.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -413,14 +426,15 @@ public struct MDataInfo</code></pre>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Utilities_MDataInfo_TypeTag.md&amp;value=---%0Auid%3A%20SafeApp.Utilities.MDataInfo.TypeTag%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L34" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L57" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   
   <h4 id="SafeApp_Utilities_MDataInfo_TypeTag" data-uid="SafeApp.Utilities.MDataInfo.TypeTag"><a href="#collapsible-SafeApp_Utilities_MDataInfo_TypeTag" class="expander" data-toggle="collapse">TypeTag</a></h4>
   
   <div id="collapsible-SafeApp_Utilities_MDataInfo_TypeTag" class="collapse in">
-  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 summary"><p>Type tag.</p>
+</div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
@@ -459,7 +473,7 @@ public struct MDataInfo</code></pre>
           </div>
           <div class="contribution-panel mobile-hide">
               <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Utilities_MDataInfo.md&amp;value=---%0Auid%3A%20SafeApp.Utilities.MDataInfo%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc" class="fab btn-warning pull-right"><i class="glyphicon glyphicon-pencil"></i></a>
-              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L28" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
+              <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp.Utilities/AppTypes.cs/#L45" title="View Source" class="fab btn-info pull-right"><i class="fa fa-code"></i></a>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
