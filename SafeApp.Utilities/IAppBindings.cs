@@ -43,17 +43,17 @@ namespace SafeApp.Utilities
 
         Task<ulong> CipherOptNewSymmetricAsync(IntPtr app);
 
-        Task<List<byte>> DecryptAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH);
+        Task<List<byte>> DecryptAsync(IntPtr app, List<byte> data, ulong publicKeyH, ulong secretKeyH);
 
-        Task<List<byte>> DecryptSealedBoxAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH);
+        Task<List<byte>> DecryptSealedBoxAsync(IntPtr app, List<byte> data, ulong publicKeyH, ulong secretKeyH);
 
-        Task DirDeleteFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ulong version);
+        Task<ulong> DirDeleteFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ulong version);
 
         Task<(File, ulong)> DirFetchFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName);
 
         Task DirInsertFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ref File file);
 
-        Task DirUpdateFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ref File file, ulong version);
+        Task<ulong> DirUpdateFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ref File file, ulong version);
 
         Task<(ulong, ulong)> EncGenerateKeyPairAsync(IntPtr app);
 
@@ -71,9 +71,9 @@ namespace SafeApp.Utilities
 
         Task<ulong> EncPubKeyNewAsync(IntPtr app, byte[] data);
 
-        Task<List<byte>> EncryptAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH);
+        Task<List<byte>> EncryptAsync(IntPtr app, List<byte> data, ulong publicKeyH, ulong secretKeyH);
 
-        Task<List<byte>> EncryptSealedBoxAsync(IntPtr app, List<byte> data, ulong pkH);
+        Task<List<byte>> EncryptSealedBoxAsync(IntPtr app, List<byte> data, ulong publicKeyH);
 
         Task EncSecretKeyFreeAsync(IntPtr app, ulong handle);
 

@@ -9,6 +9,7 @@ namespace SafeApp.Utilities
         public const ulong AsymPublicKeyLen = 32;
         public const ulong AsymSecretKeyLen = 32;
         public const ulong DirTag = 15000;
+        public const ulong GetNextVersion = 0;
         public const ulong MaidsafeTag = 5483000;
         public const string MDataMetaDataKey = "_metadata";
         public const ulong NullObjectHandle = 0;

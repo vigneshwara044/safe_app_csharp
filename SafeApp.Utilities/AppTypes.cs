@@ -376,27 +376,27 @@ namespace SafeApp.Utilities
     [PublicAPI]
     public struct MDataKey
     {
-        public List<byte> Val;
+        public List<byte> Key;
 
         internal MDataKey(MDataKeyNative native)
         {
-            Val = BindingUtils.CopyToByteList(native.ValPtr, (int)native.ValLen);
+            Key = BindingUtils.CopyToByteList(native.KeyPtr, (int)native.KeyLen);
         }
 
         internal MDataKeyNative ToNative()
         {
-            return new MDataKeyNative { ValPtr = BindingUtils.CopyFromByteList(Val), ValLen = (UIntPtr)(Val?.Count ?? 0) };
+            return new MDataKeyNative { KeyPtr = BindingUtils.CopyFromByteList(Key), KeyLen = (UIntPtr)(Key?.Count ?? 0) };
         }
     }
 
     internal struct MDataKeyNative
     {
-        public IntPtr ValPtr;
-        public UIntPtr ValLen;
+        public IntPtr KeyPtr;
+        public UIntPtr KeyLen;
 
         internal void Free()
         {
-            BindingUtils.FreeList(ref ValPtr, ref ValLen);
+            BindingUtils.FreeList(ref KeyPtr, ref KeyLen);
         }
     }
 
