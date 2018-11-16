@@ -15,16 +15,12 @@ namespace SafeApp.MData
     public class MDataInfoActions
     {
         private static readonly IAppBindings AppBindings = AppResolver.Current;
-        private SafeAppPtr _appPtr;
 
         /// <summary>
         /// Initialises an MDataInfoActions object for the Session instance.
-        /// The app pointer is required to perform network operations.
         /// </summary>
-        /// <param name="appPtr"></param>
-        internal MDataInfoActions(SafeAppPtr appPtr)
+        internal MDataInfoActions()
         {
-            _appPtr = appPtr;
         }
 
         /// <summary>

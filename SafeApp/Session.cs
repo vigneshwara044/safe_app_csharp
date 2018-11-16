@@ -175,11 +175,11 @@ namespace SafeApp
         /// <summary>
         /// Decode the Ipc response message.
         /// </summary>
-        /// <param name="encodedReq">Encoded response string.</param>
+        /// <param name="encodedResponse">Encoded response string.</param>
         /// <returns>New decoded IPCMsg instance.</returns>
-        public static Task<IpcMsg> DecodeIpcMessageAsync(string encodedReq)
+        public static Task<IpcMsg> DecodeIpcMessageAsync(string encodedResponse)
         {
-            return AppBindings.DecodeIpcMsgAsync(encodedReq);
+            return AppBindings.DecodeIpcMsgAsync(encodedResponse);
         }
 
         /// <summary>
@@ -242,11 +242,11 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Sets the output log file name.
+        /// Get the output log file path.
         /// </summary>
         /// <param name="outputFileName">File name.</param>
-        /// <returns></returns>
-        public static Task SetLogOutputPathAsync(string outputFileName)
+        /// <returns>Log output file path along with file name.</returns>
+        public static Task<string> GetLogOutputPathAsync([Optional]string outputFileName)
         {
             return AppBindings.AppOutputLogPathAsync(outputFileName);
         }
@@ -298,7 +298,7 @@ namespace SafeApp
         /// Returns the AccountInfo of the current session.
         /// </summary>
         /// <returns>AccountInfo object.</returns>
-        public Task<AccountInfo> GetAccountInfoAsyc()
+        public Task<AccountInfo> GetAccountInfoAsync()
         {
             return AppBindings.AppAccountInfoAsync(_appPtr);
         }
@@ -316,21 +316,20 @@ namespace SafeApp
             MData = new MData.MData(_appPtr);
             MDataEntries = new MDataEntries(_appPtr);
             MDataEntryActions = new MDataEntryActions(_appPtr);
-            MDataInfoActions = new MDataInfoActions(_appPtr);
+            MDataInfoActions = new MDataInfoActions();
             MDataPermissions = new MDataPermissions(_appPtr);
             NFS = new NFS(_appPtr);
         }
 
         /// <summary>
-        /// Sets the additional path to search for config files.
-        /// Also, enable logging to a file.
+        /// Initialise the logging.
+        /// Pass the file name to replease default output file name i.e. client.log.
         /// </summary>
-        /// <param name="configFilesPath">Config file path.</param>
+        /// <param name="outputLogFileName">Log output file name.</param>
         /// <returns></returns>
-        public static async Task InitLoggingAsync(string configFilesPath)
+        public static async Task InitLoggingAsync([Optional] string outputLogFileName)
         {
-            await AppBindings.AppSetAdditionalSearchPathAsync(configFilesPath);
-            await AppBindings.AppInitLoggingAsync(null);
+            await AppBindings.AppInitLoggingAsync(outputLogFileName);
         }
 
         /// <summary>
