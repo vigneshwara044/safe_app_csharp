@@ -6,7 +6,7 @@ using SafeApp.Utilities;
 namespace SafeApp.Misc
 {
     /// <summary>
-    /// Provide the Cipher Opt APIs
+    /// Provide the CipherOpt APIs
     /// </summary>
     public class CipherOpt
     {
@@ -31,8 +31,8 @@ namespace SafeApp.Misc
         /// <summary>
         /// Create a new Asymmetric CipherOpt handle.
         /// </summary>
-        /// <param name="encPubKeyH">NativeHandle to public encryption key.</param>
-        /// <returns>New AsymmetricCipherOpt NativeHandle.</returns>
+        /// <param name="encPubKeyH">NativeHandle to public Encryption Key.</param>
+        /// <returns>New Asymmetric CipherOpt NativeHandle.</returns>
         public async Task<NativeHandle> NewAsymmetricAsync(NativeHandle encPubKeyH)
         {
             var cipherOptH = await AppBindings.CipherOptNewAsymmetricAsync(_appPtr, encPubKeyH);

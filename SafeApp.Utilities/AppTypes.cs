@@ -10,7 +10,7 @@ using JetBrains.Annotations;
 namespace SafeApp.Utilities
 {
     /// <summary>
-    /// Actions which can be performed on a mutable data.
+    /// Actions which can be performed on a Mutable Data.
     /// </summary>
     [PublicAPI]
     public enum MDataAction
@@ -39,14 +39,14 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Mutable data shell.
+    /// Mutable Data shell.
     /// Information allowing to locate and access Mutable Data on the network.
     /// </summary>
     [PublicAPI]
     public struct MDataInfo
     {
         /// <summary>
-        /// Name of the mutable data.
+        /// Name of the Mutable Data.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] Name;
@@ -70,7 +70,7 @@ namespace SafeApp.Utilities
         public byte[] EncKey;
 
         /// <summary>
-        /// Nonce to be used for encryption keys.
+        /// Nonce to be used for Encryption Keys.
         /// Meaningful only if `HasEncInfo` is `true`.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymNonceLen)]
@@ -83,7 +83,7 @@ namespace SafeApp.Utilities
         public bool HasNewEncInfo;
 
         /// <summary>
-        /// New encryption key(used for two-phase re-encryption).
+        /// New Encryption Key(used for two-phase re-encryption).
         /// Meaningful only if `HasNewEncInfo` is `true`.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymKeyLen)]
@@ -98,7 +98,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents a requested set of changes to permissions of a mutable data.
+    /// Represents a requested set of changes to permissions of a Mutable Data.
     /// </summary>
     [PublicAPI]
     public struct PermissionSet
@@ -353,7 +353,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents a request to share mutable data.
+    /// Represents a request to share Mutable Data.
     /// </summary>
     [PublicAPI]
     public struct ShareMDataReq
@@ -370,7 +370,7 @@ namespace SafeApp.Utilities
         public List<ShareMData> MData;
 
         /// <summary>
-        /// Initialise a new mutable data share request object from native request.
+        /// Initialise a new Mutable Data share request object from native request.
         /// </summary>
         /// <param name="native"></param>
         internal ShareMDataReq(ShareMDataReqNative native)
@@ -396,7 +396,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Native request to share mutable data.
+    /// Native request to share Mutable Data.
     /// </summary>
     internal struct ShareMDataReqNative
     {
@@ -406,7 +406,7 @@ namespace SafeApp.Utilities
         public AppExchangeInfo App;
 
         /// <summary>
-        /// Pointer to mutable data
+        /// Pointer to Mutable Data
         /// </summary>
         public IntPtr MDataPtr;
 
@@ -422,7 +422,7 @@ namespace SafeApp.Utilities
         public UIntPtr MDataCap;
 
         /// <summary>
-        /// Free mutable data pointer.
+        /// Free Mutable Data pointer.
         /// </summary>
         internal void Free()
         {
@@ -431,18 +431,18 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Holds a mutable data information and requested permission set.
+    /// Holds a Mutable Data information and requested permission set.
     /// </summary>
     [PublicAPI]
     public struct ShareMData
     {
         /// <summary>
-        /// The mutable data type.
+        /// The Mutable Data type.
         /// </summary>
         public ulong TypeTag;
 
         /// <summary>
-        /// The mutable data name.
+        /// The Mutable Data name.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] Name;
@@ -568,7 +568,7 @@ namespace SafeApp.Utilities
         public byte[] OwnerKey;
 
         /// <summary>
-        /// Data symmetric encryption key.
+        /// Data symmetric Encryption Key.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SymKeyLen)]
         public byte[] EncKey;
@@ -581,7 +581,7 @@ namespace SafeApp.Utilities
         public byte[] SignPk;
 
         /// <summary>
-        /// Asymmetric sign private key.
+        /// Asymmetric sign Private Key.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.SignSecretKeyLen)]
         public byte[] SignSk;
@@ -593,7 +593,7 @@ namespace SafeApp.Utilities
         public byte[] EncPk;
 
         /// <summary>
-        /// Asymmetric encryption private key.
+        /// Asymmetric encryption Private Key.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.AsymSecretKeyLen)]
         public byte[] EncSk;
@@ -712,7 +712,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Information about an application that has access to a mutable data.
+    /// Information about an application that has access to a Mutable Data.
     /// </summary>
     [PublicAPI]
     public struct AppAccess
@@ -742,37 +742,37 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// User metadata response for mutable data.
+    /// User metadata response for Mutable Data.
     /// </summary>
     [PublicAPI]
     public struct MetadataResponse
     {
         /// <summary>
-        /// Name or purpose of mutable data.
+        /// Name or purpose of Mutable Data.
         /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string Name;
 
         /// <summary>
-        /// Description of how this mutable data should or should not be shared.
+        /// Description of how this Mutable Data should or should not be shared.
         /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string Description;
 
         /// <summary>
-        /// Xor name of this struct's corresponding mutable data
+        /// Xor name of this struct's corresponding Mutable Data
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] XorName;
 
         /// <summary>
-        /// Type tag of this struct's corresponding mutable data.
+        /// Type tag of this struct's corresponding Mutable Data.
         /// </summary>
         public ulong TypeTag;
     }
 
     /// <summary>
-    /// Represents a mutable data key.
+    /// Represents a Mutable Data key.
     /// </summary>
     [PublicAPI]
     public struct MDataKey
@@ -783,7 +783,7 @@ namespace SafeApp.Utilities
         public List<byte> Val;
 
         /// <summary>
-        /// Initialise new mutable data key from native key.
+        /// Initialise new Mutable Data key from native key.
         /// </summary>
         /// <param name="native"></param>
         internal MDataKey(MDataKeyNative native)
@@ -792,7 +792,7 @@ namespace SafeApp.Utilities
         }
 
         /// <summary>
-        /// Returns a native mutable data key.
+        /// Returns a native Mutable Data key.
         /// </summary>
         /// <returns></returns>
         internal MDataKeyNative ToNative()
@@ -802,7 +802,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents a native mutable data key.
+    /// Represents a native Mutable Data key.
     /// </summary>
     internal struct MDataKeyNative
     {
@@ -817,7 +817,7 @@ namespace SafeApp.Utilities
         public UIntPtr ValLen;
 
         /// <summary>
-        /// Free the pointer to mutable data key.
+        /// Free the pointer to Mutable Data key.
         /// </summary>
         internal void Free()
         {
@@ -826,7 +826,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the mutable data value.
+    /// Represents the Mutable Data value.
     /// </summary>
     [PublicAPI]
     public struct MDataValue
@@ -842,7 +842,7 @@ namespace SafeApp.Utilities
         public ulong EntryVersion;
 
         /// <summary>
-        /// Initialise new mutable data value
+        /// Initialise new Mutable Data value
         /// </summary>
         /// <param name="native"></param>
         internal MDataValue(MDataValueNative native)
@@ -852,7 +852,7 @@ namespace SafeApp.Utilities
         }
 
         /// <summary>
-        /// Returns the native mutable data value.
+        /// Returns the native Mutable Data value.
         /// </summary>
         /// <returns></returns>
         internal MDataValueNative ToNative()
@@ -867,7 +867,7 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the native mutable data value.
+    /// Represents the native Mutable Data value.
     /// </summary>
     internal struct MDataValueNative
     {
@@ -887,7 +887,7 @@ namespace SafeApp.Utilities
         public ulong EntryVersion;
 
         /// <summary>
-        /// Free mutable data value (content) pointer.
+        /// Free Mutable Data value (content) pointer.
         /// </summary>
         internal void Free()
         {
@@ -896,23 +896,23 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the mutable data entry (key, value).
+    /// Represents the Mutable Data entry (key, value).
     /// </summary>
     [PublicAPI]
     public struct MDataEntry
     {
         /// <summary>
-        /// Mutable data key.
+        /// Mutable Data key.
         /// </summary>
         public MDataKey Key;
 
         /// <summary>
-        /// Mutable data value.
+        /// Mutable Data value.
         /// </summary>
         public MDataValue Value;
 
         /// <summary>
-        /// Initialise new mutable data entry from native entry
+        /// Initialise new Mutable Data entry from native entry
         /// </summary>
         /// <param name="native"></param>
         internal MDataEntry(MDataEntryNative native)
@@ -922,7 +922,7 @@ namespace SafeApp.Utilities
         }
 
         /// <summary>
-        /// Returns native mutable data entry.
+        /// Returns native Mutable Data entry.
         /// </summary>
         /// <returns></returns>
         internal MDataEntryNative ToNative()
@@ -932,22 +932,22 @@ namespace SafeApp.Utilities
     }
 
     /// <summary>
-    /// Represents the native mutable data entry (key, value).
+    /// Represents the native Mutable Data entry (key, value).
     /// </summary>
     internal struct MDataEntryNative
     {
         /// <summary>
-        /// Native mutable data key.
+        /// Native Mutable Data key.
         /// </summary>
         public MDataKeyNative Key;
 
         /// <summary>
-        /// Native mutable data value.
+        /// Native Mutable Data value.
         /// </summary>
         public MDataValueNative Value;
 
         /// <summary>
-        /// Free the mutable data key and value pointers.
+        /// Free the Mutable Data key and value pointers.
         /// </summary>
         // ReSharper disable once UnusedMember.Global
         internal void Free()

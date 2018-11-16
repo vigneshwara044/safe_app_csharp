@@ -19,17 +19,17 @@ namespace SafeApp.Utilities
         public const ulong AsymPublicKeyLen = 32;
 
         /// <summary>
-        /// Length of Asymmetric secret key
+        /// Length of Asymmetric Secret Key
         /// </summary>
         public const ulong AsymSecretKeyLen = 32;
 
         /// <summary>
-        /// Length of Symmetric public sign key
+        /// Length of Symmetric Public Sign Key
         /// </summary>
         public const ulong SignPublicKeyLen = 32;
 
         /// <summary>
-        /// Length of Symmetric secret sign key
+        /// Length of Symmetric secret Sign Key
         /// </summary>
         public const ulong SignSecretKeyLen = 64;
 

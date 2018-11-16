@@ -42,7 +42,7 @@ namespace SafeApp
         /// Would throw exception if the container specified is not granted access.
         /// </summary>
         /// <param name="containerId">Name of the container.</param>
-        /// <returns>MDataInfo of access container's mutable data.</returns>
+        /// <returns>MDataInfo of access container's Mutable Data.</returns>
         public Task<MDataInfo> GetMDataInfoAsync(string containerId)
         {
             return AppBindings.AccessContainerGetContainerMDataInfoAsync(_appPtr, containerId);
