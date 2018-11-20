@@ -137,7 +137,7 @@ namespace SafeApp.MockAuthBindings
     public class IpcReqError : IpcReq
     {
         /// <summary>
-        /// Error code is respresnted by negative value.
+        /// Error code is represented by negative value.
         /// </summary>
         public readonly int Code;
 
