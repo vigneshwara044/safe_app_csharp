@@ -85,7 +85,7 @@ namespace SafeApp.MockAuthBindings
     }
 
     /// <summary>
-    /// Share mutable data IPC request.
+    /// Share Mutable Data IPC request.
     /// </summary>
     [PublicAPI]
     public class ShareMDataIpcReq : IpcReq
@@ -101,7 +101,7 @@ namespace SafeApp.MockAuthBindings
         public uint ReqId;
 
         /// <summary>
-        /// Share mutable data request.
+        /// Share Mutable Data request.
         /// </summary>
         public ShareMDataReq ShareMDataReq;
 
@@ -137,7 +137,7 @@ namespace SafeApp.MockAuthBindings
     public class IpcReqError : IpcReq
     {
         /// <summary>
-        /// Error code is respresnted by negative value.
+        /// Error code is represented by negative value.
         /// </summary>
         public readonly int Code;
 

@@ -44,9 +44,9 @@ namespace SafeApp.IData
 
         /// <summary>
         /// Fetch an existing Immutable Data for the given address
-        /// to prepare a reader to read the immutable data chunks from the network.
+        /// to prepare a reader to read the Immutable Data chunks from the network.
         /// </summary>
-        /// <param name="xorName">The XorName on the network.</param>
+        /// <param name="xorName">The XOR Name on the network.</param>
         /// <returns>SE handle</returns>
         public async Task<NativeHandle> FetchSelfEncryptorAsync(byte[] xorName)
         {
@@ -55,9 +55,9 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// Create a new writer instance for storing Immutable data in the network.
+        /// Create a new writer instance for storing Immutable Data in the network.
         /// </summary>
-        /// <returns>New writer NativeHandle</returns>
+        /// <returns>New writer NativeHandle.</returns>
         public async Task<NativeHandle> NewSelfEncryptorAsync()
         {
             var sEWriterHandle = await AppBindings.IDataNewSelfEncryptorAsync(_appPtr);
@@ -69,7 +69,7 @@ namespace SafeApp.IData
         /// </summary>
         /// <param name="seHandle">Reader handle.</param>
         /// <param name="fromPos">Start position.</param>
-        /// <param name="len">end position or end of data.</param>
+        /// <param name="len">End position or end of data.</param>
         /// <returns></returns>
         public async Task<List<byte>> ReadFromSelfEncryptorAsync(NativeHandle seHandle, ulong fromPos, ulong len)
         {
@@ -90,7 +90,7 @@ namespace SafeApp.IData
         /// <summary>
         /// Invoked to free the writer reference from memory.
         /// </summary>
-        /// <param name="sEWriterHandle">Writer handle of immutable data.</param>
+        /// <param name="sEWriterHandle">Writer handle of Immutable Data.</param>
         /// <returns></returns>
         private Task SelfEncryptorWriterFreeAsync(ulong sEWriterHandle)
         {
@@ -98,31 +98,31 @@ namespace SafeApp.IData
         }
 
         /// <summary>
-        /// The size of the serialized Immutable Data.
+        /// The size of the serialised Immutable Data.
         /// </summary>
         /// <param name="xorName">XOR address of Immutable Data.</param>
-        /// <returns>length in bytes.</returns>
+        /// <returns>Length in bytes.</returns>
         public Task<ulong> SerialisedSizeAsync(byte[] xorName)
         {
             return AppBindings.IDataSerialisedSizeAsync(_appPtr, xorName);
         }
 
         /// <summary>
-        /// Get the size of the Immutable data.
+        /// Get the size of the Immutable Data.
         /// </summary>
         /// <param name="seHandle">SE handle.</param>
-        /// <returns>length in bytes.</returns>
+        /// <returns>Length in bytes.</returns>
         public Task<ulong> SizeAsync(NativeHandle seHandle)
         {
             return AppBindings.IDataSizeAsync(_appPtr, seHandle);
         }
 
         /// <summary>
-        /// Write Immutable data.
+        /// Write Immutable Data.
         /// Only when CloseSelfEncryptorAsync is invoked, the DataMap is generated and saved in the network.
         /// </summary>
         /// <param name="seHandle">SE handle</param>
-        /// <param name="data">Data to append in existing immutable data.</param>
+        /// <param name="data">Data to append in existing Immutable Data.</param>
         /// <returns></returns>
         public Task WriteToSelfEncryptorAsync(NativeHandle seHandle, List<byte> data)
         {

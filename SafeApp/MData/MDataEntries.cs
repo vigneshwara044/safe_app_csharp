@@ -9,7 +9,7 @@ using SafeApp.Utilities;
 namespace SafeApp.MData
 {
     /// <summary>
-    /// Mutable data entries APIs.
+    /// Mutable Data entries APIs.
     /// </summary>
     [PublicAPI]
     public class MDataEntries
@@ -30,7 +30,7 @@ namespace SafeApp.MData
         /// <summary>
         /// Free the entries from memory.
         /// </summary>
-        /// <param name="entriesH">Mutable data entries handle.</param>
+        /// <param name="entriesH">Mutable Data entries handle.</param>
         /// <returns></returns>
         private Task FreeAsync(ulong entriesH)
         {
@@ -49,9 +49,9 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Get a handle to the entries associated with mutable data.
+        /// Get a handle to the entries associated with Mutable Data.
         /// </summary>
-        /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
+        /// <param name="mDataInfo">MDataInfo to access Mutable Data.</param>
         /// <returns>Handle to MDataEntries.</returns>
         public async Task<NativeHandle> GetHandleAsync(MDataInfo mDataInfo)
         {
@@ -61,8 +61,8 @@ namespace SafeApp.MData
 
         /// <summary>
         /// Insert a new entry.
-        /// it will fail if the entry already exists or
-        /// the current app doesn't have the permissions to edit that mutable data.
+        /// It will fail if the entry already exists or
+        /// the current app doesn't have the permissions to edit that Mutable Data.
         /// </summary>
         /// <param name="entriesH">Handle to MDataEntries.</param>
         /// <param name="entKey">The key to store the data under.</param>
@@ -74,11 +74,11 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Get the total number of entries in the mutable data.
+        /// Get the total number of entries in the Mutable Data.
         /// Deleted entries are also included in total number.
         /// </summary>
-        /// <param name="entriesHandle">Handle to Mutable data entries.</param>
-        /// <returns>Number of mutable data entries.</returns>
+        /// <param name="entriesHandle">Handle to Mutable Data entries.</param>
+        /// <returns>Number of Mutable Data entries.</returns>
         public Task<ulong> LenAsync(NativeHandle entriesHandle)
         {
             return AppBindings.MDataEntriesLenAsync(_appPtr, entriesHandle);
@@ -87,7 +87,7 @@ namespace SafeApp.MData
         /// <summary>
         /// Create a new entry handle to add entries in a MutableData.
         /// </summary>
-        /// <returns>Newly created mutable data entry handle.</returns>
+        /// <returns>Newly created Mutable Data entry handle.</returns>
         public async Task<NativeHandle> NewAsync()
         {
             var entriesH = await AppBindings.MDataEntriesNewAsync(_appPtr);

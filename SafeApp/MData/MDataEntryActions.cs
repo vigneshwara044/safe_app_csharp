@@ -58,7 +58,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Get a new handle to perform mutable data entry transaction actions.
+        /// Get a new handle to perform Mutable Data entry transaction actions.
         /// </summary>
         /// <returns>New Handle to perform entry actions.</returns>
         public async Task<NativeHandle> NewAsync()
