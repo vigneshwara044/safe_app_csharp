@@ -34,7 +34,7 @@ namespace SafeApp.Utilities
         public const ulong SignPublicKeyLen = 32;
 
         /// <summary>
-        /// Length of Symmetric secret Sign Key
+        /// Length of Symmetric Secret Sign Key
         /// </summary>
         public const ulong SignSecretKeyLen = 64;
 
