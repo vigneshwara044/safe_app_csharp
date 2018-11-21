@@ -50,12 +50,12 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Delete a file from Path.
+        /// Delete a file from path.
         /// Directly commit to the network.
         /// </summary>
-        /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
+        /// <param name="mDataInfo">mdataInfo to access Mutable Data.</param>
         /// <param name="fileName">The path/file name.</param>
-        /// <param name="version">Version successor, to handle the concurrency issue.</param>
+        /// <param name="version">The version successor, to handle the concurrency issue.</param>
         /// <returns></returns>
         public Task DirDeleteFileAsync(MDataInfo mDataInfo, string fileName, ulong version)
         {
@@ -65,7 +65,7 @@ namespace SafeApp.Misc
         /// <summary>
         /// Get the file from the directory.
         /// </summary>
-        /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
+        /// <param name="mDataInfo">mdataInfo to access Mutable Data.</param>
         /// <param name="fileName">The path/file name.</param>
         /// <returns>The file found for the given path.</returns>
         public Task<(File, ulong)> DirFetchFileAsync(MDataInfo mDataInfo, string fileName)
@@ -77,7 +77,7 @@ namespace SafeApp.Misc
         /// Insert the given file in the directory.
         /// Directly commit to the network.
         /// </summary>
-        /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
+        /// <param name="mDataInfo">mdataInfo to access Mutable Data.</param>
         /// <param name="fileName">The path to store the file under.</param>
         /// <param name="file">The file to Serialise and store.</param>
         /// <returns></returns>
@@ -90,7 +90,7 @@ namespace SafeApp.Misc
         /// Replace the existing file with a new file.
         /// Directly commit to the network.
         /// </summary>
-        /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
+        /// <param name="mDataInfo">mdataInfo to access Mutable Data.</param>
         /// <param name="fileName">The path to store the file under.</param>
         /// <param name="file">The file to Serialise and store.</param>
         /// <param name="version">Version successor, to handle the concurrency issue.</param>
@@ -113,7 +113,7 @@ namespace SafeApp.Misc
         /// <summary>
         /// Open a file for reading or writing.
         /// </summary>
-        /// <param name="mDataInfo">MDataInfo to access mutable data.</param>
+        /// <param name="mDataInfo">mdataInfo to access Mutable Data.</param>
         /// <param name="file">The file to be opened.</param>
         /// <param name="openMode">File opening Mode.</param>
         /// <returns></returns>

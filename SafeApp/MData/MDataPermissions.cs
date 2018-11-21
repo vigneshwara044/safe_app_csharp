@@ -10,7 +10,7 @@ using SafeApp.Utilities;
 namespace SafeApp.MData
 {
     /// <summary>
-    /// Mutable data Permission APIs.
+    /// Mutable Data Permission APIs.
     /// </summary>
     [PublicAPI]
     public class MDataPermissions
@@ -45,7 +45,7 @@ namespace SafeApp.MData
         }
 
         /// <summary>
-        /// Insert a new permission set mapped to a specific sign key.
+        /// Insert a new permission set mapped to a specific Sign Key.
         /// Directly commits to the network.
         /// Requires 'ManagePermissions'-Permission for the app.
         /// </summary>
@@ -87,7 +87,7 @@ namespace SafeApp.MData
         /// <summary>
         /// Create a PermissionHandle to to insert permissions.
         /// </summary>
-        /// <returns>Newly create mutable data permissions handle.</returns>
+        /// <returns>Newly create Mutable Data permissions handle.</returns>
         public async Task<NativeHandle> NewAsync()
         {
             var permissionsH = await AppBindings.MDataPermissionsNewAsync(_appPtr);

@@ -165,12 +165,12 @@ namespace SafeApp.MockAuthBindings
         }
 
         /// <summary>
-        /// Return a list of apps having access to an arbitrary mutable data object.
-        /// name and typeTag together correspond to a single mutable data.
+        /// Return a list of apps having access to an arbitrary Mutable Data object.
+        /// name and typeTag together correspond to a single Mutable Data.
         /// </summary>
-        /// <param name="name">Mutable data XOR name.</param>
-        /// <param name="typeTag">Mutable data tagType.</param>
-        /// <returns>List of Apps having access to mutable data.</returns>
+        /// <param name="name">Mutable Data XOR name.</param>
+        /// <param name="typeTag">Mutable Data tagType.</param>
+        /// <returns>List of Apps having access to Mutable Data.</returns>
         public Task<List<AppAccess>> AuthAppsAccessingMutableDataAsync(byte[] name, ulong typeTag)
         {
             return NativeBindings.AuthAppsAccessingMutableDataAsync(_authPtr, name, typeTag);
@@ -267,7 +267,7 @@ namespace SafeApp.MockAuthBindings
         /// <summary>
         /// Allow or deny ShareMDataIpcReq.
         /// </summary>
-        /// <param name="req">Share mutable data IPC request.</param>
+        /// <param name="req">Share Mutable Data IPC request.</param>
         /// <param name="allow">Pass true to accept the ShareMData request and false to deny.</param>
         /// <returns>Encoded ShareMData response.</returns>
         public Task<string> EncodeShareMdataRespAsync(ShareMDataIpcReq req, bool allow)

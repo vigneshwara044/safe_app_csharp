@@ -49,7 +49,7 @@ namespace SafeApp.Misc
         /// <summary>
         /// Get App's Public Sign Key.
         /// </summary>
-        /// <returns>App's public sign key handle.</returns>
+        /// <returns>App's Public Sign Key handle.</returns>
         public async Task<NativeHandle> AppPubEncKeyAsync()
         {
             var appPubSignKeyH = await AppBindings.AppPubEncKeyAsync(_appPtr);
@@ -59,7 +59,7 @@ namespace SafeApp.Misc
         /// <summary>
         /// Get App's Public Sign Key.
         /// </summary>
-        /// <returns>App's public sign key handle.</returns>
+        /// <returns>App's Public Sign Key handle.</returns>
         public async Task<NativeHandle> AppPubSignKeyAsync()
         {
             var appPubEncKeyH = await AppBindings.AppPubSignKeyAsync(_appPtr);
@@ -67,11 +67,11 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Asymmetric decryption using public and private key pair.
+        /// Asymmetric decryption using public and Private Key pair.
         /// </summary>
         /// <param name="cipherText">Cipher to decrypt.</param>
-        /// <param name="encPubKey">Public encryption key.</param>
-        /// <param name="encSecKey">Secret encryption key.</param>
+        /// <param name="encPubKey">Public Encryption Key.</param>
+        /// <param name="encSecKey">Secret Encryption Key.</param>
         /// <returns>Decrypted data.</returns>
         public Task<List<byte>> DecryptAsync(List<byte> cipherText, NativeHandle encPubKey, NativeHandle encSecKey)
         {
@@ -103,7 +103,7 @@ namespace SafeApp.Misc
         /// <summary>
         /// Free Encrypt Public Key Handle.
         /// </summary>
-        /// <param name="encPubKeyH">Public encryption key handle.</param>
+        /// <param name="encPubKeyH">Public Encryption Key handle.</param>
         /// <returns></returns>
         private Task EncPubKeyFreeAsync(ulong encPubKeyH)
         {
@@ -111,7 +111,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Generates raw string copy of public encryption key.
+        /// Generates raw string copy of public Encryption Key.
         /// </summary>
         /// <param name="encPubKeyH"></param>
         /// <returns></returns>
@@ -123,7 +123,7 @@ namespace SafeApp.Misc
         /// <summary>
         /// Get a PublicKey NativeHandle from raw bytes.
         /// </summary>
-        /// <param name="asymPublicKeyBytes">raw public encryption key raw bytes as string</param>
+        /// <param name="asymPublicKeyBytes">raw public Encryption Key raw bytes as string</param>
         /// <returns></returns>
         public async Task<NativeHandle> EncPubKeyNewAsync(byte[] asymPublicKeyBytes)
         {
@@ -132,11 +132,11 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Asymmetric encryption using public and private key pair.
+        /// Asymmetric encryption using public and Private Key pair.
         /// </summary>
         /// <param name="data">Data to be encrypted.</param>
-        /// <param name="encPubKey">Public encryption key.</param>
-        /// <param name="encSecKey">Secret encryption key.</param>
+        /// <param name="encPubKey">Public Encryption Key.</param>
+        /// <param name="encSecKey">Secret Encryption Key.</param>
         /// <returns></returns>
         public Task<List<byte>> EncryptAsync(List<byte> data, NativeHandle encPubKey, NativeHandle encSecKey)
         {
@@ -160,7 +160,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Generate raw string copy of secret encryption key
+        /// Generate raw string copy of secret Encryption Key
         /// </summary>
         /// <param name="encSecKeyH"></param>
         /// <returns></returns>
@@ -170,9 +170,9 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Interpret the secret encryption Key from a given raw string.
+        /// Interpret the secret Encryption Key from a given raw string.
         /// </summary>
-        /// <param name="asymSecKeyBytes">raw secret encryption key raw bytes as string</param>
+        /// <param name="asymSecKeyBytes">raw secret Encryption Key raw bytes as string</param>
         /// <returns></returns>
         public async Task<NativeHandle> EncSecretKeyNewAsync(byte[] asymSecKeyBytes)
         {
@@ -181,10 +181,10 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Sign the given data (buffer) using a secret sign key.
+        /// Sign the given data (buffer) using a secret Sign Key.
         /// </summary>
         /// <param name="data">Data to sign.</param>
-        /// <param name="signSecKey">Secret sign key to sign the given data.</param>
+        /// <param name="signSecKey">Secret Sign Key to sign the given data.</param>
         /// <returns>Returns the signed data.</returns>
         public Task<List<byte>> SignAsync(List<byte> data, NativeHandle signSecKey)
         {
@@ -257,10 +257,10 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Verify the given signed data buffer is using a public sign key
+        /// Verify the given signed data buffer is using a Public Sign Key
         /// </summary>
         /// <param name="signedData">Data to verify signature.</param>
-        /// <param name="signPubKey">Public sign key to verify.</param>
+        /// <param name="signPubKey">Public Sign Key to verify.</param>
         /// <returns></returns>
         public Task<List<byte>> VerifyAsync(List<byte> signedData, NativeHandle signPubKey)
         {

@@ -15,7 +15,7 @@ using SafeApp.Utilities;
 namespace SafeApp
 {
     /// <summary>
-    /// Holds one sessions with the network and is the primary interface
+    /// Holds one session with the network and is the primary interface
     /// to interact with the network.
     /// As such it also provides all API-Providers connected through this session.
     /// </summary>
@@ -25,7 +25,7 @@ namespace SafeApp
         private static readonly IAppBindings AppBindings = AppResolver.Current;
 
         /// <summary>
-        /// Event triggered if session is disconnected from network.
+        /// Event triggered if session is disconnected from the network.
         /// </summary>
 #pragma warning disable SA1401 // Fields should be private
         public static EventHandler Disconnected;
@@ -72,12 +72,12 @@ namespace SafeApp
         public MData.MData MData { get; private set; }
 
         /// <summary>
-        /// Mutable data Entries API
+        /// Mutable Data Entries API
         /// </summary>
         public MDataEntries MDataEntries { get; private set; }
 
         /// <summary>
-        ///   Mutable data Entry Actions API
+        ///   Mutable Data Entry Actions API
         /// </summary>
         public MDataEntryActions MDataEntryActions { get; private set; }
 
@@ -87,14 +87,14 @@ namespace SafeApp
         public MDataInfoActions MDataInfoActions { get; private set; }
 
         /// <summary>
-        ///   Mutable data Permissions API
+        ///   Mutable Data Permissions API
         /// </summary>
         public MDataPermissions MDataPermissions { get; private set; }
 
         // ReSharper disable once InconsistentNaming
 
         /// <summary>
-        ///   Mutable data Permissions API
+        ///   Mutable Data Permissions API
         /// </summary>
         public NFS NFS { get; private set; }
 
@@ -107,7 +107,7 @@ namespace SafeApp
         /// <summary>
         /// Create a new authenticated session using the provided IPC response.
         /// </summary>
-        /// <param name="appId">Application id.</param>
+        /// <param name="appId">Application Id.</param>
         /// <param name="authGranted">Authentication response.</param>
         /// <returns>New session based on appid and authentication response.</returns>
         public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted)
@@ -173,7 +173,7 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Decode the Ipc response message.
+        /// Decode the IPC response message.
         /// </summary>
         /// <param name="encodedReq">Encoded response string.</param>
         /// <returns>New decoded IPCMsg instance.</returns>
@@ -205,8 +205,8 @@ namespace SafeApp
         /// <summary>
         /// Encodes a MDataShareReq.
         /// </summary>
-        /// <param name="shareMDataReq">Mutable data share request.</param>
-        /// <returns>Request Id, Encoded mutable data share request.</returns>
+        /// <param name="shareMDataReq">Mutable Data share request.</param>
+        /// <returns>Request Id, Encoded Mutable Data share request.</returns>
         public static Task<(uint, string)> EncodeShareMDataRequestAsync(ShareMDataReq shareMDataReq)
         {
             return AppBindings.EncodeShareMDataReqAsync(ref shareMDataReq);
