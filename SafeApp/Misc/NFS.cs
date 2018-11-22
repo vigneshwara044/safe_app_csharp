@@ -56,8 +56,8 @@ namespace SafeApp.Misc
         /// <param name="mDataInfo">mdataInfo to access Mutable Data.</param>
         /// <param name="fileName">The path/file name.</param>
         /// <param name="version">The version successor, to handle the concurrency issue.</param>
-        /// <returns></returns>
-        public Task DirDeleteFileAsync(MDataInfo mDataInfo, string fileName, ulong version)
+        /// <returns>The version successor for the deleted file.</returns>
+        public Task<ulong> DirDeleteFileAsync(MDataInfo mDataInfo, string fileName, ulong version)
         {
             return AppBindings.DirDeleteFileAsync(_appPtr, ref mDataInfo, fileName, version);
         }
@@ -94,8 +94,8 @@ namespace SafeApp.Misc
         /// <param name="fileName">The path to store the file under.</param>
         /// <param name="file">The file to Serialise and store.</param>
         /// <param name="version">Version successor, to handle the concurrency issue.</param>
-        /// <returns></returns>
-        public Task DirUpdateFileAsync(MDataInfo mDataInfo, string fileName, File file, ulong version)
+        /// <returns>The version successor for the updated file.</returns>
+        public Task<ulong> DirUpdateFileAsync(MDataInfo mDataInfo, string fileName, File file, ulong version)
         {
             return AppBindings.DirUpdateFileAsync(_appPtr, ref mDataInfo, fileName, ref file, version);
         }
