@@ -44,7 +44,7 @@ bld/
 [Bb]uild[Ll]og.*
 
 # NUNIT
-TestResult.xml
+**/*TestResult.xml
 *.VisualState.xml
 
 # Build Results of an ATL Project
