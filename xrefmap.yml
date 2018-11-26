@@ -1978,19 +1978,19 @@ references:
   isSpec: "True"
   fullName: SafeApp.Session.Finalize
   nameWithType: Session.Finalize
-- uid: SafeApp.Session.GetAccountInfoAsyc
-  name: GetAccountInfoAsyc()
-  href: api/SafeApp.Session.html#SafeApp_Session_GetAccountInfoAsyc
-  commentId: M:SafeApp.Session.GetAccountInfoAsyc
-  fullName: SafeApp.Session.GetAccountInfoAsyc()
-  nameWithType: Session.GetAccountInfoAsyc()
-- uid: SafeApp.Session.GetAccountInfoAsyc*
-  name: GetAccountInfoAsyc
-  href: api/SafeApp.Session.html#SafeApp_Session_GetAccountInfoAsyc_
-  commentId: Overload:SafeApp.Session.GetAccountInfoAsyc
+- uid: SafeApp.Session.GetAccountInfoAsync
+  name: GetAccountInfoAsync()
+  href: api/SafeApp.Session.html#SafeApp_Session_GetAccountInfoAsync
+  commentId: M:SafeApp.Session.GetAccountInfoAsync
+  fullName: SafeApp.Session.GetAccountInfoAsync()
+  nameWithType: Session.GetAccountInfoAsync()
+- uid: SafeApp.Session.GetAccountInfoAsync*
+  name: GetAccountInfoAsync
+  href: api/SafeApp.Session.html#SafeApp_Session_GetAccountInfoAsync_
+  commentId: Overload:SafeApp.Session.GetAccountInfoAsync
   isSpec: "True"
-  fullName: SafeApp.Session.GetAccountInfoAsyc
-  nameWithType: Session.GetAccountInfoAsyc
+  fullName: SafeApp.Session.GetAccountInfoAsync
+  nameWithType: Session.GetAccountInfoAsync
 - uid: SafeApp.Session.GetExeFileStemAsync
   name: GetExeFileStemAsync()
   href: api/SafeApp.Session.html#SafeApp_Session_GetExeFileStemAsync
@@ -2004,6 +2004,19 @@ references:
   isSpec: "True"
   fullName: SafeApp.Session.GetExeFileStemAsync
   nameWithType: Session.GetExeFileStemAsync
+- uid: SafeApp.Session.GetLogOutputPathAsync(System.String)
+  name: GetLogOutputPathAsync(String)
+  href: api/SafeApp.Session.html#SafeApp_Session_GetLogOutputPathAsync_System_String_
+  commentId: M:SafeApp.Session.GetLogOutputPathAsync(System.String)
+  fullName: SafeApp.Session.GetLogOutputPathAsync(System.String)
+  nameWithType: Session.GetLogOutputPathAsync(String)
+- uid: SafeApp.Session.GetLogOutputPathAsync*
+  name: GetLogOutputPathAsync
+  href: api/SafeApp.Session.html#SafeApp_Session_GetLogOutputPathAsync_
+  commentId: Overload:SafeApp.Session.GetLogOutputPathAsync
+  isSpec: "True"
+  fullName: SafeApp.Session.GetLogOutputPathAsync
+  nameWithType: Session.GetLogOutputPathAsync
 - uid: SafeApp.Session.IData
   name: IData
   href: api/SafeApp.Session.html#SafeApp_Session_IData
@@ -2173,19 +2186,6 @@ references:
   isSpec: "True"
   fullName: SafeApp.Session.SetAdditionalSearchPathAsync
   nameWithType: Session.SetAdditionalSearchPathAsync
-- uid: SafeApp.Session.SetLogOutputPathAsync(System.String)
-  name: SetLogOutputPathAsync(String)
-  href: api/SafeApp.Session.html#SafeApp_Session_SetLogOutputPathAsync_System_String_
-  commentId: M:SafeApp.Session.SetLogOutputPathAsync(System.String)
-  fullName: SafeApp.Session.SetLogOutputPathAsync(System.String)
-  nameWithType: Session.SetLogOutputPathAsync(String)
-- uid: SafeApp.Session.SetLogOutputPathAsync*
-  name: SetLogOutputPathAsync
-  href: api/SafeApp.Session.html#SafeApp_Session_SetLogOutputPathAsync_
-  commentId: Overload:SafeApp.Session.SetLogOutputPathAsync
-  isSpec: "True"
-  fullName: SafeApp.Session.SetLogOutputPathAsync
-  nameWithType: Session.SetLogOutputPathAsync
 - uid: SafeApp.Utilities
   name: SafeApp.Utilities
   href: api/SafeApp.Utilities.html

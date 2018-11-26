@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class Session
    | Safe Network :: safe_app_csharp API Documentation ">
-    <meta name="generator" content="docfx 2.40.1.0">
+    <meta name="generator" content="docfx 2.40.3.0">
     
     <link rel="shortcut icon" href=".././images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -850,7 +850,7 @@ Config information can be obtained from the UnregisteredIpcResponse.</p>
   <h5 class="decalaration">Declaration</h5>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task&lt;IpcMsg&gt; DecodeIpcMessageAsync(string encodedReq)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Task&lt;IpcMsg&gt; DecodeIpcMessageAsync(string encodedResponse)</code></pre>
   </div>
 
   <h5 class="parameters">Parameters</h5>
@@ -858,7 +858,7 @@ Config information can be obtained from the UnregisteredIpcResponse.</p>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.String</span></span>
-        <span class="parametername">encodedReq</span>
+        <span class="parametername">encodedResponse</span>
         <p><p>Encoded response string.</p>
 </p>
       </td>
@@ -1184,24 +1184,24 @@ Config information can be obtained from the UnregisteredIpcResponse.</p>
   
   <span class="small pull-right mobile-hide">
     <span class="divider"> </span>
-    <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Session_GetAccountInfoAsyc.md&amp;value=---%0Auid%3A%20SafeApp.Session.GetAccountInfoAsyc%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Session_GetAccountInfoAsync.md&amp;value=---%0Auid%3A%20SafeApp.Session.GetAccountInfoAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
     <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Session.cs/#L301" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
-  <a id="SafeApp_Session_GetAccountInfoAsyc_" data-uid="SafeApp.Session.GetAccountInfoAsyc*"></a>
+  <a id="SafeApp_Session_GetAccountInfoAsync_" data-uid="SafeApp.Session.GetAccountInfoAsync*"></a>
   
-  <h4 id="SafeApp_Session_GetAccountInfoAsyc" data-uid="SafeApp.Session.GetAccountInfoAsyc"><a href="#collapsible-SafeApp_Session_GetAccountInfoAsyc" class="expander" data-toggle="collapse">GetAccountInfoAsyc()</a></h4>
+  <h4 id="SafeApp_Session_GetAccountInfoAsync" data-uid="SafeApp.Session.GetAccountInfoAsync"><a href="#collapsible-SafeApp_Session_GetAccountInfoAsync" class="expander" data-toggle="collapse">GetAccountInfoAsync()</a></h4>
   
-  <div id="collapsible-SafeApp_Session_GetAccountInfoAsyc" class="collapse in">
+  <div id="collapsible-SafeApp_Session_GetAccountInfoAsync" class="collapse in">
   <div class="markdown level1 summary"><p>Returns the AccountInfo of the current session.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task&lt;AccountInfo&gt; GetAccountInfoAsyc()</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;AccountInfo&gt; GetAccountInfoAsync()</code></pre>
   </div>
 
   
@@ -1274,6 +1274,62 @@ Config information can be obtained from the UnregisteredIpcResponse.</p>
   
   <span class="small pull-right mobile-hide">
     <span class="divider"> </span>
+    <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Session_GetLogOutputPathAsync_System_String_.md&amp;value=---%0Auid%3A%20SafeApp.Session.GetLogOutputPathAsync(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
+  </span>
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Session.cs/#L249" title="View Source"><i class="fa fa-code"></i></a>
+  </span>
+  
+  <a id="SafeApp_Session_GetLogOutputPathAsync_" data-uid="SafeApp.Session.GetLogOutputPathAsync*"></a>
+  
+  <h4 id="SafeApp_Session_GetLogOutputPathAsync_System_String_" data-uid="SafeApp.Session.GetLogOutputPathAsync(System.String)"><a href="#collapsible-SafeApp_Session_GetLogOutputPathAsync_System_String_" class="expander" data-toggle="collapse">GetLogOutputPathAsync(String)</a></h4>
+  
+  <div id="collapsible-SafeApp_Session_GetLogOutputPathAsync_System_String_" class="collapse in">
+  <div class="markdown level1 summary"><p>Get the output log file path.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;string&gt; GetLogOutputPathAsync(string outputFileName)</code></pre>
+  </div>
+
+  <h5 class="parameters">Parameters</h5>
+  <table>
+    <tr>
+      <td>
+        <span class="pull-right"><span class="xref">System.String</span></span>
+        <span class="parametername">outputFileName</span>
+        <p><p>File name.</p>
+</p>
+      </td>
+    </tr>
+  </table>
+  
+  <h5 class="returns">Returns</h5>
+  <table>
+    <tr>
+      <td>
+        <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.String</span>&gt;
+        <p><p>Log output file path along with file name.</p>
+</p>
+      </td>
+    </tr>
+  </table>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </div>
+  
+  <span class="small pull-right mobile-hide">
+    <span class="divider"> </span>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Session_InitLoggingAsync_System_String_.md&amp;value=---%0Auid%3A%20SafeApp.Session.InitLoggingAsync(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
@@ -1285,14 +1341,14 @@ Config information can be obtained from the UnregisteredIpcResponse.</p>
   <h4 id="SafeApp_Session_InitLoggingAsync_System_String_" data-uid="SafeApp.Session.InitLoggingAsync(System.String)"><a href="#collapsible-SafeApp_Session_InitLoggingAsync_System_String_" class="expander" data-toggle="collapse">InitLoggingAsync(String)</a></h4>
   
   <div id="collapsible-SafeApp_Session_InitLoggingAsync_System_String_" class="collapse in">
-  <div class="markdown level1 summary"><p>Sets the additional path to search for config files.
-Also, enable logging to a file.</p>
+  <div class="markdown level1 summary"><p>Initialise the logging.
+Pass the file name to replease default output file name i.e. client.log.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task InitLoggingAsync(string configFilesPath)</code></pre>
+    <pre><code class="lang-csharp hljs">public static Task InitLoggingAsync(string outputLogFileName)</code></pre>
   </div>
 
   <h5 class="parameters">Parameters</h5>
@@ -1300,8 +1356,8 @@ Also, enable logging to a file.</p>
     <tr>
       <td>
         <span class="pull-right"><span class="xref">System.String</span></span>
-        <span class="parametername">configFilesPath</span>
-        <p><p>Config file path.</p>
+        <span class="parametername">outputLogFileName</span>
+        <p><p>Log output file name.</p>
 </p>
       </td>
     </tr>
@@ -1333,7 +1389,7 @@ Also, enable logging to a file.</p>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Session_IsMockBuild.md&amp;value=---%0Auid%3A%20SafeApp.Session.IsMockBuild%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Session.cs/#L340" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Session.cs/#L339" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Session_IsMockBuild_" data-uid="SafeApp.Session.IsMockBuild*"></a>
@@ -1378,7 +1434,7 @@ Also, enable logging to a file.</p>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Session_ReconnectAsync.md&amp;value=---%0Auid%3A%20SafeApp.Session.ReconnectAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Session.cs/#L354" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Session.cs/#L353" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Session_ReconnectAsync_" data-uid="SafeApp.Session.ReconnectAsync*"></a>
@@ -1422,7 +1478,7 @@ Also, enable logging to a file.</p>
     <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Session_ResetObjectCacheAsync.md&amp;value=---%0Auid%3A%20SafeApp.Session.ResetObjectCacheAsync%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Session.cs/#L368" title="View Source"><i class="fa fa-code"></i></a>
+    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Session.cs/#L367" title="View Source"><i class="fa fa-code"></i></a>
   </span>
   
   <a id="SafeApp_Session_ResetObjectCacheAsync_" data-uid="SafeApp.Session.ResetObjectCacheAsync*"></a>
@@ -1490,61 +1546,6 @@ Also, enable logging to a file.</p>
         <span class="pull-right"><span class="xref">System.String</span></span>
         <span class="parametername">path</span>
         <p><p>Configuration file path.</p>
-</p>
-      </td>
-    </tr>
-  </table>
-  
-  <h5 class="returns">Returns</h5>
-  <table>
-    <tr>
-      <td>
-        <span class="xref">System.Threading.Tasks.Task</span>
-        <p>
-      </td>
-    </tr>
-  </table>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  </div>
-  
-  <span class="small pull-right mobile-hide">
-    <span class="divider"> </span>
-    <a href="https://github.com/maidsafe/safe_app_csharp/new/master/apiSpec/new?filename=SafeApp_Session_SetLogOutputPathAsync_System_String_.md&amp;value=---%0Auid%3A%20SafeApp.Session.SetLogOutputPathAsync(System.String)%0Asummary%3A%20'*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax'%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A" title="Improve this Doc"><i class="fa fa-pencil"></i></a>
-  </span>
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/maidsafe/safe_app_csharp/blob/master/SafeApp/Session.cs/#L249" title="View Source"><i class="fa fa-code"></i></a>
-  </span>
-  
-  <a id="SafeApp_Session_SetLogOutputPathAsync_" data-uid="SafeApp.Session.SetLogOutputPathAsync*"></a>
-  
-  <h4 id="SafeApp_Session_SetLogOutputPathAsync_System_String_" data-uid="SafeApp.Session.SetLogOutputPathAsync(System.String)"><a href="#collapsible-SafeApp_Session_SetLogOutputPathAsync_System_String_" class="expander" data-toggle="collapse">SetLogOutputPathAsync(String)</a></h4>
-  
-  <div id="collapsible-SafeApp_Session_SetLogOutputPathAsync_System_String_" class="collapse in">
-  <div class="markdown level1 summary"><p>Sets the output log file name.</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="decalaration">Declaration</h5>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static Task SetLogOutputPathAsync(string outputFileName)</code></pre>
-  </div>
-
-  <h5 class="parameters">Parameters</h5>
-  <table>
-    <tr>
-      <td>
-        <span class="pull-right"><span class="xref">System.String</span></span>
-        <span class="parametername">outputFileName</span>
-        <p><p>File name.</p>
 </p>
       </td>
     </tr>
