@@ -141,7 +141,8 @@ namespace SafeApp.Tests
                 reader.Close();
             }
 
-            await Session.InitLoggingAsync(configPath);
+            await Session.SetAdditionalSearchPathAsync(configPath);
+            await Session.InitLoggingAsync();
             return configPath;
         }
 

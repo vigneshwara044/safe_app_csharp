@@ -19,7 +19,7 @@ namespace SafeApp.Tests
         {
             var session = await Utils.CreateTestApp();
             var mdInfo = await session.MDataInfoActions.RandomPublicAsync(16000);
-            var accountInfo = await session.GetAccountInfoAsyc();
+            var accountInfo = await session.GetAccountInfoAsync();
             Assert.That(986, Is.EqualTo(accountInfo.MutationsAvailable));
             Assert.That(14, Is.EqualTo(accountInfo.MutationsDone));
             using (var permissionsHandle = await session.MDataPermissions.NewAsync())
@@ -36,7 +36,7 @@ namespace SafeApp.Tests
                 }
             }
 
-            accountInfo = await session.GetAccountInfoAsyc();
+            accountInfo = await session.GetAccountInfoAsync();
             Assert.That(1000, Is.EqualTo(accountInfo.MutationsDone));
             Assert.That(0, Is.EqualTo(accountInfo.MutationsAvailable));
             using (var entryActionHandle = await session.MDataEntryActions.NewAsync())
