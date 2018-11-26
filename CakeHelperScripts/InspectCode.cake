@@ -24,10 +24,10 @@ Task("Analyze-Project-Report")
     var issues = ReadIssues(
       InspectCodeIssuesFromFilePath(logPath),
       buildDirectory);
-    
-    Information("InspectCode : {0} issues found.", issues.Count());
 
     if(issues.Count()>0) {
+      Information("InspectCode : {0} issues found.", issues.Count());
+      
       foreach (var item in issues)
       {
         var issueMessage = $"Priority: {item.PriorityName}, Details: {item.Message}, Line: {item.Line}, File: {item.AffectedFileRelativePath}";

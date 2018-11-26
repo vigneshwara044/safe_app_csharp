@@ -73,6 +73,6 @@ Task("Run-iOS-Tests")
     Information("Closing Simulator");
     ShutdownAllAppleSimulators();
 })
-    .ReportError(exception => {
+.ReportError(exception => {
     Information(exception.Message);
 });
