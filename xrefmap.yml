@@ -1675,12 +1675,15 @@ references:
   commentId: T:SafeApp.MockAuthBindings.ShareMDataIpcReq
   fullName: SafeApp.MockAuthBindings.ShareMDataIpcReq
   nameWithType: ShareMDataIpcReq
-- uid: SafeApp.MockAuthBindings.ShareMDataIpcReq.#ctor(System.UInt32,SafeApp.Utilities.ShareMDataReq,SafeApp.Utilities.MetadataResponse)
-  name: ShareMDataIpcReq(UInt32, ShareMDataReq, MetadataResponse)
-  href: api/SafeApp.MockAuthBindings.ShareMDataIpcReq.html#SafeApp_MockAuthBindings_ShareMDataIpcReq__ctor_System_UInt32_SafeApp_Utilities_ShareMDataReq_SafeApp_Utilities_MetadataResponse_
-  commentId: M:SafeApp.MockAuthBindings.ShareMDataIpcReq.#ctor(System.UInt32,SafeApp.Utilities.ShareMDataReq,SafeApp.Utilities.MetadataResponse)
-  fullName: SafeApp.MockAuthBindings.ShareMDataIpcReq.ShareMDataIpcReq(System.UInt32, SafeApp.Utilities.ShareMDataReq, SafeApp.Utilities.MetadataResponse)
-  nameWithType: ShareMDataIpcReq.ShareMDataIpcReq(UInt32, ShareMDataReq, MetadataResponse)
+- uid: SafeApp.MockAuthBindings.ShareMDataIpcReq.#ctor(System.UInt32,SafeApp.Utilities.ShareMDataReq,System.Collections.Generic.List{SafeApp.Utilities.MetadataResponse})
+  name: ShareMDataIpcReq(UInt32, ShareMDataReq, List<MetadataResponse>)
+  href: api/SafeApp.MockAuthBindings.ShareMDataIpcReq.html#SafeApp_MockAuthBindings_ShareMDataIpcReq__ctor_System_UInt32_SafeApp_Utilities_ShareMDataReq_System_Collections_Generic_List_SafeApp_Utilities_MetadataResponse__
+  commentId: M:SafeApp.MockAuthBindings.ShareMDataIpcReq.#ctor(System.UInt32,SafeApp.Utilities.ShareMDataReq,System.Collections.Generic.List{SafeApp.Utilities.MetadataResponse})
+  name.vb: ShareMDataIpcReq(UInt32, ShareMDataReq, List(Of MetadataResponse))
+  fullName: SafeApp.MockAuthBindings.ShareMDataIpcReq.ShareMDataIpcReq(System.UInt32, SafeApp.Utilities.ShareMDataReq, System.Collections.Generic.List<SafeApp.Utilities.MetadataResponse>)
+  fullName.vb: SafeApp.MockAuthBindings.ShareMDataIpcReq.ShareMDataIpcReq(System.UInt32, SafeApp.Utilities.ShareMDataReq, System.Collections.Generic.List(Of SafeApp.Utilities.MetadataResponse))
+  nameWithType: ShareMDataIpcReq.ShareMDataIpcReq(UInt32, ShareMDataReq, List<MetadataResponse>)
+  nameWithType.vb: ShareMDataIpcReq.ShareMDataIpcReq(UInt32, ShareMDataReq, List(Of MetadataResponse))
 - uid: SafeApp.MockAuthBindings.ShareMDataIpcReq.#ctor*
   name: ShareMDataIpcReq
   href: api/SafeApp.MockAuthBindings.ShareMDataIpcReq.html#SafeApp_MockAuthBindings_ShareMDataIpcReq__ctor_
@@ -2306,6 +2309,12 @@ references:
   commentId: F:SafeApp.Utilities.AppConstants.DirTag
   fullName: SafeApp.Utilities.AppConstants.DirTag
   nameWithType: AppConstants.DirTag
+- uid: SafeApp.Utilities.AppConstants.GetNextVersion
+  name: GetNextVersion
+  href: api/SafeApp.Utilities.AppConstants.html#SafeApp_Utilities_AppConstants_GetNextVersion
+  commentId: F:SafeApp.Utilities.AppConstants.GetNextVersion
+  fullName: SafeApp.Utilities.AppConstants.GetNextVersion
+  nameWithType: AppConstants.GetNextVersion
 - uid: SafeApp.Utilities.AppConstants.MaidsafeTag
   name: MaidsafeTag
   href: api/SafeApp.Utilities.AppConstants.html#SafeApp_Utilities_AppConstants_MaidsafeTag
@@ -4494,12 +4503,12 @@ references:
   commentId: T:SafeApp.Utilities.MDataKey
   fullName: SafeApp.Utilities.MDataKey
   nameWithType: MDataKey
-- uid: SafeApp.Utilities.MDataKey.Val
-  name: Val
-  href: api/SafeApp.Utilities.MDataKey.html#SafeApp_Utilities_MDataKey_Val
-  commentId: F:SafeApp.Utilities.MDataKey.Val
-  fullName: SafeApp.Utilities.MDataKey.Val
-  nameWithType: MDataKey.Val
+- uid: SafeApp.Utilities.MDataKey.Key
+  name: Key
+  href: api/SafeApp.Utilities.MDataKey.html#SafeApp_Utilities_MDataKey_Key
+  commentId: F:SafeApp.Utilities.MDataKey.Key
+  fullName: SafeApp.Utilities.MDataKey.Key
+  nameWithType: MDataKey.Key
 - uid: SafeApp.Utilities.MDataValue
   name: MDataValue
   href: api/SafeApp.Utilities.MDataValue.html

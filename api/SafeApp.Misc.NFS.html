@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Class NFS
    | Safe Network :: safe_app_csharp API Documentation ">
-    <meta name="generator" content="docfx 2.40.3.0">
+    <meta name="generator" content="docfx 2.40.4.0">
     
     <link rel="shortcut icon" href=".././images/favicon.ico">
     <link rel="stylesheet" href="../styles/docfx.vendor.css">
@@ -143,7 +143,7 @@ Directly commit to the network.</p>
   <h5 class="decalaration">Declaration</h5>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task DirDeleteFileAsync(MDataInfo mDataInfo, string fileName, ulong version)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;ulong&gt; DirDeleteFileAsync(MDataInfo mDataInfo, string fileName, ulong version)</code></pre>
   </div>
 
   <h5 class="parameters">Parameters</h5>
@@ -178,8 +178,9 @@ Directly commit to the network.</p>
   <table>
     <tr>
       <td>
-        <span class="xref">System.Threading.Tasks.Task</span>
-        <p>
+        <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.UInt64</span>&gt;
+        <p><p>The version successor for the deleted file.</p>
+</p>
       </td>
     </tr>
   </table>
@@ -351,7 +352,7 @@ Directly commit to the network.</p>
   <h5 class="decalaration">Declaration</h5>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Task DirUpdateFileAsync(MDataInfo mDataInfo, string fileName, File file, ulong version)</code></pre>
+    <pre><code class="lang-csharp hljs">public Task&lt;ulong&gt; DirUpdateFileAsync(MDataInfo mDataInfo, string fileName, File file, ulong version)</code></pre>
   </div>
 
   <h5 class="parameters">Parameters</h5>
@@ -394,8 +395,9 @@ Directly commit to the network.</p>
   <table>
     <tr>
       <td>
-        <span class="xref">System.Threading.Tasks.Task</span>
-        <p>
+        <span class="xref">System.Threading.Tasks.Task</span>&lt;<span class="xref">System.UInt64</span>&gt;
+        <p><p>The version successor for the updated file.</p>
+</p>
       </td>
     </tr>
   </table>
