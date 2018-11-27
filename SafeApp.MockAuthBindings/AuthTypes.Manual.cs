@@ -93,7 +93,7 @@ namespace SafeApp.MockAuthBindings
         /// <summary>
         /// Metadata response.
         /// </summary>
-        public MetadataResponse MetadataResponse;
+        public List<MetadataResponse> MetadataResponse;
 
         /// <summary>
         /// Request Id.
@@ -105,11 +105,11 @@ namespace SafeApp.MockAuthBindings
         /// </summary>
         public ShareMDataReq ShareMDataReq;
 
-        public ShareMDataIpcReq(uint reqId, ShareMDataReq shareMDataReq, MetadataResponse metadataResponse)
+        public ShareMDataIpcReq(uint reqId, ShareMDataReq shareMDataReq, List<MetadataResponse> metadataResponseList)
         {
             ReqId = reqId;
             ShareMDataReq = shareMDataReq;
-            MetadataResponse = metadataResponse;
+            MetadataResponse = metadataResponseList;
         }
     }
 

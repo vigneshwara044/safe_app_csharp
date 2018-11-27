@@ -23,12 +23,12 @@ namespace SafeApp.AppBindings
 
         public bool IsMockBuild()
         {
-            var ret = IsMockBuildNative();
+            var ret = AppIsMockNative();
             return ret;
         }
 
-        [DllImport(DllName, EntryPoint = "is_mock_build")]
-        private static extern bool IsMockBuildNative();
+        [DllImport(DllName, EntryPoint = "app_is_mock")]
+        private static extern bool AppIsMockNative();
 
         [DllImport(DllName, EntryPoint = "app_unregistered")]
         private static extern void AppUnregisteredNative(
@@ -413,46 +413,44 @@ namespace SafeApp.AppBindings
             IntPtr userData,
             FfiResultByteListCb oCb);
 
-        public Task<List<byte>> EncryptAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH)
+        public Task<List<byte>> EncryptAsync(IntPtr app, List<byte> data, ulong publicKeyH, ulong secretKeyH)
         {
             var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-            EncryptNative(app, data?.ToArray(), (UIntPtr)(data?.Count ?? 0), pkH, skH, userData, DelegateOnFfiResultByteListCb);
+            EncryptNative(app, data?.ToArray(), (UIntPtr)(data?.Count ?? 0), publicKeyH, secretKeyH, userData, DelegateOnFfiResultByteListCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "encrypt")]
         private static extern void EncryptNative(
             IntPtr app,
-            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
-            byte[] data,
+            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] data,
             UIntPtr dataLen,
-            ulong pkH,
-            ulong skH,
+            ulong publicKeyH,
+            ulong secretKeyH,
             IntPtr userData,
             FfiResultByteListCb oCb);
 
-        public Task<List<byte>> DecryptAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH)
+        public Task<List<byte>> DecryptAsync(IntPtr app, List<byte> data, ulong publicKeyH, ulong secretKeyH)
         {
             var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-            DecryptNative(app, data?.ToArray(), (UIntPtr)(data?.Count ?? 0), pkH, skH, userData, DelegateOnFfiResultByteListCb);
+            DecryptNative(app, data?.ToArray(), (UIntPtr)(data?.Count ?? 0), publicKeyH, secretKeyH, userData, DelegateOnFfiResultByteListCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "decrypt")]
         private static extern void DecryptNative(
             IntPtr app,
-            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
-            byte[] data,
+            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] data,
             UIntPtr dataLen,
-            ulong pkH,
-            ulong skH,
+            ulong publicKeyH,
+            ulong secretKeyH,
             IntPtr userData,
             FfiResultByteListCb oCb);
 
-        public Task<List<byte>> EncryptSealedBoxAsync(IntPtr app, List<byte> data, ulong pkH)
+        public Task<List<byte>> EncryptSealedBoxAsync(IntPtr app, List<byte> data, ulong publicKeyH)
         {
             var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-            EncryptSealedBoxNative(app, data?.ToArray(), (UIntPtr)(data?.Count ?? 0), pkH, userData, DelegateOnFfiResultByteListCb);
+            EncryptSealedBoxNative(app, data?.ToArray(), (UIntPtr)(data?.Count ?? 0), publicKeyH, userData, DelegateOnFfiResultByteListCb);
             return ret;
         }
 
@@ -462,14 +460,14 @@ namespace SafeApp.AppBindings
             [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
             byte[] data,
             UIntPtr dataLen,
-            ulong pkH,
+            ulong publicKeyH,
             IntPtr userData,
             FfiResultByteListCb oCb);
 
-        public Task<List<byte>> DecryptSealedBoxAsync(IntPtr app, List<byte> data, ulong pkH, ulong skH)
+        public Task<List<byte>> DecryptSealedBoxAsync(IntPtr app, List<byte> data, ulong publicKeyH, ulong secretKeyH)
         {
             var (ret, userData) = BindingUtils.PrepareTask<List<byte>>();
-            DecryptSealedBoxNative(app, data?.ToArray(), (UIntPtr)(data?.Count ?? 0), pkH, skH, userData, DelegateOnFfiResultByteListCb);
+            DecryptSealedBoxNative(app, data?.ToArray(), (UIntPtr)(data?.Count ?? 0), publicKeyH, secretKeyH, userData, DelegateOnFfiResultByteListCb);
             return ret;
         }
 
@@ -479,8 +477,8 @@ namespace SafeApp.AppBindings
             [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)]
             byte[] data,
             UIntPtr dataLen,
-            ulong pkH,
-            ulong skH,
+            ulong publicKeyH,
+            ulong secretKeyH,
             IntPtr userData,
             FfiResultByteListCb oCb);
 
@@ -1304,11 +1302,11 @@ namespace SafeApp.AppBindings
             IntPtr userData,
             FfiResultCb oCb);
 
-        public Task DirUpdateFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ref File file, ulong version)
+        public Task<ulong> DirUpdateFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ref File file, ulong version)
         {
             var fileNative = file.ToNative();
-            var (ret, userData) = BindingUtils.PrepareTask();
-            DirUpdateFileNative(app, ref parentInfo, fileName, ref fileNative, version, userData, DelegateOnFfiResultCb);
+            var (ret, userData) = BindingUtils.PrepareTask<ulong>();
+            DirUpdateFileNative(app, ref parentInfo, fileName, ref fileNative, version, userData, DelegateOnFfiResultULongCb);
             fileNative.Free();
             return ret;
         }
@@ -1321,12 +1319,12 @@ namespace SafeApp.AppBindings
             ref FileNative file,
             ulong version,
             IntPtr userData,
-            FfiResultCb oCb);
+            FfiResultULongCb oCb);
 
-        public Task DirDeleteFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ulong version)
+        public Task<ulong> DirDeleteFileAsync(IntPtr app, ref MDataInfo parentInfo, string fileName, ulong version)
         {
-            var (ret, userData) = BindingUtils.PrepareTask();
-            DirDeleteFileNative(app, ref parentInfo, fileName, version, userData, DelegateOnFfiResultCb);
+            var (ret, userData) = BindingUtils.PrepareTask<ulong>();
+            DirDeleteFileNative(app, ref parentInfo, fileName, version, userData, DelegateOnFfiResultULongCb);
             return ret;
         }
 
@@ -1337,7 +1335,7 @@ namespace SafeApp.AppBindings
             [MarshalAs(UnmanagedType.LPStr)] string fileName,
             ulong version,
             IntPtr userData,
-            FfiResultCb oCb);
+            FfiResultULongCb oCb);
 
         public Task<ulong> FileOpenAsync(IntPtr app, ref MDataInfo parentInfo, ref File file, ulong openMode)
         {
@@ -1755,14 +1753,14 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultULongFromUIntPtrCb DelegateOnFfiResultULongFromUIntPtrCb = OnFfiResultULongFromUIntPtrCb;
 
-        private delegate void FfiResultULongULongCb(IntPtr userData, IntPtr result, ulong pkH, ulong skH);
+        private delegate void FfiResultULongULongCb(IntPtr userData, IntPtr result, ulong publicKeyH, ulong secretKeyH);
 
 #if __IOS__
     [MonoPInvokeCallback(typeof(FfiResultULongULongCb))]
 #endif
-        private static void OnFfiResultULongULongCb(IntPtr userData, IntPtr result, ulong pkH, ulong skH)
+        private static void OnFfiResultULongULongCb(IntPtr userData, IntPtr result, ulong publicKeyH, ulong secretKeyH)
         {
-            BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => (pkH, skH));
+            BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => (publicKeyH, secretKeyH));
         }
 
         private static readonly FfiResultULongULongCb DelegateOnFfiResultULongULongCb = OnFfiResultULongULongCb;

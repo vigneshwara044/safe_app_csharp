@@ -181,7 +181,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        /// Sign the given data (buffer) using a secret Sign Key.
+        /// Sign the given data (buffer) using a Secret Sign Key.
         /// </summary>
         /// <param name="data">Data to sign.</param>
         /// <param name="signSecKey">Secret Sign Key to sign the given data.</param>

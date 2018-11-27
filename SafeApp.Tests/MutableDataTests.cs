@@ -121,32 +121,32 @@ namespace SafeApp.Tests
             var keyToDelete = keys[0];
             using (var entriesHandle = await app.MDataEntryActions.NewAsync())
             {
-                var value = await app.MData.GetValueAsync(mdInfo, keyToDelete.Val);
-                await app.MDataEntryActions.UpdateAsync(entriesHandle, keyToDelete.Val, Utils.GetRandomString(5).ToUtfBytes(), value.Item2 + 1);
+                var value = await app.MData.GetValueAsync(mdInfo, keyToDelete.Key);
+                await app.MDataEntryActions.UpdateAsync(entriesHandle, keyToDelete.Key, Utils.GetRandomString(5).ToUtfBytes(), value.Item2 + 1);
                 await app.MData.MutateEntriesAsync(mdInfo, entriesHandle);
             }
 
             using (var entriesHandle = await app.MDataEntryActions.NewAsync())
             {
-                var value = await app.MData.GetValueAsync(mdInfo, keyToDelete.Val);
-                await app.MDataEntryActions.DeleteAsync(entriesHandle, keyToDelete.Val, value.Item2 + 1);
+                var value = await app.MData.GetValueAsync(mdInfo, keyToDelete.Key);
+                await app.MDataEntryActions.DeleteAsync(entriesHandle, keyToDelete.Key, value.Item2 + 1);
                 await app.MData.MutateEntriesAsync(mdInfo, entriesHandle);
             }
 
             keys = await app.MData.ListKeysAsync(mdInfo);
             Assert.That(keys.Count, Is.EqualTo(5));
-            var deletedValue = await app.MData.GetValueAsync(mdInfo, keyToDelete.Val);
+            var deletedValue = await app.MData.GetValueAsync(mdInfo, keyToDelete.Key);
             using (var entriesHandle = await app.MDataEntryActions.NewAsync())
             {
                 await app.MDataEntryActions.UpdateAsync(
                   entriesHandle,
-                  keyToDelete.Val,
+                  keyToDelete.Key,
                   Utils.GetRandomString(5).ToUtfBytes(),
                   deletedValue.Item2 + 1);
                 await app.MData.MutateEntriesAsync(mdInfo, entriesHandle);
             }
 
-            deletedValue = await app.MData.GetValueAsync(mdInfo, keyToDelete.Val);
+            deletedValue = await app.MData.GetValueAsync(mdInfo, keyToDelete.Key);
             Assert.That(deletedValue.Item2, Is.EqualTo(3));
             app.Dispose();
         }
@@ -184,8 +184,8 @@ namespace SafeApp.Tests
 
             foreach (var key in keys)
             {
-                var (value, _) = await session.MData.GetValueAsync(mdInfo, key.Val.ToList());
-                var decryptedKey = await session.MDataInfoActions.DecryptAsync(mdInfo, key.Val.ToList());
+                var (value, _) = await session.MData.GetValueAsync(mdInfo, key.Key.ToList());
+                var decryptedKey = await session.MDataInfoActions.DecryptAsync(mdInfo, key.Key.ToList());
                 var decryptedValue = await session.MDataInfoActions.DecryptAsync(mdInfo, value.ToList());
                 Assert.That(actKey, Is.EqualTo(Encoding.ASCII.GetString(decryptedKey.ToArray())));
                 Assert.That(actValue, Is.EqualTo(Encoding.ASCII.GetString(decryptedValue.ToArray())));
@@ -230,8 +230,8 @@ namespace SafeApp.Tests
 
             foreach (var key in keys)
             {
-                var (value, _) = await session.MData.GetValueAsync(mdInfo, key.Val.ToList());
-                Assert.That(actKey, Is.EqualTo(Encoding.ASCII.GetString(key.Val.ToArray())));
+                var (value, _) = await session.MData.GetValueAsync(mdInfo, key.Key.ToList());
+                Assert.That(actKey, Is.EqualTo(Encoding.ASCII.GetString(key.Key.ToArray())));
                 Assert.That(actValue, Is.EqualTo(Encoding.ASCII.GetString(value.ToArray())));
             }
 
@@ -281,7 +281,7 @@ namespace SafeApp.Tests
                 var keys = await session.MData.ListKeysAsync(mDataInfo);
                 foreach (var key in keys)
                 {
-                    var encKey = await session.MDataEntries.GetAsync(entriesHandle, key.Val);
+                    var encKey = await session.MDataEntries.GetAsync(entriesHandle, key.Key);
                     await session.MDataInfoActions.DecryptAsync(mDataInfo, encKey.Item1);
                 }
             }
@@ -308,7 +308,7 @@ namespace SafeApp.Tests
                 var entries = await session2.MData.ListEntriesAsync(entriesHandle);
                 foreach (var entry in entries)
                 {
-                    await session2.MDataInfoActions.DecryptAsync(mDataInfo, entry.Key.Val);
+                    await session2.MDataInfoActions.DecryptAsync(mDataInfo, entry.Key.Key);
                 }
             }
 
@@ -318,8 +318,8 @@ namespace SafeApp.Tests
                 var keys = await session2.MData.ListKeysAsync(mDataInfo);
                 foreach (var key in keys)
                 {
-                    var encKey = await session2.MDataEntries.GetAsync(entriesHandle, key.Val);
-                    await session2.MDataEntryActions.DeleteAsync(entryAction, key.Val, encKey.Item2);
+                    var encKey = await session2.MDataEntries.GetAsync(entriesHandle, key.Key);
+                    await session2.MDataEntryActions.DeleteAsync(entryAction, key.Key, encKey.Item2);
                 }
 
                 Assert.That(async () => { await session2.MData.MutateEntriesAsync(mDataInfo, entryAction); }, Throws.TypeOf<FfiException>());

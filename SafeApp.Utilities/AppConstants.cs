@@ -24,12 +24,17 @@ namespace SafeApp.Utilities
         public const ulong AsymSecretKeyLen = 32;
 
         /// <summary>
+        /// Get next version for a file in NFS
+        /// </summary>
+        public const ulong GetNextVersion = 0;
+
+        /// <summary>
         /// Length of Symmetric Public Sign Key
         /// </summary>
         public const ulong SignPublicKeyLen = 32;
 
         /// <summary>
-        /// Length of Symmetric secret Sign Key
+        /// Length of Symmetric Secret Sign Key
         /// </summary>
         public const ulong SignSecretKeyLen = 64;
 

@@ -1,4 +1,4 @@
-var TAG = "6be5558";
+var TAG = "0.9.0";
 var ANDROID_DIR_NAME = "SafeApp.AppBindings.Android";
 var IOS_DIR_NAME = "SafeApp.AppBindings.iOS";
 var DESKTOP_DIR_NAME = "SafeApp.AppBindings.Desktop";
@@ -138,6 +138,7 @@ Task("UnZip-Libs")
           if(target.Contains("osx") || target.Contains("android") || target.Contains("linux"))
           {
             var aFile = GetFiles(string.Format("{0}/*.a", platformOutputDirectory.ToString()));
+            if(aFile.Count > 0)
             DeleteFile(aFile.ToArray()[0].FullPath);
           }
 

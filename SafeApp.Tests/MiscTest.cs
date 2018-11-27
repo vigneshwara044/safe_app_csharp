@@ -20,8 +20,8 @@ namespace SafeApp.Tests
             var session = await Utils.CreateTestApp();
             var mdInfo = await session.MDataInfoActions.RandomPublicAsync(16000);
             var accountInfo = await session.GetAccountInfoAsync();
-            Assert.That(987, Is.EqualTo(accountInfo.MutationsAvailable));
-            Assert.That(13, Is.EqualTo(accountInfo.MutationsDone));
+            Assert.That(986, Is.EqualTo(accountInfo.MutationsAvailable));
+            Assert.That(14, Is.EqualTo(accountInfo.MutationsDone));
             using (var permissionsHandle = await session.MDataPermissions.NewAsync())
             using (var userHandle = await session.Crypto.AppPubSignKeyAsync())
             {
@@ -79,8 +79,8 @@ namespace SafeApp.Tests
             using (var entryHandle = await session.MDataEntries.GetHandleAsync(mDataInfo))
             {
                 keys = await session.MData.ListKeysAsync(mDataInfo);
-                var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Val);
-                await session.MDataEntryActions.UpdateAsync(entriesActionHandle, keys[0].Val, Utils.GetRandomData(10).ToList(), value.Item2 + 1);
+                var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Key);
+                await session.MDataEntryActions.UpdateAsync(entriesActionHandle, keys[0].Key, Utils.GetRandomData(10).ToList(), value.Item2 + 1);
                 await session.MData.MutateEntriesAsync(mDataInfo, entriesActionHandle);
             }
 
@@ -88,8 +88,8 @@ namespace SafeApp.Tests
             using (var entryHandle = await session.MDataEntries.GetHandleAsync(mDataInfo))
             {
                 keys = await session.MData.ListKeysAsync(mDataInfo);
-                var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Val);
-                await session.MDataEntryActions.DeleteAsync(entriesActionHandle, keys[0].Val, value.Item2 + 1);
+                var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Key);
+                await session.MDataEntryActions.DeleteAsync(entriesActionHandle, keys[0].Key, value.Item2 + 1);
                 await session.MData.MutateEntriesAsync(mDataInfo, entriesActionHandle);
             }
         }
@@ -116,9 +116,15 @@ namespace SafeApp.Tests
         }
 
         [Test]
-        public void IsMockBuildTest()
+        public void IsMockAuthenticationBuildTest()
         {
             Assert.That(Authenticator.IsMockBuild(), Is.True);
+        }
+
+        [Test]
+        public void IsMockSafeAppBuildTest()
+        {
+            Assert.That(Session.IsMockBuild(), Is.True);
         }
 
         [Test]

@@ -780,7 +780,7 @@ namespace SafeApp.Utilities
         /// <summary>
         /// Key value in byte array format.
         /// </summary>
-        public List<byte> Val;
+        public List<byte> Key;
 
         /// <summary>
         /// Initialise new Mutable Data key from native key.
@@ -788,7 +788,7 @@ namespace SafeApp.Utilities
         /// <param name="native"></param>
         internal MDataKey(MDataKeyNative native)
         {
-            Val = BindingUtils.CopyToByteList(native.ValPtr, (int)native.ValLen);
+            Key = BindingUtils.CopyToByteList(native.KeyPtr, (int)native.KeyLen);
         }
 
         /// <summary>
@@ -797,7 +797,7 @@ namespace SafeApp.Utilities
         /// <returns></returns>
         internal MDataKeyNative ToNative()
         {
-            return new MDataKeyNative { ValPtr = BindingUtils.CopyFromByteList(Val), ValLen = (UIntPtr)(Val?.Count ?? 0) };
+            return new MDataKeyNative { KeyPtr = BindingUtils.CopyFromByteList(Key), KeyLen = (UIntPtr)(Key?.Count ?? 0) };
         }
     }
 
@@ -809,19 +809,19 @@ namespace SafeApp.Utilities
         /// <summary>
         /// key value pointer.
         /// </summary>
-        public IntPtr ValPtr;
+        public IntPtr KeyPtr;
 
         /// <summary>
         /// key length.
         /// </summary>
-        public UIntPtr ValLen;
+        public UIntPtr KeyLen;
 
         /// <summary>
         /// Free the pointer to Mutable Data key.
         /// </summary>
         internal void Free()
         {
-            BindingUtils.FreeList(ref ValPtr, ref ValLen);
+            BindingUtils.FreeList(ref KeyPtr, ref KeyLen);
         }
     }
 
