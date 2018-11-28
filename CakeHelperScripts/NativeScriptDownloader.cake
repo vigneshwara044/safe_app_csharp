@@ -4,8 +4,10 @@ var IOS_DIR_NAME = "SafeApp.AppBindings.iOS";
 var DESKTOP_DIR_NAME = "SafeApp.AppBindings.Desktop";
 
 var ANDROID_ARMEABI_V7A = "android-armeabiv7a";
+var ANDROID_x86_64 = "android-x86_64";
 var ANDROID_ARCHITECTURES = new string[] {
-  ANDROID_ARMEABI_V7A
+  ANDROID_ARMEABI_V7A,
+  ANDROID_x86_64
 };
 var IOS_ARCHITECTURES = new string[] {
   "ios"
@@ -58,6 +60,16 @@ Task("Download-Libs")
 
         if(!DirectoryExists(targetDirectory))
           CreateDirectory(targetDirectory);
+        else
+        {
+          var existingNativeLibs = GetFiles(string.Format("{0}/*.zip", targetDirectory));
+          if(existingNativeLibs.Count > 0)
+          foreach(var lib in existingNativeLibs) 
+          {
+            if(!lib.GetFilename().ToString().Contains(TAG))
+              DeleteFile(lib.FullPath);
+          }
+        }
 
         Information("Downloading : {0}", mockZipFilename);
         if(!FileExists(mockZipSavePath))
@@ -132,6 +144,8 @@ Task("UnZip-Libs")
           
           if(target.Equals(ANDROID_ARMEABI_V7A))
             platformOutputDirectory.Append("/armeabi-v7a");
+          else if(target.Equals(ANDROID_x86_64))
+            platformOutputDirectory.Append("/x86_64");
 
           Unzip(zip, platformOutputDirectory.ToString());
 
@@ -139,9 +153,8 @@ Task("UnZip-Libs")
           {
             var aFile = GetFiles(string.Format("{0}/*.a", platformOutputDirectory.ToString()));
             if(aFile.Count > 0)
-            DeleteFile(aFile.ToArray()[0].FullPath);
+              DeleteFile(aFile.ToArray()[0].FullPath);
           }
-
         }
       }
     }

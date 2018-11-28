@@ -5,7 +5,7 @@
 | [![NuGet](https://img.shields.io/nuget/v/MaidSafe.SafeApp.svg)](https://www.nuget.org/packages/MaidSafe.SafeApp) | [![Build status](https://ci.appveyor.com/api/projects/status/x3m722rvosw2coao/branch/master?svg=true)](https://ci.appveyor.com/project/MaidSafe-QA/safe-app-csharp/branch/master) |
 
 safe_app CSharp Library. Currently supports
-- Xamarin.Android ( >=4.1.2. ABI: armeabi-v7a)
+- Xamarin.Android ( >=4.1.2. ABI: armeabi-v7a, x86_64)
 - Xamarin.iOS ( >= 1.0, ABI: ARM64, x64)
 - netstandard1.3 (for usage via portable libs)
 - netcoreapp1.0 (for use via NET Core targets. Runtime support limited to x64)

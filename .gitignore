@@ -9,6 +9,7 @@
 *.userprefs
 *.GhostDoc.xml
 .vs/
+.vscode
 
 # ignore Xamarin.Android Resource.Designer.cs files
 **/*.Droid/**/[Rr]esource.[Dd]esigner.cs
@@ -44,7 +45,7 @@ bld/
 [Bb]uild[Ll]og.*
 
 # NUNIT
-TestResult.xml
+**/*TestResult.xml
 *.VisualState.xml
 
 # Build Results of an ATL Project
