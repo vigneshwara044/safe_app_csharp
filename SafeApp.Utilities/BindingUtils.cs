@@ -43,6 +43,10 @@ namespace SafeApp.Utilities
         [MarshalAs(UnmanagedType.LPStr)]
         public string Description;
 
+        /// <summary>
+        /// Convert FfiResult to FfiException.
+        /// </summary>
+        /// <returns>New FfiException instance.</returns>
         public FfiException ToException()
         {
             return new FfiException(ErrorCode, Description);

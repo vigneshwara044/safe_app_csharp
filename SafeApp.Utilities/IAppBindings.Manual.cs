@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace SafeApp.Utilities
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public partial interface IAppBindings
     {
         void AppRegistered(string appId, ref AuthGranted authGranted, Action oDisconnectNotifierCb, Action<FfiResult, IntPtr, GCHandle> oCb);
@@ -14,3 +15,5 @@ namespace SafeApp.Utilities
         Task<IpcMsg> DecodeIpcMsgAsync(string msg);
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+

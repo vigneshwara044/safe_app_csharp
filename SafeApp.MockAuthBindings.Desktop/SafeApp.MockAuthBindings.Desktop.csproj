@@ -1,10 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <AssemblyName>SafeApp.MockAuthBindings</AssemblyName>
     <RootNamespace>SafeApp.MockAuthBindings</RootNamespace>
     <DefineConstants>__DESKTOP__</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.3\SafeApp.MockAuthBindings.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

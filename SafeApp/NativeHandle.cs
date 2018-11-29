@@ -3,8 +3,16 @@ using System.Threading.Tasks;
 
 namespace SafeApp
 {
+    /// <summary>
+    /// Handle to a complex object held in the SafeApp object cache.
+    /// Complex objects are not moved across FFI boundary, instead a reference to the object is used.
+    /// The handle acts as a reference to the object for performing operations.
+    /// </summary>
     public class NativeHandle : IDisposable
     {
+        /// <summary>
+        /// NativeHandle with null reference.
+        /// </summary>
         public static readonly NativeHandle Zero = new NativeHandle(null, 0, null);
 
         private readonly Func<ulong, Task> _disposer;
@@ -35,6 +43,10 @@ namespace SafeApp
             ReleaseUnmanagedResources();
         }
 
+        /// <summary>
+        /// Convert NativeHandle to ulong.
+        /// </summary>
+        /// <param name="obj">NativeHandle instance.</param>
         public static implicit operator ulong(NativeHandle obj)
         {
             return obj._handle;

@@ -47,6 +47,9 @@ namespace SafeApp.MockAuthBindings
     [PublicAPI]
     public class UnregisteredIpcReq : IpcReq
     {
+        /// <summary>
+        /// Extra arbitrary data.
+        /// </summary>
         public List<byte> ExtraData;
 
         /// <summary>
@@ -54,6 +57,12 @@ namespace SafeApp.MockAuthBindings
         /// </summary>
         public uint ReqId;
 
+        /// <summary>
+        /// Initialises an Unregistered request instance.
+        /// </summary>
+        /// <param name="reqId">Request Id.</param>
+        /// <param name="extraDataPtr">Extra arbitrary data.</param>
+        /// <param name="extraDataLength">Extra data length.</param>
         public UnregisteredIpcReq(uint reqId, IntPtr extraDataPtr, ulong extraDataLength)
         {
             ReqId = reqId;
@@ -77,6 +86,11 @@ namespace SafeApp.MockAuthBindings
         /// </summary>
         public uint ReqId;
 
+        /// <summary>
+        /// Initialises a Containers request instance.
+        /// </summary>
+        /// <param name="reqId">Request Id.</param>
+        /// <param name="containersReq">Containers request instance.</param>
         public ContainersIpcReq(uint reqId, ContainersReq containersReq)
         {
             ReqId = reqId;
@@ -105,6 +119,12 @@ namespace SafeApp.MockAuthBindings
         /// </summary>
         public ShareMDataReq ShareMDataReq;
 
+        /// <summary>
+        /// Initialises a ShareMDataReq instance.
+        /// </summary>
+        /// <param name="reqId">Request Id.</param>
+        /// <param name="shareMDataReq">Share Mutable Data request.</param>
+        /// <param name="metadataResponseList">Mutable Data MetaDataResonse list.</param>
         public ShareMDataIpcReq(uint reqId, ShareMDataReq shareMDataReq, List<MetadataResponse> metadataResponseList)
         {
             ReqId = reqId;
@@ -124,6 +144,10 @@ namespace SafeApp.MockAuthBindings
         /// </summary>
         public readonly string Msg;
 
+        /// <summary>
+        /// Initialise a rejected IPC Request.
+        /// </summary>
+        /// <param name="msg">Error message.</param>
         public IpcReqRejected(string msg)
         {
             Msg = msg;
@@ -151,6 +175,12 @@ namespace SafeApp.MockAuthBindings
         /// </summary>
         public readonly string Msg;
 
+        /// <summary>
+        /// Initialises an IpcReqError object.
+        /// </summary>
+        /// <param name="code">Error code.</param>
+        /// <param name="description">Error description.</param>
+        /// <param name="msg">Error message.</param>
         public IpcReqError(int code, string description, string msg)
         {
             Code = code;
