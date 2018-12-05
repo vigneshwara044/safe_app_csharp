@@ -3,10 +3,11 @@
 .NET wrapper package for [safe_app](https://github.com/maidsafe/safe_client_libs/tree/master/safe_app). 
 > [safe_app](https://github.com/maidsafe/safe_client_libs/tree/master/safe_app) is a native library which exposes low level API for application development on SAFE Network. It exposes APIs for authorisation and to manage data on the network.
 
-safe_app_csharp API documentation is available at [docs.maidsafe.net/safe_app_csharp](https://docs.maidsafe.net/safe_app_csharp/).
-
-
 **Maintainer:** Krishna Kumar (krishna.kumar@maidsafe.net)
+
+## API Documentation
+
+The documentation for the latest `safe_app_csharp` API is available at <http://docs.maidsafe.net/safe_app_csharp/>.
 
 ## Build Status
 
