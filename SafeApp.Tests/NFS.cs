@@ -26,7 +26,7 @@ namespace SafeApp.Tests
                   Encoding.UTF8.GetBytes("index.html").ToList(),
                   Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
                 await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, permissions);
-                await session.MData.PutAsync(mDataInfo, permissionHandle, NativeHandle.Zero);
+                await session.MData.PutAsync(mDataInfo, permissionHandle, NativeHandle.EmptyMDataEntries);
             }
 
             var fileHandle = await session.NFS.FileOpenAsync(mDataInfo, default(File), Misc.NFS.OpenMode.Overwrite);
