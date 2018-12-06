@@ -18,16 +18,24 @@
   </Choose>
   <Choose>
     <When Condition="$(RuntimeIdentifier.StartsWith('win'))">
-      <NativeLibFile>safe_app.dll</NativeLibFile>
+      <PropertyGroup>
+        <NativeLibFile>safe_app.dll</NativeLibFile>
+      </PropertyGroup>
     </When>
     <When Condition="$(RuntimeIdentifier.StartsWith('osx'))">
-      <NativeLibFile>libsafe_app.dylib</NativeLibFile>
+      <PropertyGroup>
+        <NativeLibFile>libsafe_app.dylib</NativeLibFile>
+      </PropertyGroup>
     </When>
     <When Condition="'$(RuntimeIdentifier)' != ''">
-      <NativeLibFile>libsafe_app.so</NativeLibFile>
+      <PropertyGroup>
+        <NativeLibFile>libsafe_app.so</NativeLibFile>
+      </PropertyGroup>
     </When>
     <Otherwise>
-      <NativeLibFile>*</NativeLibFile>
+      <PropertyGroup>
+        <NativeLibFile>*</NativeLibFile>
+      </PropertyGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
