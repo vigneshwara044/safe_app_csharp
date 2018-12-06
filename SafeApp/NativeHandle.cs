@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace SafeApp
 {
     public class NativeHandle : IDisposable
     {
+        // ReSharper disable once UnusedMember.Global
+
         /// <summary>
         /// NativeHandle with null reference.
         /// </summary>
@@ -14,6 +17,7 @@ namespace SafeApp
         /// <summary>
         /// NativeHandle to insert permissions for all users.
         /// </summary>
+        [PublicAPI]
         public static readonly NativeHandle AnyOne = new NativeHandle(null, 0, null);
 
         /// <summary>
