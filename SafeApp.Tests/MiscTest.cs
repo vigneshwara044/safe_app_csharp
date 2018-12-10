@@ -26,7 +26,7 @@ namespace SafeApp.Tests
             using (var userHandle = await session.Crypto.AppPubSignKeyAsync())
             {
                 await session.MDataPermissions.InsertAsync(permissionsHandle, userHandle, new PermissionSet { Insert = true, Delete = true });
-                await session.MData.PutAsync(mdInfo, permissionsHandle, NativeHandle.Zero);
+                await session.MData.PutAsync(mdInfo, permissionsHandle, NativeHandle.EmptyMDataEntries);
                 for (var i = 0; i < (long)accountInfo.MutationsAvailable - 1; i++)
                 {
                     var entryHandle = await session.MDataEntryActions.NewAsync();
