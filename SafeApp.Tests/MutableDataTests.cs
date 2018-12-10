@@ -165,7 +165,7 @@ namespace SafeApp.Tests
                 using (var appSignKeyH = await session.Crypto.AppPubSignKeyAsync())
                 {
                     await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, mDataPermissionSet);
-                    await session.MData.PutAsync(mdInfo, permissionsH, NativeHandle.Zero);
+                    await session.MData.PutAsync(mdInfo, permissionsH, NativeHandle.EmptyMDataEntries);
                 }
             }
 
@@ -213,7 +213,7 @@ namespace SafeApp.Tests
                 using (var appSignKeyH = await session.Crypto.AppPubSignKeyAsync())
                 {
                     await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, mDataPermissionSet);
-                    await session.MData.PutAsync(mdInfo, permissionsH, NativeHandle.Zero);
+                    await session.MData.PutAsync(mdInfo, permissionsH, NativeHandle.EmptyMDataEntries);
                 }
             }
 
@@ -263,8 +263,8 @@ namespace SafeApp.Tests
                     var ownerPermission = new PermissionSet { Insert = true, ManagePermissions = true, Read = true };
                     await session.MDataPermissions.InsertAsync(permissionsH, appSignKeyH, ownerPermission);
                     var sharePermissions = new PermissionSet { Insert = true };
-                    await session.MDataPermissions.InsertAsync(permissionsH, NativeHandle.Zero, sharePermissions);
-                    await session.MData.PutAsync(mDataInfo, permissionsH, NativeHandle.Zero);
+                    await session.MDataPermissions.InsertAsync(permissionsH, NativeHandle.EmptyMDataPermissions, sharePermissions);
+                    await session.MData.PutAsync(mDataInfo, permissionsH, NativeHandle.EmptyMDataEntries);
                 }
             }
 

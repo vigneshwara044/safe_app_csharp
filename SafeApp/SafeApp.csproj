@@ -4,6 +4,10 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.3\SafeApp.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" />
   </ItemGroup>

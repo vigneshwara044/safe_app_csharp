@@ -15,9 +15,24 @@ namespace SafeApp.Utilities
     [PublicAPI]
     public enum MDataAction
     {
+        /// <summary>
+        /// MData insert action.
+        /// </summary>
         Insert,
+
+        /// <summary>
+        /// MData update action.
+        /// </summary>
         Update,
+
+        /// <summary>
+        /// MData delete action.
+        /// </summary>
         Delete,
+
+        /// <summary>
+        /// MData manage permissions action.
+        /// </summary>
         ManagePermissions
     }
 
