@@ -1,5 +1,28 @@
 # safe_app_csharp Change Log
 
+## [0.2.0]
+### Added
+- Android x86_64 platform support.
+- API documentation.
+
+### Changed
+- Updated safe_app bindings to v0.9.0 of [safe_app](https://github.com/maidsafe/safe_client_libs/tree/master/safe_app).
+    - NFS APIs (dir_delete, dir_update) updated to return new file version.
+- Updated mock authenticator bindings to v0.9.0 of [safe_authenticator](https://github.com/maidsafe/safe_client_libs/tree/master/safe_authenticator).
+    - Update ShareMDataRequest to hold the list of MDataResponse.
+- Changed parameter encodedReq to encodedResponse in function DecodeIpcMessageAsync.
+- Added new null reference native handles (AnyOne, EmptyMDataEntries, EmptyMDataPermissions) and marked zero native handle obselete.
+- Removed SetAdditionalSearchPath call from InitLoggingAsync.
+- Renamed SetLogOutputPathAsync to GetLogOutputPathAsync.
+- Removed Android x86 platform support.
+
+### Fixed
+- Fixes to use `FfiResultULongFromUIntPtrCb` instead of `FfiResultULongCb` in appbindings so `usize` gets marshalled to `uint` pointer.
+- Fixed Typo in GetAccountInfoAsync.
+- Updated GetOutputFilePath to return Task\<string>.
+- Removed unused _appPtr from MDataInfoActions class.
+- Fixed .NET Core target file to make NuGet package work with .NET Core projects.
+
 ## [0.1.1]
 - Fixed delegate garbage collection issue.
 
