@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace SafeApp.Utilities
 {
     // ReSharper disable InconsistentNaming
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public partial interface IAppBindings
     {
         Task<List<ContainerPermissions>> AccessContainerFetchAsync(IntPtr app);
@@ -210,3 +211,4 @@ namespace SafeApp.Utilities
         Task<List<byte>> VerifyAsync(IntPtr app, List<byte> signedData, ulong signPkH);
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
