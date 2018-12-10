@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace SafeApp
 {
@@ -10,10 +11,29 @@ namespace SafeApp
     /// </summary>
     public class NativeHandle : IDisposable
     {
+        // ReSharper disable once UnusedMember.Global
+
         /// <summary>
         /// NativeHandle with null reference.
         /// </summary>
+        [Obsolete("This property is obsolete.", false)]
         public static readonly NativeHandle Zero = new NativeHandle(null, 0, null);
+
+        /// <summary>
+        /// NativeHandle to insert permissions for all users.
+        /// </summary>
+        [PublicAPI]
+        public static readonly NativeHandle AnyOne = new NativeHandle(null, 0, null);
+
+        /// <summary>
+        /// NativeHandle representing zero Mutable Data entries.
+        /// </summary>
+        public static readonly NativeHandle EmptyMDataEntries = AnyOne;
+
+        /// <summary>
+        /// NativeHandle representing zero Mutable Data Permissions.
+        /// </summary>
+        public static readonly NativeHandle EmptyMDataPermissions = AnyOne;
 
         private readonly Func<ulong, Task> _disposer;
         private readonly ulong _handle;
