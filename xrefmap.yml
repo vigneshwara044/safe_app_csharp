@@ -1746,6 +1746,12 @@ references:
   commentId: T:SafeApp.NativeHandle
   fullName: SafeApp.NativeHandle
   nameWithType: NativeHandle
+- uid: SafeApp.NativeHandle.AnyOne
+  name: AnyOne
+  href: api/SafeApp.NativeHandle.html#SafeApp_NativeHandle_AnyOne
+  commentId: F:SafeApp.NativeHandle.AnyOne
+  fullName: SafeApp.NativeHandle.AnyOne
+  nameWithType: NativeHandle.AnyOne
 - uid: SafeApp.NativeHandle.Dispose
   name: Dispose()
   href: api/SafeApp.NativeHandle.html#SafeApp_NativeHandle_Dispose
@@ -1759,6 +1765,18 @@ references:
   isSpec: "True"
   fullName: SafeApp.NativeHandle.Dispose
   nameWithType: NativeHandle.Dispose
+- uid: SafeApp.NativeHandle.EmptyMDataEntries
+  name: EmptyMDataEntries
+  href: api/SafeApp.NativeHandle.html#SafeApp_NativeHandle_EmptyMDataEntries
+  commentId: F:SafeApp.NativeHandle.EmptyMDataEntries
+  fullName: SafeApp.NativeHandle.EmptyMDataEntries
+  nameWithType: NativeHandle.EmptyMDataEntries
+- uid: SafeApp.NativeHandle.EmptyMDataPermissions
+  name: EmptyMDataPermissions
+  href: api/SafeApp.NativeHandle.html#SafeApp_NativeHandle_EmptyMDataPermissions
+  commentId: F:SafeApp.NativeHandle.EmptyMDataPermissions
+  fullName: SafeApp.NativeHandle.EmptyMDataPermissions
+  nameWithType: NativeHandle.EmptyMDataPermissions
 - uid: SafeApp.NativeHandle.Finalize
   name: Finalize()
   href: api/SafeApp.NativeHandle.html#SafeApp_NativeHandle_Finalize
