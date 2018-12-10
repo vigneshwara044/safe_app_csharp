@@ -213,7 +213,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.MockAuthBindings.ContainersIpcReq.html",
-          "hash": "G3BTTGeBLzf+73Hu1E7Luw=="
+          "hash": "GIsQ+L6ZXa90UFQvcqpwKw=="
         }
       },
       "is_incremental": false,
@@ -237,7 +237,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.MockAuthBindings.IpcReqError.html",
-          "hash": "8VLDkpyLv6NNz99E3vKo+w=="
+          "hash": "hAboLukLIxuViJwDsWKR2g=="
         }
       },
       "is_incremental": false,
@@ -249,7 +249,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.MockAuthBindings.IpcReqRejected.html",
-          "hash": "mdtEhbrhs7kCXYWhv3k7tQ=="
+          "hash": "+oh+SYN2Yhl6TUDHFjV4Aw=="
         }
       },
       "is_incremental": false,
@@ -273,7 +273,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.MockAuthBindings.ShareMDataIpcReq.html",
-          "hash": "xWHxz6W/9YpVE3WEHDhxsw=="
+          "hash": "uKnStSoINxf7NSPQiK31vw=="
         }
       },
       "is_incremental": false,
@@ -285,7 +285,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.MockAuthBindings.UnregisteredIpcReq.html",
-          "hash": "a+GLvnRyrVEtXN9uSMdx9g=="
+          "hash": "eVwshYh2FCaCyWdwNcjdCw=="
         }
       },
       "is_incremental": false,
@@ -309,7 +309,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.NativeHandle.html",
-          "hash": "jauye+1fhWmE1QGLOYIz4Q=="
+          "hash": "YAmAamNJPBC8COvb6z5NRw=="
         }
       },
       "is_incremental": false,
@@ -333,7 +333,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.AccessContInfo.html",
-          "hash": "D/VA6H7Nex3/Vri4LXphwA=="
+          "hash": "xtgvgAQ24KgCLiof0DXrMg=="
         }
       },
       "is_incremental": false,
@@ -345,7 +345,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.AccessContainerEntry.html",
-          "hash": "d/xn4L1v9hAveH+NtBJahA=="
+          "hash": "LohcJWp21W8B6VTtImPaug=="
         }
       },
       "is_incremental": false,
@@ -357,7 +357,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.AccountInfo.html",
-          "hash": "MoTBjSvNZh6NmhSCYLYx2A=="
+          "hash": "Ut1BGruGIjeJQZypee/54A=="
         }
       },
       "is_incremental": false,
@@ -369,7 +369,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.AppAccess.html",
-          "hash": "Ah1H7NnPliVdhLFbJ7tdgg=="
+          "hash": "N2Y73zib9CnPFMlmA8CWPw=="
         }
       },
       "is_incremental": false,
@@ -393,7 +393,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.AppExchangeInfo.html",
-          "hash": "+XRz9ORpLQkaQtJHhEJQXQ=="
+          "hash": "b4EIBWKxMofGH44Tycnt1g=="
         }
       },
       "is_incremental": false,
@@ -405,7 +405,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.AppKeys.html",
-          "hash": "WvW3ItPg0842AQaODCpsPg=="
+          "hash": "2SdvA99jD4j72FosJnTlcg=="
         }
       },
       "is_incremental": false,
@@ -417,7 +417,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.AuthGranted.html",
-          "hash": "swMndIV1cqlhHI8dbiO3vQ=="
+          "hash": "xON0lpk1+P9MCS6seO7IWw=="
         }
       },
       "is_incremental": false,
@@ -441,7 +441,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.AuthReq.html",
-          "hash": "B4CZV2YW+gKJaX8rWuou5g=="
+          "hash": "20kzv+gmd+bXSls4DQWg3g=="
         }
       },
       "is_incremental": false,
@@ -453,7 +453,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.ContainerInfo.html",
-          "hash": "e7ME0eF3f5LHt+FGbILQnQ=="
+          "hash": "BHsSPPSsVpoOHu/d+U6/YA=="
         }
       },
       "is_incremental": false,
@@ -465,7 +465,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.ContainerPermissions.html",
-          "hash": "R7PNeYte7MjCI7uP9QeJSA=="
+          "hash": "UEPFEBDh6idhcOyZZGJDJw=="
         }
       },
       "is_incremental": false,
@@ -489,7 +489,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.ContainersReq.html",
-          "hash": "MR47Ro+9l6QYh4Zls2HHyA=="
+          "hash": "S8PahuepKqaS8b7r3eX6qQ=="
         }
       },
       "is_incremental": false,
@@ -513,7 +513,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.FfiResult.html",
-          "hash": "UlDwHlEWgpBlxMBtyh/Lnw=="
+          "hash": "Q6RMZ3SAIi9BSt9rzPqWoA=="
         }
       },
       "is_incremental": false,
@@ -525,7 +525,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.File.html",
-          "hash": "u95/yLTzV3y6AxZEz+EYsw=="
+          "hash": "FTlyCGYyDJ5ptQDpO/SbTg=="
         }
       },
       "is_incremental": false,
@@ -549,7 +549,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.IAppBindings.html",
-          "hash": "fMZWq6+d+wCuB48nsbVF+A=="
+          "hash": "JlJNjgXEsnmuOAOKSuHrnQ=="
         }
       },
       "is_incremental": false,
@@ -585,7 +585,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.MDataAction.html",
-          "hash": "CxJmNk2Q+QIme1O0yq+DoQ=="
+          "hash": "Mt22lHAIaE0j221xG4sU5Q=="
         }
       },
       "is_incremental": false,
@@ -597,7 +597,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.MDataEntry.html",
-          "hash": "jvOI3sjwJPPkUUVG45XSsA=="
+          "hash": "sfEp/WagWa9mrClXsVSJLw=="
         }
       },
       "is_incremental": false,
@@ -609,7 +609,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.MDataInfo.html",
-          "hash": "WEvFniX19VmBNCZ0DZTGuw=="
+          "hash": "Lk+G2PcxBZBptmwCZtGhzQ=="
         }
       },
       "is_incremental": false,
@@ -621,7 +621,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.MDataKey.html",
-          "hash": "57zupipidJljWPvrQ4bUvg=="
+          "hash": "48sWI27aE2B3XcnzRmKFLg=="
         }
       },
       "is_incremental": false,
@@ -633,7 +633,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.MDataValue.html",
-          "hash": "5pvAFpDcM6TYo049nMBy8w=="
+          "hash": "vtCcp8U3LnbBaooPmPP4Fw=="
         }
       },
       "is_incremental": false,
@@ -645,7 +645,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.MetadataResponse.html",
-          "hash": "TKh4iqrt1txebp+vFfEPbg=="
+          "hash": "9z7hQrs675lbWpT/Ch/siQ=="
         }
       },
       "is_incremental": false,
@@ -657,7 +657,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.PermissionSet.html",
-          "hash": "Vgun0ljcW898uu2nYdqnJw=="
+          "hash": "oQ+jjlUupNtltf7KRiF/uw=="
         }
       },
       "is_incremental": false,
@@ -681,7 +681,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.ShareMData.html",
-          "hash": "1MJSivw3ZMeXi7w0tQQFjQ=="
+          "hash": "LB6PLANGekbun9NIGIi9cQ=="
         }
       },
       "is_incremental": false,
@@ -705,7 +705,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.ShareMDataReq.html",
-          "hash": "XsmWtw84MI+k3weTBOGp/A=="
+          "hash": "dlqMZHYffArlFK9eNa93Wg=="
         }
       },
       "is_incremental": false,
@@ -729,7 +729,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.Utilities.UserPermissionSet.html",
-          "hash": "yEDxOWtX2oFobFuGxtQ1UQ=="
+          "hash": "3edk0qY9cwVO7Q8brFlWsA=="
         }
       },
       "is_incremental": false,
@@ -753,7 +753,7 @@
       "output": {
         ".html": {
           "relative_path": "api/SafeApp.html",
-          "hash": "c15Gur2EfUo8idTKz8ax+g=="
+          "hash": "nDDSn9CL0RtsILQVWrvN+Q=="
         }
       },
       "is_incremental": false,
@@ -841,6 +841,11 @@
         "incrementalPhase": "build"
       },
       "processors": {
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build"
+        },
         "ConceptualDocumentProcessor": {
           "can_incremental": false,
           "incrementalPhase": "build"
@@ -852,11 +857,6 @@
         "ResourceDocumentProcessor": {
           "can_incremental": false,
           "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build"
-        },
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
           "incrementalPhase": "build"
         }
       }
