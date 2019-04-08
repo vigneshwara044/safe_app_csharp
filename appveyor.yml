@@ -27,7 +27,6 @@ build_script:
 
 deploy_script:
   - ps: if(-not $env:is_not_pr) { return }
-  - ps: ./build.ps1 --target="Upload-Coverage-Report" --settings_skipverification=true
   - docfx ./docs/docfx.json
   - ps: gh-pages-clean
   - ps: gh-pages deploy --silent --message "doc update from CI" --dist "./docs/_site" --repo "https://$env:github_access_token@github.com/maidsafe/safe_app_csharp.git" --user "MaidSafe-QA <qa@maidsafe.net>"

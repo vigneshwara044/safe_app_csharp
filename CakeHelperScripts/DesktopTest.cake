@@ -47,24 +47,24 @@ Task("Run-Desktop-Tests-AppVeyor")
   .IsDependentOn("Build-Desktop-Project")
   .Does(() => {
     OpenCover(tool => {
-        tool.DotNetCoreTest(
-            coreTestProject,
-            new DotNetCoreTestSettings()
-            {
-              Configuration = configuration,
-              ArgumentCustomization = args => args.Append("--logger \"trx;LogFileName=DesktopTestResult.xml\"")
-            });
-        },
-        new FilePath(codeCoverageFilePath),
-        new OpenCoverSettings()
-        {
-            SkipAutoProps = true,
-            Register = "user",
-            OldStyle = true
-        }
-        .WithFilter("+[*]*")
-        .WithFilter("-[SafeApp.Tests*]*")
-        .WithFilter("-[NUnit3.*]*"));
+      tool.DotNetCoreTest(
+          coreTestProject,
+          new DotNetCoreTestSettings()
+          {
+            Configuration = configuration,
+            ArgumentCustomization = args => args.Append("--logger \"trx;LogFileName=DesktopTestResult.xml\"")
+          });
+    },
+    new FilePath(codeCoverageFilePath),
+    new OpenCoverSettings()
+    {
+        SkipAutoProps = true,
+        Register = "user",
+        OldStyle = true
+    }
+    .WithFilter("+[*]*")
+    .WithFilter("-[SafeApp.Tests*]*")
+    .WithFilter("-[NUnit3.*]*"));
   })
   .Finally(() =>
   {
@@ -76,11 +76,11 @@ Task("Run-Desktop-Tests-AppVeyor")
   });
 
 Task("Upload-Coverage-Report")
+  .WithCriteria(!EnvironmentVariable("is_not_pr"))
   .IsDependentOn("Run-Desktop-Tests")
-	.Does(() =>
-	{
-		CoverallsIo(codeCoverageFilePath, new CoverallsIoSettings()
-		{
-			RepoToken = coveralls_token
-		});
-	});
+  .Does(() => {
+    CoverallsIo(codeCoverageFilePath, new CoverallsIoSettings()
+	  {
+	    RepoToken = coveralls_token
+	  });
+  });

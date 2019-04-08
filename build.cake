@@ -35,6 +35,7 @@ Task("Run-AppVeyor-Build")
   .IsDependentOn("UnZip-Libs")
   .IsDependentOn("Analyze-Project-Report")
   .IsDependentOn("Run-Desktop-Tests-AppVeyor")
+  .IsDependentOn("Upload-Coverage-Report")
   .Does(() => {
   });
 
