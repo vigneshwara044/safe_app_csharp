@@ -14,7 +14,7 @@ The documentation for the latest `safe_app_csharp` API is available at <http://d
 | Build Server | Platform                             | Status                                                                                                                                                                            |
 | ------------ | ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Azure DevOps | .NET Core MacOS, Android x86_64, iOS | [![Build status](https://dev.azure.com/maidsafe/SafeApp/_apis/build/status/SafeApp-Mobile-CI)](https://dev.azure.com/maidsafe/SafeApp/_build/latest?definitionId=7)               |
-| AppVeyor     | .NET Core Windows                    | [![Build status](https://ci.appveyor.com/api/projects/status/x3m722rvosw2coao/branch/master?svg=true)](https://ci.appveyor.com/project/MaidSafe-QA/safe-app-csharp/branch/master) |  |
+| AppVeyor     | .NET Core Windows                    | [![Build status](https://ci.appveyor.com/api/projects/status/x3m722rvosw2coao/branch/master?svg=true)](https://ci.appveyor.com/project/MaidSafe-QA/safe-app-csharp/branch/master) [![Coverage Status](https://coveralls.io/repos/github/maidsafe/safe_app_csharp/badge.svg?branch=master)](https://coveralls.io/github/maidsafe/safe_app_csharp?branch=master) |  |
 
 
 ## Supported Platforms
