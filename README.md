@@ -4,7 +4,7 @@
 
 > [safe_app](https://github.com/maidsafe/safe_client_libs/tree/master/safe_app) is a native library which exposes low level API for application development on SAFE Network. It exposes API for authorisation and to manage data on the network.
 
-**Maintainer:** Krishna Kumar (krishna.kumar@maidsafe.net)
+**Maintainer:** Ravinder Jangra (ravinder.jangra@maidsafe.net)
 
 ## Build Status
 
