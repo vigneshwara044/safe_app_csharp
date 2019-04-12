@@ -76,7 +76,7 @@ Task("Run-Desktop-Tests-AppVeyor")
   });
 
 Task("Upload-Coverage-Report")
-  .WithCriteria(!EnvironmentVariable("is_not_pr"))
+  .WithCriteria(EnvironmentVariable("is_not_pr") == "true")
   .IsDependentOn("Run-Desktop-Tests")
   .Does(() => {
     CoverallsIo(codeCoverageFilePath, new CoverallsIoSettings()
