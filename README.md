@@ -10,7 +10,8 @@
 
 | CI service | Platform | Status |
 |---|---|---|
-| Azure DevOps | .NET Core MacOS, Android x86_64, iOS | [![Build status](https://dev.azure.com/maidsafe/SafeApp/_apis/build/status/SafeApp-Mobile-CI)](https://dev.azure.com/maidsafe/SafeApp/_build/latest?definitionId=7) |
+| Azure DevOps | .NET Core MacOS, Android x86_64, iOS | [![Build status](https://dev.azure.com/maidsafe/SafeApp/_apis/build/status/SafeApp-Mobile-CI?branchName=master)](https://dev.azure.com/maidsafe/SafeApp/_build/latest?definitionId=7&branchName=master) |
+| Azure DevOps | .NET Core Linux | [![Build Status](https://dev.azure.com/maidsafe/SafeApp/_apis/build/status/SafeApp-Linux-CI?branchName=master)](https://dev.azure.com/maidsafe/SafeApp/_build/latest?definitionId=12&branchName=master) |
 | AppVeyor | .NET Core Windows | [![Build status](https://ci.appveyor.com/api/projects/status/x3m722rvosw2coao/branch/master?svg=true)](https://ci.appveyor.com/project/MaidSafe-QA/safe-app-csharp/branch/master) [![Coverage Status](https://coveralls.io/repos/github/maidsafe/safe_app_csharp/badge.svg?branch=master)](https://coveralls.io/github/maidsafe/safe_app_csharp?branch=master)| |
 
 ## Table of Contents
