@@ -1,3 +1,6 @@
+#tool "nuget:?package=OpenCover"
+#tool coveralls.io
+#addin Cake.Coveralls
 
 // --------------------------------------------------------------------------------
 // Desktop Build and Test
@@ -5,7 +8,9 @@
 
 var coreTestProject = File("SafeApp.Tests.Core/SafeApp.Tests.Core.csproj");
 var coreTestBin = Directory("SafeApp.Tests.Core/bin/Release");
+var codeCoverageFilePath = "SafeApp.Tests.Core/CodeCoverResult.xml";
 var Desktop_TESTS_RESULT_PATH = "SafeApp.Tests.Core/TestResults/DesktopTestResult.xml";
+var coveralls_token = EnvironmentVariable("coveralls_access_token");
 
 Task("Build-Desktop-Project")
   .IsDependentOn("Restore-NuGet")
@@ -36,6 +41,30 @@ Task("Run-Desktop-Tests")
           Configuration = configuration,
           ArgumentCustomization = args => args.Append("--logger \"trx;LogFileName=DesktopTestResult.xml\"")
         });
+  });
+
+Task("Run-Desktop-Tests-AppVeyor")
+  .IsDependentOn("Build-Desktop-Project")
+  .Does(() => {
+    OpenCover(tool => {
+      tool.DotNetCoreTest(
+          coreTestProject,
+          new DotNetCoreTestSettings()
+          {
+            Configuration = configuration,
+            ArgumentCustomization = args => args.Append("--logger \"trx;LogFileName=DesktopTestResult.xml\"")
+          });
+    },
+    new FilePath(codeCoverageFilePath),
+    new OpenCoverSettings()
+    {
+        SkipAutoProps = true,
+        Register = "user",
+        OldStyle = true
+    }
+    .WithFilter("+[*]*")
+    .WithFilter("-[SafeApp.Tests*]*")
+    .WithFilter("-[NUnit3.*]*"));
   })
   .Finally(() =>
   {
@@ -44,4 +73,14 @@ Task("Run-Desktop-Tests")
       var resultsFile = File(Desktop_TESTS_RESULT_PATH);
       AppVeyor.UploadTestResults(resultsFile.Path.FullPath, AppVeyorTestResultsType.MSTest);
     }
+  });
+
+Task("Upload-Coverage-Report")
+  .WithCriteria(EnvironmentVariable("is_not_pr") == "true")
+  .IsDependentOn("Run-Desktop-Tests")
+  .Does(() => {
+    CoverallsIo(codeCoverageFilePath, new CoverallsIoSettings()
+	  {
+	    RepoToken = coveralls_token
+	  });
   });
