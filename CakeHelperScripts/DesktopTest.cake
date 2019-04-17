@@ -73,14 +73,12 @@ Task("Run-Desktop-Tests-AppVeyor")
       var resultsFile = File(Desktop_TESTS_RESULT_PATH);
       AppVeyor.UploadTestResults(resultsFile.Path.FullPath, AppVeyorTestResultsType.MSTest);
     }
-  });
 
-Task("Upload-Coverage-Report")
-  .WithCriteria(EnvironmentVariable("is_not_pr") == "true")
-  .IsDependentOn("Run-Desktop-Tests")
-  .Does(() => {
-    CoverallsIo(codeCoverageFilePath, new CoverallsIoSettings()
-	  {
-	    RepoToken = coveralls_token
-	  });
+    if(EnvironmentVariable("is_not_pr") == "true")
+    {
+      CoverallsIo(codeCoverageFilePath, new CoverallsIoSettings()
+      {
+        RepoToken = coveralls_token
+      });
+    }
   });
