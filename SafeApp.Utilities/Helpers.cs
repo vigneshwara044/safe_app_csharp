@@ -85,7 +85,8 @@ namespace SafeApp.Utilities
         /// <returns>list of objects.</returns>
         public static List<T> ToList<T>(this IntPtr ptr, IntPtr length)
         {
-            return Enumerable.Range(0, (int)length).Select(i => Marshal.PtrToStructure<T>(IntPtr.Add(ptr, Marshal.SizeOf<T>() * i))).ToList();
+            return Enumerable.Range(0, (int)length).Select(i => Marshal.PtrToStructure<T>(IntPtr.Add(ptr, Marshal.SizeOf<T>() * i))).
+                ToList();
         }
 
         #region Encoding Extensions

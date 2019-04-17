@@ -74,7 +74,10 @@ namespace SafeApp.Tests
             var secret = GetRandomString(10);
             var authReq = new AuthReq
             {
-                App = new AppExchangeInfo { Id = GetRandomString(10), Name = GetRandomString(5), Scope = null, Vendor = GetRandomString(5) },
+                App = new AppExchangeInfo
+                {
+                    Id = GetRandomString(10), Name = GetRandomString(5), Scope = null, Vendor = GetRandomString(5)
+                },
                 AppContainer = true,
                 Containers = new List<ContainerPermissions>()
             };
@@ -162,11 +165,14 @@ namespace SafeApp.Tests
                 };
                 var encMetaData = await session.MData.EncodeMetadata(metadata);
                 var permissions = new PermissionSet { Read = true, ManagePermissions = true, Insert = true };
-                await session.MDataEntries.InsertAsync(entryhandle, Encoding.UTF8.GetBytes(AppConstants.MDataMetaDataKey).ToList(), encMetaData);
                 await session.MDataEntries.InsertAsync(
-                  entryhandle,
-                  Encoding.UTF8.GetBytes("index.html").ToList(),
-                  Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
+                    entryhandle,
+                    Encoding.UTF8.GetBytes(AppConstants.MDataMetaDataKey).ToList(),
+                    encMetaData);
+                await session.MDataEntries.InsertAsync(
+                    entryhandle,
+                    Encoding.UTF8.GetBytes("index.html").ToList(),
+                    Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
                 await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, permissions);
                 await session.MData.PutAsync(mDataInfo, permissionHandle, entryhandle);
             }
