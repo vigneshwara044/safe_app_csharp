@@ -45,35 +45,64 @@ namespace SafeApp.Tests
 
             authReq.Containers = new List<ContainerPermissions>
             {
-        new ContainerPermissions { ContName = "_public", Access = new PermissionSet { Read = true } },
-        new ContainerPermissions
-        {
-          ContName = "_videos",
-          Access = new PermissionSet { Read = true, Insert = true, Delete = false, ManagePermissions = false, Update = false }
-        },
-        new ContainerPermissions
-        {
-          ContName = "_publicNames",
-          Access = new PermissionSet { Read = true, Insert = true, Delete = false, ManagePermissions = false, Update = false }
-        },
-        new ContainerPermissions
-        {
-          ContName = "_documents",
-          Access = new PermissionSet { Read = true, Insert = true, Delete = false, ManagePermissions = false, Update = false }
-        },
-        new ContainerPermissions
-        {
-          ContName = "_music",
-          Access = new PermissionSet { Read = true, Insert = true, Delete = false, ManagePermissions = false, Update = false }
-        }
+                new ContainerPermissions { ContName = "_public", Access = new PermissionSet { Read = true } },
+                new ContainerPermissions { ContName = "_public", Access = new PermissionSet { Read = true } },
+                new ContainerPermissions
+                {
+                    ContName = "_videos",
+                    Access = new PermissionSet
+                    {
+                        Read = true,
+                        Insert = true,
+                        Delete = false,
+                        ManagePermissions = false,
+                        Update = false
+                    }
+                },
+                new ContainerPermissions
+                {
+                    ContName = "_publicNames",
+                    Access = new PermissionSet
+                    {
+                        Read = true,
+                        Insert = true,
+                        Delete = false,
+                        ManagePermissions = false,
+                        Update = false
+                    }
+                },
+                new ContainerPermissions
+                {
+                    ContName = "_documents",
+                    Access = new PermissionSet
+                    {
+                        Read = true,
+                        Insert = true,
+                        Delete = false,
+                        ManagePermissions = false,
+                        Update = false
+                    }
+                },
+                new ContainerPermissions
+                {
+                    ContName = "_music",
+                    Access = new PermissionSet
+                    {
+                        Read = true,
+                        Insert = true,
+                        Delete = false,
+                        ManagePermissions = false,
+                        Update = false
+                    }
+                }
 
-        // TODO - Enable once fixed in authenticator
-//         new ContainerPermissions()
-//        {
-//          ContName = "_pictures",
-//          Access = new PermissionSet() { Read = true, Insert = true, Delete = false, ManagePermissions = false, Update = false }
-//        }
-      };
+                // TODO - Enable once fixed in authenticator
+                //         new ContainerPermissions()
+                //        {
+                //          ContName = "_pictures",
+                //          Access = new PermissionSet() { Read = true, Insert = true, Delete = false, ManagePermissions = false, Update = false }
+                //        }
+            };
 
             using (var session = await Utils.CreateTestApp(authReq))
             {
@@ -86,8 +115,10 @@ namespace SafeApp.Tests
             var response = await Utils.AuthenticateAuthRequest(authRequest.Item2, false);
             Assert.That(async () => await Session.DecodeIpcMessageAsync(response), Throws.TypeOf<IpcMsgException>());
 
-            authReq.Containers =
-              new List<ContainerPermissions> { new ContainerPermissions { ContName = "someConatiner", Access = default(PermissionSet) } };
+            authReq.Containers = new List<ContainerPermissions>
+            {
+                new ContainerPermissions { ContName = "someConatiner", Access = default(PermissionSet) }
+            };
 
             Assert.That(async () => await Utils.CreateTestApp(authReq), Throws.TypeOf<FfiException>());
             authReq.App = new AppExchangeInfo { Id = string.Empty, Name = string.Empty, Scope = string.Empty, Vendor = string.Empty };
@@ -114,8 +145,8 @@ namespace SafeApp.Tests
                 App = authReq.App,
                 Containers = new List<ContainerPermissions>
                 {
-          new ContainerPermissions { ContName = "_public", Access = new PermissionSet { Read = true } }
-        }
+                    new ContainerPermissions { ContName = "_public", Access = new PermissionSet { Read = true } }
+                }
             };
             var (reqId, msg) = await Session.EncodeContainerRequestAsync(containerRequest);
             var responseMsg = await Utils.AuthenticateContainerRequest(locator, secret, msg, true);
@@ -132,8 +163,8 @@ namespace SafeApp.Tests
                 App = authReq.App,
                 Containers = new List<ContainerPermissions>
                 {
-          new ContainerPermissions { ContName = "_videos", Access = new PermissionSet { Read = true } }
-        }
+                    new ContainerPermissions { ContName = "_videos", Access = new PermissionSet { Read = true } }
+                }
             };
             (_, msg) = await Session.EncodeContainerRequestAsync(containerRequest);
             responseMsg = await Utils.AuthenticateContainerRequest(locator, secret, msg, false);
@@ -159,7 +190,14 @@ namespace SafeApp.Tests
             using (var userSignKeyHandle = await session.Crypto.AppPubSignKeyAsync())
             using (var permissionsHandle = await session.MDataPermissions.NewAsync())
             {
-                var permissionSet = new PermissionSet { Read = true, Insert = true, Delete = false, Update = false, ManagePermissions = false };
+                var permissionSet = new PermissionSet
+                {
+                    Read = true,
+                    Insert = true,
+                    Delete = false,
+                    Update = false,
+                    ManagePermissions = false
+                };
                 await session.MDataPermissions.InsertAsync(permissionsHandle, userSignKeyHandle, permissionSet);
                 using (var entriesHandle = await session.MDataEntries.NewAsync())
                 {
@@ -171,7 +209,10 @@ namespace SafeApp.Tests
             }
 
             session.Dispose();
-            authReq.App = new AppExchangeInfo { Id = "net.maidsafe.test.app", Name = "Test App", Scope = null, Vendor = "MaidSafe.net Ltd." };
+            authReq.App = new AppExchangeInfo
+            {
+                Id = "net.maidsafe.test.app", Name = "Test App", Scope = null, Vendor = "MaidSafe.net Ltd."
+            };
             var msg = await Session.EncodeAuthReqAsync(authReq);
             var authResponse = await Utils.AuthenticateAuthRequest(locator, secret, msg.Item2, true);
             var authGranted = await Session.DecodeIpcMessageAsync(authResponse) as AuthIpcMsg;
@@ -182,8 +223,11 @@ namespace SafeApp.Tests
                 App = authReq.App,
                 MData = new List<ShareMData>
                 {
-          new ShareMData { Name = mdInfo.Name, TypeTag = mdInfo.TypeTag, Perms = new PermissionSet { Read = true, Insert = true } }
-        }
+                    new ShareMData
+                    {
+                        Name = mdInfo.Name, TypeTag = mdInfo.TypeTag, Perms = new PermissionSet { Read = true, Insert = true }
+                    }
+                }
             };
             var ipcMsg = await Session.EncodeShareMDataRequestAsync(shareMdReq);
             var response = await Utils.AuthenticateShareMDataRequest(locator, secret, ipcMsg.Item2, true);

@@ -24,11 +24,14 @@ namespace SafeApp.Tests
                 var decryptedBytes = await session.Crypto.DecryptAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item2);
                 Assert.That(decryptedBytes, Is.EqualTo(plainBytes));
                 Assert.That(
-                  async () => await session.Crypto.DecryptAsync(Utils.GetRandomData(20).ToList(), encKeyPairTuple.Item1, encKeyPairTuple.Item2),
-                  Throws.TypeOf<FfiException>());
+                    async () => await session.Crypto.DecryptAsync(
+                        Utils.GetRandomData(20).ToList(),
+                        encKeyPairTuple.Item1,
+                        encKeyPairTuple.Item2),
+                    Throws.TypeOf<FfiException>());
                 Assert.That(
-                  async () => await session.Crypto.DecryptAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item1),
-                  Throws.TypeOf<FfiException>());
+                    async () => await session.Crypto.DecryptAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item1),
+                    Throws.TypeOf<FfiException>());
             }
 
             session.Dispose();
@@ -73,11 +76,11 @@ namespace SafeApp.Tests
                 var decryptedBytes = await session.Crypto.DecryptSealedBoxAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item2);
                 Assert.That(decryptedBytes, Is.EqualTo(plainBytes));
                 Assert.That(
-                  async () => await session.Crypto.DecryptSealedBoxAsync(
-                    Utils.GetRandomData(10).ToList(),
-                    encKeyPairTuple.Item1,
-                    encKeyPairTuple.Item2),
-                  Throws.TypeOf<FfiException>());
+                    async () => await session.Crypto.DecryptSealedBoxAsync(
+                        Utils.GetRandomData(10).ToList(),
+                        encKeyPairTuple.Item1,
+                        encKeyPairTuple.Item2),
+                    Throws.TypeOf<FfiException>());
                 cipherBytes = await session.Crypto.EncryptSealedBoxAsync(new List<byte>(), encKeyPairTuple.Item1);
                 await session.Crypto.DecryptSealedBoxAsync(cipherBytes, encKeyPairTuple.Item1, encKeyPairTuple.Item2);
             }
@@ -98,8 +101,8 @@ namespace SafeApp.Tests
                 var verifiedData = await session.Crypto.VerifyAsync(signedData, signKeyPairTuple.Item1);
                 Assert.That(verifiedData, Is.EqualTo(plainBytes));
                 Assert.That(
-                  async () => await session.Crypto.VerifyAsync(Utils.GetRandomData(20).ToList(), signKeyPairTuple.Item1),
-                  Throws.TypeOf<FfiException>());
+                    async () => await session.Crypto.VerifyAsync(Utils.GetRandomData(20).ToList(), signKeyPairTuple.Item1),
+                    Throws.TypeOf<FfiException>());
             }
 
             session.Dispose();

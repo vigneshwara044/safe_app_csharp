@@ -12,13 +12,8 @@ namespace SafeApp
         }
 
         public SafeAppPtr()
-          : this(IntPtr.Zero)
+            : this(IntPtr.Zero)
         {
-        }
-
-        public void Clear()
-        {
-            Value = IntPtr.Zero;
         }
 
         public static implicit operator IntPtr(SafeAppPtr obj)
@@ -29,6 +24,11 @@ namespace SafeApp
             }
 
             return obj.Value;
+        }
+
+        public void Clear()
+        {
+            Value = IntPtr.Zero;
         }
     }
 }

@@ -97,7 +97,8 @@ namespace SafeApp.Misc
         public async Task<(NativeHandle, NativeHandle)> EncGenerateKeyPairAsync()
         {
             var (encPubKeyH, encSecKeyH) = await AppBindings.EncGenerateKeyPairAsync(_appPtr);
-            return (new NativeHandle(_appPtr, encPubKeyH, EncPubKeyFreeAsync), new NativeHandle(_appPtr, encSecKeyH, EncSecretKeyFreeAsync));
+            return (new NativeHandle(_appPtr, encPubKeyH, EncPubKeyFreeAsync),
+                new NativeHandle(_appPtr, encSecKeyH, EncSecretKeyFreeAsync));
         }
 
         /// <summary>
@@ -198,10 +199,8 @@ namespace SafeApp.Misc
         public async Task<(NativeHandle, NativeHandle)> SignGenerateKeyPairAsync()
         {
             var (publicKeyHandle, secretKeyHandle) = await AppBindings.SignGenerateKeyPairAsync(_appPtr);
-            return (new NativeHandle(_appPtr, publicKeyHandle, SignPubKeyFreeAsync), new NativeHandle(
-              _appPtr,
-              secretKeyHandle,
-              SignSecKeyFreeAsync));
+            return (new NativeHandle(_appPtr, publicKeyHandle, SignPubKeyFreeAsync),
+                new NativeHandle(_appPtr, secretKeyHandle, SignSecKeyFreeAsync));
         }
 
         private Task SignPubKeyFreeAsync(ulong pubSignKeyHandle)
@@ -210,7 +209,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        ///   Get raw Sign Public Key
+        /// Get raw Sign Public Key
         /// </summary>
         /// <param name="pubSignKey">Sign Public Key NativeHandle</param>
         /// <returns>Raw Sign Public Key as List</returns>
@@ -220,7 +219,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        ///   Get Sign Public Key Handle from a raw key
+        /// Get Sign Public Key Handle from a raw key
         /// </summary>
         /// <param name="rawPubSignKey">Raw Sign Public Key as List</param>
         /// <returns>Public Sign Key NativeHandle</returns>
@@ -236,7 +235,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        ///   Get Raw Secret Sign Key
+        /// Get Raw Secret Sign Key
         /// </summary>
         /// <param name="secSignKey">Secret Sign Key NativeHandle</param>
         /// <returns>Raw Secret Sign Key as List</returns>
@@ -246,7 +245,7 @@ namespace SafeApp.Misc
         }
 
         /// <summary>
-        ///   Get New Sign Secret Key handle from a raw Sign Secret Key
+        /// Get New Sign Secret Key handle from a raw Sign Secret Key
         /// </summary>
         /// <param name="rawSecSignKey"></param>
         /// <returns>Secret Sign Key NativeHandle</returns>

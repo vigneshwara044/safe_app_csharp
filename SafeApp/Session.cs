@@ -77,24 +77,24 @@ namespace SafeApp
         public MDataEntries MDataEntries { get; private set; }
 
         /// <summary>
-        ///   Mutable Data Entry Actions API
+        /// Mutable Data Entry Actions API
         /// </summary>
         public MDataEntryActions MDataEntryActions { get; private set; }
 
         /// <summary>
-        ///   MDataInfo API
+        /// MDataInfo API
         /// </summary>
         public MDataInfoActions MDataInfoActions { get; private set; }
 
         /// <summary>
-        ///   Mutable Data Permissions API
+        /// Mutable Data Permissions API
         /// </summary>
         public MDataPermissions MDataPermissions { get; private set; }
 
         // ReSharper disable once InconsistentNaming
 
         /// <summary>
-        ///   Mutable Data Permissions API
+        /// Mutable Data Permissions API
         /// </summary>
         public NFS NFS { get; private set; }
 
@@ -113,29 +113,29 @@ namespace SafeApp
         public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted)
         {
             return Task.Run(
-              () =>
-              {
-                  var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
-                  var session = new Session();
-                  Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) =>
-                  {
-                      if (result.ErrorCode != 0)
-                      {
-                          disconnectedHandle.Free();
+                () =>
+                {
+                    var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
+                    var session = new Session();
+                    Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) =>
+                    {
+                        if (result.ErrorCode != 0)
+                        {
+                            disconnectedHandle.Free();
 
-                          tcs.SetException(result.ToException());
-                          return;
-                      }
+                            tcs.SetException(result.ToException());
+                            return;
+                        }
 
-                      session.Init(ptr, disconnectedHandle);
-                      tcs.SetResult(session);
-                  };
+                        session.Init(ptr, disconnectedHandle);
+                        tcs.SetResult(session);
+                    };
 
-                  Action disconnectedCb = () => { OnDisconnected(session); };
+                    Action disconnectedCb = () => { OnDisconnected(session); };
 
-                  AppBindings.AppRegistered(appId, ref authGranted, disconnectedCb, acctCreatedCb);
-                  return tcs.Task;
-              });
+                    AppBindings.AppRegistered(appId, ref authGranted, disconnectedCb, acctCreatedCb);
+                    return tcs.Task;
+                });
         }
 
         /// <summary>
@@ -147,29 +147,29 @@ namespace SafeApp
         public static Task<Session> AppUnregisteredAsync(List<byte> bootstrapConfig)
         {
             return Task.Run(
-              () =>
-              {
-                  var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
-                  var session = new Session();
-                  Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) =>
-                  {
-                      if (result.ErrorCode != 0)
-                      {
-                          disconnectedHandle.Free();
+                () =>
+                {
+                    var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
+                    var session = new Session();
+                    Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) =>
+                    {
+                        if (result.ErrorCode != 0)
+                        {
+                            disconnectedHandle.Free();
 
-                          tcs.SetException(result.ToException());
-                          return;
-                      }
+                            tcs.SetException(result.ToException());
+                            return;
+                        }
 
-                      session.Init(ptr, disconnectedHandle);
-                      tcs.SetResult(session);
-                  };
+                        session.Init(ptr, disconnectedHandle);
+                        tcs.SetResult(session);
+                    };
 
-                  Action disconnectedCb = () => { OnDisconnected(session); };
+                    Action disconnectedCb = () => { OnDisconnected(session); };
 
-                  AppBindings.AppUnregistered(bootstrapConfig, disconnectedCb, acctCreatedCb);
-                  return tcs.Task;
-              });
+                    AppBindings.AppUnregistered(bootstrapConfig, disconnectedCb, acctCreatedCb);
+                    return tcs.Task;
+                });
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace SafeApp
         /// </summary>
         /// <param name="outputFileName">File name.</param>
         /// <returns>Log output file path along with file name.</returns>
-        public static Task<string> GetLogOutputPathAsync([Optional]string outputFileName)
+        public static Task<string> GetLogOutputPathAsync([Optional] string outputFileName)
         {
             return AppBindings.AppOutputLogPathAsync(outputFileName);
         }
@@ -353,11 +353,11 @@ namespace SafeApp
         public Task ReconnectAsync()
         {
             return Task.Run(
-              async () =>
-              {
-                  await AppBindings.AppReconnectAsync(_appPtr);
-                  IsDisconnected = false;
-              });
+                async () =>
+                {
+                    await AppBindings.AppReconnectAsync(_appPtr);
+                    IsDisconnected = false;
+                });
         }
 
         /// <summary>

@@ -121,9 +121,9 @@ namespace SafeApp.Misc
         {
             var fileContextHandle = await AppBindings.FileOpenAsync(_appPtr, ref mDataInfo, ref file, (ulong)openMode);
             return new NativeHandle(
-              _appPtr,
-              fileContextHandle,
-              handle => { return openMode == OpenMode.Read ? AppBindings.FileCloseAsync(_appPtr, handle) : Task.Run(() => { }); });
+                _appPtr,
+                fileContextHandle,
+                handle => { return openMode == OpenMode.Read ? AppBindings.FileCloseAsync(_appPtr, handle) : Task.Run(() => { }); });
         }
 
         /// <summary>

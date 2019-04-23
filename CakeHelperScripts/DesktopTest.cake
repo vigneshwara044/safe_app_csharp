@@ -1,6 +1,7 @@
 #tool "nuget:?package=OpenCover"
 #tool coveralls.io
 #addin Cake.Coveralls
+using System.Linq;
 
 // --------------------------------------------------------------------------------
 // Desktop Build and Test
@@ -10,6 +11,7 @@ var coreTestProject = File("SafeApp.Tests.Core/SafeApp.Tests.Core.csproj");
 var coreTestBin = Directory("SafeApp.Tests.Core/bin/Release");
 var codeCoverageFilePath = "SafeApp.Tests.Core/CodeCoverResult.xml";
 var Desktop_TESTS_RESULT_PATH = "SafeApp.Tests.Core/TestResults/DesktopTestResult.xml";
+var Desktop_test_result_directory = "SafeApp.Tests.Core/TestResults";
 var coveralls_token = EnvironmentVariable("coveralls_access_token");
 
 Task("Build-Desktop-Project")
@@ -68,12 +70,31 @@ Task("Run-Desktop-Tests-AppVeyor")
   })
   .Finally(() =>
   {
-    if(AppVeyor.IsRunningOnAppVeyor)
+    var resultFile = string.Empty; 
+    if (FileExists(Desktop_TESTS_RESULT_PATH))
     {
-      var resultsFile = File(Desktop_TESTS_RESULT_PATH);
-      AppVeyor.UploadTestResults(resultsFile.Path.FullPath, AppVeyorTestResultsType.MSTest);
+      resultFile = File(Desktop_TESTS_RESULT_PATH);
+    }
+    else
+    {
+      resultFile = GetFiles(Desktop_test_result_directory + "/DesktopTestResult*.xml").LastOrDefault().FullPath;
     }
 
+    if (!string.IsNullOrEmpty(resultFile))
+    {
+      Information($"Test result file found: {resultFile}");
+      Desktop_TESTS_RESULT_PATH = resultFile;
+
+      if(AppVeyor.IsRunningOnAppVeyor)
+      {
+        AppVeyor.UploadTestResults(resultFile, AppVeyorTestResultsType.MSTest);
+      }
+    }
+    else
+    {
+      throw new Exception("Test result file not found.");
+    }
+    
     if(EnvironmentVariable("is_not_pr") == "true")
     {
       CoverallsIo(codeCoverageFilePath, new CoverallsIoSettings()
