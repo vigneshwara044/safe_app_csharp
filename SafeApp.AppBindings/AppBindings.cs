@@ -1796,6 +1796,16 @@ namespace SafeApp.AppBindings
         private delegate void UIntByteListCb(IntPtr userData, uint reqId, IntPtr serialisedCfgPtr, UIntPtr serialisedCfgLen);
 
         private delegate void UIntCb(IntPtr userData, uint reqId);
+
+        [DllImport(DllName, EntryPoint = "test_simulate_network_disconnect")]
+        private static extern void TestSimulateNetworkDisconnectNative(IntPtr app, IntPtr userData, FfiResultCb oCb);
+
+        public Task TestSimulateNetworkDisconnectAsync(IntPtr authPtr)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask();
+            TestSimulateNetworkDisconnectNative(authPtr, userData, OnFfiResultCb);
+            return ret;
+        }
     }
 }
 #endif

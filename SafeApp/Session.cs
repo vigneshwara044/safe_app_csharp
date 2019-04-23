@@ -341,6 +341,21 @@ namespace SafeApp
             return AppBindings.IsMockBuild();
         }
 
+        /// <summary>
+        /// Simulate a mock network Disconnect
+        /// </summary>
+        public async Task SimulateMockNetworkDisconnectAsync()
+        {
+            if (IsMockBuild())
+            {
+                await AppBindings.TestSimulateNetworkDisconnectAsync(_appPtr);
+            }
+            else
+            {
+                throw new Exception("API available only on mock network");
+            }
+        }
+
         private static void OnDisconnected(Session session)
         {
             session.IsDisconnected = true;

@@ -208,6 +208,8 @@ namespace SafeApp.Utilities
 
         Task<ulong> SignSecKeyNewAsync(IntPtr app, byte[] data);
 
+        Task TestSimulateNetworkDisconnectAsync(IntPtr authPtr);
+
         Task<List<byte>> VerifyAsync(IntPtr app, List<byte> signedData, ulong signPkH);
     }
 }
