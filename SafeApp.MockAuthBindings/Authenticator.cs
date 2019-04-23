@@ -43,15 +43,6 @@ namespace SafeApp.MockAuthBindings
         }
 
         /// <summary>
-        /// Simulate a network Disconnect.
-        /// </summary>
-        /// <returns></returns>
-        public async Task SimulateNetworkDisconnectAsync()
-        {
-            await NativeBindings.TestSimulateNetworkDisconnectAsync(_authPtr);
-        }
-
-        /// <summary>
         /// Returns the expected name for the authenticator executable without an extension.
         /// </summary>
         /// <returns>Authenticator executable name.</returns>
@@ -147,6 +138,15 @@ namespace SafeApp.MockAuthBindings
         public static Task AuthSetAdditionalSearchPathAsync(string newPath)
         {
             return NativeBindings.AuthSetAdditionalSearchPathAsync(newPath);
+        }
+
+        /// <summary>
+        /// Simulate a network Disconnect.
+        /// </summary>
+        /// <returns></returns>
+        public async Task SimulateNetworkDisconnectAsync()
+        {
+            await NativeBindings.TestSimulateNetworkDisconnectAsync(_authPtr);
         }
 
         private Authenticator()
