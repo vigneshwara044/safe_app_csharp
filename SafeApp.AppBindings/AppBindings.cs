@@ -1435,6 +1435,16 @@ namespace SafeApp.AppBindings
         [DllImport(DllName, EntryPoint = "file_close")]
         private static extern void FileCloseNative(IntPtr app, ulong fileH, IntPtr userData, FfiResultFileCb oCb);
 
+        public Task TestSimulateNetworkDisconnectAsync(IntPtr app)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask();
+            TestSimulateNetworkDisconnectNative(app, userData, OnFfiResultCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "test_simulate_network_disconnect")]
+        private static extern void TestSimulateNetworkDisconnectNative(IntPtr app, IntPtr userData, FfiResultCb oCb);
+
         private delegate void FfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo);
 
 #if __IOS__
@@ -1818,16 +1828,6 @@ namespace SafeApp.AppBindings
         private delegate void UIntByteListCb(IntPtr userData, uint reqId, IntPtr serialisedCfgPtr, UIntPtr serialisedCfgLen);
 
         private delegate void UIntCb(IntPtr userData, uint reqId);
-
-        [DllImport(DllName, EntryPoint = "test_simulate_network_disconnect")]
-        private static extern void TestSimulateNetworkDisconnectNative(IntPtr app, IntPtr userData, FfiResultCb oCb);
-
-        public Task TestSimulateNetworkDisconnectAsync(IntPtr authPtr)
-        {
-            var (ret, userData) = BindingUtils.PrepareTask();
-            TestSimulateNetworkDisconnectNative(authPtr, userData, OnFfiResultCb);
-            return ret;
-        }
     }
 }
 #endif

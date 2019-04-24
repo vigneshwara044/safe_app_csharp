@@ -12,7 +12,7 @@ namespace SafeApp.Tests
         {
             var session = await Utils.CreateTestApp();
 
-            Session.Disconnected += async (o, i) =>
+            Session.Disconnected += async (sender, args) =>
             {
                 Assert.True(session.IsDisconnected);
                 await session.ReconnectAsync();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -161,6 +162,7 @@ namespace SafeApp.Tests
         {
             var session = await Utils.CreateTestApp();
             const ulong tagType = 15020;
+            var maxEntriesCount = 10;
             var appName = Utils.GetRandomData(10).ToList();
             var xorName = (await Crypto.Sha3HashAsync(appName)).ToArray();
             var nonce = await Crypto.GenerateNonceAsync();
@@ -191,7 +193,7 @@ namespace SafeApp.Tests
                 }
             }
 
-            var entriesCount = 10;
+            var entriesCount = Utils.Random.Next(maxEntriesCount);
             using (var entryActionsH = await session.MDataEntryActions.NewAsync())
             {
                 for (var i = 0; i < entriesCount; i++)

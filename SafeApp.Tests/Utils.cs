@@ -16,7 +16,7 @@ namespace SafeApp.Tests
 {
     internal static class Utils
     {
-        private static readonly Random Random = new Random();
+        public static readonly Random Random = new Random();
 
         private static async Task<string> AuthenticateAuthRequest(Authenticator authenticator, string ipcMsg, bool allow)
         {
