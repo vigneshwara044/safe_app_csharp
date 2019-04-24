@@ -25,12 +25,18 @@ namespace SafeApp.Tests
             using (var permissionsHandle = await session.MDataPermissions.NewAsync())
             using (var userHandle = await session.Crypto.AppPubSignKeyAsync())
             {
-                await session.MDataPermissions.InsertAsync(permissionsHandle, userHandle, new PermissionSet { Insert = true, Delete = true });
+                await session.MDataPermissions.InsertAsync(
+                    permissionsHandle,
+                    userHandle,
+                    new PermissionSet { Insert = true, Delete = true });
                 await session.MData.PutAsync(mdInfo, permissionsHandle, NativeHandle.EmptyMDataEntries);
                 for (var i = 0; i < (long)accountInfo.MutationsAvailable - 1; i++)
                 {
                     var entryHandle = await session.MDataEntryActions.NewAsync();
-                    await session.MDataEntryActions.InsertAsync(entryHandle, Utils.GetRandomData(10).ToList(), Utils.GetRandomData(15).ToList());
+                    await session.MDataEntryActions.InsertAsync(
+                        entryHandle,
+                        Utils.GetRandomData(10).ToList(),
+                        Utils.GetRandomData(15).ToList());
                     await session.MData.MutateEntriesAsync(mdInfo, entryHandle);
                     entryHandle.Dispose();
                 }
@@ -41,8 +47,13 @@ namespace SafeApp.Tests
             Assert.That(0, Is.EqualTo(accountInfo.MutationsAvailable));
             using (var entryActionHandle = await session.MDataEntryActions.NewAsync())
             {
-                await session.MDataEntryActions.InsertAsync(entryActionHandle, Utils.GetRandomData(10).ToList(), Utils.GetRandomData(15).ToList());
-                Assert.That(async () => { await session.MData.MutateEntriesAsync(mdInfo, entryActionHandle); }, Throws.TypeOf<FfiException>());
+                await session.MDataEntryActions.InsertAsync(
+                    entryActionHandle,
+                    Utils.GetRandomData(10).ToList(),
+                    Utils.GetRandomData(15).ToList());
+                Assert.That(
+                    async () => { await session.MData.MutateEntriesAsync(mdInfo, entryActionHandle); },
+                    Throws.TypeOf<FfiException>());
             }
 
             session.Dispose();
@@ -53,7 +64,10 @@ namespace SafeApp.Tests
         {
             var authReq = new AuthReq
             {
-                App = new AppExchangeInfo { Id = Utils.GetRandomString(10), Name = Utils.GetRandomString(10), Vendor = Utils.GetRandomString(10) },
+                App = new AppExchangeInfo
+                {
+                    Id = Utils.GetRandomString(10), Name = Utils.GetRandomString(10), Vendor = Utils.GetRandomString(10)
+                },
                 AppContainer = true,
                 Containers = new List<ContainerPermissions>()
             };
@@ -80,7 +94,11 @@ namespace SafeApp.Tests
             {
                 keys = await session.MData.ListKeysAsync(mDataInfo);
                 var value = await session.MDataEntries.GetAsync(entryHandle, keys[0].Key);
-                await session.MDataEntryActions.UpdateAsync(entriesActionHandle, keys[0].Key, Utils.GetRandomData(10).ToList(), value.Item2 + 1);
+                await session.MDataEntryActions.UpdateAsync(
+                    entriesActionHandle,
+                    keys[0].Key,
+                    Utils.GetRandomData(10).ToList(),
+                    value.Item2 + 1);
                 await session.MData.MutateEntriesAsync(mDataInfo, entriesActionHandle);
             }
 
@@ -99,7 +117,10 @@ namespace SafeApp.Tests
         {
             var authReq = new AuthReq
             {
-                App = new AppExchangeInfo { Id = "net.maidsafe.scope.test", Name = "SampleTest", Scope = "Web", Vendor = "MaidSafe.net Ltd" },
+                App = new AppExchangeInfo
+                {
+                    Id = "net.maidsafe.scope.test", Name = "SampleTest", Scope = "Web", Vendor = "MaidSafe.net Ltd"
+                },
                 AppContainer = true,
                 Containers = new List<ContainerPermissions>()
             };

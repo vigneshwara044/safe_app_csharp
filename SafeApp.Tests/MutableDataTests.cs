@@ -34,10 +34,10 @@ namespace SafeApp.Tests
             Assert.NotNull(decodedResponse);
             var hostingApp = await Session.AppRegisteredAsync(authReq.App.Id, decodedResponse.AuthGranted);
             var ipcReq = await Session.EncodeShareMDataRequestAsync(
-              new ShareMDataReq
-              {
-                  App = authReq.App,
-                  MData = new List<ShareMData>
+                new ShareMDataReq
+                {
+                    App = authReq.App,
+                    MData = new List<ShareMData>
                     {
                         new ShareMData
                         {
@@ -46,15 +46,15 @@ namespace SafeApp.Tests
                             Perms = new PermissionSet { Insert = true, Read = true }
                         }
                     }
-              });
+                });
             await Utils.AuthenticateShareMDataRequest(locator, secret, ipcReq.Item2, true);
             await hostingApp.AccessContainer.RefreshAccessInfoAsync();
             using (var entryhandle = await hostingApp.MDataEntryActions.NewAsync())
             {
                 await hostingApp.MDataEntryActions.InsertAsync(
-                  entryhandle,
-                  Encoding.UTF8.GetBytes("default.html").ToList(),
-                  Encoding.UTF8.GetBytes("<html><body>Hello Default</body></html>").ToList());
+                    entryhandle,
+                    Encoding.UTF8.GetBytes("default.html").ToList(),
+                    Encoding.UTF8.GetBytes("<html><body>Hello Default</body></html>").ToList());
                 await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryhandle);
             }
 
@@ -71,10 +71,12 @@ namespace SafeApp.Tests
             using (var entryHandle = await hostingApp.MDataEntryActions.NewAsync())
             {
                 await hostingApp.MDataEntryActions.InsertAsync(
-                  entryHandle,
-                  Encoding.UTF8.GetBytes("home.html").ToList(),
-                  Encoding.UTF8.GetBytes("<html><body>Hello Home!</body></html>").ToList());
-                Assert.That(async () => { await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryHandle); }, Throws.TypeOf<FfiException>());
+                    entryHandle,
+                    Encoding.UTF8.GetBytes("home.html").ToList(),
+                    Encoding.UTF8.GetBytes("<html><body>Hello Home!</body></html>").ToList());
+                Assert.That(
+                    async () => { await hostingApp.MData.MutateEntriesAsync(mDataInfo, entryHandle); },
+                    Throws.TypeOf<FfiException>());
             }
 
             cmsApp.Dispose();
@@ -90,9 +92,7 @@ namespace SafeApp.Tests
             {
                 App = new AppExchangeInfo
                 {
-                    Id = "net.maidsafe.mdata.permission.delete",
-                    Name = Utils.GetRandomString(5),
-                    Vendor = "MaidSafe.net Ltd"
+                    Id = "net.maidsafe.mdata.permission.delete", Name = Utils.GetRandomString(5), Vendor = "MaidSafe.net Ltd"
                 },
                 AppContainer = true,
                 Containers = new List<ContainerPermissions>()
@@ -104,9 +104,9 @@ namespace SafeApp.Tests
             using (var appKey = await app.Crypto.AppPubSignKeyAsync())
             {
                 await app.MDataPermissions.InsertAsync(
-                  permissions,
-                  appKey,
-                  new PermissionSet { Insert = true, Delete = true, Update = true, Read = true });
+                    permissions,
+                    appKey,
+                    new PermissionSet { Insert = true, Delete = true, Update = true, Read = true });
                 for (var i = 0; i < 5; i++)
                 {
                     var key = await app.MDataInfoActions.EncryptEntryKeyAsync(mdInfo, Utils.GetRandomString(10).ToUtfBytes());
@@ -123,7 +123,11 @@ namespace SafeApp.Tests
             using (var entriesHandle = await app.MDataEntryActions.NewAsync())
             {
                 var value = await app.MData.GetValueAsync(mdInfo, keyToDelete.Key);
-                await app.MDataEntryActions.UpdateAsync(entriesHandle, keyToDelete.Key, Utils.GetRandomString(5).ToUtfBytes(), value.Item2 + 1);
+                await app.MDataEntryActions.UpdateAsync(
+                    entriesHandle,
+                    keyToDelete.Key,
+                    Utils.GetRandomString(5).ToUtfBytes(),
+                    value.Item2 + 1);
                 await app.MData.MutateEntriesAsync(mdInfo, entriesHandle);
             }
 
@@ -140,10 +144,10 @@ namespace SafeApp.Tests
             using (var entriesHandle = await app.MDataEntryActions.NewAsync())
             {
                 await app.MDataEntryActions.UpdateAsync(
-                  entriesHandle,
-                  keyToDelete.Key,
-                  Utils.GetRandomString(5).ToUtfBytes(),
-                  deletedValue.Item2 + 1);
+                    entriesHandle,
+                    keyToDelete.Key,
+                    Utils.GetRandomString(5).ToUtfBytes(),
+                    deletedValue.Item2 + 1);
                 await app.MData.MutateEntriesAsync(mdInfo, entriesHandle);
             }
 
@@ -380,7 +384,9 @@ namespace SafeApp.Tests
                     await session2.MDataEntryActions.DeleteAsync(entryAction, key.Key, encKey.Item2);
                 }
 
-                Assert.That(async () => { await session2.MData.MutateEntriesAsync(mDataInfo, entryAction); }, Throws.TypeOf<FfiException>());
+                Assert.That(
+                    async () => { await session2.MData.MutateEntriesAsync(mDataInfo, entryAction); },
+                    Throws.TypeOf<FfiException>());
             }
 
             session2.Dispose();

@@ -20,11 +20,18 @@ namespace SafeApp.Tests
             using (var entryhandle = await session.MDataEntries.NewAsync())
             using (var permissionHandle = await session.MDataPermissions.NewAsync())
             {
-                var permissions = new PermissionSet { Read = true, ManagePermissions = true, Insert = true, Update = true, Delete = true };
+                var permissions = new PermissionSet
+                {
+                    Read = true,
+                    ManagePermissions = true,
+                    Insert = true,
+                    Update = true,
+                    Delete = true
+                };
                 await session.MDataEntries.InsertAsync(
-                  entryhandle,
-                  Encoding.UTF8.GetBytes("index.html").ToList(),
-                  Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
+                    entryhandle,
+                    Encoding.UTF8.GetBytes("index.html").ToList(),
+                    Encoding.UTF8.GetBytes("<html><body>Hello</body></html>").ToList());
                 await session.MDataPermissions.InsertAsync(permissionHandle, signPubKey, permissions);
                 await session.MData.PutAsync(mDataInfo, permissionHandle, NativeHandle.EmptyMDataEntries);
             }
