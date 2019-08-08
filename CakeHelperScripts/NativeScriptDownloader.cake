@@ -1,4 +1,4 @@
-var TAG = "0.9.0";
+var TAG = "0.9.1";
 var ANDROID_DIR_NAME = "SafeApp.AppBindings.Android";
 var IOS_DIR_NAME = "SafeApp.AppBindings.iOS";
 var DESKTOP_DIR_NAME = "SafeApp.AppBindings.Desktop";
