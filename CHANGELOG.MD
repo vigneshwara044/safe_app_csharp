@@ -1,5 +1,12 @@
 # safe_app_csharp Change Log
 
+## [0.2.3]
+
+### Changed
+
+- Updated `safe_app` bindings to v0.9.1
+- Updated mock authenticator bindings to v0.9.1
+
 ## [0.2.2]
 
 ### Changed
