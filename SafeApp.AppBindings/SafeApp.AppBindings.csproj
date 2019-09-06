@@ -1,12 +1,59 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.41">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard1.3;net46;netcoreapp1.0;MonoAndroid44;Xamarin.iOS10</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType Condition=" !$(TargetFramework.StartsWith('MonoAndroid')) ">portable</DebugType>
+    <DebugType Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">Full</DebugType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' Or '$(TargetFramework)' == 'netcoreapp1.0' ">
+    <DefineConstants>__DESKTOP__</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <AndroidUseIntermediateDesignerFile>False</AndroidUseIntermediateDesignerFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AndroidNativeLibs Include="NativeLibs\Android\**\*.so" />
+    <iOSSafeAppLibs Include="NativeLibs\iOS\**\*.a" />
+    <DesktopNativeLibs Include="NativeLibs\Desktop\**\*.*" />
+  </ItemGroup>
+
+  <Target Name="CheckNativeLibs" BeforeTargets="DispatchToInnerBuilds">
+    <PropertyGroup>
+      <AndroidLibsExists Condition=" '@(AndroidNativeLibs-&gt;Count())' == '0' ">true</AndroidLibsExists>
+      <iOSLibsExists Condition=" '@(iOSSafeAppLibs-&gt;Count())' == '0' ">true</iOSLibsExists>
+      <DesktopLibsExists Condition=" '@(DesktopNativeLibs-&gt;Count())' == '0' ">true</DesktopLibsExists>
+      <DownloadNativeLibs Condition=" $(AndroidLibsExists) == 'true' Or $(iOSLibsExists) == true Or $(DesktopLibsExists) == true">true</DownloadNativeLibs>
+    </PropertyGroup>
+
+    <Message Importance="high" Text="$(AndroidLibsExists)" />
+    <Message Importance="high" Text="$(iOSLibsExists)" />
+    <Message Importance="high" Text="$(DesktopLibsExists)" />
+    <Message Importance="high" Text="$(DownloadNativeLibs)" />
+
+    <Exec ConsoleToMSBuild="true" Condition=" $(DownloadNativeLibs) == 'true' AND '$(OS)' == 'Windows_NT'" Command="cd.. &amp; powershell -ExecutionPolicy ByPass -File .\build.ps1 -Configuration Release -target=UnZip-Libs --settings_skipverification=true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+
+    <Exec ConsoleToMSBuild="true" Condition=" $(DownloadNativeLibs) == 'true' AND '$(OS)' == 'UNIX'" Command="cd .. &amp;&amp; bash build.sh --Configuration=Release --target=Unzip-Libs --settings_skipverification=true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+  </Target>
 
   <Import Project="$(MSBuildThisFileDirectory)..\CodeStyles.targets" />
 
