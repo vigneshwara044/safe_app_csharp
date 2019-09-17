@@ -10,6 +10,7 @@ using SafeApp.MData;
 using SafeApp.Misc;
 using SafeApp.Utilities;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp
