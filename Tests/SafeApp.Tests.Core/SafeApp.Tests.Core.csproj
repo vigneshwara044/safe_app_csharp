@@ -53,6 +53,12 @@
     <ProjectReference Include="..\..\SafeApp\SafeApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="safe_cli.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Import Project="..\SafeApp.Tests\SafeApp.Tests.projitems" Label="Shared" />
   <Import Project="$(MSBuildThisFileDirectory)..\..\CodeStyles.targets" />
 </Project>
