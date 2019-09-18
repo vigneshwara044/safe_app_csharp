@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
-using SafeApp.Utilities;
+using SafeApp.Core;
 
 namespace SafeApp.Misc
 {

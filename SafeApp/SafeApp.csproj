@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SafeApp.AppBindings\SafeApp.AppBindings.csproj" />
-    <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
+    <ProjectReference Include="..\SafeApp.Core\SafeApp.Core.csproj" />
   </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)..\CodeStyles.targets" />

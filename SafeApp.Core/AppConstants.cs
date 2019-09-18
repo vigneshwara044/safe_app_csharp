@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace SafeApp.Utilities
+namespace SafeApp.Core
 {
     /// <summary>
     /// Constants used in SafeApp

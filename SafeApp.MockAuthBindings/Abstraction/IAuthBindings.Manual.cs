@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.Utilities;
+using SafeApp.Core;
 
 // ReSharper disable once CheckNamespace
 

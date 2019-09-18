@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
+using SafeApp.Core;
 using SafeApp.MData;
 using SafeApp.Misc;
-using SafeApp.Utilities;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ConvertToLocalFunction

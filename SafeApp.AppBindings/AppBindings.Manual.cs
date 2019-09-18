@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-using SafeApp.Utilities;
+using SafeApp.Core;
 
 #if __IOS__
 using ObjCRuntime;

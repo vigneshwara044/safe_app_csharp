@@ -6,7 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{4C986A9E-D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeApp.AppBindings", "SafeApp.AppBindings\SafeApp.AppBindings.csproj", "{D785B126-3720-4420-8207-3BDBFABCBE05}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeApp.Utilities", "SafeApp.Utilities\SafeApp.Utilities.csproj", "{A0450F47-B05E-4C53-9845-7B89D708D3E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeApp.Core", "SafeApp.Core\SafeApp.Core.csproj", "{A0450F47-B05E-4C53-9845-7B89D708D3E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SafeApp", "SafeApp\SafeApp.csproj", "{82FD8E34-048C-4C74-B7A6-7CEFC054F87D}"
 EndProject
