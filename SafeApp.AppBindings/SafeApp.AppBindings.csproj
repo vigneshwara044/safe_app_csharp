@@ -4,10 +4,6 @@
     <TargetFrameworks>netstandard1.3;net46;netcoreapp1.0;MonoAndroid44;Xamarin.iOS10</TargetFrameworks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
-  </ItemGroup>
-
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +27,10 @@
     <AndroidNativeLibs Include="NativeLibs\Android\**\*.so" />
     <iOSSafeAppLibs Include="NativeLibs\iOS\**\*.a" />
     <DesktopNativeLibs Include="NativeLibs\Desktop\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SafeApp.Core\SafeApp.Core.csproj" />
   </ItemGroup>
 
   <Target Name="CheckNativeLibs" BeforeTargets="DispatchToInnerBuilds">

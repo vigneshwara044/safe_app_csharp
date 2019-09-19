@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SafeApp.Utilities;
+using SafeApp.Core;
 
 namespace SafeApp.MockAuthBindings
 {

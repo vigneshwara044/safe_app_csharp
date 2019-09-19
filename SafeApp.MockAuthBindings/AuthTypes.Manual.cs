@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SafeApp.Utilities;
+using SafeApp.Core;
 
 #pragma warning disable SA1401 // Fields should be private
 namespace SafeApp.MockAuthBindings

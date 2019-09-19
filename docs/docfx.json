@@ -6,7 +6,7 @@
           "files": [
             "SafeApp/**.csproj",
             "SafeApp.MockAuthBindings/**.csproj",
-            "SafeApp.Utilities/**.csproj"
+            "SafeApp.Core/**.csproj"
           ],
           "src": "../"
         }

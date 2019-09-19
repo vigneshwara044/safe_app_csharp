@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
-namespace SafeApp.Utilities
+namespace SafeApp.Core
 {
 #pragma warning disable SA1401 // Fields should be private
 

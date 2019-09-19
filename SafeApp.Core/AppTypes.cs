@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 [assembly: InternalsVisibleTo("SafeApp.AppBindings")]
 [assembly: InternalsVisibleTo("SafeApp.MockAuthBindings")]
 
-namespace SafeApp.Utilities
+namespace SafeApp.Core
 {
     /// <summary>
     /// Actions which can be performed on a Mutable Data.

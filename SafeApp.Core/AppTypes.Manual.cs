@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
-namespace SafeApp.Utilities
+namespace SafeApp.Core
 {
 #pragma warning disable SA1401 // Fields should be private
     /// <summary>

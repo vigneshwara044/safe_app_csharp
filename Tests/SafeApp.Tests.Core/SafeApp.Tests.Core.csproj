@@ -49,7 +49,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SafeApp.AppBindings\SafeApp.AppBindings.csproj" />
     <ProjectReference Include="..\..\SafeApp.MockAuthBindings\SafeApp.MockAuthBindings.csproj" />
-    <ProjectReference Include="..\..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
+    <ProjectReference Include="..\..\SafeApp.Core\SafeApp.Core.csproj" />
     <ProjectReference Include="..\..\SafeApp\SafeApp.csproj" />
   </ItemGroup>
 

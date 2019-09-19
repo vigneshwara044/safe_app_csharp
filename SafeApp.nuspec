@@ -42,12 +42,12 @@
           target="build\netstandard1.3\SafeApp.MockAuthBindings.pdb" />
     <file src="SafeApp.MockAuthBindings\bin\Release\netstandard1.3\SafeApp.MockAuthBindings.xml"
           target="build\netstandard1.3\SafeApp.MockAuthBindings.xml" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.dll"
-          target="lib\netstandard1.3\SafeApp.Utilities.dll" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.pdb"
-          target="lib\netstandard1.3\SafeApp.Utilities.pdb" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.xml"
-          target="lib\netstandard1.3\SafeApp.Utilities.xml" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.dll"
+          target="lib\netstandard1.3\SafeApp.Core.dll" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.pdb"
+          target="lib\netstandard1.3\SafeApp.Core.pdb" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.xml"
+          target="lib\netstandard1.3\SafeApp.Core.xml" />
 
     <!--Xamarin.Android-->
     <file src="SafeApp.AppBindings\Targets\Android.targets" target="build\MonoAndroid44\MaidSafe.SafeApp.targets" />
@@ -65,12 +65,12 @@
           target="build\MonoAndroid44\SafeApp.MockAuthBindings.pdb" />
     <file src="SafeApp.MockAuthBindings\bin\Release\monoandroid44\44\SafeApp.MockAuthBindings.xml"
           target="build\MonoAndroid44\SafeApp.MockAuthBindings.xml" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.dll"
-          target="lib\MonoAndroid44\SafeApp.Utilities.dll" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.pdb"
-          target="lib\MonoAndroid44\SafeApp.Utilities.pdb" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.xml"
-          target="lib\MonoAndroid44\SafeApp.Utilities.xml" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.dll"
+          target="lib\MonoAndroid44\SafeApp.Core.dll" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.pdb"
+          target="lib\MonoAndroid44\SafeApp.Core.pdb" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.xml"
+          target="lib\MonoAndroid44\SafeApp.Core.xml" />
 
     <!--Xamarin.iOS-->
     <file src="SafeApp.AppBindings\Targets\iOS.targets" target="build\Xamarin.iOS10\MaidSafe.SafeApp.targets" />
@@ -88,12 +88,12 @@
           target="build\Xamarin.iOS10\SafeApp.MockAuthBindings.pdb" />
     <file src="SafeApp.MockAuthBindings\bin\Release\xamarin.ios10\SafeApp.MockAuthBindings.xml"
           target="build\Xamarin.iOS10\SafeApp.MockAuthBindings.xml" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.dll"
-          target="lib\Xamarin.iOS10\SafeApp.Utilities.dll" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.pdb"
-          target="lib\Xamarin.iOS10\SafeApp.Utilities.pdb" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.xml"
-          target="lib\Xamarin.iOS10\SafeApp.Utilities.xml" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.dll"
+          target="lib\Xamarin.iOS10\SafeApp.Core.dll" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.pdb"
+          target="lib\Xamarin.iOS10\SafeApp.Core.pdb" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.xml"
+          target="lib\Xamarin.iOS10\SafeApp.Core.xml" />
 
     <!--Desktop - NetCore-->
     <file src="SafeApp.AppBindings\Targets\NetCore.targets" target="build\netcoreapp1.0\MaidSafe.SafeApp.targets" />
@@ -111,12 +111,12 @@
           target="build\netcoreapp1.0\SafeApp.MockAuthBindings.pdb" />
     <file src="SafeApp.MockAuthBindings\bin\Release\netcoreapp1.0\SafeApp.MockAuthBindings.xml"
           target="build\netcoreapp1.0\SafeApp.MockAuthBindings.xml" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.dll"
-          target="lib\netcoreapp1.0\SafeApp.Utilities.dll" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.pdb"
-          target="lib\netcoreapp1.0\SafeApp.Utilities.pdb" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.xml"
-          target="lib\netcoreapp1.0\SafeApp.Utilities.xml" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.dll"
+          target="lib\netcoreapp1.0\SafeApp.Core.dll" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.pdb"
+          target="lib\netcoreapp1.0\SafeApp.Core.pdb" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.xml"
+          target="lib\netcoreapp1.0\SafeApp.Core.xml" />
 
     <!--Desktop - NetFramework-->
     <file src="SafeApp.AppBindings\Targets\NetFramework.targets" target="build\net46\MaidSafe.SafeApp.targets" />
@@ -135,11 +135,11 @@
           target="build\net46\SafeApp.MockAuthBindings.pdb" />
     <file src="SafeApp.MockAuthBindings\bin\Release\net46\SafeApp.MockAuthBindings.xml"
           target="build\net46\SafeApp.MockAuthBindings.xml" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.dll"
-          target="lib\net46\SafeApp.Utilities.dll" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.pdb"
-          target="lib\net46\SafeApp.Utilities.pdb" />
-    <file src="SafeApp.Utilities\bin\Release\netstandard1.3\SafeApp.Utilities.xml"
-          target="lib\net46\SafeApp.Utilities.xml" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.dll"
+          target="lib\net46\SafeApp.Core.dll" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.pdb"
+          target="lib\net46\SafeApp.Core.pdb" />
+    <file src="SafeApp.Core\bin\Release\netstandard1.3\SafeApp.Core.xml"
+          target="lib\net46\SafeApp.Core.xml" />
   </files>
 </package>
