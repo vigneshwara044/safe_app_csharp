@@ -22,8 +22,9 @@ namespace SafeApp.API
             => _appPtr = appPtr;
 
         /// <summary>
-        /// Keys API.
+        /// Generate a key pair without creating and/or storing a SafeKey on the network.
         /// </summary>
+        /// <returns>Key pair.</returns>
         public Task<BlsKeyPair> GenerateKeyPairAsync()
             => AppBindings.GenerateKeyPairAsync(ref _appPtr);
     }
