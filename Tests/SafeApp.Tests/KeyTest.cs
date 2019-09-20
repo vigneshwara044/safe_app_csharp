@@ -46,5 +46,24 @@ namespace SafeApp.Tests
                 AppContainer = true,
                 Containers = new List<ContainerPermissions>()
             });
+
+        [Test]
+        public async Task KeysCreatePreloadTestCoinsTest()
+        {
+            var session = await TestUtils.CreateTestApp();
+            var api = session.Keys;
+
+            var (xorurl, keyPair) = await api.KeysCreatePreloadTestCoins("1");
+        }
+
+        [Test]
+        public async Task KeysBalanceFromSkTest()
+        {
+            var session = await TestUtils.CreateTestApp();
+            var api = session.Keys;
+            var (xorurl, keyPair) = await api.KeysCreatePreloadTestCoins("1");
+
+            var balance = await api.KeysBalanceFromSkAsync(keyPair.SK);
+        }
     }
 }

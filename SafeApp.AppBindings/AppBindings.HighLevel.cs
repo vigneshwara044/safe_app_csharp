@@ -120,6 +120,42 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultStringBlsKeyPairCb DelegateOnFfiResultStringBlsKeyPairCb = OnFfiResultStringBlsKeyPairCb;
 
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+
+        public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(ref IntPtr app, string preloadAmount)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair)>();
+            KeysCreatePreloadTestCoinsNative(ref app, preloadAmount, userData, DelegateOnFfiResultStringBlsKeyPairCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_create_preload_test_coins")]
+        private static extern void KeysCreatePreloadTestCoinsNative(
+            ref IntPtr app,
+            string preload,
+            IntPtr userData,
+            FfiResultStringBlsKeyPairCb oCb);
+
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+
+        public Task<string> KeysBalanceFromSkAsync(ref IntPtr app, string sk)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<string>();
+            KeysBalanceFromSkNative(ref app, sk, userData, DelegateOnFfiResultStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_balance_from_sk")]
+        private static extern void KeysBalanceFromSkNative(
+            ref IntPtr app,
+            string sk,
+            IntPtr userData,
+            FfiResultStringCb oCb);
+
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+
         #endregion Keys
     }
 }
