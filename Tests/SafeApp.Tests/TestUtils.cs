@@ -78,6 +78,17 @@ namespace SafeApp.Tests
             return await NewSession.AppConnectAsync(authReq.App.Id, resMsg);
         }
 
+        public static async Task<NewSession> CreateTestAppForExisting(string locator, string secret, AuthReq authReq)
+        {
+            var authenticator = await Authenticator.LoginAsync(locator, secret);
+            var (_, reqMsg) = await Session.EncodeAuthReqAsync(authReq);
+            var ipcReq = await authenticator.DecodeIpcMessageAsync(reqMsg);
+            Assert.That(ipcReq, Is.TypeOf<AuthIpcReq>());
+            var authIpcReq = ipcReq as AuthIpcReq;
+            var resMsg = await authenticator.EncodeAuthRespAsync(authIpcReq, true);
+            return await NewSession.AppConnectAsync(authReq.App.Id, resMsg);
+        }
+
         public static string GetRandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
