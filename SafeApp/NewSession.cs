@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using SafeApp.API;
 using SafeApp.AppBindings;
 using SafeApp.Core;
 
@@ -13,6 +14,8 @@ namespace SafeApp
         private SafeAppPtr _appPtr;
 
         public bool IsDisconnected { get; private set; }
+
+        public Keys Keys { get; private set; }
 
         private NewSession()
         {
@@ -48,6 +51,7 @@ namespace SafeApp
         {
             IsDisconnected = false;
             _appPtr = new SafeAppPtr(appPtr);
+            Keys = new Keys(_appPtr);
         }
     }
 }
