@@ -32,6 +32,12 @@
     <ProjectReference Include="..\SafeApp.Core\SafeApp.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="NativeLibs\Desktop\mock\safe_api_ffi.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
   <Target Name="CheckNativeLibs" BeforeTargets="DispatchToInnerBuilds">
     <PropertyGroup>
       <AndroidLibsExists Condition=" '@(AndroidNativeLibs-&gt;Count())' == '0' ">true</AndroidLibsExists>

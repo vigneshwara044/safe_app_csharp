@@ -69,6 +69,12 @@ namespace SafeApp.AppBindings
         Task<ISafeData> FetchAsync(IntPtr app, string uri);
 
         #endregion
+
+        #region Keys
+
+        Task<BlsKeyPair> GenerateKeyPairAsync(ref IntPtr app);
+
+        #endregion Keys
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
