@@ -19,7 +19,7 @@ namespace SafeApp.AppBindings
             SafeConnectNative(appId, authCredentials, userData, DelegateOnFfiResultSafeCb);
         }
 
-        [DllImport(DllName, EntryPoint = "safe_connect")]
+        [DllImport(DllName, EntryPoint = "connect")]
         private static extern void SafeConnectNative(
             [MarshalAs(UnmanagedType.LPStr)] string appId,
             [MarshalAs(UnmanagedType.LPStr)] string authCredentials,
