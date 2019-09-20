@@ -74,6 +74,52 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultBlsKeyPairCb DelegateOnFfiResultBlsKeyPairCb = OnFfiResultBlsKeyPairCb;
 
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+
+        public Task<(string, BlsKeyPair?)> CreateKeysAsync(
+            ref IntPtr app,
+            string from,
+            string preloadAmount,
+            string pk)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair?)>();
+            CreateKeysNative(ref app,  from, preloadAmount, pk, userData, DelegateOnFfiResultStringBlsKeyPairCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_create")]
+        private static extern void CreateKeysNative(
+            ref IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string from,
+            [MarshalAs(UnmanagedType.LPStr)] string preload,
+            [MarshalAs(UnmanagedType.LPStr)] string pk,
+            IntPtr userData,
+            FfiResultStringBlsKeyPairCb oCb);
+
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+
+        private delegate void FfiResultStringBlsKeyPairCb(
+            IntPtr userData,
+            IntPtr result,
+            string xorUrl,
+            IntPtr safeKey);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultStringBlsKeyPairCb))]
+#endif
+        private static void OnFfiResultStringBlsKeyPairCb(
+            IntPtr userData,
+            IntPtr result,
+            string xorUrl,
+            IntPtr safeKey)
+            => BindingUtils.CompleteTask(
+                userData,
+                Marshal.PtrToStructure<FfiResult>(result),
+                () => (xorUrl, Marshal.PtrToStructure<BlsKeyPair?>(safeKey)));
+
+        private static readonly FfiResultStringBlsKeyPairCb DelegateOnFfiResultStringBlsKeyPairCb = OnFfiResultStringBlsKeyPairCb;
+
         #endregion Keys
     }
 }
