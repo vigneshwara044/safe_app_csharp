@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace SafeApp.Core
@@ -55,7 +54,7 @@ namespace SafeApp.Core
         /// <summary>
         /// Serialised configuration.
         /// </summary>
-        public List<byte> SerialisedCfg;
+        public byte[] SerialisedCfg;
 
         /// <summary>
         /// Initialise IPC response message.

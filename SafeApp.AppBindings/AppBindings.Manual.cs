@@ -1,7 +1,6 @@
 ﻿#if !NETSTANDARD1_2 || __DESKTOP__
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -17,13 +16,13 @@ namespace SafeApp.AppBindings
 {
     internal partial class AppBindings
     {
-        public void AppUnregistered(List<byte> bootstrapConfig, Action oDisconnectNotifierCb, Action<FfiResult, IntPtr, GCHandle> oCb)
+        public void AppUnregistered(byte[] bootstrapConfig, Action oDisconnectNotifierCb, Action<FfiResult, IntPtr, GCHandle> oCb)
         {
             var userData = BindingUtils.ToHandlePtr((oDisconnectNotifierCb, oCb));
 
             AppUnregisteredNative(
-              bootstrapConfig.ToArray(),
-              (UIntPtr)bootstrapConfig.Count,
+              bootstrapConfig,
+              (UIntPtr)bootstrapConfig.Length,
               userData,
               DelegateOnAppDisconnectCb,
               DelegateOnAppCreateCb);

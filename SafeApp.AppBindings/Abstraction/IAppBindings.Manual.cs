@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Core;
@@ -17,7 +16,7 @@ namespace SafeApp.AppBindings
             Action oDisconnectNotifierCb,
             Action<FfiResult, IntPtr, GCHandle> oCb);
 
-        void AppUnregistered(List<byte> bootstrapConfig, Action oDisconnectNotifierCb, Action<FfiResult, IntPtr, GCHandle> oCb);
+        void AppUnregistered(byte[] bootstrapConfig, Action oDisconnectNotifierCb, Action<FfiResult, IntPtr, GCHandle> oCb);
 
         Task<IpcMsg> DecodeIpcMsgAsync(string msg);
     }

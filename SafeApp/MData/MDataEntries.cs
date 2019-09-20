@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using JetBrains.Annotations;
 using SafeApp.AppBindings;
 using SafeApp.Core;
@@ -43,7 +42,7 @@ namespace SafeApp.MData
         /// <param name="entriesHandle">MDataEntries handle.</param>
         /// <param name="key">The key to lookup.</param>
         /// <returns>Value corresponding to the specified key and it's version.</returns>
-        public Task<(List<byte>, ulong)> GetAsync(NativeHandle entriesHandle, List<byte> key)
+        public Task<(byte[], ulong)> GetAsync(NativeHandle entriesHandle, byte[] key)
         {
             return AppBindings.MDataEntriesGetAsync(_appPtr, entriesHandle, key);
         }
@@ -68,7 +67,7 @@ namespace SafeApp.MData
         /// <param name="entKey">The key to store the data under.</param>
         /// <param name="entVal">The value to be stored.</param>
         /// <returns></returns>
-        public Task InsertAsync(NativeHandle entriesH, List<byte> entKey, List<byte> entVal)
+        public Task InsertAsync(NativeHandle entriesH, byte[] entKey, byte[] entVal)
         {
             return AppBindings.MDataEntriesInsertAsync(_appPtr, entriesH, entKey, entVal);
         }
