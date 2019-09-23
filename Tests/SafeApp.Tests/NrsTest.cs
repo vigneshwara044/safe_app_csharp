@@ -15,8 +15,16 @@ namespace SafeApp.Tests
             var (xorurl, _) = await session.Keys.KeysCreatePreloadTestCoinsAsync("1");
 
             var xorUrlEncoder = await Nrs.ParseUrlAsync(xorurl);
+        }
 
-            Assert.AreNotEqual(default(XorUrlEncoder), xorUrlEncoder);
+        [Test]
+        public async Task ParseAndResolveUrlTest()
+        {
+            var session = await TestUtils.CreateTestApp();
+            var (xorurl, _) = await session.Keys.KeysCreatePreloadTestCoinsAsync("1");
+
+            var api = session.Nrs;
+            var (xorUrlEncoder, resolvesAsNrs) = await api.ParseAndResolveUrlAsync(xorurl);
         }
     }
 }
