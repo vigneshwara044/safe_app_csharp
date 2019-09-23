@@ -167,6 +167,11 @@ namespace SafeApp.Core
         public bool AppContainer;
 
         /// <summary>
+        /// Enable test coin operations
+        /// </summary>
+        public bool AppPermissionTransferCoins;
+
+        /// <summary>
         /// The list of containers requesting access for.
         /// </summary>
         public List<ContainerPermissions> Containers;
@@ -179,6 +184,7 @@ namespace SafeApp.Core
         {
             App = native.App;
             AppContainer = native.AppContainer;
+            AppPermissionTransferCoins = native.AppPermissionTransferCoins;
             Containers = BindingUtils.CopyToObjectList<ContainerPermissions>(native.ContainersPtr, (int)native.ContainersLen);
         }
 
@@ -192,6 +198,7 @@ namespace SafeApp.Core
             {
                 App = App,
                 AppContainer = AppContainer,
+                AppPermissionTransferCoins = AppPermissionTransferCoins,
                 ContainersPtr = BindingUtils.CopyFromObjectList(Containers),
                 ContainersLen = (UIntPtr)(Containers?.Count ?? 0),
                 ContainersCap = UIntPtr.Zero
@@ -215,6 +222,12 @@ namespace SafeApp.Core
         /// </summary>
         [MarshalAs(UnmanagedType.U1)]
         public bool AppContainer;
+
+        /// <summary>
+        /// enable test coin operations.
+        /// </summary>
+        [MarshalAs(UnmanagedType.U1)]
+        public bool AppPermissionTransferCoins;
 
         /// <summary>
         /// Pointer to containers.

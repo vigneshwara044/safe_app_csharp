@@ -37,3 +37,6 @@ level = "trace"
 
 [loggers."ffi_utils"]
 level = "trace"
+
+[loggers."safe_cli"]
+level = "trace"
