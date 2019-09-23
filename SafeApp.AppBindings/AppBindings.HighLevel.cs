@@ -413,6 +413,38 @@ namespace SafeApp.AppBindings
             FfiResultStringCb oCb);
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+
+        public Task<ulong> KeysTransferAsync(ref IntPtr app, string amount, string fromSk, string toUrl, ulong txId)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<ulong>();
+            KeysTransferNative(ref app, amount, fromSk, toUrl, txId, userData, DelegateOnFfiResultULongCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_transfer")]
+        private static extern void KeysTransferNative(
+            ref IntPtr app,
+            string amount,
+            string from,
+            string to,
+            ulong id,
+            IntPtr userData,
+            FfiResultULongCb oCb);
+
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+
+        private delegate void FfiResultULongCb(IntPtr userData, IntPtr result, ulong handle);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultULongCb))]
+#endif
+        private static void OnFfiResultULongCb(IntPtr userData, IntPtr result, ulong handle)
+        {
+            BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => handle);
+        }
+
+        private static readonly FfiResultULongCb DelegateOnFfiResultULongCb = OnFfiResultULongCb;
 
         #endregion Keys
     }
