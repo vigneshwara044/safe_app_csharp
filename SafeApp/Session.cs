@@ -30,6 +30,8 @@ namespace SafeApp
 
         public Files Files { get; private set; }
 
+        public Nrs Nrs { get; private set; }
+
         /// <summary>
         /// Event triggered if session is disconnected from the network.
         /// </summary>
@@ -235,6 +237,7 @@ namespace SafeApp
             Keys = new Keys(_appPtr);
             Wallet = new API.Wallet(_appPtr);
             Files = new Files(_appPtr);
+            Nrs = new Nrs(_appPtr);
         }
 
         /// <summary>
