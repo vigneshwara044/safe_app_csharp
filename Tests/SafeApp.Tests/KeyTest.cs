@@ -54,11 +54,12 @@ namespace SafeApp.Tests
         {
             var sessionSender = await GetSessionAsync();
             var apiSender = sessionSender.Keys;
-            var keyPairSender = await apiSender.GenerateKeyPairAsync();
+            var (xorurl1, keyPairSender) = await apiSender.KeysCreatePreloadTestCoins("1");
 
             var sessionRecipient = await GetSessionAsync();
             var apiRecipient = sessionRecipient.Keys;
-            var keyPairRecipient = await apiRecipient.GenerateKeyPairAsync();
+
+            var (xorurl2, keyPairRecipient) = await apiRecipient.KeysCreatePreloadTestCoins("0.1");
 
             var (xorUrl, newKeyPair) = await apiSender.CreateKeysAsync(
                 keyPairSender.SK,

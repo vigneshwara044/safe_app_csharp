@@ -84,7 +84,7 @@ namespace SafeApp.AppBindings
             string pk)
         {
             var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair?)>();
-            CreateKeysNative(ref app,  from, preloadAmount, pk, userData, DelegateOnFfiResultStringBlsKeyPairCb);
+            CreateKeysNative(ref app,  from, preloadAmount, pk, userData, DelegateOnFfiResultStringNullableBlsKeyPairCb);
             return ret;
         }
 
@@ -94,6 +94,46 @@ namespace SafeApp.AppBindings
             [MarshalAs(UnmanagedType.LPStr)] string from,
             [MarshalAs(UnmanagedType.LPStr)] string preload,
             [MarshalAs(UnmanagedType.LPStr)] string pk,
+            IntPtr userData,
+            FfiResultStringNullableBlsKeyPairCb oCb);
+
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+
+        private delegate void FfiResultStringNullableBlsKeyPairCb(
+            IntPtr userData,
+            IntPtr result,
+            string xorUrl,
+            IntPtr safeKey);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultStringNullableBlsKeyPairCb))]
+#endif
+        private static void OnFfiResultStringNullableBlsKeyPairCb(
+            IntPtr userData,
+            IntPtr result,
+            string xorUrl,
+            IntPtr safeKey)
+            => BindingUtils.CompleteTask(
+                userData,
+                Marshal.PtrToStructure<FfiResult>(result),
+                () => (xorUrl, Marshal.PtrToStructure<BlsKeyPair?>(safeKey)));
+
+        private static readonly FfiResultStringNullableBlsKeyPairCb DelegateOnFfiResultStringNullableBlsKeyPairCb = OnFfiResultStringNullableBlsKeyPairCb;
+
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------
+
+        public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(ref IntPtr app, string preloadAmount)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair)>();
+            KeysCreatePreloadTestCoinsNative(ref app, preloadAmount, userData, DelegateOnFfiResultStringBlsKeyPairCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_create_preload_test_coins")]
+        private static extern void KeysCreatePreloadTestCoinsNative(
+            ref IntPtr app,
+            string preload,
             IntPtr userData,
             FfiResultStringBlsKeyPairCb oCb);
 
@@ -116,26 +156,9 @@ namespace SafeApp.AppBindings
             => BindingUtils.CompleteTask(
                 userData,
                 Marshal.PtrToStructure<FfiResult>(result),
-                () => (xorUrl, Marshal.PtrToStructure<BlsKeyPair?>(safeKey)));
+                () => (xorUrl, Marshal.PtrToStructure<BlsKeyPair>(safeKey)));
 
         private static readonly FfiResultStringBlsKeyPairCb DelegateOnFfiResultStringBlsKeyPairCb = OnFfiResultStringBlsKeyPairCb;
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-
-        public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(ref IntPtr app, string preloadAmount)
-        {
-            var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair)>();
-            KeysCreatePreloadTestCoinsNative(ref app, preloadAmount, userData, DelegateOnFfiResultStringBlsKeyPairCb);
-            return ret;
-        }
-
-        [DllImport(DllName, EntryPoint = "keys_create_preload_test_coins")]
-        private static extern void KeysCreatePreloadTestCoinsNative(
-            ref IntPtr app,
-            string preload,
-            IntPtr userData,
-            FfiResultStringBlsKeyPairCb oCb);
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------
