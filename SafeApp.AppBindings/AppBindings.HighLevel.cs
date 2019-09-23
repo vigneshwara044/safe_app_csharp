@@ -825,5 +825,22 @@ namespace SafeApp.AppBindings
                                                                    OnFfiResultByteListCb;
 
         #endregion Files
+
+        #region NRS
+
+        public Task<XorUrlEncoder> ParseUrlAsync(string url)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<XorUrlEncoder>();
+            ParseUrlNative(url, userData, DelegateOnFfiResultXorUrlEncoderCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "parse_url")]
+        private static extern void ParseUrlNative(
+            [MarshalAs(UnmanagedType.LPStr)] string url,
+            IntPtr userData,
+            FfiResultXorUrlEncoderCb oCb);
+
+        #endregion NRS
     }
 }
