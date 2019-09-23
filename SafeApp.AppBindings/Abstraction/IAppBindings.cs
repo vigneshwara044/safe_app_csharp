@@ -78,6 +78,8 @@ namespace SafeApp.AppBindings
 
         Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(ref IntPtr app, string preloadAmount);
 
+        Task<string> KeysBalanceFromSkAsync(ref IntPtr app, string sk);
+
         #endregion Keys
     }
 }
