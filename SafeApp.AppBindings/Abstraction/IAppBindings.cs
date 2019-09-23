@@ -80,6 +80,8 @@ namespace SafeApp.AppBindings
 
         Task<string> KeysBalanceFromSkAsync(ref IntPtr app, string sk);
 
+        Task<string> KeysBalanceFromUrlAsync(ref IntPtr app, string url, string sk);
+
         #endregion Keys
     }
 }
