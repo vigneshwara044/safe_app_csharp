@@ -78,7 +78,6 @@ namespace SafeApp.MockAuthBindings
         /// </summary>
         /// <param name="locator">Account locator/username.</param>
         /// <param name="secret">Account secret/password.</param>
-        /// <param name="invitation">Invitation token.</param>
         /// <returns>New Authenticator instance.</returns>
         public static Task<Authenticator> CreateAccountAsync(string locator, string secret)
         {

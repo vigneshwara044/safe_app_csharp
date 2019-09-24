@@ -43,9 +43,19 @@ namespace SafeApp.API
             string pk)
             => AppBindings.CreateKeysAsync(ref _appPtr, from, preloadAmount, pk);
 
+        /// <summary>
+        /// Create a SafeKey on the network, allocates testcoins onto it, and return the SafeKey's XOR-URL
+        /// </summary>
+        /// <param name="preloadAmount"></param>
+        /// <returns></returns>
         public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoins(string preloadAmount)
             => AppBindings.KeysCreatePreloadTestCoinsAsync(ref _appPtr, preloadAmount);
 
+        /// <summary>
+        /// Check SafeKey's balance from the network from a given SecretKey string
+        /// </summary>
+        /// <param name="sk"></param>
+        /// <returns></returns>
         public Task<string> KeysBalanceFromSkAsync(string sk)
             => AppBindings.KeysBalanceFromSkAsync(ref _appPtr, sk);
     }

@@ -7,15 +7,29 @@ using SafeApp.Core;
 
 namespace SafeApp
 {
+    /// <summary>
+    /// New Session Class
+    /// </summary>
     public class NewSession
     {
         private static readonly IAppBindings AppBindings = AppResolver.Current;
 
         private SafeAppPtr _appPtr;
 
+        /// <summary>
+        /// Flag incdicating whether session is disconnected.
+        /// </summary>
         public bool IsDisconnected { get; private set; }
 
+        /// <summary>
+        /// Keys
+        /// </summary>
         public Keys Keys { get; private set; }
+
+        /// <summary>
+        /// Wallet
+        /// </summary>
+        public Wallet Wallet { get; private set; }
 
         private NewSession()
         {
@@ -23,6 +37,12 @@ namespace SafeApp
             _appPtr = new SafeAppPtr();
         }
 
+        /// <summary>
+        /// Connects to the network.
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="authCredentials"></param>
+        /// <returns></returns>
         public static Task<NewSession> AppConnectAsync(string appId, string authCredentials)
         {
             return Task.Run(
@@ -52,6 +72,7 @@ namespace SafeApp
             IsDisconnected = false;
             _appPtr = new SafeAppPtr(appPtr);
             Keys = new Keys(_appPtr);
+            Wallet = new Wallet(_appPtr);
         }
     }
 }

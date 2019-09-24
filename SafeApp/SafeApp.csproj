@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType></DebugType>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\netstandard1.3\SafeApp.xml</DocumentationFile>
+    <NoWarn></NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

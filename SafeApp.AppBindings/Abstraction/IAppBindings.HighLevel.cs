@@ -5,6 +5,7 @@ using SafeApp.Core;
 
 namespace SafeApp.AppBindings
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public partial interface IAppBindings
     {
         void SafeConnect(
@@ -23,5 +24,23 @@ namespace SafeApp.AppBindings
         Task<string> KeysBalanceFromSkAsync(ref IntPtr app, string sk);
 
         #endregion Keys
+
+        #region Wallet
+
+        Task<string> WalletCreateAsync(ref IntPtr app);
+
+        Task<string> WalletInsertAsync(ref IntPtr app, string keyUrl, string name, bool setDefault, string secretKey);
+
+        Task<string> WalletBalanceAsync(ref IntPtr app, string url);
+
+        Task<(WalletSpendableBalance, ulong)> WalletGetDefaultBalanceAsync(ref IntPtr app, string url);
+
+        Task<ulong> WalletTransferAsync(ref IntPtr app, string from, string to, string amount, ulong id);
+
+        Task<WalletSpendableBalances> WalletGetAsync(ref IntPtr app, string url);
+
+        #endregion
+
     }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

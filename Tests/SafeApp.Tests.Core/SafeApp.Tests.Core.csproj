@@ -36,6 +36,10 @@
     <None Include="..\SafeApp.Tests\log.toml" Link="log.toml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="..\..\..\safe-cli\target\release\libsafe_api_ffi.dylib">
+      <Link>libsafe_api_ffi.dylib</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
