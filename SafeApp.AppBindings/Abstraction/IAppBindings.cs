@@ -39,6 +39,31 @@ namespace SafeApp.AppBindings
             string authCredentials,
             Action<FfiResult, IntPtr, GCHandle> oCb);
         #endregion
+
+        #region XorEncoder
+
+        Task<string> XorurlEncodeAsync(
+            ref byte[] name,
+            ulong typeTag,
+            ulong dataType,
+            ushort contentType,
+            string path,
+            string subNames,
+            ulong contentVersion,
+            string baseEncoding);
+
+        Task<XorUrlEncoder> XorurlEncoderAsync(
+            ref byte[] name,
+            ulong typeTag,
+            ulong dataType,
+            ushort contentType,
+            string path,
+            string subNames,
+            ulong contentVersion);
+
+        Task<XorUrlEncoder> XorurlEncoderFromUrlAsync(string xorUrl);
+
+        #endregion
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

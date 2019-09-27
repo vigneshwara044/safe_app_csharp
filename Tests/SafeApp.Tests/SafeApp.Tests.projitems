@@ -12,5 +12,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)AuthTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MiscTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XorUrlEncoderTest.cs" />
   </ItemGroup>
 </Project>
