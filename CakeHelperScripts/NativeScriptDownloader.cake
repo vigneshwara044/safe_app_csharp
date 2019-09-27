@@ -59,7 +59,6 @@ Task("Download-Libs")
         var mockZipSavePath = string.Format("{0}/{1}/{2}/{3}", Native_DIR.Path, item, target, mockZipFilename);
         var nonMockZipSavePath = string.Format("{0}/{1}/{2}/{3}", Native_DIR.Path, item, target, nonMockZipFilename);
 
-Information(mockZipSavePath);
         if(!DirectoryExists(targetDirectory))
           CreateDirectory(targetDirectory);
         else
