@@ -65,7 +65,7 @@ namespace SafeApp.Core
         public UnregisteredIpcMsg(uint reqId, IntPtr serialisedCfgPtr, UIntPtr serialisedCfgLen)
         {
             ReqId = reqId;
-            SerialisedCfg = BindingUtils.CopyToByteList(serialisedCfgPtr, (int)serialisedCfgLen);
+            SerialisedCfg = BindingUtils.CopyToByteArray(serialisedCfgPtr, (int)serialisedCfgLen);
         }
     }
 

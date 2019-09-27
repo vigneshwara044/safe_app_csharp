@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using SafeApp.API;
 using SafeApp.AppBindings;
 using SafeApp.Core;
 
@@ -20,6 +21,8 @@ namespace SafeApp
     public sealed class Session : IDisposable
     {
         private static readonly IAppBindings AppBindings = AppResolver.Current;
+
+        public Fetch Fetch { get; private set; }
 
         /// <summary>
         /// Event triggered if session is disconnected from the network.
@@ -48,36 +51,62 @@ namespace SafeApp
             _appPtr = new SafeAppPtr();
         }
 
-#pragma warning disable IDE0060
-
-        // Remove unused parameter
-
         /// <summary>
         /// Create a new authenticated session using the provided IPC response.
         /// </summary>
         /// <param name="appId">Application Id.</param>
-        /// <param name="authGranted">Authentication response.</param>
+        /// <param name="authResponse">Authentication response message.</param>
         /// <returns>New session based on appid and authentication response.</returns>
-        public static Session AppRegisteredAsync(string appId, AuthGranted authGranted)
+        public static Task<Session> AppConnectAsync(string appId, string authResponse)
         {
-            // Todo: implement for the new API
+            return Task.Run(() =>
+            {
+                var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
+                var session = new Session();
+                Action<FfiResult, IntPtr, GCHandle> acctConnectedCb = (result, ptr, disconnectedHandle) =>
+                {
+                    if (result.ErrorCode != 0)
+                    {
+                        tcs.SetException(result.ToException());
+                        return;
+                    }
 
-            return new Session();
+                    session.Init(ptr, disconnectedHandle);
+                    tcs.SetResult(session);
+                };
+
+                AppBindings.Connect(appId, authResponse, acctConnectedCb);
+                return tcs.Task;
+            });
         }
 
         /// <summary>
-        /// Creates an unregistered session based on the config provided.
-        /// Config information can be obtained from the UnregisteredIpcResponse.
+        /// Creates an unregistered session for the provided app Id using vault_connection_configuration file.
         /// </summary>
-        /// <param name="bootstrapConfig"></param>
+        /// <param name="appId">Application Id.</param>
         /// <returns></returns>
-        public static Session AppUnregisteredAsync(byte[] bootstrapConfig)
+        public static Task<Session> AppConnectUnregisteredAsync(string appId)
         {
-            // Todo: implement for the new API
+            return Task.Run(() =>
+            {
+                var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
+                var session = new Session();
+                Action<FfiResult, IntPtr, GCHandle> acctConnectedCb = (result, ptr, disconnectedHandle) =>
+                {
+                    if (result.ErrorCode != 0)
+                    {
+                        tcs.SetException(result.ToException());
+                        return;
+                    }
 
-            return new Session();
+                    session.Init(ptr, disconnectedHandle);
+                    tcs.SetResult(session);
+                };
+
+                AppBindings.Connect(appId, null, acctConnectedCb);
+                return tcs.Task;
+            });
         }
-#pragma warning restore IDE0060 // Remove unused parameter
 
         /// <summary>
         /// Decode the IPC response message.
@@ -195,6 +224,8 @@ namespace SafeApp
             IsDisconnected = false;
             _appPtr = new SafeAppPtr(appPtr);
             _disconnectedHandle = disconnectedHandle;
+
+            Fetch = new Fetch(_appPtr);
         }
 
         /// <summary>

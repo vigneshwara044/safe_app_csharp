@@ -634,7 +634,7 @@ namespace SafeApp.Core
             AppKeys = native.AppKeys;
             AccessContainerInfo = native.AccessContainerInfo;
             AccessContainerEntry = new AccessContainerEntry(native.AccessContainerEntry);
-            BootstrapConfig = BindingUtils.CopyToByteList(native.BootstrapConfigPtr, (int)native.BootstrapConfigLen);
+            BootstrapConfig = BindingUtils.CopyToByteArray(native.BootstrapConfigPtr, (int)native.BootstrapConfigLen);
         }
 
         /// <summary>
@@ -648,7 +648,7 @@ namespace SafeApp.Core
                 AppKeys = AppKeys,
                 AccessContainerInfo = AccessContainerInfo,
                 AccessContainerEntry = AccessContainerEntry.ToNative(),
-                BootstrapConfigPtr = BindingUtils.CopyFromByteList(BootstrapConfig),
+                BootstrapConfigPtr = BindingUtils.CopyFromByteArray(BootstrapConfig),
                 BootstrapConfigLen = (UIntPtr)(BootstrapConfig?.Length ?? 0),
                 BootstrapConfigCap = UIntPtr.Zero
             };

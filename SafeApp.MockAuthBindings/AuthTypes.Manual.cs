@@ -66,7 +66,7 @@ namespace SafeApp.MockAuthBindings
         public UnregisteredIpcReq(uint reqId, IntPtr extraDataPtr, ulong extraDataLength)
         {
             ReqId = reqId;
-            ExtraData = BindingUtils.CopyToByteList(extraDataPtr, (int)extraDataLength);
+            ExtraData = BindingUtils.CopyToByteArray(extraDataPtr, (int)extraDataLength);
         }
     }
 
