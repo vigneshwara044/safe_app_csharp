@@ -6,7 +6,6 @@ using SafeApp.Core;
 namespace SafeApp.Tests
 {
     [TestFixture]
-    [Ignore("Ignored to not run on the CI")]
     internal class AuthTest
     {
         [Test]
