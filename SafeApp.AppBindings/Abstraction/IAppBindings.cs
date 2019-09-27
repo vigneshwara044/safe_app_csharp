@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Core;
 
@@ -11,6 +12,7 @@ namespace SafeApp.AppBindings
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public partial interface IAppBindings
     {
+        #region Low Level
         Task<string> AppExeFileStemAsync();
 
         Task AppInitLoggingAsync(string outputFileNameOverride);
@@ -28,6 +30,15 @@ namespace SafeApp.AppBindings
         Task<(uint, string)> EncodeUnregisteredReqAsync(byte[] extraData);
 
         bool IsMockBuild();
+
+        #endregion
+
+        #region High Level
+        void Connect(
+            string appId,
+            string authCredentials,
+            Action<FfiResult, IntPtr, GCHandle> oCb);
+        #endregion
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
