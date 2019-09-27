@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Core;
@@ -62,6 +61,12 @@ namespace SafeApp.AppBindings
             ulong contentVersion);
 
         Task<XorUrlEncoder> XorurlEncoderFromUrlAsync(string xorUrl);
+
+        #endregion
+
+        #region Fetch
+
+        Task<ISafeData> FetchAsync(ref IntPtr app, string uri);
 
         #endregion
     }

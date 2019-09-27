@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using SafeApp.API;
 using SafeApp.AppBindings;
 using SafeApp.Core;
 
@@ -20,6 +21,8 @@ namespace SafeApp
     public sealed class Session : IDisposable
     {
         private static readonly IAppBindings AppBindings = AppResolver.Current;
+
+        public Fetch Fetch { get; private set; }
 
         /// <summary>
         /// Event triggered if session is disconnected from the network.
@@ -221,6 +224,8 @@ namespace SafeApp
             IsDisconnected = false;
             _appPtr = new SafeAppPtr(appPtr);
             _disconnectedHandle = disconnectedHandle;
+
+            Fetch = new Fetch(_appPtr);
         }
 
         /// <summary>
