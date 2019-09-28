@@ -33,11 +33,11 @@ namespace SafeApp.MockAuthBindings
 
         Task AuthSetAdditionalSearchPathAsync(string newPath);
 
-        Task<string> EncodeAuthRespAsync(IntPtr auth, ref AuthReq req, uint reqId, bool isGranted);
+        Task<string> EncodeAuthRespAsync(IntPtr auth, AuthReq req, uint reqId, bool isGranted);
 
-        Task<string> EncodeContainersRespAsync(IntPtr auth, ref ContainersReq req, uint reqId, bool isGranted);
+        Task<string> EncodeContainersRespAsync(IntPtr auth, ContainersReq req, uint reqId, bool isGranted);
 
-        Task<string> EncodeShareMDataRespAsync(IntPtr auth, ref ShareMDataReq req, uint reqId, bool isGranted);
+        Task<string> EncodeShareMDataRespAsync(IntPtr auth, ShareMDataReq req, uint reqId, bool isGranted);
 
         Task<string> EncodeUnregisteredRespAsync(uint reqId, bool isGranted);
 

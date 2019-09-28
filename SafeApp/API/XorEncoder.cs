@@ -17,7 +17,7 @@ namespace SafeApp.API
             string subNames,
             ulong contentVersion,
             string baseEncoding)
-            => AppBindings.XorurlEncodeAsync(ref xorName, typeTag, dataType, contentType, path, subNames, contentVersion, baseEncoding);
+            => AppBindings.XorurlEncodeAsync(xorName, typeTag, dataType, contentType, path, subNames, contentVersion, baseEncoding);
 
         public static Task<XorUrlEncoder> EncodeAsync(
             byte[] xorName,
@@ -27,7 +27,7 @@ namespace SafeApp.API
             string path,
             string subNames,
             ulong contentVersion)
-            => AppBindings.XorurlEncoderAsync(ref xorName, typeTag, dataType, contentType, path, subNames, contentVersion);
+            => AppBindings.XorurlEncoderAsync(xorName, typeTag, dataType, contentType, path, subNames, contentVersion);
 
         public static Task<XorUrlEncoder> XorUrlEncoderFromUrl(string xorUrl)
             => AppBindings.XorurlEncoderFromUrlAsync(xorUrl);

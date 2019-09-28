@@ -249,7 +249,7 @@ namespace SafeApp.MockAuthBindings
         /// <returns>Encoded AuthIpcResponse string.</returns>
         public Task<string> EncodeAuthRespAsync(AuthIpcReq authIpcReq, bool allow)
         {
-            return NativeBindings.EncodeAuthRespAsync(_authPtr, ref authIpcReq.AuthReq, authIpcReq.ReqId, allow);
+            return NativeBindings.EncodeAuthRespAsync(_authPtr, authIpcReq.AuthReq, authIpcReq.ReqId, allow);
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace SafeApp.MockAuthBindings
         /// <returns>Encoded Containers permissions Response.</returns>
         public Task<string> EncodeContainersRespAsync(ContainersIpcReq req, bool allow)
         {
-            return NativeBindings.EncodeContainersRespAsync(_authPtr, ref req.ContainersReq, req.ReqId, allow);
+            return NativeBindings.EncodeContainersRespAsync(_authPtr, req.ContainersReq, req.ReqId, allow);
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace SafeApp.MockAuthBindings
         /// <returns>Encoded ShareMData response.</returns>
         public Task<string> EncodeShareMdataRespAsync(ShareMDataIpcReq req, bool allow)
         {
-            return NativeBindings.EncodeShareMDataRespAsync(_authPtr, ref req.ShareMDataReq, req.ReqId, allow);
+            return NativeBindings.EncodeShareMDataRespAsync(_authPtr, req.ShareMDataReq, req.ReqId, allow);
         }
 
         /// <summary>

@@ -153,11 +153,11 @@ namespace SafeApp.MockAuthBindings
             UIntShareMDataReqMetadataResponseListCb oShareMData,
             FfiResultStringCb oErr);
 
-        public Task<string> EncodeShareMDataRespAsync(IntPtr auth, ref ShareMDataReq req, uint reqId, bool isGranted)
+        public Task<string> EncodeShareMDataRespAsync(IntPtr auth, ShareMDataReq req, uint reqId, bool isGranted)
         {
             var reqNative = req.ToNative();
             var (ret, userData) = BindingUtils.PrepareTask<string>();
-            EncodeShareMDataRespNative(auth, ref reqNative, reqId, isGranted, userData, DelegateOnFfiResultStringCb);
+            EncodeShareMDataRespNative(auth, reqNative, reqId, isGranted, userData, DelegateOnFfiResultStringCb);
             reqNative.Free();
             return ret;
         }
@@ -165,7 +165,7 @@ namespace SafeApp.MockAuthBindings
         [DllImport(DllName, EntryPoint = "encode_share_mdata_resp")]
         private static extern void EncodeShareMDataRespNative(
             IntPtr auth,
-            ref ShareMDataReqNative req,
+            ShareMDataReqNative req,
             uint reqId,
             [MarshalAs(UnmanagedType.U1)] bool isGranted,
             IntPtr userData,
@@ -209,11 +209,11 @@ namespace SafeApp.MockAuthBindings
             IntPtr userData,
             FfiResultStringCb oCb);
 
-        public Task<string> EncodeAuthRespAsync(IntPtr auth, ref AuthReq req, uint reqId, bool isGranted)
+        public Task<string> EncodeAuthRespAsync(IntPtr auth, AuthReq req, uint reqId, bool isGranted)
         {
             var reqNative = req.ToNative();
             var (ret, userData) = BindingUtils.PrepareTask<string>();
-            EncodeAuthRespNative(auth, ref reqNative, reqId, isGranted, userData, DelegateOnFfiResultStringCb);
+            EncodeAuthRespNative(auth, reqNative, reqId, isGranted, userData, DelegateOnFfiResultStringCb);
             reqNative.Free();
             return ret;
         }
@@ -221,17 +221,17 @@ namespace SafeApp.MockAuthBindings
         [DllImport(DllName, EntryPoint = "encode_auth_resp")]
         private static extern void EncodeAuthRespNative(
             IntPtr auth,
-            ref AuthReqNative req,
+            AuthReqNative req,
             uint reqId,
             [MarshalAs(UnmanagedType.U1)] bool isGranted,
             IntPtr userData,
             FfiResultStringCb oCb);
 
-        public Task<string> EncodeContainersRespAsync(IntPtr auth, ref ContainersReq req, uint reqId, bool isGranted)
+        public Task<string> EncodeContainersRespAsync(IntPtr auth, ContainersReq req, uint reqId, bool isGranted)
         {
             var reqNative = req.ToNative();
             var (ret, userData) = BindingUtils.PrepareTask<string>();
-            EncodeContainersRespNative(auth, ref reqNative, reqId, isGranted, userData, DelegateOnFfiResultStringCb);
+            EncodeContainersRespNative(auth, reqNative, reqId, isGranted, userData, DelegateOnFfiResultStringCb);
             reqNative.Free();
             return ret;
         }
@@ -239,7 +239,7 @@ namespace SafeApp.MockAuthBindings
         [DllImport(DllName, EntryPoint = "encode_containers_resp")]
         private static extern void EncodeContainersRespNative(
             IntPtr auth,
-            ref ContainersReqNative req,
+            ContainersReqNative req,
             uint reqId,
             [MarshalAs(UnmanagedType.U1)] bool isGranted,
             IntPtr userData,

@@ -45,7 +45,7 @@ namespace SafeApp.AppBindings
 
         #region XorUrl
         public Task<string> XorurlEncodeAsync(
-            ref byte[] name,
+            byte[] name,
             ulong typeTag,
             ulong dataType,
             ushort contentType,
@@ -56,7 +56,7 @@ namespace SafeApp.AppBindings
         {
             var (ret, userData) = BindingUtils.PrepareTask<string>();
             XorurlEncodeNative(
-                ref name,
+                name,
                 typeTag,
                 dataType,
                 contentType,
@@ -71,7 +71,7 @@ namespace SafeApp.AppBindings
 
         [DllImport(DllName, EntryPoint = "xorurl_encode")]
         private static extern void XorurlEncodeNative(
-            ref byte[] name,
+            byte[] name,
             ulong typeTag,
             ulong dataType,
             ushort contentType,
@@ -83,7 +83,7 @@ namespace SafeApp.AppBindings
             FfiResultStringCb oCb);
 
         public Task<XorUrlEncoder> XorurlEncoderAsync(
-            ref byte[] name,
+            byte[] name,
             ulong typeTag,
             ulong dataType,
             ushort contentType,
@@ -93,7 +93,7 @@ namespace SafeApp.AppBindings
         {
             var (ret, userData) = BindingUtils.PrepareTask<XorUrlEncoder>();
             XorurlEncoderNative(
-                ref name,
+                name,
                 typeTag,
                 dataType,
                 contentType,
@@ -107,7 +107,7 @@ namespace SafeApp.AppBindings
 
         [DllImport(DllName, EntryPoint = "xorurl_encoder")]
         private static extern void XorurlEncoderNative(
-            ref byte[] name,
+            byte[] name,
             ulong typeTag,
             ulong dataType,
             ushort contentType,
@@ -149,11 +149,11 @@ namespace SafeApp.AppBindings
 
         #region Fetch
 
-        public Task<ISafeData> FetchAsync(ref IntPtr app, string url)
+        public Task<ISafeData> FetchAsync(IntPtr app, string url)
         {
             var (task, userData) = BindingUtils.PrepareTask<ISafeData>();
             FetchNative(
-              ref app,
+              app,
               url,
               userData,
               DelegateOnFfiResultPublishedImmutableDataCb,
@@ -166,7 +166,7 @@ namespace SafeApp.AppBindings
 
         [DllImport(DllName, EntryPoint = "fetch")]
         private static extern void FetchNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string url,
             IntPtr userData,
             FfiResultPublishedImmutableDataCb oPublished,

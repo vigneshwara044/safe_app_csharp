@@ -125,7 +125,7 @@ namespace SafeApp
         /// <returns>RequestId, Encoded authentication request.</returns>
         public static Task<(uint, string)> EncodeAuthReqAsync(AuthReq authReq)
         {
-            return AppBindings.EncodeAuthReqAsync(ref authReq);
+            return AppBindings.EncodeAuthReqAsync(authReq);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace SafeApp
         /// <returns>Request Id, Encoded container request.</returns>
         public static Task<(uint, string)> EncodeContainerRequestAsync(ContainersReq containersReq)
         {
-            return AppBindings.EncodeContainersReqAsync(ref containersReq);
+            return AppBindings.EncodeContainersReqAsync(containersReq);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace SafeApp
         /// <returns>Request Id, Encoded Mutable Data share request.</returns>
         public static Task<(uint, string)> EncodeShareMDataRequestAsync(ShareMDataReq shareMDataReq)
         {
-            return AppBindings.EncodeShareMDataReqAsync(ref shareMDataReq);
+            return AppBindings.EncodeShareMDataReqAsync(shareMDataReq);
         }
 
         /// <summary>
