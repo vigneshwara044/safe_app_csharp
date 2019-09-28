@@ -69,6 +69,24 @@ namespace SafeApp.AppBindings
         Task<ISafeData> FetchAsync(IntPtr app, string uri);
 
         #endregion
+
+        #region Keys
+
+        Task<BlsKeyPair> GenerateKeyPairAsync(IntPtr app);
+
+        Task<(string, BlsKeyPair)> CreateKeysAsync(IntPtr app, string from, string preloadAmount, string pk);
+
+        Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(IntPtr app, string preloadAmount);
+
+        Task<string> KeysBalanceFromSkAsync(IntPtr app, string sk);
+
+        Task<string> KeysBalanceFromUrlAsync(IntPtr app, string url, string sk);
+
+        Task<string> ValidateSkForUrlAsync(IntPtr app, string sk, string url);
+
+        Task<ulong> KeysTransferAsync(IntPtr app, string amount, string fromSk, string toUrl, ulong txId);
+
+        #endregion Keys
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

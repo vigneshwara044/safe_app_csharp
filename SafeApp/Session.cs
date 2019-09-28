@@ -24,6 +24,8 @@ namespace SafeApp
 
         public Fetch Fetch { get; private set; }
 
+        public Keys Keys { get; private set; }
+
         /// <summary>
         /// Event triggered if session is disconnected from the network.
         /// </summary>
@@ -226,6 +228,7 @@ namespace SafeApp
             _disconnectedHandle = disconnectedHandle;
 
             Fetch = new Fetch(_appPtr);
+            Keys = new Keys(_appPtr);
         }
 
         /// <summary>

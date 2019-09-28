@@ -241,6 +241,164 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiFetchFailedCb DelegateOnFfiFetchFailedCb = OnFfiFetchFailedCb;
 
-        #endregion
+        #endregion Connect
+
+        #region Keys
+
+        public Task<BlsKeyPair> GenerateKeyPairAsync(IntPtr app)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<BlsKeyPair>();
+            GenerateKeyPairNative(app, userData, DelegateOnFfiResultBlsKeyPairCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "generate_keypair")]
+        private static extern void GenerateKeyPairNative(
+            IntPtr app,
+            IntPtr userData,
+            FfiResultBlsKeyPairCb oCb);
+
+        private delegate void FfiResultBlsKeyPairCb(IntPtr userData, IntPtr result, IntPtr safeKey);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultBlsKeyPairCb))]
+#endif
+        private static void OnFfiResultBlsKeyPairCb(IntPtr userData, IntPtr result, IntPtr safeKey)
+            => BindingUtils.CompleteTask(
+                userData,
+                Marshal.PtrToStructure<FfiResult>(result),
+                () => Marshal.PtrToStructure<BlsKeyPair>(safeKey));
+
+        private static readonly FfiResultBlsKeyPairCb DelegateOnFfiResultBlsKeyPairCb = OnFfiResultBlsKeyPairCb;
+
+        public Task<(string, BlsKeyPair)> CreateKeysAsync(
+            IntPtr app,
+            string from,
+            string preloadAmount,
+            string pk)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair)>();
+            CreateKeysNative(app,  from, preloadAmount, pk, userData, DelegateOnFfiResultStringBlsKeyPairCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_create")]
+        private static extern void CreateKeysNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string from,
+            [MarshalAs(UnmanagedType.LPStr)] string preload,
+            [MarshalAs(UnmanagedType.LPStr)] string pk,
+            IntPtr userData,
+            FfiResultStringBlsKeyPairCb oCb);
+
+        public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(IntPtr app, string preloadAmount)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair)>();
+            KeysCreatePreloadTestCoinsNative(app, preloadAmount, userData, DelegateOnFfiResultStringBlsKeyPairCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_create_preload_test_coins")]
+        private static extern void KeysCreatePreloadTestCoinsNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string preload,
+            IntPtr userData,
+            FfiResultStringBlsKeyPairCb oCb);
+
+        private delegate void FfiResultStringBlsKeyPairCb(
+            IntPtr userData,
+            IntPtr result,
+            string xorUrl,
+            IntPtr safeKey);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultStringBlsKeyPairCb))]
+#endif
+        private static void OnFfiResultStringBlsKeyPairCb(
+            IntPtr userData,
+            IntPtr result,
+            string xorUrl,
+            IntPtr safeKey)
+            => BindingUtils.CompleteTask(
+                userData,
+                Marshal.PtrToStructure<FfiResult>(result),
+                () => (xorUrl, Marshal.PtrToStructure<BlsKeyPair>(safeKey)));
+
+        private static readonly FfiResultStringBlsKeyPairCb DelegateOnFfiResultStringBlsKeyPairCb = OnFfiResultStringBlsKeyPairCb;
+
+        public Task<string> KeysBalanceFromSkAsync(IntPtr app, string sk)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<string>();
+            KeysBalanceFromSkNative(app, sk, userData, DelegateOnFfiResultStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_balance_from_sk")]
+        private static extern void KeysBalanceFromSkNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string sk,
+            IntPtr userData,
+            FfiResultStringCb oCb);
+
+        public Task<string> KeysBalanceFromUrlAsync(IntPtr app, string url, string sk)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<string>();
+            KeysBalanceFromUrlNative(app, url, sk, userData, DelegateOnFfiResultStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_balance_from_url")]
+        private static extern void KeysBalanceFromUrlNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string url,
+            [MarshalAs(UnmanagedType.LPStr)] string sk,
+            IntPtr userData,
+            FfiResultStringCb oCb);
+
+        public Task<string> ValidateSkForUrlAsync(IntPtr app, string sk, string url)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<string>();
+            ValidateSkForUrlNative(app, sk, url, userData, DelegateOnFfiResultStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "validate_sk_for_url")]
+        private static extern void ValidateSkForUrlNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string sk,
+            [MarshalAs(UnmanagedType.LPStr)] string url,
+            IntPtr userData,
+            FfiResultStringCb oCb);
+
+        public Task<ulong> KeysTransferAsync(IntPtr app, string amount, string fromSk, string toUrl, ulong txId)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<ulong>();
+            KeysTransferNative(app, amount, fromSk, toUrl, txId, userData, DelegateOnFfiResultULongCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "keys_transfer")]
+        private static extern void KeysTransferNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string amount,
+            [MarshalAs(UnmanagedType.LPStr)] string from,
+            [MarshalAs(UnmanagedType.LPStr)] string to,
+            ulong id,
+            IntPtr userData,
+            FfiResultULongCb oCb);
+
+        private delegate void FfiResultULongCb(IntPtr userData, IntPtr result, ulong handle);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultULongCb))]
+#endif
+        private static void OnFfiResultULongCb(IntPtr userData, IntPtr result, ulong handle)
+        {
+            BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => handle);
+        }
+
+        private static readonly FfiResultULongCb DelegateOnFfiResultULongCb = OnFfiResultULongCb;
+
+        #endregion Keys
     }
 }
