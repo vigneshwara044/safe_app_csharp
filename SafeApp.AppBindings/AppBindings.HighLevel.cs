@@ -271,14 +271,14 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultBlsKeyPairCb DelegateOnFfiResultBlsKeyPairCb = OnFfiResultBlsKeyPairCb;
 
-        public Task<(string, BlsKeyPair?)> CreateKeysAsync(
+        public Task<(string, BlsKeyPair)> CreateKeysAsync(
             IntPtr app,
             string from,
             string preloadAmount,
             string pk)
         {
-            var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair?)>();
-            CreateKeysNative(app,  from, preloadAmount, pk, userData, DelegateOnFfiResultStringNullableBlsKeyPairCb);
+            var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair)>();
+            CreateKeysNative(app,  from, preloadAmount, pk, userData, DelegateOnFfiResultStringBlsKeyPairCb);
             return ret;
         }
 
@@ -289,28 +289,7 @@ namespace SafeApp.AppBindings
             [MarshalAs(UnmanagedType.LPStr)] string preload,
             [MarshalAs(UnmanagedType.LPStr)] string pk,
             IntPtr userData,
-            FfiResultStringNullableBlsKeyPairCb oCb);
-
-        private delegate void FfiResultStringNullableBlsKeyPairCb(
-            IntPtr userData,
-            IntPtr result,
-            string xorUrl,
-            IntPtr safeKey);
-
-#if __IOS__
-        [MonoPInvokeCallback(typeof(FfiResultStringNullableBlsKeyPairCb))]
-#endif
-        private static void OnFfiResultStringNullableBlsKeyPairCb(
-            IntPtr userData,
-            IntPtr result,
-            string xorUrl,
-            IntPtr safeKey)
-            => BindingUtils.CompleteTask(
-                userData,
-                Marshal.PtrToStructure<FfiResult>(result),
-                () => (xorUrl, Marshal.PtrToStructure<BlsKeyPair?>(safeKey)));
-
-        private static readonly FfiResultStringNullableBlsKeyPairCb DelegateOnFfiResultStringNullableBlsKeyPairCb = OnFfiResultStringNullableBlsKeyPairCb;
+            FfiResultStringBlsKeyPairCb oCb);
 
         public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(IntPtr app, string preloadAmount)
         {

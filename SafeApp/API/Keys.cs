@@ -37,7 +37,7 @@ namespace SafeApp.API
         /// <param name="preloadAmount">Optional amount of funds to send.</param>
         /// <param name="pk">Public key of recipient if provided.</param>
         /// <returns>XOR url of the balance, and a new key pair if no public key was provided.</returns>
-        public Task<(string, BlsKeyPair?)> CreateKeysAsync(
+        public Task<(string, BlsKeyPair)> CreateKeysAsync(
             string from,
             string preloadAmount,
             string pk)

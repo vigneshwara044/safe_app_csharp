@@ -74,7 +74,7 @@ namespace SafeApp.AppBindings
 
         Task<BlsKeyPair> GenerateKeyPairAsync(IntPtr app);
 
-        Task<(string, BlsKeyPair?)> CreateKeysAsync(IntPtr app, string from, string preloadAmount, string pk);
+        Task<(string, BlsKeyPair)> CreateKeysAsync(IntPtr app, string from, string preloadAmount, string pk);
 
         Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(IntPtr app, string preloadAmount);
 
