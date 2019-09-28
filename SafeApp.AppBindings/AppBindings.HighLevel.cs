@@ -245,16 +245,16 @@ namespace SafeApp.AppBindings
 
         #region Keys
 
-        public Task<BlsKeyPair> GenerateKeyPairAsync(ref IntPtr app)
+        public Task<BlsKeyPair> GenerateKeyPairAsync(IntPtr app)
         {
             var (ret, userData) = BindingUtils.PrepareTask<BlsKeyPair>();
-            GenerateKeyPairNative(ref app, userData, DelegateOnFfiResultBlsKeyPairCb);
+            GenerateKeyPairNative(app, userData, DelegateOnFfiResultBlsKeyPairCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "generate_keypair")]
         private static extern void GenerateKeyPairNative(
-            ref IntPtr app,
+            IntPtr app,
             IntPtr userData,
             FfiResultBlsKeyPairCb oCb);
 
@@ -272,19 +272,19 @@ namespace SafeApp.AppBindings
         private static readonly FfiResultBlsKeyPairCb DelegateOnFfiResultBlsKeyPairCb = OnFfiResultBlsKeyPairCb;
 
         public Task<(string, BlsKeyPair?)> CreateKeysAsync(
-            ref IntPtr app,
+            IntPtr app,
             string from,
             string preloadAmount,
             string pk)
         {
             var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair?)>();
-            CreateKeysNative(ref app,  from, preloadAmount, pk, userData, DelegateOnFfiResultStringNullableBlsKeyPairCb);
+            CreateKeysNative(app,  from, preloadAmount, pk, userData, DelegateOnFfiResultStringNullableBlsKeyPairCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "keys_create")]
         private static extern void CreateKeysNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string from,
             [MarshalAs(UnmanagedType.LPStr)] string preload,
             [MarshalAs(UnmanagedType.LPStr)] string pk,
@@ -312,16 +312,16 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultStringNullableBlsKeyPairCb DelegateOnFfiResultStringNullableBlsKeyPairCb = OnFfiResultStringNullableBlsKeyPairCb;
 
-        public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(ref IntPtr app, string preloadAmount)
+        public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(IntPtr app, string preloadAmount)
         {
             var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair)>();
-            KeysCreatePreloadTestCoinsNative(ref app, preloadAmount, userData, DelegateOnFfiResultStringBlsKeyPairCb);
+            KeysCreatePreloadTestCoinsNative(app, preloadAmount, userData, DelegateOnFfiResultStringBlsKeyPairCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "keys_create_preload_test_coins")]
         private static extern void KeysCreatePreloadTestCoinsNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string preload,
             IntPtr userData,
             FfiResultStringBlsKeyPairCb oCb);
@@ -347,60 +347,60 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultStringBlsKeyPairCb DelegateOnFfiResultStringBlsKeyPairCb = OnFfiResultStringBlsKeyPairCb;
 
-        public Task<string> KeysBalanceFromSkAsync(ref IntPtr app, string sk)
+        public Task<string> KeysBalanceFromSkAsync(IntPtr app, string sk)
         {
             var (ret, userData) = BindingUtils.PrepareTask<string>();
-            KeysBalanceFromSkNative(ref app, sk, userData, DelegateOnFfiResultStringCb);
+            KeysBalanceFromSkNative(app, sk, userData, DelegateOnFfiResultStringCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "keys_balance_from_sk")]
         private static extern void KeysBalanceFromSkNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string sk,
             IntPtr userData,
             FfiResultStringCb oCb);
 
-        public Task<string> KeysBalanceFromUrlAsync(ref IntPtr app, string url, string sk)
+        public Task<string> KeysBalanceFromUrlAsync(IntPtr app, string url, string sk)
         {
             var (ret, userData) = BindingUtils.PrepareTask<string>();
-            KeysBalanceFromUrlNative(ref app, url, sk, userData, DelegateOnFfiResultStringCb);
+            KeysBalanceFromUrlNative(app, url, sk, userData, DelegateOnFfiResultStringCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "keys_balance_from_url")]
         private static extern void KeysBalanceFromUrlNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string url,
             [MarshalAs(UnmanagedType.LPStr)] string sk,
             IntPtr userData,
             FfiResultStringCb oCb);
 
-        public Task<string> ValidateSkForUrlAsync(ref IntPtr app, string sk, string url)
+        public Task<string> ValidateSkForUrlAsync(IntPtr app, string sk, string url)
         {
             var (ret, userData) = BindingUtils.PrepareTask<string>();
-            ValidateSkForUrlNative(ref app, sk, url, userData, DelegateOnFfiResultStringCb);
+            ValidateSkForUrlNative(app, sk, url, userData, DelegateOnFfiResultStringCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "validate_sk_for_url")]
         private static extern void ValidateSkForUrlNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string sk,
             [MarshalAs(UnmanagedType.LPStr)] string url,
             IntPtr userData,
             FfiResultStringCb oCb);
 
-        public Task<ulong> KeysTransferAsync(ref IntPtr app, string amount, string fromSk, string toUrl, ulong txId)
+        public Task<ulong> KeysTransferAsync(IntPtr app, string amount, string fromSk, string toUrl, ulong txId)
         {
             var (ret, userData) = BindingUtils.PrepareTask<ulong>();
-            KeysTransferNative(ref app, amount, fromSk, toUrl, txId, userData, DelegateOnFfiResultULongCb);
+            KeysTransferNative(app, amount, fromSk, toUrl, txId, userData, DelegateOnFfiResultULongCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "keys_transfer")]
         private static extern void KeysTransferNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string amount,
             [MarshalAs(UnmanagedType.LPStr)] string from,
             [MarshalAs(UnmanagedType.LPStr)] string to,

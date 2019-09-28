@@ -72,19 +72,19 @@ namespace SafeApp.AppBindings
 
         #region Keys
 
-        Task<BlsKeyPair> GenerateKeyPairAsync(ref IntPtr app);
+        Task<BlsKeyPair> GenerateKeyPairAsync(IntPtr app);
 
-        Task<(string, BlsKeyPair?)> CreateKeysAsync(ref IntPtr app, string from, string preloadAmount, string pk);
+        Task<(string, BlsKeyPair?)> CreateKeysAsync(IntPtr app, string from, string preloadAmount, string pk);
 
-        Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(ref IntPtr app, string preloadAmount);
+        Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(IntPtr app, string preloadAmount);
 
-        Task<string> KeysBalanceFromSkAsync(ref IntPtr app, string sk);
+        Task<string> KeysBalanceFromSkAsync(IntPtr app, string sk);
 
-        Task<string> KeysBalanceFromUrlAsync(ref IntPtr app, string url, string sk);
+        Task<string> KeysBalanceFromUrlAsync(IntPtr app, string url, string sk);
 
-        Task<string> ValidateSkForUrlAsync(ref IntPtr app, string sk, string url);
+        Task<string> ValidateSkForUrlAsync(IntPtr app, string sk, string url);
 
-        Task<ulong> KeysTransferAsync(ref IntPtr app, string amount, string fromSk, string toUrl, ulong txId);
+        Task<ulong> KeysTransferAsync(IntPtr app, string amount, string fromSk, string toUrl, ulong txId);
 
         #endregion Keys
     }
