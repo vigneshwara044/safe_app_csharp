@@ -258,8 +258,6 @@ namespace SafeApp.AppBindings
             IntPtr userData,
             FfiResultBlsKeyPairCb oCb);
 
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-
         private delegate void FfiResultBlsKeyPairCb(IntPtr userData, IntPtr result, IntPtr safeKey);
 
 #if __IOS__
@@ -272,9 +270,6 @@ namespace SafeApp.AppBindings
                 () => Marshal.PtrToStructure<BlsKeyPair>(safeKey));
 
         private static readonly FfiResultBlsKeyPairCb DelegateOnFfiResultBlsKeyPairCb = OnFfiResultBlsKeyPairCb;
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
 
         public Task<(string, BlsKeyPair?)> CreateKeysAsync(
             ref IntPtr app,
@@ -295,8 +290,6 @@ namespace SafeApp.AppBindings
             [MarshalAs(UnmanagedType.LPStr)] string pk,
             IntPtr userData,
             FfiResultStringNullableBlsKeyPairCb oCb);
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
 
         private delegate void FfiResultStringNullableBlsKeyPairCb(
             IntPtr userData,
@@ -319,9 +312,6 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultStringNullableBlsKeyPairCb DelegateOnFfiResultStringNullableBlsKeyPairCb = OnFfiResultStringNullableBlsKeyPairCb;
 
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-
         public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(ref IntPtr app, string preloadAmount)
         {
             var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair)>();
@@ -335,8 +325,6 @@ namespace SafeApp.AppBindings
             [MarshalAs(UnmanagedType.LPStr)] string preload,
             IntPtr userData,
             FfiResultStringBlsKeyPairCb oCb);
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
 
         private delegate void FfiResultStringBlsKeyPairCb(
             IntPtr userData,
@@ -359,9 +347,6 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultStringBlsKeyPairCb DelegateOnFfiResultStringBlsKeyPairCb = OnFfiResultStringBlsKeyPairCb;
 
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-
         public Task<string> KeysBalanceFromSkAsync(ref IntPtr app, string sk)
         {
             var (ret, userData) = BindingUtils.PrepareTask<string>();
@@ -375,9 +360,6 @@ namespace SafeApp.AppBindings
             [MarshalAs(UnmanagedType.LPStr)] string sk,
             IntPtr userData,
             FfiResultStringCb oCb);
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
 
         public Task<string> KeysBalanceFromUrlAsync(ref IntPtr app, string url, string sk)
         {
@@ -394,9 +376,6 @@ namespace SafeApp.AppBindings
             IntPtr userData,
             FfiResultStringCb oCb);
 
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-
         public Task<string> ValidateSkForUrlAsync(ref IntPtr app, string sk, string url)
         {
             var (ret, userData) = BindingUtils.PrepareTask<string>();
@@ -411,9 +390,6 @@ namespace SafeApp.AppBindings
             [MarshalAs(UnmanagedType.LPStr)] string url,
             IntPtr userData,
             FfiResultStringCb oCb);
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
 
         public Task<ulong> KeysTransferAsync(ref IntPtr app, string amount, string fromSk, string toUrl, ulong txId)
         {
@@ -431,8 +407,6 @@ namespace SafeApp.AppBindings
             ulong id,
             IntPtr userData,
             FfiResultULongCb oCb);
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
 
         private delegate void FfiResultULongCb(IntPtr userData, IntPtr result, ulong handle);
 
