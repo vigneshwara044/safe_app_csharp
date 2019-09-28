@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using SafeApp.API;
 using SafeApp.Core;
 
 namespace SafeApp.Tests
@@ -21,16 +22,18 @@ namespace SafeApp.Tests
         {
             var sessionSender = await GetSessionAsync();
             var apiSender = sessionSender.Keys;
-            var keyPairSender = await apiSender.GenerateKeyPairAsync();
+            var (_, keyPairSender) = await apiSender.KeysCreatePreloadTestCoinsAsync("10");
 
             var sessionRecipient = await GetSessionAsync();
             var apiRecipient = sessionRecipient.Keys;
-            var keyPairRecipient = await apiRecipient.GenerateKeyPairAsync();
+            var (_, keyPairRecipient) = await apiRecipient.KeysCreatePreloadTestCoinsAsync("10");
 
             var (xorUrl, newKeyPair) = await apiSender.CreateKeysAsync(
                 keyPairSender.SK,
                 "1",
-                keyPairRecipient.PK);
+                null);
+
+            await ValidateResults(xorUrl, newKeyPair, apiSender);
         }
 
         Task<Session> GetSessionAsync()
@@ -55,15 +58,7 @@ namespace SafeApp.Tests
 
             var (xorUrl, keyPair) = await api.KeysCreatePreloadTestCoinsAsync("1");
 
-            Assert.IsNotNull(xorUrl);
-            Assert.IsNotNull(keyPair.PK);
-            Assert.IsNotNull(keyPair.SK);
-            Assert.AreNotSame(string.Empty, keyPair.PK);
-            Assert.AreNotSame(string.Empty, keyPair.SK);
-
-            var publicKey = await api.ValidateSkForUrlAsync(keyPair.SK, xorUrl);
-
-            Assert.AreEqual(keyPair.PK, publicKey);
+            await ValidateResults(xorUrl, keyPair, api);
         }
 
         [Test]
@@ -113,6 +108,19 @@ namespace SafeApp.Tests
             var resultTxId = await apiSender.KeysTransferAsync("1", keyPairSender.SK, recipientUrl, txId);
 
             Assert.AreEqual(txId, resultTxId);
+        }
+
+        async Task ValidateResults(string xorUrl, BlsKeyPair keyPair, Keys api)
+        {
+            Assert.IsNotNull(xorUrl);
+            Assert.IsNotNull(keyPair.PK);
+            Assert.IsNotNull(keyPair.SK);
+            Assert.AreNotSame(string.Empty, keyPair.PK);
+            Assert.AreNotSame(string.Empty, keyPair.SK);
+
+            var publicKey = await api.ValidateSkForUrlAsync(keyPair.SK, xorUrl);
+
+            Assert.AreEqual(keyPair.PK, publicKey);
         }
     }
 }
