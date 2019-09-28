@@ -57,29 +57,29 @@ namespace SafeApp.AppBindings
             IntPtr userData,
             FfiResultCb oCb);
 
-        public Task<(uint, string)> EncodeAuthReqAsync(ref AuthReq req)
+        public Task<(uint, string)> EncodeAuthReqAsync(AuthReq req)
         {
             var reqNative = req.ToNative();
             var (ret, userData) = BindingUtils.PrepareTask<(uint, string)>();
-            EncodeAuthReqNative(ref reqNative, userData, DelegateOnFfiResultUIntStringCb);
+            EncodeAuthReqNative(reqNative, userData, DelegateOnFfiResultUIntStringCb);
             reqNative.Free();
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "encode_auth_req")]
-        private static extern void EncodeAuthReqNative(ref AuthReqNative req, IntPtr userData, FfiResultUIntStringCb oCb);
+        private static extern void EncodeAuthReqNative(AuthReqNative req, IntPtr userData, FfiResultUIntStringCb oCb);
 
-        public Task<(uint, string)> EncodeContainersReqAsync(ref ContainersReq req)
+        public Task<(uint, string)> EncodeContainersReqAsync(ContainersReq req)
         {
             var reqNative = req.ToNative();
             var (ret, userData) = BindingUtils.PrepareTask<(uint, string)>();
-            EncodeContainersReqNative(ref reqNative, userData, DelegateOnFfiResultUIntStringCb);
+            EncodeContainersReqNative(reqNative, userData, DelegateOnFfiResultUIntStringCb);
             reqNative.Free();
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "encode_containers_req")]
-        private static extern void EncodeContainersReqNative(ref ContainersReqNative req, IntPtr userData, FfiResultUIntStringCb oCb);
+        private static extern void EncodeContainersReqNative(ContainersReqNative req, IntPtr userData, FfiResultUIntStringCb oCb);
 
         public Task<(uint, string)> EncodeUnregisteredReqAsync(byte[] extraData)
         {
@@ -96,17 +96,17 @@ namespace SafeApp.AppBindings
             IntPtr userData,
             FfiResultUIntStringCb oCb);
 
-        public Task<(uint, string)> EncodeShareMDataReqAsync(ref ShareMDataReq req)
+        public Task<(uint, string)> EncodeShareMDataReqAsync(ShareMDataReq req)
         {
             var reqNative = req.ToNative();
             var (ret, userData) = BindingUtils.PrepareTask<(uint, string)>();
-            EncodeShareMDataReqNative(ref reqNative, userData, DelegateOnFfiResultUIntStringCb);
+            EncodeShareMDataReqNative(reqNative, userData, DelegateOnFfiResultUIntStringCb);
             reqNative.Free();
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "encode_share_mdata_req")]
-        private static extern void EncodeShareMDataReqNative(ref ShareMDataReqNative req, IntPtr userData, FfiResultUIntStringCb oCb);
+        private static extern void EncodeShareMDataReqNative(ShareMDataReqNative req, IntPtr userData, FfiResultUIntStringCb oCb);
 
         [DllImport(DllName, EntryPoint = "decode_ipc_msg")]
         private static extern void DecodeIpcMsgNative(

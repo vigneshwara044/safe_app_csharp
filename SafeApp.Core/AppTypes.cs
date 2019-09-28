@@ -138,7 +138,7 @@ namespace SafeApp.Core
         /// </summary>
         internal void Free()
         {
-            BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
+            BindingUtils.FreeList(ContainersPtr, ContainersLen);
         }
     }
 
@@ -368,7 +368,7 @@ namespace SafeApp.Core
         /// </summary>
         internal void Free()
         {
-            BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
+            BindingUtils.FreeList(ContainersPtr, ContainersLen);
         }
     }
 
@@ -445,7 +445,7 @@ namespace SafeApp.Core
         /// </summary>
         internal void Free()
         {
-            BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
+            BindingUtils.FreeList(ContainersPtr, ContainersLen);
         }
     }
 
@@ -572,7 +572,7 @@ namespace SafeApp.Core
         /// </summary>
         internal void Free()
         {
-            BindingUtils.FreeList(ref MDataPtr, ref MDataLen);
+            BindingUtils.FreeList(MDataPtr, MDataLen);
         }
     }
 
@@ -697,7 +697,7 @@ namespace SafeApp.Core
         internal void Free()
         {
             AccessContainerEntry.Free();
-            BindingUtils.FreeList(ref BootstrapConfigPtr, ref BootstrapConfigLen);
+            BindingUtils.FreeList(BootstrapConfigPtr, BootstrapConfigLen);
         }
     }
 

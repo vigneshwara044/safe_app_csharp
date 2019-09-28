@@ -102,7 +102,7 @@ namespace SafeApp.Core
 
         internal void Free()
         {
-            BindingUtils.FreeList(ref DataPtr, ref DataLen);
+            BindingUtils.FreeList(DataPtr, DataLen);
         }
     }
 

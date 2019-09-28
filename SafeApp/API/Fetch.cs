@@ -14,6 +14,6 @@ namespace SafeApp.API
             => _appPtr = appPtr;
 
         public Task<ISafeData> FetchAsync(string url)
-            => AppBindings.FetchAsync(ref _appPtr, url);
+            => AppBindings.FetchAsync(_appPtr, url);
     }
 }

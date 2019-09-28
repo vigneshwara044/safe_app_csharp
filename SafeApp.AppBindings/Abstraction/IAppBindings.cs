@@ -20,11 +20,11 @@ namespace SafeApp.AppBindings
 
         Task AppSetAdditionalSearchPathAsync(string newPath);
 
-        Task<(uint, string)> EncodeAuthReqAsync(ref AuthReq req);
+        Task<(uint, string)> EncodeAuthReqAsync(AuthReq req);
 
-        Task<(uint, string)> EncodeContainersReqAsync(ref ContainersReq req);
+        Task<(uint, string)> EncodeContainersReqAsync(ContainersReq req);
 
-        Task<(uint, string)> EncodeShareMDataReqAsync(ref ShareMDataReq req);
+        Task<(uint, string)> EncodeShareMDataReqAsync(ShareMDataReq req);
 
         Task<(uint, string)> EncodeUnregisteredReqAsync(byte[] extraData);
 
@@ -42,7 +42,7 @@ namespace SafeApp.AppBindings
         #region XorEncoder
 
         Task<string> XorurlEncodeAsync(
-            ref byte[] name,
+            byte[] name,
             ulong typeTag,
             ulong dataType,
             ushort contentType,
@@ -52,7 +52,7 @@ namespace SafeApp.AppBindings
             string baseEncoding);
 
         Task<XorUrlEncoder> XorurlEncoderAsync(
-            ref byte[] name,
+            byte[] name,
             ulong typeTag,
             ulong dataType,
             ushort contentType,
@@ -66,7 +66,7 @@ namespace SafeApp.AppBindings
 
         #region Fetch
 
-        Task<ISafeData> FetchAsync(ref IntPtr app, string uri);
+        Task<ISafeData> FetchAsync(IntPtr app, string uri);
 
         #endregion
     }
