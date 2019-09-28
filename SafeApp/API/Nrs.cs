@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SafeApp.AppBindings;
 using SafeApp.Core;
 
@@ -11,7 +10,7 @@ namespace SafeApp.API
     public class Nrs
     {
         static readonly IAppBindings AppBindings = AppResolver.Current;
-        IntPtr _appPtr;
+        readonly SafeAppPtr _appPtr;
 
         /// <summary>
         /// Initializes an NRS object for the Session instance.
@@ -34,30 +33,30 @@ namespace SafeApp.API
         /// </summary>
         /// <returns>XorUrlEncoder and boolean indicating if the URL has to be resolved as NRS-URL.</returns>
         public Task<(XorUrlEncoder, bool)> ParseAndResolveUrlAsync(string url)
-            => AppBindings.ParseAndResolveUrlAsync(ref _appPtr, url);
+            => AppBindings.ParseAndResolveUrlAsync(_appPtr, url);
 
         /// <summary>
         /// Create a NrsMapContainer.
         /// </summary>
         public Task<(NrsMap, string)> CreateNrsMapContainerAsync(string name, string link, bool directLink, bool dryRun, bool setDefault)
-            => AppBindings.CreateNrsMapContainerAsync(ref _appPtr, name, link, directLink, dryRun, setDefault);
+            => AppBindings.CreateNrsMapContainerAsync(_appPtr, name, link, directLink, dryRun, setDefault);
 
         /// <summary>
         /// Add to a NrsMapContainer.
         /// </summary>
         public Task<(NrsMap, string, ulong)> AddToNrsMapContainerAsync(string name, string link, bool setDefault, bool directLink, bool dryRun)
-            => AppBindings.AddToNrsMapContainerAsync(ref _appPtr, name, link, setDefault, directLink, dryRun);
+            => AppBindings.AddToNrsMapContainerAsync(_appPtr, name, link, setDefault, directLink, dryRun);
 
         /// <summary>
         /// Remove from an NrsMapContainer.
         /// </summary>
         public Task<(NrsMap, string, ulong)> RemoveFromNrsMapContainerAsync(string name, bool dryRun)
-            => AppBindings.RemoveFromNrsMapContainerAsync(ref _appPtr, name, dryRun);
+            => AppBindings.RemoveFromNrsMapContainerAsync(_appPtr, name, dryRun);
 
         /// <summary>
         /// Get an NrsMapContainer.
         /// </summary>
         public Task<(NrsMap, ulong)> GetNrsMapContainerAsync(string url)
-            => AppBindings.GetNrsMapContainerAsync(ref _appPtr, url);
+            => AppBindings.GetNrsMapContainerAsync(_appPtr, url);
     }
 }

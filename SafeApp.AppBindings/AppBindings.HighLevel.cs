@@ -841,16 +841,16 @@ namespace SafeApp.AppBindings
             IntPtr userData,
             FfiResultXorUrlEncoderCb oCb);
 
-        public Task<(XorUrlEncoder, bool)> ParseAndResolveUrlAsync(ref IntPtr app, string url)
+        public Task<(XorUrlEncoder, bool)> ParseAndResolveUrlAsync(IntPtr app, string url)
         {
             var (ret, userData) = BindingUtils.PrepareTask<(XorUrlEncoder, bool)>();
-            ParseAndResolveUrlNative(ref app, url, userData, DelegateOnFfiResultXorUrlEncoderBoolCb);
+            ParseAndResolveUrlNative(app, url, userData, DelegateOnFfiResultXorUrlEncoderBoolCb);
             return ret;
         }
 
         [DllImport(DllName, EntryPoint = "parse_and_resolve_url")]
         private static extern void ParseAndResolveUrlNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string url,
             IntPtr userData,
             FfiResultXorUrlEncoderBoolCb oCb);
@@ -877,7 +877,7 @@ namespace SafeApp.AppBindings
         private static readonly FfiResultXorUrlEncoderBoolCb DelegateOnFfiResultXorUrlEncoderBoolCb = OnFfiResultXorUrlEncoderBoolCb;
 
         public Task<(NrsMap, string)> CreateNrsMapContainerAsync(
-            ref IntPtr app,
+            IntPtr app,
             string name,
             string link,
             bool directLink,
@@ -886,7 +886,7 @@ namespace SafeApp.AppBindings
         {
             var (ret, userData) = BindingUtils.PrepareTask<(NrsMap, string)>();
             CreateNrsMapContainerNative(
-                ref app,
+                app,
                 name,
                 link,
                 directLink,
@@ -899,7 +899,7 @@ namespace SafeApp.AppBindings
 
         [DllImport(DllName, EntryPoint = "nrs_map_container_create")]
         private static extern void CreateNrsMapContainerNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string name,
             [MarshalAs(UnmanagedType.LPStr)] string link,
             bool directLink,
@@ -929,11 +929,8 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultNrsMapXorUrlCb DelegateOnFfiResultNrsMapXorUrlCb = OnFfiResultNrsMapXorUrlCb;
 
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-
         public Task<(NrsMap, string, ulong)> AddToNrsMapContainerAsync(
-            ref IntPtr app,
+            IntPtr app,
             string name,
             string link,
             bool setDefault,
@@ -942,7 +939,7 @@ namespace SafeApp.AppBindings
         {
             var (ret, userData) = BindingUtils.PrepareTask<(NrsMap, string, ulong)>();
             AddToNrsMapContainerNative(
-                ref app,
+                app,
                 name,
                 link,
                 setDefault,
@@ -955,7 +952,7 @@ namespace SafeApp.AppBindings
 
         [DllImport(DllName, EntryPoint = "nrs_map_container_add")]
         private static extern void AddToNrsMapContainerNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string name,
             [MarshalAs(UnmanagedType.LPStr)] string link,
             bool setDefault,
@@ -963,8 +960,6 @@ namespace SafeApp.AppBindings
             bool dryRun,
             IntPtr userData,
             FfiResultNrsMapXorUrlULongCb oCb);
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
 
         private delegate void FfiResultNrsMapXorUrlULongCb(
             IntPtr userData,
@@ -989,17 +984,14 @@ namespace SafeApp.AppBindings
 
         private static readonly FfiResultNrsMapXorUrlULongCb DelegateOnFfiResultNrsMapXorUrlULongCb = OnFfiResultNrsMapXorUrlULongCb;
 
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-
         public Task<(NrsMap, string, ulong)> RemoveFromNrsMapContainerAsync(
-            ref IntPtr app,
+            IntPtr app,
             string name,
             bool dryRun)
         {
             var (ret, userData) = BindingUtils.PrepareTask<(NrsMap, string, ulong)>();
             RemoveFromNrsMapContainerNative(
-                ref app,
+                app,
                 name,
                 dryRun,
                 userData,
@@ -1009,22 +1001,19 @@ namespace SafeApp.AppBindings
 
         [DllImport(DllName, EntryPoint = "nrs_map_container_remove")]
         private static extern void RemoveFromNrsMapContainerNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string name,
             bool dryRun,
             IntPtr userData,
             FfiResultNrsMapXorUrlULongCb oCb);
 
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
-
         public Task<(NrsMap, ulong)> GetNrsMapContainerAsync(
-            ref IntPtr app,
+            IntPtr app,
             string url)
         {
             var (ret, userData) = BindingUtils.PrepareTask<(NrsMap, ulong)>();
             GetNrsMapContainerNative(
-                ref app,
+                app,
                 url,
                 userData,
                 DelegateOnFfiResultNrsMapULongCb);
@@ -1033,12 +1022,10 @@ namespace SafeApp.AppBindings
 
         [DllImport(DllName, EntryPoint = "nrs_map_container_get")]
         private static extern void GetNrsMapContainerNative(
-            ref IntPtr app,
+            IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string url,
             IntPtr userData,
             FfiResultNrsMapULongCb oCb);
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------
 
         private delegate void FfiResultNrsMapULongCb(
             IntPtr userData,
