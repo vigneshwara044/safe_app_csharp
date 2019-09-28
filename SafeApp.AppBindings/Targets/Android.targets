@@ -17,7 +17,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)lib\$(NativeLibType)\armeabi-v7a\libsafe_app.so" />
-    <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)lib\$(NativeLibType)\x86_64\libsafe_app.so" />
+    <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)lib\$(NativeLibType)\armeabi-v7a\libsafe_api.so" />
+    <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)lib\$(NativeLibType)\x86_64\libsafe_api.so" />
   </ItemGroup>
 </Project>

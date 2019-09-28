@@ -120,8 +120,8 @@
 
     <!--Desktop - NetFramework-->
     <file src="SafeApp.AppBindings\Targets\NetFramework.targets" target="build\net46\MaidSafe.SafeApp.targets" />
-    <file src="SafeApp.AppBindings\NativeLibs\Desktop\mock\safe_app.dll" target="build\net46\lib\mock\safe_app.dll" />
-    <file src="SafeApp.AppBindings\NativeLibs\Desktop\non-mock\safe_app.dll" target="build\net46\lib\non-mock\safe_app.dll" />
+    <file src="SafeApp.AppBindings\NativeLibs\Desktop\mock\safe_api.dll" target="build\net46\lib\mock\safe_api.dll" />
+    <file src="SafeApp.AppBindings\NativeLibs\Desktop\non-mock\safe_api.dll" target="build\net46\lib\non-mock\safe_api.dll" />
     <file src="SafeApp\bin\Release\netstandard1.3\SafeApp.dll" target="lib\net46\SafeApp.dll" />
     <file src="SafeApp\bin\Release\netstandard1.3\SafeApp.pdb" target="lib\net46\SafeApp.pdb" />
     <file src="SafeApp\bin\Release\netstandard1.3\SafeApp.xml" target="lib\net46\SafeApp.xml" />

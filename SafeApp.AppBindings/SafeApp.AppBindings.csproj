@@ -12,7 +12,6 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType Condition=" !$(TargetFramework.StartsWith('MonoAndroid')) ">portable</DebugType>
     <DebugType Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">Full</DebugType>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' Or '$(TargetFramework)' == 'netcoreapp1.0' ">

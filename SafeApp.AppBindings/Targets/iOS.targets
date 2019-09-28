@@ -17,7 +17,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <NativeReference Include="$(MSBuildThisFileDirectory)lib\$(NativeLibType)\libsafe_app.a">
+    <NativeReference Include="$(MSBuildThisFileDirectory)lib\$(NativeLibType)\libsafe_api.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
       <LinkerFlags>-lresolv</LinkerFlags>

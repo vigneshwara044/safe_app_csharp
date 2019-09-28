@@ -22,7 +22,7 @@ namespace SafeApp.AppBindings
 #if __IOS__
         private const string DllName = "__Internal";
 #else
-        private const string DllName = "safe_api_ffi";
+        private const string DllName = "safe_api";
 #endif
 
         public bool IsMockBuild()

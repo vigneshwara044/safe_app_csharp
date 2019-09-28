@@ -1,4 +1,4 @@
-var TAG = "0.9.1";
+var TAG = "0.4.0";
 var LIB_DIR_NAME = "SafeApp.AppBindings/NativeLibs/";
 var ANDROID_DIR_NAME = $"{LIB_DIR_NAME}Android";
 var IOS_DIR_NAME = $"{LIB_DIR_NAME}iOS";
@@ -52,10 +52,10 @@ Task("Download-Libs")
 
       foreach(var target in targets) {
         var targetDirectory = string.Format("{0}/{1}/{2}", Native_DIR.Path, item, target);
-        var mockZipFilename = string.Format("safe_app-mock-{0}-{1}.zip", TAG, target);
-        var nonMockZipFilename = string.Format("safe_app-{0}-{1}.zip", TAG, target);
-        var mockZipUrl = string.Format("https://s3.eu-west-2.amazonaws.com/safe-client-libs/{0}", mockZipFilename);
-        var nonMockZipUrl = string.Format("https://s3.eu-west-2.amazonaws.com/safe-client-libs/{0}", nonMockZipFilename);
+        var mockZipFilename = string.Format("safe-api-mock-{0}-{1}.zip", TAG, target);
+        var nonMockZipFilename = string.Format("safe-api-{0}-{1}.zip", TAG, target);
+        var mockZipUrl = string.Format("https://safe-api-native-libs.s3.eu-west-2.amazonaws.com/{0}", mockZipFilename);
+        var nonMockZipUrl = string.Format("https://safe-api-native-libs.s3.eu-west-2.amazonaws.com/{0}", nonMockZipFilename);
         var mockZipSavePath = string.Format("{0}/{1}/{2}/{3}", Native_DIR.Path, item, target, mockZipFilename);
         var nonMockZipSavePath = string.Format("{0}/{1}/{2}/{3}", Native_DIR.Path, item, target, nonMockZipFilename);
 
@@ -148,13 +148,6 @@ Task("UnZip-Libs")
             platformOutputDirectory.Append("/x86_64");
 
           Unzip(zip, platformOutputDirectory.ToString());
-
-          if(target.Contains("osx") || target.Contains("android") || target.Contains("linux"))
-          {
-            var aFile = GetFiles(string.Format("{0}/*.a", platformOutputDirectory.ToString()));
-            if(aFile.Count > 0)
-              DeleteFile(aFile.ToArray()[0].FullPath);
-          }
         }
       }
     }
