@@ -150,7 +150,7 @@ namespace SafeApp.Tests
         }
 
         [Test]
-        public async Task TransferDifferentAmounts()
+        public async Task TransferDifferentAmountsTest()
         {
             var session = await TestUtils.CreateTestApp();
 
@@ -158,32 +158,31 @@ namespace SafeApp.Tests
             var (_, keyPair1) = await session.Keys.KeysCreatePreloadTestCoinsAsync("123.321");
             await session.Wallet.WalletInsertAsync(fromWalletXorUrl, "TestBalance1", true, keyPair1.SK);
 
-            var toWalletXorUrl = await session.Wallet.WalletCreateAsync();
-            var (_, keypair2) = await session.Keys.KeysCreatePreloadTestCoinsAsync("0.5");
+            var (toXorUrl, keypair2) = await session.Keys.KeysCreatePreloadTestCoinsAsync("0.5");
             await session.Wallet.WalletInsertAsync(fromWalletXorUrl, "TestBalance2", false, keypair2.SK);
 
             // transfering amount more than current balance
             var ex = Assert.ThrowsAsync<FfiException>(
                async () =>
                {
-                   await session.Wallet.WalletTransferAsync(fromWalletXorUrl, toWalletXorUrl, "321.123", 0);
+                   await session.Wallet.WalletTransferAsync(fromWalletXorUrl, toXorUrl, "321.123", 0);
                });
-            Assert.AreEqual(-203, ex.ErrorCode);
+            Assert.AreEqual(-301, ex.ErrorCode);
 
             // transfering invalid amount
             ex = Assert.ThrowsAsync<FfiException>(
                async () =>
                {
-                   await session.Wallet.WalletTransferAsync(fromWalletXorUrl, toWalletXorUrl, "0.dgnda", 0);
+                   await session.Wallet.WalletTransferAsync(fromWalletXorUrl, toXorUrl, "0.dgnda", 0);
                });
             Assert.AreEqual(-300, ex.ErrorCode);
 
             // valid transfer
-            await session.Wallet.WalletTransferAsync(fromWalletXorUrl, toWalletXorUrl, "10", 0);
+            await session.Wallet.WalletTransferAsync(fromWalletXorUrl, toXorUrl, "10", 0);
         }
 
         [Test]
-        public async Task TransferToSafeKey()
+        public async Task TransferToSafeKeyTest()
         {
             var session = await TestUtils.CreateTestApp();
 
@@ -198,7 +197,7 @@ namespace SafeApp.Tests
         }
 
         [Test]
-        public async Task TransferFromSafeKey()
+        public async Task TransferFromSafeKeyTest()
         {
             var session = await TestUtils.CreateTestApp();
             var apiKeys = session.Keys;
