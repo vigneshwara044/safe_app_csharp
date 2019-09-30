@@ -130,7 +130,7 @@ namespace SafeApp.Core
         /// XOR Url
         /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
-        public string Xorurl;
+        public string XorUrl;
 
         /// <summary>
         /// Secret Key
@@ -142,7 +142,7 @@ namespace SafeApp.Core
     /// Spendable Wallet balance.
     /// </summary>
     [PublicAPI]
-    public struct SependableWalletBalance
+    public struct SpendableWalletBalance
     {
         /// <summary>
         /// Wallet name.
@@ -159,7 +159,7 @@ namespace SafeApp.Core
         /// <summary>
         /// Spendable wallet balance.
         /// </summary>
-        public WalletSpendableBalance SpendableWalletBalance;
+        public WalletSpendableBalance Balance;
     }
 
     /// <summary>
@@ -171,7 +171,7 @@ namespace SafeApp.Core
         /// <summary>
         /// List of spendable wallet balances.
         /// </summary>
-        public List<SependableWalletBalance> WalletBalances;
+        public List<SpendableWalletBalance> WalletBalances;
 
         /// <summary>
         /// Initialise a new wallet spendable balances object from native wallet spendable balances.
@@ -179,7 +179,7 @@ namespace SafeApp.Core
         /// <param name="native"></param>
         internal WalletSpendableBalances(WalletSpendableBalancesNative native)
         {
-            WalletBalances = BindingUtils.CopyToObjectList<SependableWalletBalance>(native.WalletBalancesPtr, (int)native.WalletBalancesLen);
+            WalletBalances = BindingUtils.CopyToObjectList<SpendableWalletBalance>(native.WalletBalancesPtr, (int)native.WalletBalancesLen);
         }
 
         /// <summary>

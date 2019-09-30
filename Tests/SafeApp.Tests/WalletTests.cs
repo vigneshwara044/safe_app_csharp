@@ -38,8 +38,8 @@ namespace SafeApp.Tests
         {
             var session = await TestUtils.CreateTestApp();
             var walletXorUrl = await session.Wallet.WalletCreateAsync();
-            var (xorurl1, keyPair1) = await session.Keys.KeysCreatePreloadTestCoinsAsync("123");
-            var (xorurl2, keyPair2) = await session.Keys.KeysCreatePreloadTestCoinsAsync("321");
+            var (xorUrl1, keyPair1) = await session.Keys.KeysCreatePreloadTestCoinsAsync("123");
+            var (xorUrl2, keyPair2) = await session.Keys.KeysCreatePreloadTestCoinsAsync("321");
 
             await session.Wallet.WalletInsertAsync(walletXorUrl, "TestBalance1", true, keyPair1.SK);
             await session.Wallet.WalletInsertAsync(walletXorUrl, "TestBalance2", false, keyPair2.SK);
@@ -48,12 +48,18 @@ namespace SafeApp.Tests
             Assert.IsTrue(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance1")).IsDefault);
             Assert.AreEqual(
                 walletBalances.WalletBalances.Find(
-                q => q.WalletName.Equals("TestBalance1")).SpendableWalletBalance.Xorurl, xorurl1);
-            Assert.AreEqual(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance1")).SpendableWalletBalance.Sk, keyPair1.SK);
+                q => q.WalletName.Equals("TestBalance1")).Balance.XorUrl, xorUrl1);
+            Assert.AreEqual(
+                walletBalances.WalletBalances.Find(
+                    q => q.WalletName.Equals("TestBalance1")).Balance.Sk, keyPair1.SK);
 
             Assert.IsFalse(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance2")).IsDefault);
-            Assert.AreEqual(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance2")).SpendableWalletBalance.Xorurl, xorurl1);
-            Assert.AreEqual(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance2")).SpendableWalletBalance.Sk, keyPair2.SK);
+            Assert.AreEqual(
+                walletBalances.WalletBalances.Find(
+                    q => q.WalletName.Equals("TestBalance2")).Balance.XorUrl, xorUrl2);
+            Assert.AreEqual(
+                walletBalances.WalletBalances.Find(
+                    q => q.WalletName.Equals("TestBalance2")).Balance.Sk, keyPair2.SK);
         }
 
         [Test]
@@ -62,20 +68,28 @@ namespace SafeApp.Tests
             var session = await TestUtils.CreateTestApp();
 
             var walletXORURL = await session.Wallet.WalletCreateAsync();
-            var (xorurl1, keyPair1) = await session.Keys.KeysCreatePreloadTestCoinsAsync("123");
-            var (xorurl2, keyPair2) = await session.Keys.KeysCreatePreloadTestCoinsAsync("321");
+            var (xorUrl1, keyPair1) = await session.Keys.KeysCreatePreloadTestCoinsAsync("123");
+            var (xorUrl2, keyPair2) = await session.Keys.KeysCreatePreloadTestCoinsAsync("321");
 
             await session.Wallet.WalletInsertAsync(walletXORURL, "TestBalance1", true, keyPair1.SK);
             await session.Wallet.WalletInsertAsync(walletXORURL, "TestBalance2", true, keyPair2.SK);
             var walletBalances = await session.Wallet.WalletGetAsync(walletXORURL);
 
-            Assert.IsTrue(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance1")).IsDefault);
-            Assert.AreEqual(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance1")).SpendableWalletBalance.Xorurl, xorurl1);
-            Assert.AreEqual(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance1")).SpendableWalletBalance.Sk, keyPair1.SK);
+            Assert.IsFalse(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance1")).IsDefault);
+            Assert.AreEqual(
+                walletBalances.WalletBalances.Find(
+                    q => q.WalletName.Equals("TestBalance1")).Balance.XorUrl, xorUrl1);
+            Assert.AreEqual(
+                walletBalances.WalletBalances.Find(
+                    q => q.WalletName.Equals("TestBalance1")).Balance.Sk, keyPair1.SK);
 
-            Assert.IsFalse(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance2")).IsDefault);
-            Assert.AreEqual(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance2")).SpendableWalletBalance.Xorurl, xorurl2);
-            Assert.AreEqual(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance2")).SpendableWalletBalance.Sk, keyPair2.SK);
+            Assert.IsTrue(walletBalances.WalletBalances.Find(q => q.WalletName.Equals("TestBalance2")).IsDefault);
+            Assert.AreEqual(
+                walletBalances.WalletBalances.Find(
+                    q => q.WalletName.Equals("TestBalance2")).Balance.XorUrl, xorUrl2);
+            Assert.AreEqual(
+                walletBalances.WalletBalances.Find(
+                    q => q.WalletName.Equals("TestBalance2")).Balance.Sk, keyPair2.SK);
         }
 
         [Test]
@@ -88,7 +102,7 @@ namespace SafeApp.Tests
 
             // with default balance
             var toWalletXorUrl = await session.Wallet.WalletCreateAsync();
-            var (xorurl, keyPair) = await session.Keys.KeysCreatePreloadTestCoinsAsync("123");
+            var (_, keyPair) = await session.Keys.KeysCreatePreloadTestCoinsAsync("123");
             await session.Wallet.WalletInsertAsync(toWalletXorUrl, "TestBalance", true, keyPair.SK);
 
             var ex = Assert.ThrowsAsync<FfiException>(
@@ -112,7 +126,7 @@ namespace SafeApp.Tests
             var session = await TestUtils.CreateTestApp();
 
             var fromWalletXorUrl = await session.Wallet.WalletCreateAsync();
-            var (xorurl1, keyPair1) = await session.Keys.KeysCreatePreloadTestCoinsAsync("0.0");
+            var (_, keyPair1) = await session.Keys.KeysCreatePreloadTestCoinsAsync("0.0");
             await session.Wallet.WalletInsertAsync(fromWalletXorUrl, "TestBalance", true, keyPair1.SK);
 
             var (toXorUrl, _) = await session.Keys.KeysCreatePreloadTestCoinsAsync("0.5");
@@ -146,7 +160,7 @@ namespace SafeApp.Tests
 
             var toWalletXorUrl = await session.Wallet.WalletCreateAsync();
             var (_, keypair2) = await session.Keys.KeysCreatePreloadTestCoinsAsync("0.5");
-            await session.Wallet.WalletInsertAsync(fromWalletXorUrl, "TestBalance2", true, keypair2.SK);
+            await session.Wallet.WalletInsertAsync(fromWalletXorUrl, "TestBalance2", false, keypair2.SK);
 
             // transfering amount more than current balance
             var ex = Assert.ThrowsAsync<FfiException>(
@@ -154,7 +168,7 @@ namespace SafeApp.Tests
                {
                    await session.Wallet.WalletTransferAsync(fromWalletXorUrl, toWalletXorUrl, "321.123", 0);
                });
-            Assert.AreEqual(-301, ex.ErrorCode);
+            Assert.AreEqual(-203, ex.ErrorCode);
 
             // transfering invalid amount
             ex = Assert.ThrowsAsync<FfiException>(
