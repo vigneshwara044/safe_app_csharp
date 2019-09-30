@@ -278,7 +278,7 @@ namespace SafeApp.AppBindings
             string pk)
         {
             var (ret, userData) = BindingUtils.PrepareTask<(string, BlsKeyPair)>();
-            CreateKeysNative(app,  from, preloadAmount, pk, userData, DelegateOnFfiResultStringBlsKeyPairCb);
+            CreateKeysNative(app, from, preloadAmount, pk, userData, DelegateOnFfiResultStringBlsKeyPairCb);
             return ret;
         }
 
@@ -400,5 +400,138 @@ namespace SafeApp.AppBindings
         private static readonly FfiResultULongCb DelegateOnFfiResultULongCb = OnFfiResultULongCb;
 
         #endregion Keys
+
+        #region Wallet
+
+        public Task<string> WalletCreateAsync(IntPtr app)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<string>();
+            WalletCreateNative(app, userData, DelegateOnFfiResultStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "wallet_create")]
+        private static extern void WalletCreateNative(
+           IntPtr app,
+           IntPtr userData,
+           FfiResultStringCb oCb);
+
+        public Task<string> WalletInsertAsync(IntPtr app, string keyUrl, string name, bool setDefault, string secretKey)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<string>();
+            WalletInsertNative(app, keyUrl, name, setDefault, secretKey, userData, DelegateOnFfiResultStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "wallet_insert")]
+        private static extern void WalletInsertNative(
+           IntPtr app,
+           [MarshalAs(UnmanagedType.LPStr)] string keyUrl,
+           [MarshalAs(UnmanagedType.LPStr)] string name,
+           [MarshalAs(UnmanagedType.U1)] bool setDefault,
+           [MarshalAs(UnmanagedType.LPStr)] string secretKey,
+           IntPtr userData,
+           FfiResultStringCb oCb);
+
+        public Task<string> WalletBalanceAsync(IntPtr app, string url)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<string>();
+            WalletBalanceNative(app, url, userData, DelegateOnFfiResultStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "wallet_balance")]
+        private static extern void WalletBalanceNative(
+           IntPtr app,
+           [MarshalAs(UnmanagedType.LPStr)] string url,
+           IntPtr userData,
+           FfiResultStringCb oCb);
+
+        public Task<(WalletSpendableBalance, ulong)> WalletGetDefaultBalanceAsync(IntPtr app, string url)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(WalletSpendableBalance, ulong)>();
+            WalletGetDefaultBalanceNative(app, url, userData, DelegateOnFfiResultWalletSpendableBalanceULongCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "wallet_get_default_balance")]
+        private static extern void WalletGetDefaultBalanceNative(
+           IntPtr app,
+           [MarshalAs(UnmanagedType.LPStr)] string url,
+           IntPtr userData,
+           FfiResultWalletSpendableBalanceULongCb oCb);
+
+        private delegate void FfiResultWalletSpendableBalanceULongCb(
+           IntPtr userData,
+           IntPtr result,
+           IntPtr spendableWalletBalance,
+           ulong version);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultWalletSpendableBalanceULongCb))]
+#endif
+        private static void OnFfiResultWalletSpendableBalanceULongCb(
+           IntPtr userData,
+           IntPtr result,
+           IntPtr spendableWalletBalance,
+           ulong version)
+           => BindingUtils.CompleteTask(
+               userData,
+               Marshal.PtrToStructure<FfiResult>(result),
+               () => (Marshal.PtrToStructure<WalletSpendableBalance>(spendableWalletBalance), version));
+
+        private static readonly FfiResultWalletSpendableBalanceULongCb DelegateOnFfiResultWalletSpendableBalanceULongCb = OnFfiResultWalletSpendableBalanceULongCb;
+
+        public Task<ulong> WalletTransferAsync(IntPtr app, string from, string to, string amount, ulong id)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<ulong>();
+            WalletTransferNative(app, from, to, amount, id, userData, DelegateOnFfiResultULongCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "wallet_transfer")]
+        private static extern void WalletTransferNative(
+           IntPtr app,
+           [MarshalAs(UnmanagedType.LPStr)] string from,
+           [MarshalAs(UnmanagedType.LPStr)] string to,
+           [MarshalAs(UnmanagedType.LPStr)] string amount,
+           ulong id,
+           IntPtr userData,
+           FfiResultULongCb oCb);
+
+        public Task<WalletSpendableBalances> WalletGetAsync(IntPtr app, string url)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<WalletSpendableBalances>();
+            WalletGetNative(app, url, userData, DelegateOnFfiResultWalletSpendableBalancesCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "wallet_get")]
+        private static extern void WalletGetNative(
+           IntPtr app,
+           [MarshalAs(UnmanagedType.LPStr)] string url,
+           IntPtr userData,
+           FfiResultWalletSpendableBalancesCb oCb);
+
+        private delegate void FfiResultWalletSpendableBalancesCb(
+           IntPtr userData,
+           IntPtr result,
+           IntPtr spendableWalletBalance);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultWalletSpendableBalancesCb))]
+#endif
+        private static void OnFfiResultWalletSpendableBalancesCb(
+           IntPtr userData,
+           IntPtr result,
+           IntPtr spendableWalletBalance)
+           => BindingUtils.CompleteTask(
+               userData,
+               Marshal.PtrToStructure<FfiResult>(result),
+               () => new WalletSpendableBalances(Marshal.PtrToStructure<WalletSpendableBalancesNative>(spendableWalletBalance)));
+
+        private static readonly FfiResultWalletSpendableBalancesCb DelegateOnFfiResultWalletSpendableBalancesCb = OnFfiResultWalletSpendableBalancesCb;
+
+        #endregion Wallet
     }
 }

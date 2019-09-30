@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 
@@ -116,6 +117,113 @@ namespace SafeApp.Core
         {
             Code = code;
             Description = description;
+        }
+    }
+
+    /// <summary>
+    /// Wallet Spendable balance.
+    /// </summary>"
+    [PublicAPI]
+    public struct WalletSpendableBalance
+    {
+        /// <summary>
+        /// XOR Url
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string Xorurl;
+
+        /// <summary>
+        /// Secret Key
+        /// </summary>
+        public string Sk;
+    }
+
+    /// <summary>
+    /// Spendable Wallet balance.
+    /// </summary>
+    [PublicAPI]
+    public struct SependableWalletBalance
+    {
+        /// <summary>
+        /// Wallet name.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string WalletName;
+
+        /// <summary>
+        /// Flag indicating whether the wallet is default.
+        /// </summary>
+        [MarshalAs(UnmanagedType.U1)]
+        public bool IsDefault;
+
+        /// <summary>
+        /// Spendable wallet balance.
+        /// </summary>
+        public WalletSpendableBalance SpendableWalletBalance;
+    }
+
+    /// <summary>
+    /// Wallet spendable balances.
+    /// </summary>
+    [PublicAPI]
+    public struct WalletSpendableBalances
+    {
+        /// <summary>
+        /// List of spendable wallet balances.
+        /// </summary>
+        public List<SependableWalletBalance> WalletBalances;
+
+        /// <summary>
+        /// Initialise a new wallet spendable balances object from native wallet spendable balances.
+        /// </summary>
+        /// <param name="native"></param>
+        internal WalletSpendableBalances(WalletSpendableBalancesNative native)
+        {
+            WalletBalances = BindingUtils.CopyToObjectList<SependableWalletBalance>(native.WalletBalancesPtr, (int)native.WalletBalancesLen);
+        }
+
+        /// <summary>
+        /// Returns a native wallet spendable balance.
+        /// </summary>
+        /// <returns></returns>
+        internal WalletSpendableBalancesNative ToNative()
+        {
+            return new WalletSpendableBalancesNative
+            {
+                WalletBalancesPtr = BindingUtils.CopyFromObjectList(WalletBalances),
+                WalletBalancesLen = (UIntPtr)(WalletBalances?.Count ?? 0),
+                WalletBalancesCap = UIntPtr.Zero
+            };
+        }
+    }
+
+    /// <summary>
+    /// Represents native wallet spendable balances.
+    /// </summary>
+    internal struct WalletSpendableBalancesNative
+    {
+        /// <summary>
+        /// Wallet spendable balances pointer.
+        /// </summary>
+        public IntPtr WalletBalancesPtr;
+
+        /// <summary>
+        /// Wallet balances length.
+        /// </summary>
+        public UIntPtr WalletBalancesLen;
+
+        /// <summary>
+        /// Wallet balances capacity.
+        /// </summary>
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr WalletBalancesCap;
+
+        /// <summary>
+        /// Free the wallet spendable balances pointer.
+        /// </summary>
+        internal void Free()
+        {
+            BindingUtils.FreeList(WalletBalancesPtr, WalletBalancesLen);
         }
     }
 }
