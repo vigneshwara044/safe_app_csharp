@@ -38,7 +38,7 @@ namespace SafeApp.Tests
         {
             var session = await TestUtils.CreateTestApp();
             var (xorUrl, _, _) = await session.Files.FilesContainerCreateAsync("../testData", null, false, false);
-            var newFileName = $"{xorUrl}/newFile.md";
+            var newFileName = $"{xorUrl}/test.md";
             await session.Files.FilesContainerAddAsync("../testData", newFileName, false, false, false);
         }
 
@@ -47,7 +47,7 @@ namespace SafeApp.Tests
         {
             var session = await TestUtils.CreateTestApp();
             var (xorUrl, _, _) = await session.Files.FilesContainerCreateAsync("../testData", null, false, false);
-            var newFileName = $"{xorUrl}/newFile.md";
+            var newFileName = $"{xorUrl}/test.md";
             await session.Files.FilesContainerAddFromRawAsync(new List<byte> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 }, newFileName, false, false, false);
         }
 
