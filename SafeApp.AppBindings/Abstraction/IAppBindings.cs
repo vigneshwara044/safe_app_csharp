@@ -87,6 +87,22 @@ namespace SafeApp.AppBindings
         Task<ulong> KeysTransferAsync(IntPtr app, string amount, string fromSk, string toUrl, ulong txId);
 
         #endregion Keys
+
+        #region Wallet
+
+        Task<string> WalletCreateAsync(IntPtr app);
+
+        Task<string> WalletInsertAsync(IntPtr app, string keyUrl, string name, bool setDefault, string secretKey);
+
+        Task<string> WalletBalanceAsync(IntPtr app, string url);
+
+        Task<(WalletSpendableBalance, ulong)> WalletGetDefaultBalanceAsync(IntPtr app, string url);
+
+        Task<ulong> WalletTransferAsync(IntPtr app, string from, string to, string amount, ulong id);
+
+        Task<WalletSpendableBalances> WalletGetAsync(IntPtr app, string url);
+
+        #endregion Wallet
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

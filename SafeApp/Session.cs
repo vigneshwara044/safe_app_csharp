@@ -26,6 +26,8 @@ namespace SafeApp
 
         public Keys Keys { get; private set; }
 
+        public API.Wallet Wallet { get; private set; }
+
         /// <summary>
         /// Event triggered if session is disconnected from the network.
         /// </summary>
@@ -229,6 +231,7 @@ namespace SafeApp
 
             Fetch = new Fetch(_appPtr);
             Keys = new Keys(_appPtr);
+            Wallet = new API.Wallet(_appPtr);
         }
 
         /// <summary>
