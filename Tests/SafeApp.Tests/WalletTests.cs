@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.Core;
 
@@ -12,7 +13,7 @@ namespace SafeApp.Tests
         {
             var session = await TestUtils.CreateTestApp();
             var wallet = await session.Wallet.WalletCreateAsync();
-            var balance = double.Parse(await session.Wallet.WalletBalanceAsync(wallet));
+            var balance = double.Parse(await session.Wallet.WalletBalanceAsync(wallet), CultureInfo.InvariantCulture);
             Assert.AreEqual(0.0, balance);
         }
 
@@ -25,11 +26,11 @@ namespace SafeApp.Tests
             var (_, keyPair2) = await session.Keys.KeysCreatePreloadTestCoinsAsync("321");
             await session.Wallet.WalletInsertAsync(walletXorUrl, "TestBalance1", true, keyPair1.SK);
 
-            var currentBalance = double.Parse(await session.Wallet.WalletBalanceAsync(walletXorUrl));
+            var currentBalance = double.Parse(await session.Wallet.WalletBalanceAsync(walletXorUrl), CultureInfo.InvariantCulture);
             Assert.AreEqual(123.00, currentBalance);
 
             await session.Wallet.WalletInsertAsync(walletXorUrl, "TestBalance2", false, keyPair2.SK);
-            currentBalance = double.Parse(await session.Wallet.WalletBalanceAsync(walletXorUrl));
+            currentBalance = double.Parse(await session.Wallet.WalletBalanceAsync(walletXorUrl), CultureInfo.InvariantCulture);
             Assert.AreEqual(444.00, currentBalance);
         }
 
