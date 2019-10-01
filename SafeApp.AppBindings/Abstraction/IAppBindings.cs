@@ -73,16 +73,16 @@ namespace SafeApp.AppBindings
 
         #region Files
 
-        Task<(string, ProcessedFiles, FilesMap)> FilesContainerCreateAsync(
+        Task<(string, ProcessedFiles, string)> FilesContainerCreateAsync(
             IntPtr app,
             string location,
             string dest,
             bool recursive,
             bool dryRun);
 
-        Task<(ulong, FilesMap)> FilesContainerGetAsync(IntPtr app, string url);
+        Task<(ulong, string)> FilesContainerGetAsync(IntPtr app, string url);
 
-        Task<(ulong, ProcessedFiles, FilesMap)> FilesContainerSyncAsync(
+        Task<(ulong, ProcessedFiles, string)> FilesContainerSyncAsync(
             IntPtr app,
             string location,
             string url,
@@ -91,7 +91,7 @@ namespace SafeApp.AppBindings
             bool updateNrs,
             bool dryRun);
 
-        Task<(ulong, ProcessedFiles, FilesMap)> FilesContainerAddAsync(
+        Task<(ulong, ProcessedFiles, string)> FilesContainerAddAsync(
             IntPtr app,
             string sourceFile,
             string url,
@@ -99,20 +99,17 @@ namespace SafeApp.AppBindings
             bool updateNrs,
             bool dryRun);
 
-        Task<(ulong, ProcessedFiles, FilesMap)> FilesContainerAddFromRawAsync(
+        Task<(ulong, ProcessedFiles, string)> FilesContainerAddFromRawAsync(
             IntPtr app,
-            List<byte> data,
+            byte[] data,
             string url,
             bool force,
             bool updateNrs,
             bool dryRun);
 
-        Task<string> FilesPutPublishedImmutableAsync(
-            IntPtr app,
-            List<byte> data,
-            string mediaType);
+        Task<string> FilesPutPublishedImmutableAsync(IntPtr app, byte[] data, string mediaType);
 
-        Task<List<byte>> FilesGetPublishedImmutableAsync(IntPtr app, string url);
+        Task<byte[]> FilesGetPublishedImmutableAsync(IntPtr app, string url);
 
         #endregion Files
 

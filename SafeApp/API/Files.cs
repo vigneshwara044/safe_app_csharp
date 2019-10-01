@@ -25,12 +25,12 @@ namespace SafeApp.API
         /// <summary>
         /// Create a FilesContainer.
         /// </summary>
-        /// <param name="location"></param>
-        /// <param name="dest"></param>
-        /// <param name="recursive"></param>
-        /// <param name="dryRun"></param>
+        /// <param name="location">Location of the data.</param>
+        /// <param name="dest">The XorUrl </param>
+        /// <param name="recursive">Flag denoting if the sub-folders should be added.</param>
+        /// <param name="dryRun">Flag denoting whether container  will be created locally.</param>
         /// <returns></returns>
-        public Task<(string, ProcessedFiles, FilesMap)> FilesContainerCreateAsync(
+        public Task<(string, ProcessedFiles, string)> FilesContainerCreateAsync(
             string location,
             string dest,
             bool recursive,
@@ -42,7 +42,7 @@ namespace SafeApp.API
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public Task<(ulong, FilesMap)> FilesContainerGetAsync(
+        public Task<(ulong, string)> FilesContainerGetAsync(
             string url)
             => AppBindings.FilesContainerGetAsync(_appPtr, url);
 
@@ -56,7 +56,7 @@ namespace SafeApp.API
         /// <param name="updateNrs"></param>
         /// <param name="dryRun"></param>
         /// <returns></returns>
-        public Task<(ulong, ProcessedFiles, FilesMap)> FilesContainerSyncAsync(
+        public Task<(ulong, ProcessedFiles, string)> FilesContainerSyncAsync(
             string location,
             string url,
             bool recursive,
@@ -74,7 +74,7 @@ namespace SafeApp.API
         /// <param name="updateNrs"></param>
         /// <param name="dryRun"></param>
         /// <returns></returns>
-        public Task<(ulong, ProcessedFiles, FilesMap)> FilesContainerAddAsync(
+        public Task<(ulong, ProcessedFiles, string)> FilesContainerAddAsync(
             string sourceFile,
             string url,
             bool force,
@@ -91,8 +91,8 @@ namespace SafeApp.API
         /// <param name="updateNrs"></param>
         /// <param name="dryRun"></param>
         /// <returns></returns>
-        public Task<(ulong, ProcessedFiles, FilesMap)> FilesContainerAddFromRawAsync(
-            List<byte> data,
+        public Task<(ulong, ProcessedFiles, string)> FilesContainerAddFromRawAsync(
+            byte[] data,
             string url,
             bool force,
             bool updateNrs,
@@ -106,7 +106,7 @@ namespace SafeApp.API
         /// <param name="mediaType"></param>
         /// <returns></returns>
         public Task<string> FilesPutPublishedImmutableAsync(
-            List<byte> data,
+            byte[] data,
             string mediaType)
             => AppBindings.FilesPutPublishedImmutableAsync(_appPtr, data, mediaType);
 
@@ -115,7 +115,7 @@ namespace SafeApp.API
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public Task<List<byte>> FilesGetPublishedImmutableAsync(
+        public Task<byte[]> FilesGetPublishedImmutableAsync(
             string url)
             => AppBindings.FilesGetPublishedImmutableAsync(_appPtr, url);
     }

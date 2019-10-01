@@ -255,7 +255,7 @@ namespace SafeApp.Core
     }
 
     /// <summary>
-    /// ProcessedFiles
+    /// Processed files.
     /// </summary>
     [PublicAPI]
     public struct ProcessedFiles
@@ -302,7 +302,7 @@ namespace SafeApp.Core
         public IntPtr ProcessedFilesPtr;
 
         /// <summary>
-        /// Processed Files length.
+        /// Processed files length.
         /// </summary>
         public UIntPtr ProcessedFilesLen;
 
@@ -427,7 +427,7 @@ namespace SafeApp.Core
         /// <summary>
         /// List of file info.
         /// </summary>
-        public List<FileInfo> FileItems;
+        public List<FileInfo> Files;
 
         /// <summary>
         /// Initialise the new FilesMap.
@@ -435,7 +435,7 @@ namespace SafeApp.Core
         /// <param name="native"></param>
         internal FilesMap(FilesMapNative native)
         {
-            FileItems = BindingUtils.CopyToObjectList<FileInfo>(native.FileItemsPtr, (int)native.FileItemsLen);
+            Files = BindingUtils.CopyToObjectList<FileInfo>(native.FilesPtr, (int)native.FilesLen);
         }
 
         /// <summary>
@@ -446,9 +446,9 @@ namespace SafeApp.Core
         {
             return new FilesMapNative
             {
-                FileItemsPtr = BindingUtils.CopyFromObjectList(FileItems),
-                FileItemsLen = (UIntPtr)(FileItems?.Count ?? 0),
-                FileItemsCap = UIntPtr.Zero
+                FilesPtr = BindingUtils.CopyFromObjectList(Files),
+                FilesLen = (UIntPtr)(Files?.Count ?? 0),
+                FilesCap = UIntPtr.Zero
             };
         }
     }
@@ -461,25 +461,25 @@ namespace SafeApp.Core
         /// <summary>
         /// Files items pointer.
         /// </summary>
-        public IntPtr FileItemsPtr;
+        public IntPtr FilesPtr;
 
         /// <summary>
         /// Files item length.
         /// </summary>
-        public UIntPtr FileItemsLen;
+        public UIntPtr FilesLen;
 
         /// <summary>
         /// File items capacity.
         /// </summary>
         // ReSharper disable once NotAccessedField.Compiler
-        public UIntPtr FileItemsCap;
+        public UIntPtr FilesCap;
 
         /// <summary>
         /// Free file items pointer.
         /// </summary>
         internal void Free()
         {
-            BindingUtils.FreeList(FileItemsPtr, FileItemsLen);
+            BindingUtils.FreeList(FilesPtr, FilesLen);
         }
     }
 }
