@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Core;
@@ -69,6 +70,51 @@ namespace SafeApp.AppBindings
         Task<ISafeData> FetchAsync(IntPtr app, string uri);
 
         #endregion
+
+        #region Files
+
+        Task<(string, ProcessedFiles, FilesMap)> FilesContainerCreateAsync(
+            IntPtr app,
+            string location,
+            string dest,
+            bool recursive,
+            bool dryRun);
+
+        Task<(ulong, FilesMap)> FilesContainerGetAsync(IntPtr app, string url);
+
+        Task<(ulong, ProcessedFiles, FilesMap)> FilesContainerSyncAsync(
+            IntPtr app,
+            string location,
+            string url,
+            bool recursive,
+            bool delete,
+            bool updateNrs,
+            bool dryRun);
+
+        Task<(ulong, ProcessedFiles, FilesMap)> FilesContainerAddAsync(
+            IntPtr app,
+            string sourceFile,
+            string url,
+            bool force,
+            bool updateNrs,
+            bool dryRun);
+
+        Task<(ulong, ProcessedFiles, FilesMap)> FilesContainerAddFromRawAsync(
+            IntPtr app,
+            List<byte> data,
+            string url,
+            bool force,
+            bool updateNrs,
+            bool dryRun);
+
+        Task<string> FilesPutPublishedImmutableAsync(
+            IntPtr app,
+            List<byte> data,
+            string mediaType);
+
+        Task<List<byte>> FilesGetPublishedImmutableAsync(IntPtr app, string url);
+
+        #endregion Files
 
         #region Keys
 

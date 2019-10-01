@@ -179,7 +179,9 @@ namespace SafeApp.Core
         /// <param name="native"></param>
         internal WalletSpendableBalances(WalletSpendableBalancesNative native)
         {
-            WalletBalances = BindingUtils.CopyToObjectList<SpendableWalletBalance>(native.WalletBalancesPtr, (int)native.WalletBalancesLen);
+            WalletBalances = BindingUtils.CopyToObjectList<SpendableWalletBalance>(
+                native.WalletBalancesPtr,
+                (int)native.WalletBalancesLen);
         }
 
         /// <summary>
@@ -224,6 +226,260 @@ namespace SafeApp.Core
         internal void Free()
         {
             BindingUtils.FreeList(WalletBalancesPtr, WalletBalancesLen);
+        }
+    }
+
+    /// <summary>
+    /// Represents the processed file.
+    /// </summary>
+    [PublicAPI]
+    public struct ProcessedFile
+    {
+        /// <summary>
+        /// File name.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string FileName;
+
+        /// <summary>
+        /// File meta data.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string FileMetaData;
+
+        /// <summary>
+        /// File XorUrl.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string FileXorurl;
+    }
+
+    /// <summary>
+    /// ProcessedFiles
+    /// </summary>
+    [PublicAPI]
+    public struct ProcessedFiles
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<ProcessedFile> Files;
+
+        /// <summary>
+        /// Initialises the processed file from native file info.
+        /// </summary>
+        /// <param name="native"></param>
+        internal ProcessedFiles(ProcessedFilesNative native)
+        {
+            Files = BindingUtils.CopyToObjectList<ProcessedFile>(
+                native.ProcessedFilesPtr,
+                (int)native.ProcessedFilesLen);
+        }
+
+        /// <summary>
+        /// Returns the native processed file.
+        /// </summary>
+        /// <returns></returns>
+        internal ProcessedFilesNative ToNative()
+        {
+            return new ProcessedFilesNative
+            {
+                ProcessedFilesPtr = BindingUtils.CopyFromObjectList(Files),
+                ProcessedFilesLen = (UIntPtr)(Files?.Count ?? 0),
+                ProcessedFilesCap = UIntPtr.Zero
+            };
+        }
+    }
+
+    /// <summary>
+    /// Represents the native processed file.
+    /// </summary>
+    internal struct ProcessedFilesNative
+    {
+        /// <summary>
+        /// Processed files pointer.
+        /// </summary>
+        public IntPtr ProcessedFilesPtr;
+
+        /// <summary>
+        /// Processed Files length.
+        /// </summary>
+        public UIntPtr ProcessedFilesLen;
+
+        /// <summary>
+        /// Processed files capacity.
+        /// </summary>
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr ProcessedFilesCap;
+
+        /// <summary>
+        /// Free the processed file pointer.
+        /// </summary>
+        internal void Free()
+        {
+            BindingUtils.FreeList(ProcessedFilesPtr, ProcessedFilesLen);
+        }
+    }
+
+    /// <summary>
+    /// Represents the file item.
+    /// </summary>
+    [PublicAPI]
+    public struct FileItem
+    {
+        /// <summary>
+        /// Meta data of the file.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string FileMetaData;
+
+        /// <summary>
+        /// The XorUrl of tthe file.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string Xorurl;
+    }
+
+    /// <summary>
+    /// Represents the file info.
+    /// </summary>
+    [PublicAPI]
+    public struct FileInfo
+    {
+        /// <summary>
+        /// File name.
+        /// </summary>
+        public string FileName;
+
+        /// <summary>
+        /// List of file items.
+        /// </summary>
+        public List<FileItem> FileItems;
+
+        /// <summary>
+        /// Initialises the file info from native file info.
+        /// </summary>
+        /// <param name="native"></param>
+        internal FileInfo(FileInfoNative native)
+        {
+            FileName = native.FileName;
+            FileItems = BindingUtils.CopyToObjectList<FileItem>(native.FileItemsPtr, (int)native.FileItemsLen);
+        }
+
+        /// <summary>
+        /// Returns the native file info.
+        /// </summary>
+        /// <returns></returns>
+        internal FileInfoNative ToNative()
+        {
+            return new FileInfoNative
+            {
+                FileName = FileName,
+                FileItemsPtr = BindingUtils.CopyFromObjectList(FileItems),
+                FileItemsLen = (UIntPtr)(FileItems?.Count ?? 0),
+                FileItemsCap = UIntPtr.Zero
+            };
+        }
+    }
+
+    /// <summary>
+    /// Represents the native file info.
+    /// </summary>
+    internal struct FileInfoNative
+    {
+        /// <summary>
+        /// File name.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string FileName;
+
+        /// <summary>
+        /// Files items pointer.
+        /// </summary>
+        public IntPtr FileItemsPtr;
+
+        /// <summary>
+        /// Files item length.
+        /// </summary>
+        public UIntPtr FileItemsLen;
+
+        /// <summary>
+        /// File items capacity.
+        /// </summary>
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr FileItemsCap;
+
+        /// <summary>
+        /// Free the file info pointer.
+        /// </summary>
+        internal void Free()
+        {
+            BindingUtils.FreeList(FileItemsPtr, FileItemsLen);
+        }
+    }
+
+    /// <summary>
+    /// Represents the files map.
+    /// </summary>
+    [PublicAPI]
+    public struct FilesMap
+    {
+        /// <summary>
+        /// List of file info.
+        /// </summary>
+        public List<FileInfo> FileItems;
+
+        /// <summary>
+        /// Initialise the new FilesMap.
+        /// </summary>
+        /// <param name="native"></param>
+        internal FilesMap(FilesMapNative native)
+        {
+            FileItems = BindingUtils.CopyToObjectList<FileInfo>(native.FileItemsPtr, (int)native.FileItemsLen);
+        }
+
+        /// <summary>
+        /// Returns the native files map.
+        /// </summary>
+        /// <returns></returns>
+        internal FilesMapNative ToNative()
+        {
+            return new FilesMapNative
+            {
+                FileItemsPtr = BindingUtils.CopyFromObjectList(FileItems),
+                FileItemsLen = (UIntPtr)(FileItems?.Count ?? 0),
+                FileItemsCap = UIntPtr.Zero
+            };
+        }
+    }
+
+    /// <summary>
+    /// Represents the native files map.
+    /// </summary>
+    internal struct FilesMapNative
+    {
+        /// <summary>
+        /// Files items pointer.
+        /// </summary>
+        public IntPtr FileItemsPtr;
+
+        /// <summary>
+        /// Files item length.
+        /// </summary>
+        public UIntPtr FileItemsLen;
+
+        /// <summary>
+        /// File items capacity.
+        /// </summary>
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr FileItemsCap;
+
+        /// <summary>
+        /// Free file items pointer.
+        /// </summary>
+        internal void Free()
+        {
+            BindingUtils.FreeList(FileItemsPtr, FileItemsLen);
         }
     }
 }
