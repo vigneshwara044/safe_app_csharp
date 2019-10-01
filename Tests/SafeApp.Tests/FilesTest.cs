@@ -13,7 +13,7 @@ namespace SafeApp.Tests
         public async Task FilesContainerCreateTest()
         {
             var session = await TestUtils.CreateTestApp();
-            var (xorUrl, _, _) =  await session.Files.FilesContainerCreateAsync("../testData", null, false, false);
+            var (xorUrl, _, _) = await session.Files.FilesContainerCreateAsync("../testData", null, false, false);
             Assert.NotNull(xorUrl);
         }
 
@@ -23,7 +23,6 @@ namespace SafeApp.Tests
             var session = await TestUtils.CreateTestApp();
             var (xorUrl, _, _) = await session.Files.FilesContainerCreateAsync("../testData", null, false, false);
             await session.Files.FilesContainerGetAsync(xorUrl);
-            
         }
 
         [Test]

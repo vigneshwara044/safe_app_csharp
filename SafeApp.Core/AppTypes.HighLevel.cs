@@ -261,7 +261,7 @@ namespace SafeApp.Core
     public struct ProcessedFiles
     {
         /// <summary>
-        /// 
+        /// Files.
         /// </summary>
         public List<ProcessedFile> Files;
 

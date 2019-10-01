@@ -569,7 +569,6 @@ namespace SafeApp.AppBindings
                 userData,
                 Marshal.PtrToStructure<FfiResult>(result),
                 () => (xorurl, new ProcessedFiles(Marshal.PtrToStructure<ProcessedFilesNative>(processFiles)), new FilesMap(Marshal.PtrToStructure<FilesMapNative>(filesMap))));
-        
 
         private static readonly FfiResultStringProcessedFilesFilesMapCb DelegateOnFfiResultStringProcessedFilesFilesMapCb = OnFfiResultStringProcessedFilesFilesMapCb;
 
@@ -628,7 +627,6 @@ namespace SafeApp.AppBindings
                     version,
                     new ProcessedFiles(Marshal.PtrToStructure<ProcessedFilesNative>(processFiles)),
                     new FilesMap(Marshal.PtrToStructure<FilesMapNative>(filesMap))));
-        
 
         private static readonly FfiResultULongProcessedFilesFilesMapCb DelegateOnFfiResultULongProcessedFilesFilesMapCb = OnFfiResultULongProcessedFilesFilesMapCb;
 
@@ -686,7 +684,6 @@ namespace SafeApp.AppBindings
                 userData,
                 Marshal.PtrToStructure<FfiResult>(result),
                 () => BindingUtils.CopyToByteList(imDataPtr, (int)imDataLen));
-        
 
         private static readonly FfiResultByteListCb DelegateOnFfiResultByteListCb = OnFfiResultByteListCb;
 
