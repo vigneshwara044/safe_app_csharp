@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using SafeApp.Core;
@@ -533,5 +534,297 @@ namespace SafeApp.AppBindings
         private static readonly FfiResultWalletSpendableBalancesCb DelegateOnFfiResultWalletSpendableBalancesCb = OnFfiResultWalletSpendableBalancesCb;
 
         #endregion Wallet
+
+        #region Files
+
+        public Task<(string, ProcessedFiles, string)> FilesContainerCreateAsync(
+            IntPtr app,
+            string location,
+            string dest,
+            bool recursive,
+            bool dryRun)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(string, ProcessedFiles, string)>();
+            FilesContainerCreateNative(
+                app,
+                location,
+                dest,
+                recursive,
+                dryRun,
+                userData,
+                DelegateOnFfiResultStringProcessedFilesStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "files_container_create")]
+        private static extern void FilesContainerCreateNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string location,
+            [MarshalAs(UnmanagedType.LPStr)] string dest,
+            [MarshalAs(UnmanagedType.U1)] bool recursive,
+            [MarshalAs(UnmanagedType.U1)] bool dryRun,
+            IntPtr userData,
+            FfiResultStringProcessedFilesStringCb oCb);
+
+        private delegate void FfiResultStringProcessedFilesStringCb(
+            IntPtr userData,
+            IntPtr result,
+            string xorurl,
+            IntPtr processFiles,
+            string filesMap);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultStringProcessedFilesStringCb))]
+#endif
+        private static void OnFfiResultStringProcessedFilesStringCb(
+            IntPtr userData,
+            IntPtr result,
+            string xorurl,
+            IntPtr processFiles,
+            string filesMap)
+            => BindingUtils.CompleteTask(
+                userData,
+                Marshal.PtrToStructure<FfiResult>(result),
+                () => (
+                xorurl,
+                new ProcessedFiles(
+                    Marshal.PtrToStructure<ProcessedFilesNative>(processFiles)), filesMap));
+
+        private static readonly FfiResultStringProcessedFilesStringCb
+                                      DelegateOnFfiResultStringProcessedFilesStringCb =
+                                                    OnFfiResultStringProcessedFilesStringCb;
+
+        public Task<(ulong, string)> FilesContainerGetAsync(IntPtr app, string url)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(ulong, string)>();
+            FilesContainerGetNative(app, url, userData, DelegateOnFfiResultULongStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "files_container_get")]
+        private static extern void FilesContainerGetNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string url,
+            IntPtr userData,
+            FfiResultULongStringCb oCb);
+
+        private delegate void FfiResultULongStringCb(
+            IntPtr userData,
+            IntPtr result,
+            ulong version,
+            string filesMap);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultULongStringCb))]
+#endif
+        private static void OnFfiResultULongStringCb(
+            IntPtr userData,
+            IntPtr result,
+            ulong version,
+            string filesMap)
+            => BindingUtils.CompleteTask(
+                userData,
+                Marshal.PtrToStructure<FfiResult>(result),
+                () => (version, filesMap));
+
+        private static readonly FfiResultULongStringCb
+                                          DelegateOnFfiResultULongStringCb =
+                                                                 OnFfiResultULongStringCb;
+
+        public Task<(ulong, ProcessedFiles, string)> FilesContainerSyncAsync(
+            IntPtr app,
+            string location,
+            string url,
+            bool recursive,
+            bool delete,
+            bool updateNrs,
+            bool dryRun)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(ulong, ProcessedFiles, string)>();
+            FilesContainerSyncNative(
+                app,
+                location,
+                url,
+                recursive,
+                delete,
+                updateNrs,
+                dryRun,
+                userData,
+                DelegateOnFfiResultULongProcessedFilesStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "files_container_sync")]
+        private static extern void FilesContainerSyncNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string location,
+            [MarshalAs(UnmanagedType.LPStr)] string url,
+            [MarshalAs(UnmanagedType.U1)] bool recursive,
+            [MarshalAs(UnmanagedType.U1)] bool delete,
+            [MarshalAs(UnmanagedType.U1)] bool updateNrs,
+            [MarshalAs(UnmanagedType.U1)] bool dryRun,
+            IntPtr userData,
+            FfiResultULongProcessedFilesStringCb oCb);
+
+        private delegate void FfiResultULongProcessedFilesStringCb(
+            IntPtr userData,
+            IntPtr result,
+            ulong version,
+            IntPtr processFiles,
+            string filesMap);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultULongProcessedFilesStringCb))]
+#endif
+        private static void OnFfiResultULongProcessedFilesStringCb(
+            IntPtr userData,
+            IntPtr result,
+            ulong version,
+            IntPtr processFiles,
+            string filesMap)
+            => BindingUtils.CompleteTask(
+                userData,
+                Marshal.PtrToStructure<FfiResult>(result),
+                () => (
+                version,
+                new ProcessedFiles(
+                    Marshal.PtrToStructure<ProcessedFilesNative>(processFiles)), filesMap));
+
+        private static readonly FfiResultULongProcessedFilesStringCb
+                                     DelegateOnFfiResultULongProcessedFilesStringCb =
+                                                         OnFfiResultULongProcessedFilesStringCb;
+
+        public Task<(ulong, ProcessedFiles, string)> FilesContainerAddAsync(
+            IntPtr app,
+            string sourceFile,
+            string url,
+            bool force,
+            bool updateNrs,
+            bool dryRun)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(ulong, ProcessedFiles, string)>();
+            FilesContainerAddNative(
+                app,
+                sourceFile,
+                url,
+                force,
+                updateNrs,
+                dryRun,
+                userData,
+                DelegateOnFfiResultULongProcessedFilesStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "files_container_add")]
+        private static extern void FilesContainerAddNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string sourceFile,
+            [MarshalAs(UnmanagedType.LPStr)] string url,
+            [MarshalAs(UnmanagedType.U1)] bool force,
+            [MarshalAs(UnmanagedType.U1)] bool updateNrs,
+            [MarshalAs(UnmanagedType.U1)] bool dryRun,
+            IntPtr userData,
+            FfiResultULongProcessedFilesStringCb oCb);
+
+        public Task<(ulong, ProcessedFiles, string)> FilesContainerAddFromRawAsync(
+            IntPtr app,
+            byte[] data,
+            string url,
+            bool force,
+            bool updateNrs,
+            bool dryRun)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<(ulong, ProcessedFiles, string)>();
+            FilesContainerAddFromRawNative(
+                app,
+                data,
+                (UIntPtr)data.Length,
+                url,
+                force,
+                updateNrs,
+                dryRun,
+                userData,
+                DelegateOnFfiResultULongProcessedFilesStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "files_container_add_from_raw")]
+        private static extern void FilesContainerAddFromRawNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] data,
+            UIntPtr dataLen,
+            [MarshalAs(UnmanagedType.LPStr)] string url,
+            [MarshalAs(UnmanagedType.U1)] bool force,
+            [MarshalAs(UnmanagedType.U1)] bool updateNrs,
+            [MarshalAs(UnmanagedType.U1)] bool dryRun,
+            IntPtr userData,
+            FfiResultULongProcessedFilesStringCb oCb);
+
+        public Task<string> FilesPutPublishedImmutableAsync(
+            IntPtr app,
+            byte[] data,
+            string mediaType)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<string>();
+            FilesPutPublishedImmutableNative(
+                app,
+                data,
+                (UIntPtr)data.Length,
+                mediaType,
+                userData,
+                DelegateOnFfiResultStringCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "files_put_published_immutable")]
+        private static extern void FilesPutPublishedImmutableNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] byte[] data,
+            UIntPtr dataLen,
+            [MarshalAs(UnmanagedType.LPStr)] string mediaType,
+            IntPtr userData,
+            FfiResultStringCb oCb);
+
+        public Task<byte[]> FilesGetPublishedImmutableAsync(IntPtr app, string url)
+        {
+            var (ret, userData) = BindingUtils.PrepareTask<byte[]>();
+            FilesGetPublishedImmutableNative(
+                app,
+                url,
+                userData,
+                DelegateOnFfiResultByteListCb);
+            return ret;
+        }
+
+        [DllImport(DllName, EntryPoint = "files_get_published_immutable")]
+        private static extern void FilesGetPublishedImmutableNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string url,
+            IntPtr userData,
+            FfiResultByteListCb oCb);
+
+        private delegate void FfiResultByteListCb(
+            IntPtr userData,
+            IntPtr result,
+            IntPtr imDataPtr,
+            UIntPtr imDataLen);
+
+#if __IOS__
+        [MonoPInvokeCallback(typeof(FfiResultByteListCb))]
+#endif
+        private static void OnFfiResultByteListCb(
+            IntPtr userData,
+            IntPtr result,
+            IntPtr imDataPtr,
+            UIntPtr imDataLen)
+            => BindingUtils.CompleteTask(
+                userData,
+                Marshal.PtrToStructure<FfiResult>(result),
+                () => BindingUtils.CopyToByteArray(imDataPtr, (int)imDataLen));
+
+        private static readonly FfiResultByteListCb DelegateOnFfiResultByteListCb =
+                                                                   OnFfiResultByteListCb;
+
+        #endregion Files
     }
 }

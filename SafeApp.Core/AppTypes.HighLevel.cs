@@ -179,7 +179,9 @@ namespace SafeApp.Core
         /// <param name="native"></param>
         internal WalletSpendableBalances(WalletSpendableBalancesNative native)
         {
-            WalletBalances = BindingUtils.CopyToObjectList<SpendableWalletBalance>(native.WalletBalancesPtr, (int)native.WalletBalancesLen);
+            WalletBalances = BindingUtils.CopyToObjectList<SpendableWalletBalance>(
+                native.WalletBalancesPtr,
+                (int)native.WalletBalancesLen);
         }
 
         /// <summary>
@@ -224,6 +226,98 @@ namespace SafeApp.Core
         internal void Free()
         {
             BindingUtils.FreeList(WalletBalancesPtr, WalletBalancesLen);
+        }
+    }
+
+    /// <summary>
+    /// Represents the processed file.
+    /// </summary>
+    [PublicAPI]
+    public struct ProcessedFile
+    {
+        /// <summary>
+        /// File name.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string FileName;
+
+        /// <summary>
+        /// File meta data.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string FileMetaData;
+
+        /// <summary>
+        /// File XorUrl.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string FileXorurl;
+    }
+
+    /// <summary>
+    /// Processed files.
+    /// </summary>
+    [PublicAPI]
+    public struct ProcessedFiles
+    {
+        /// <summary>
+        /// Files.
+        /// </summary>
+        public List<ProcessedFile> Files;
+
+        /// <summary>
+        /// Initialises the processed file from native file info.
+        /// </summary>
+        /// <param name="native"></param>
+        internal ProcessedFiles(ProcessedFilesNative native)
+        {
+            Files = BindingUtils.CopyToObjectList<ProcessedFile>(
+                native.ProcessedFilesPtr,
+                (int)native.ProcessedFilesLen);
+        }
+
+        /// <summary>
+        /// Returns the native processed file.
+        /// </summary>
+        /// <returns></returns>
+        internal ProcessedFilesNative ToNative()
+        {
+            return new ProcessedFilesNative
+            {
+                ProcessedFilesPtr = BindingUtils.CopyFromObjectList(Files),
+                ProcessedFilesLen = (UIntPtr)(Files?.Count ?? 0),
+                ProcessedFilesCap = UIntPtr.Zero
+            };
+        }
+    }
+
+    /// <summary>
+    /// Represents the native processed file.
+    /// </summary>
+    internal struct ProcessedFilesNative
+    {
+        /// <summary>
+        /// Processed files pointer.
+        /// </summary>
+        public IntPtr ProcessedFilesPtr;
+
+        /// <summary>
+        /// Processed files length.
+        /// </summary>
+        public UIntPtr ProcessedFilesLen;
+
+        /// <summary>
+        /// Processed files capacity.
+        /// </summary>
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr ProcessedFilesCap;
+
+        /// <summary>
+        /// Free the processed file pointer.
+        /// </summary>
+        internal void Free()
+        {
+            BindingUtils.FreeList(ProcessedFilesPtr, ProcessedFilesLen);
         }
     }
 }

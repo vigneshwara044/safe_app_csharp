@@ -15,5 +15,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)TestUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XorUrlEncoderTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WalletTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FilesTest.cs" />
   </ItemGroup>
 </Project>
