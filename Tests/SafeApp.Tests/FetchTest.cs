@@ -8,7 +8,7 @@ namespace SafeApp.Tests
     public class FetchTest
     {
         [Test]
-        public async Task FetchFilesContainerTest()
+        public async Task FetchDataTypesTest()
         {
             var session = await TestUtils.CreateTestApp();
             var (keyUrl, _) = await session.Keys.KeysCreatePreloadTestCoinsAsync("10");
