@@ -1,5 +1,5 @@
 var TAG = "0.4.0";
-var LIB_DIR_NAME = "SafeApp.AppBindings/NativeLibs/";
+var LIB_DIR_NAME = "../SafeApp.AppBindings/NativeLibs/";
 var ANDROID_DIR_NAME = $"{LIB_DIR_NAME}Android";
 var IOS_DIR_NAME = $"{LIB_DIR_NAME}iOS";
 var DESKTOP_DIR_NAME = $"{LIB_DIR_NAME}Desktop";

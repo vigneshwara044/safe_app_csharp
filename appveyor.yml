@@ -24,7 +24,8 @@ image: Visual Studio 2017
 #  - npm install gh-pages -g
 
 build_script:
-  - ps: .\build\build.ps1 --target="Run-AppVeyor-Build" --settings_skipverification=true
+  - ps: cd build
+  - ps: .\build.ps1 --target="Run-AppVeyor-Build" --settings_skipverification=true
 
 deploy_script:
   - ps: if(-not $env:is_not_pr) { return }
