@@ -151,7 +151,7 @@ namespace SafeApp.Core
 
         internal void Free()
         {
-            BindingUtils.FreeList(DataPtr, DataLen);
+            BindingUtils.FreeList(ref DataPtr, ref DataLen);
         }
     }
 
@@ -274,7 +274,7 @@ namespace SafeApp.Core
         /// </summary>
         internal void Free()
         {
-            BindingUtils.FreeList(WalletBalancesPtr, WalletBalancesLen);
+            BindingUtils.FreeList(ref WalletBalancesPtr, ref WalletBalancesLen);
         }
     }
 
@@ -366,7 +366,7 @@ namespace SafeApp.Core
         /// </summary>
         internal void Free()
         {
-            BindingUtils.FreeList(ProcessedFilesPtr, ProcessedFilesLen);
+            BindingUtils.FreeList(ref ProcessedFilesPtr, ref ProcessedFilesLen);
         }
     }
 

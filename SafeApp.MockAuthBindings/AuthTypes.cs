@@ -79,7 +79,7 @@ namespace SafeApp.MockAuthBindings
         // ReSharper disable once UnusedMember.Global
         internal void Free()
         {
-            BindingUtils.FreeList(ContainersPtr, ContainersLen);
+            BindingUtils.FreeList(ref ContainersPtr, ref ContainersLen);
         }
     }
 }

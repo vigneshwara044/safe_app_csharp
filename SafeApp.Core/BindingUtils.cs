@@ -153,7 +153,7 @@ namespace SafeApp.Core
         }
 
         // ReSharper disable once RedundantAssignment
-        public static void FreeList(IntPtr ptr, UIntPtr len)
+        public static void FreeList(ref IntPtr ptr, ref UIntPtr len)
         {
             if (ptr != IntPtr.Zero)
             {
