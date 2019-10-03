@@ -38,25 +38,25 @@ namespace SafeApp.API
         /// <summary>
         /// Create a NrsMapContainer.
         /// </summary>
-        public Task<(NrsMap, string)> CreateNrsMapContainerAsync(string name, string link, bool directLink, bool dryRun, bool setDefault)
+        public Task<(string, ProcessedEntries, string)> CreateNrsMapContainerAsync(string name, string link, bool directLink, bool dryRun, bool setDefault)
             => AppBindings.CreateNrsMapContainerAsync(_appPtr, name, link, directLink, dryRun, setDefault);
 
         /// <summary>
         /// Add to a NrsMapContainer.
         /// </summary>
-        public Task<(NrsMap, string, ulong)> AddToNrsMapContainerAsync(string name, string link, bool setDefault, bool directLink, bool dryRun)
+        public Task<(string, string, ulong)> AddToNrsMapContainerAsync(string name, string link, bool setDefault, bool directLink, bool dryRun)
             => AppBindings.AddToNrsMapContainerAsync(_appPtr, name, link, setDefault, directLink, dryRun);
 
         /// <summary>
         /// Remove from an NrsMapContainer.
         /// </summary>
-        public Task<(NrsMap, string, ulong)> RemoveFromNrsMapContainerAsync(string name, bool dryRun)
+        public Task<(string, string, ulong)> RemoveFromNrsMapContainerAsync(string name, bool dryRun)
             => AppBindings.RemoveFromNrsMapContainerAsync(_appPtr, name, dryRun);
 
         /// <summary>
         /// Get an NrsMapContainer.
         /// </summary>
-        public Task<(NrsMap, ulong)> GetNrsMapContainerAsync(string url)
+        public Task<(string, ulong)> GetNrsMapContainerAsync(string url)
             => AppBindings.GetNrsMapContainerAsync(_appPtr, url);
     }
 }

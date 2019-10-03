@@ -153,7 +153,7 @@ namespace SafeApp.AppBindings
 
         Task<(XorUrlEncoder, bool)> ParseAndResolveUrlAsync(IntPtr app, string url);
 
-        Task<(NrsMap, string)> CreateNrsMapContainerAsync(
+        Task<(string, ProcessedEntries, string)> CreateNrsMapContainerAsync(
             IntPtr app,
             string name,
             string link,
@@ -161,7 +161,7 @@ namespace SafeApp.AppBindings
             bool dryRun,
             bool setDefault);
 
-        Task<(NrsMap, string, ulong)> AddToNrsMapContainerAsync(
+        Task<(string, string, ulong)> AddToNrsMapContainerAsync(
             IntPtr app,
             string name,
             string link,
@@ -169,12 +169,12 @@ namespace SafeApp.AppBindings
             bool directLink,
             bool dryRun);
 
-        Task<(NrsMap, string, ulong)> RemoveFromNrsMapContainerAsync(
+        Task<(string, string, ulong)> RemoveFromNrsMapContainerAsync(
             IntPtr app,
             string name,
             bool dryRun);
 
-        Task<(NrsMap, ulong)> GetNrsMapContainerAsync(
+        Task<(string, ulong)> GetNrsMapContainerAsync(
             IntPtr app,
             string url);
 

@@ -446,4 +446,50 @@ namespace SafeApp.Core
         public string NrsMap;
         public ulong DataType;
     }
+
+    [PublicAPI]
+    public struct ProcessedEntry
+    {
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string Name;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string Action;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string Link;
+    }
+
+    [PublicAPI]
+    public struct ProcessedEntries
+    {
+        public List<ProcessedEntry> Entries;
+
+        internal ProcessedEntries(ProcessedEntriesNative native)
+        {
+            Entries = BindingUtils.CopyToObjectList<ProcessedEntry>(native.ProcessedEntriesPtr, (int)native.ProcessedEntriesLen);
+        }
+
+        internal ProcessedEntriesNative ToNative()
+        {
+            return new ProcessedEntriesNative
+            {
+                ProcessedEntriesPtr = BindingUtils.CopyFromObjectList(Entries),
+                ProcessedEntriesLen = (UIntPtr)(Entries?.Count ?? 0),
+                ProcessedEntriesCap = UIntPtr.Zero
+            };
+        }
+    }
+
+    internal struct ProcessedEntriesNative
+    {
+        public IntPtr ProcessedEntriesPtr;
+        public UIntPtr ProcessedEntriesLen;
+
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr ProcessedEntriesCap;
+
+        internal void Free()
+        {
+            BindingUtils.FreeList(ProcessedEntriesPtr, ProcessedEntriesLen);
+        }
+    }
 }

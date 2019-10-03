@@ -874,9 +874,10 @@ namespace SafeApp.AppBindings
                 Marshal.PtrToStructure<FfiResult>(result),
                 () => (Marshal.PtrToStructure<XorUrlEncoder>(xorUrlEncoder), resolvesAsNrs));
 
-        private static readonly FfiResultXorUrlEncoderBoolCb DelegateOnFfiResultXorUrlEncoderBoolCb = OnFfiResultXorUrlEncoderBoolCb;
+        private static readonly FfiResultXorUrlEncoderBoolCb DelegateOnFfiResultXorUrlEncoderBoolCb =
+            OnFfiResultXorUrlEncoderBoolCb;
 
-        public Task<(NrsMap, string)> CreateNrsMapContainerAsync(
+        public Task<(string, ProcessedEntries, string)> CreateNrsMapContainerAsync(
             IntPtr app,
             string name,
             string link,
@@ -884,7 +885,7 @@ namespace SafeApp.AppBindings
             bool dryRun,
             bool setDefault)
         {
-            var (ret, userData) = BindingUtils.PrepareTask<(NrsMap, string)>();
+            var (ret, userData) = BindingUtils.PrepareTask<(string, ProcessedEntries, string)>();
             CreateNrsMapContainerNative(
                 app,
                 name,
@@ -893,7 +894,7 @@ namespace SafeApp.AppBindings
                 dryRun,
                 setDefault,
                 userData,
-                DelegateOnFfiResultNrsMapXorUrlCb);
+                DelegateOnFfiResultStringProcessedEntriesStringCb);
             return ret;
         }
 
@@ -902,34 +903,41 @@ namespace SafeApp.AppBindings
             IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string name,
             [MarshalAs(UnmanagedType.LPStr)] string link,
-            bool directLink,
-            bool dryRun,
-            bool setDefault,
+            [MarshalAs(UnmanagedType.U1)] bool directLink,
+            [MarshalAs(UnmanagedType.U1)] bool dryRun,
+            [MarshalAs(UnmanagedType.U1)] bool setDefault,
             IntPtr userData,
-            FfiResultNrsMapXorUrlCb oCb);
+            FfiResultStringProcessedEntriesStringCb oCb);
 
-        private delegate void FfiResultNrsMapXorUrlCb(
+        private delegate void FfiResultStringProcessedEntriesStringCb(
             IntPtr userData,
             IntPtr result,
-            IntPtr nrsMap,
-            string xorUrl);
+            string nrsMap,
+            IntPtr processedEntries,
+            string xorurl);
 
 #if __IOS__
-        [MonoPInvokeCallback(typeof(FfiResultNrsMapXorUrlCb))]
+        [MonoPInvokeCallback(typeof(FfiResultStringProcessedEntriesStringCb))]
 #endif
-        private static void OnFfiResultNrsMapXorUrlCb(
+        private static void OnFfiResultStringProcessedEntriesStringCb(
             IntPtr userData,
             IntPtr result,
-            IntPtr nrsMap,
-            string xorUrl)
-            => BindingUtils.CompleteTask(
+            string nrsMap,
+            IntPtr processedEntries,
+            string xorurl)
+        {
+            BindingUtils.CompleteTask(
                 userData,
                 Marshal.PtrToStructure<FfiResult>(result),
-                () => (new NrsMap(Marshal.PtrToStructure<NrsMapNative>(nrsMap)), xorUrl));
+                () => (
+                nrsMap,
+                new ProcessedEntries(Marshal.PtrToStructure<ProcessedEntriesNative>(processedEntries)), xorurl));
+        }
 
-        private static readonly FfiResultNrsMapXorUrlCb DelegateOnFfiResultNrsMapXorUrlCb = OnFfiResultNrsMapXorUrlCb;
+        private static readonly FfiResultStringProcessedEntriesStringCb DelegateOnFfiResultStringProcessedEntriesStringCb =
+            OnFfiResultStringProcessedEntriesStringCb;
 
-        public Task<(NrsMap, string, ulong)> AddToNrsMapContainerAsync(
+        public Task<(string, string, ulong)> AddToNrsMapContainerAsync(
             IntPtr app,
             string name,
             string link,
@@ -937,7 +945,7 @@ namespace SafeApp.AppBindings
             bool directLink,
             bool dryRun)
         {
-            var (ret, userData) = BindingUtils.PrepareTask<(NrsMap, string, ulong)>();
+            var (ret, userData) = BindingUtils.PrepareTask<(string, string, ulong)>();
             AddToNrsMapContainerNative(
                 app,
                 name,
@@ -946,7 +954,7 @@ namespace SafeApp.AppBindings
                 directLink,
                 dryRun,
                 userData,
-                DelegateOnFfiResultNrsMapXorUrlULongCb);
+                DelegateOnFfiResultStringStringULongCb);
             return ret;
         }
 
@@ -955,47 +963,50 @@ namespace SafeApp.AppBindings
             IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string name,
             [MarshalAs(UnmanagedType.LPStr)] string link,
-            bool setDefault,
-            bool directLink,
-            bool dryRun,
+            [MarshalAs(UnmanagedType.U1)] bool setDefault,
+            [MarshalAs(UnmanagedType.U1)] bool directLink,
+            [MarshalAs(UnmanagedType.U1)] bool dryRun,
             IntPtr userData,
-            FfiResultNrsMapXorUrlULongCb oCb);
+            FfiResultStringStringULongCb oCb);
 
-        private delegate void FfiResultNrsMapXorUrlULongCb(
+        private delegate void FfiResultStringStringULongCb(
             IntPtr userData,
             IntPtr result,
-            IntPtr nrsMap,
-            string xorUrl,
+            string nrsMap,
+            string xorurl,
             ulong version);
 
 #if __IOS__
-        [MonoPInvokeCallback(typeof(FfiResultNrsMapXorUrlULongCb))]
+        [MonoPInvokeCallback(typeof(FfiResultStringStringULongCb))]
 #endif
-        private static void OnFfiResultNrsMapXorUrlULongCb(
+        private static void OnFfiResultStringStringULongCb(
             IntPtr userData,
             IntPtr result,
-            IntPtr nrsMap,
-            string xorUrl,
+            string nrsMap,
+            string xorurl,
             ulong version)
-            => BindingUtils.CompleteTask(
+        {
+            BindingUtils.CompleteTask(
                 userData,
                 Marshal.PtrToStructure<FfiResult>(result),
-                () => (new NrsMap(Marshal.PtrToStructure<NrsMapNative>(nrsMap)), xorUrl, version));
+                () => (nrsMap, xorurl, version));
+        }
 
-        private static readonly FfiResultNrsMapXorUrlULongCb DelegateOnFfiResultNrsMapXorUrlULongCb = OnFfiResultNrsMapXorUrlULongCb;
+        private static readonly FfiResultStringStringULongCb DelegateOnFfiResultStringStringULongCb =
+            OnFfiResultStringStringULongCb;
 
-        public Task<(NrsMap, string, ulong)> RemoveFromNrsMapContainerAsync(
+        public Task<(string, string, ulong)> RemoveFromNrsMapContainerAsync(
             IntPtr app,
             string name,
             bool dryRun)
         {
-            var (ret, userData) = BindingUtils.PrepareTask<(NrsMap, string, ulong)>();
+            var (ret, userData) = BindingUtils.PrepareTask<(string, string, ulong)>();
             RemoveFromNrsMapContainerNative(
                 app,
                 name,
                 dryRun,
                 userData,
-                DelegateOnFfiResultNrsMapXorUrlULongCb);
+                DelegateOnFfiResultStringStringULongCb);
             return ret;
         }
 
@@ -1003,20 +1014,20 @@ namespace SafeApp.AppBindings
         private static extern void RemoveFromNrsMapContainerNative(
             IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string name,
-            bool dryRun,
+            [MarshalAs(UnmanagedType.U1)] bool dryRun,
             IntPtr userData,
-            FfiResultNrsMapXorUrlULongCb oCb);
+            FfiResultStringStringULongCb oCb);
 
-        public Task<(NrsMap, ulong)> GetNrsMapContainerAsync(
+        public Task<(string, ulong)> GetNrsMapContainerAsync(
             IntPtr app,
             string url)
         {
-            var (ret, userData) = BindingUtils.PrepareTask<(NrsMap, ulong)>();
+            var (ret, userData) = BindingUtils.PrepareTask<(string, ulong)>();
             GetNrsMapContainerNative(
                 app,
                 url,
                 userData,
-                DelegateOnFfiResultNrsMapULongCb);
+                DelegateOnFfiResultStringULongCb);
             return ret;
         }
 
@@ -1025,28 +1036,19 @@ namespace SafeApp.AppBindings
             IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string url,
             IntPtr userData,
-            FfiResultNrsMapULongCb oCb);
+            FfiResultStringULongCb oCb);
 
-        private delegate void FfiResultNrsMapULongCb(
-            IntPtr userData,
-            IntPtr result,
-            IntPtr nrsMap,
-            ulong version);
+        private delegate void FfiResultStringULongCb(IntPtr userData, IntPtr result, string nrsMap, ulong version);
 
 #if __IOS__
-        [MonoPInvokeCallback(typeof(FfiResultNrsMapULongCb))]
+        [MonoPInvokeCallback(typeof(FfiResultStringULongCb))]
 #endif
-        private static void OnFfiResultNrsMapULongCb(
-            IntPtr userData,
-            IntPtr result,
-            IntPtr nrsMap,
-            ulong version)
-            => BindingUtils.CompleteTask(
-                userData,
-                Marshal.PtrToStructure<FfiResult>(result),
-                () => (new NrsMap(Marshal.PtrToStructure<NrsMapNative>(nrsMap)), version));
+        private static void OnFfiResultStringULongCb(IntPtr userData, IntPtr result, string nrsMap, ulong version)
+        {
+            BindingUtils.CompleteTask(userData, Marshal.PtrToStructure<FfiResult>(result), () => (nrsMap, version));
+        }
 
-        private static readonly FfiResultNrsMapULongCb DelegateOnFfiResultNrsMapULongCb = OnFfiResultNrsMapULongCb;
+        private static readonly FfiResultStringULongCb DelegateOnFfiResultStringULongCb = OnFfiResultStringULongCb;
 
         #endregion NRS
     }
