@@ -197,7 +197,7 @@ namespace SafeApp.AppBindings
         private static void OnFfiResultWalletCb(IntPtr userData, IntPtr wallet)
         {
             var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<ISafeData>>(userData);
-            tcs.SetResult(Marshal.PtrToStructure<Wallet>(wallet));
+            tcs.SetResult(new Wallet(Marshal.PtrToStructure<WalletNative>(wallet)));
         }
 
         private static readonly FfiResultWalletCb DelegateOnFfiResultWalletCb = OnFfiResultWalletCb;
