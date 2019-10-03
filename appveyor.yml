@@ -11,20 +11,20 @@ branches:
     - vNext
 
 cache:
-  - '%temp%\nativelibs -> .\Build\NativeScriptDownloader.cake'
+  - '%temp%\nativelibs -> .\build\NativeScriptDownloader.cake'
   - '%USERPROFILE%\.nuget\packages'
-  - tools -> ./Build/build.cake, ./Build\build.ps1, ./Build/build.sh
-  - C:\ProgramData\chocolatey\bin -> appveyor.yml
-  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+  - .\build\tools -> .\build\build.cake, .\build\build.ps1, .\build\build.sh
+ # - C:\ProgramData\chocolatey\bin -> appveyor.yml
+ # - C:\ProgramData\chocolatey\lib -> appveyor.yml
 
 image: Visual Studio 2017
 
-install:
-  - IF NOT EXIST C:\ProgramData\chocolatey\bin\docfx.exe choco install docfx
-  - npm install gh-pages -g
+#install:
+#  - IF NOT EXIST C:\ProgramData\chocolatey\bin\docfx.exe choco install docfx
+#  - npm install gh-pages -g
 
 build_script:
-  - ps: ../Build/build.ps1 --target="Run-AppVeyor-Build" --settings_skipverification=true
+  - ps: .\build\build.ps1 --target="Run-AppVeyor-Build" --settings_skipverification=true
 
 deploy_script:
   - ps: if(-not $env:is_not_pr) { return }
