@@ -1,9 +1,9 @@
-#load "CakeHelperScripts/NativeScriptDownloader.cake"
-#load "CakeHelperScripts/InspectCode.cake"
-#load "CakeHelperScripts/DesktopTest.cake"
-#load "CakeHelperScripts/AndroidTest.cake"
-#load "CakeHelperScripts/iOSTest.cake"
-#load "CakeHelperScripts/Utility.cake"
+#load "NativeScriptDownloader.cake"
+#load "InspectCode.cake"
+#load "DesktopTest.cake"
+#load "AndroidTest.cake"
+#load "iOSTest.cake"
+#load "Utility.cake"
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
@@ -12,7 +12,7 @@ var configuration = Argument("configuration", "Release");
 // FILES & DIRECTORIES
 // --------------------------------------------------------------------------------
 
-var solutionFile = File("SafeApp.sln");
+var solutionFile = File("../SafeApp.sln");
 
 // --------------------------------------------------------------------------------
 // PREPARATION

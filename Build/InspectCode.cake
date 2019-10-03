@@ -3,7 +3,7 @@
 #addin nuget:?package=Cake.Issues.InspectCode&version=0.6.0
 
 var logPath = @"resharper-clt-output.xml";
-var buildDirectory = Directory(".");
+var buildDirectory = Directory("../");
 
 Task("Analyze-Project")
   .WithCriteria(IsRunningOnWindows())
