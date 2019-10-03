@@ -4,8 +4,9 @@
 #addin nuget:?package=Cake.Android.AvdManager&version=1.0.3
 #addin nuget:?package=Cake.FileHelpers
 
-var ANDROID_TEST_PROJ = "../Tests/SafeApp.Tests.Android/SafeApp.Tests.Android.csproj";
-var ANDROID_TESTS_RESULT_PATH = "../Tests/SafeApp.Tests.Android/AndroidTestResult.xml";
+var ANDROID_TEST_PROJ_DIR = "../Tests/SafeApp.Tests.Android/";
+var ANDROID_TEST_PROJ = $"{ANDROID_TEST_PROJ_DIR}SafeApp.Tests.Android.csproj";
+var ANDROID_TESTS_RESULT_PATH = $"{ANDROID_TEST_PROJ_DIR}AndroidTestResult.xml";
 var ANDROID_AVD = "SafeAppEmulator";
 var ANDROID_PKG_NAME = "SafeApp.Tests.Android";
 var ANDROID_EMU_TARGET = EnvironmentVariable("ANDROID_EMU_TARGET") ?? "system-images;android-28;google_apis;x86_64";
