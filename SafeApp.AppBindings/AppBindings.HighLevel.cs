@@ -72,7 +72,7 @@ namespace SafeApp.AppBindings
 
         [DllImport(DllName, EntryPoint = "xorurl_encode")]
         private static extern void XorurlEncodeNative(
-            byte[] name,
+            [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.XorNameLen)] byte[] name,
             ulong typeTag,
             ulong dataType,
             ushort contentType,
@@ -108,7 +108,7 @@ namespace SafeApp.AppBindings
 
         [DllImport(DllName, EntryPoint = "xorurl_encoder")]
         private static extern void XorurlEncoderNative(
-            byte[] name,
+            [MarshalAs(UnmanagedType.LPArray, SizeConst = (int)AppConstants.XorNameLen)] byte[] name,
             ulong typeTag,
             ulong dataType,
             ushort contentType,
