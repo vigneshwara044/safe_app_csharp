@@ -6,22 +6,6 @@ namespace SafeApp.Core
 #pragma warning disable SA1401 // Fields should be private
 
     /// <summary>
-    /// Public and secret BLS key.
-    /// </summary>
-    public struct BlsKeyPair
-    {
-        /// <summary>
-        /// Public key.
-        /// </summary>
-        public string PK { get; set; }
-
-        /// <summary>
-        /// Secret key.
-        /// </summary>
-        public string SK { get; set; }
-    }
-
-    /// <summary>
     /// Base IPC response message.
     /// </summary>
     [PublicAPI]

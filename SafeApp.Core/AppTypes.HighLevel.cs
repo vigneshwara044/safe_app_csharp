@@ -5,6 +5,24 @@ using JetBrains.Annotations;
 
 namespace SafeApp.Core
 {
+    /// <summary>
+    /// Public and secret BLS key.
+    /// </summary>
+    public struct BlsKeyPair
+    {
+        /// <summary>
+        /// Public key.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string PK;
+
+        /// <summary>
+        /// Secret key.
+        /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string SK;
+    }
+
     [PublicAPI]
     public struct XorUrlEncoder
     {
@@ -30,21 +48,53 @@ namespace SafeApp.Core
     {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] Xorname;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string ResolvedFrom;
+        public NrsMapContainerInfo ResolvedFrom;
     }
 
     [PublicAPI]
     public struct Wallet : ISafeData
     {
+        public byte[] Xorname;
+        public ulong TypeTag;
+        public WalletSpendableBalances Balances;
+        public ulong DataType;
+        public NrsMapContainerInfo ResolvedFrom;
+
+        internal Wallet(WalletNative native)
+        {
+            Xorname = native.Xorname;
+            TypeTag = native.TypeTag;
+            Balances = new WalletSpendableBalances(native.Balances);
+            DataType = native.DataType;
+            ResolvedFrom = native.ResolvedFrom;
+        }
+
+        internal WalletNative ToNative()
+        {
+            return new WalletNative
+            {
+                Xorname = Xorname,
+                TypeTag = TypeTag,
+                Balances = Balances.ToNative(),
+                DataType = DataType,
+                ResolvedFrom = ResolvedFrom
+            };
+        }
+    }
+
+    internal struct WalletNative
+    {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] Xorname;
         public ulong TypeTag;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string Balances;
+        public WalletSpendableBalancesNative Balances;
         public ulong DataType;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string ResolvedFrom;
+        public NrsMapContainerInfo ResolvedFrom;
+
+        internal void Free()
+        {
+            Balances.Free();
+        }
     }
 
     [PublicAPI]
@@ -57,17 +107,15 @@ namespace SafeApp.Core
         [MarshalAs(UnmanagedType.LPStr)]
         public string FilesMap;
         public ulong DataType;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string ResolvedFrom;
+        public NrsMapContainerInfo ResolvedFrom;
     }
 
     [PublicAPI]
     public struct PublishedImmutableData : ISafeData
     {
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] Xorname;
         public byte[] Data;
-        public string ResolvedFrom;
+        public NrsMapContainerInfo ResolvedFrom;
         public string MediaType;
 
         internal PublishedImmutableData(PublishedImmutableDataNative native)
@@ -93,11 +141,11 @@ namespace SafeApp.Core
 
     internal struct PublishedImmutableDataNative
     {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] Xorname;
         public IntPtr DataPtr;
         public UIntPtr DataLen;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string ResolvedFrom;
+        public NrsMapContainerInfo ResolvedFrom;
         [MarshalAs(UnmanagedType.LPStr)]
         public string MediaType;
 
@@ -135,6 +183,7 @@ namespace SafeApp.Core
         /// <summary>
         /// Secret Key
         /// </summary>
+        [MarshalAs(UnmanagedType.LPStr)]
         public string Sk;
     }
 
@@ -142,7 +191,7 @@ namespace SafeApp.Core
     /// Spendable Wallet balance.
     /// </summary>
     [PublicAPI]
-    public struct SpendableWalletBalance
+    public struct WalletSpendableBalanceInfo
     {
         /// <summary>
         /// Wallet name.
@@ -171,7 +220,7 @@ namespace SafeApp.Core
         /// <summary>
         /// List of spendable wallet balances.
         /// </summary>
-        public List<SpendableWalletBalance> WalletBalances;
+        public List<WalletSpendableBalanceInfo> WalletBalances;
 
         /// <summary>
         /// Initialise a new wallet spendable balances object from native wallet spendable balances.
@@ -179,7 +228,7 @@ namespace SafeApp.Core
         /// <param name="native"></param>
         internal WalletSpendableBalances(WalletSpendableBalancesNative native)
         {
-            WalletBalances = BindingUtils.CopyToObjectList<SpendableWalletBalance>(
+            WalletBalances = BindingUtils.CopyToObjectList<WalletSpendableBalanceInfo>(
                 native.WalletBalancesPtr,
                 (int)native.WalletBalancesLen);
         }
@@ -319,5 +368,21 @@ namespace SafeApp.Core
         {
             BindingUtils.FreeList(ProcessedFilesPtr, ProcessedFilesLen);
         }
+    }
+
+    [PublicAPI]
+    public struct NrsMapContainerInfo
+    {
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string PublicName;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string Xorurl;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
+        public byte[] Xorname;
+        public ulong TypeTag;
+        public ulong Version;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string NrsMap;
+        public ulong DataType;
     }
 }
