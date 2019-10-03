@@ -11,9 +11,9 @@ branches:
     - vNext
 
 cache:
-  - '%temp%\nativelibs -> .\CakeHelperScripts\NativeScriptDownloader.cake'
+  - '%temp%\nativelibs -> .\Build\NativeScriptDownloader.cake'
   - '%USERPROFILE%\.nuget\packages'
-  - tools -> build.cake, build.ps1, build.sh
+  - tools -> ./Build/build.cake, ./Build\build.ps1, ./Build/build.sh
   - C:\ProgramData\chocolatey\bin -> appveyor.yml
   - C:\ProgramData\chocolatey\lib -> appveyor.yml
 
@@ -24,7 +24,7 @@ install:
   - npm install gh-pages -g
 
 build_script:
-  - ps: ./build.ps1 --target="Run-AppVeyor-Build" --settings_skipverification=true
+  - ps: ../Build/build.ps1 --target="Run-AppVeyor-Build" --settings_skipverification=true
 
 deploy_script:
   - ps: if(-not $env:is_not_pr) { return }
