@@ -21,11 +21,11 @@ namespace SafeApp.AppBindings
 
         Task AppSetAdditionalSearchPathAsync(string newPath);
 
-        Task<(uint, string)> EncodeAuthReqAsync(AuthReq req);
+        Task<(uint, string)> EncodeAuthReqAsync(ref AuthReq req);
 
-        Task<(uint, string)> EncodeContainersReqAsync(ContainersReq req);
+        Task<(uint, string)> EncodeContainersReqAsync(ref ContainersReq req);
 
-        Task<(uint, string)> EncodeShareMDataReqAsync(ShareMDataReq req);
+        Task<(uint, string)> EncodeShareMDataReqAsync(ref ShareMDataReq req);
 
         Task<(uint, string)> EncodeUnregisteredReqAsync(byte[] extraData);
 
