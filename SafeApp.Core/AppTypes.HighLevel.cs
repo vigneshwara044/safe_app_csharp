@@ -26,61 +26,21 @@ namespace SafeApp.Core
     [PublicAPI]
     public struct NrsMap
     {
-        public SubNamesMap SubNamesMap;
-        public string Default;
-
-        internal NrsMap(NrsMapNative nrsMapNative)
-        {
-            SubNamesMap = new SubNamesMap(nrsMapNative.SubNamesMap);
-            Default = nrsMapNative.Default;
-        }
-
-        internal NrsMapNative ToNative()
-            => new NrsMapNative
-            {
-                SubNamesMap = SubNamesMap.ToNative(),
-                Default = Default
-            };
-    }
-
-    internal struct NrsMapNative
-    {
-        public SubNamesMapNative SubNamesMap;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string Default;
+        public Dictionary<string, SubNamesMapEntry> SubNamesMap;
+        public Dictionary<string, Rdf> Default;
     }
 
     [PublicAPI]
-    public struct SubNamesMap
+    public struct Rdf
     {
-        public List<SubNamesMapEntry> SubNames;
-
-        internal SubNamesMap(SubNamesMapNative native)
-            => SubNames = BindingUtils.CopyToObjectList<SubNamesMapEntry>(native.SubNamesPtr, (int)native.SubNameLen);
-
-        internal SubNamesMapNative ToNative()
-            => new SubNamesMapNative
-            {
-                SubNamesPtr = BindingUtils.CopyFromObjectList(SubNames),
-                SubNameLen = (UIntPtr)(SubNames?.Count ?? 0),
-                SubNameCap = UIntPtr.Zero
-            };
-    }
-
-    internal struct SubNamesMapNative
-    {
-        public IntPtr SubNamesPtr;
-        public UIntPtr SubNameLen;
-
-        // ReSharper disable once NotAccessedField.Compiler
-        public UIntPtr SubNameCap;
+        public DateTime Created;
+        public string Link;
+        public DateTime Modified;
     }
 
     public struct SubNamesMapEntry
     {
-        [MarshalAs(UnmanagedType.LPStr)]
         public string SubName;
-        [MarshalAs(UnmanagedType.LPStr)]
         public string SubNameRdf;
     }
 

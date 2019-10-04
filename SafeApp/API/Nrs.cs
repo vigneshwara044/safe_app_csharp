@@ -32,7 +32,7 @@ namespace SafeApp.API
         /// It also returns a flag indicating if the URL has to be resolved as NRS-URL
         /// </summary>
         /// <returns>XorUrlEncoder and boolean indicating if the URL has to be resolved as NRS-URL.</returns>
-        public Task<(XorUrlEncoder, bool)> ParseAndResolveUrlAsync(string url)
+        public Task<(XorUrlEncoder, XorUrlEncoder)> ParseAndResolveUrlAsync(string url)
             => AppBindings.ParseAndResolveUrlAsync(_appPtr, url);
 
         /// <summary>

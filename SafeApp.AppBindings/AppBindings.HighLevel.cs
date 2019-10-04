@@ -841,9 +841,9 @@ namespace SafeApp.AppBindings
             IntPtr userData,
             FfiResultXorUrlEncoderCb oCb);
 
-        public Task<(XorUrlEncoder, bool)> ParseAndResolveUrlAsync(IntPtr app, string url)
+        public Task<(XorUrlEncoder, XorUrlEncoder)> ParseAndResolveUrlAsync(IntPtr app, string url)
         {
-            var (ret, userData) = BindingUtils.PrepareTask<(XorUrlEncoder, bool)>();
+            var (ret, userData) = BindingUtils.PrepareTask<(XorUrlEncoder, XorUrlEncoder)>();
             ParseAndResolveUrlNative(app, url, userData, DelegateOnFfiResultXorUrlEncoderBoolCb);
             return ret;
         }
@@ -859,20 +859,24 @@ namespace SafeApp.AppBindings
             IntPtr userData,
             IntPtr result,
             IntPtr xorUrlEncoder,
-            bool resolvesAsNrs);
+            IntPtr resolvedFrom);
 
 #if __IOS__
         [MonoPInvokeCallback(typeof(FfiResultXorUrlEncoderBoolCb))]
 #endif
-        private static void OnFfiResultXorUrlEncoderBoolCb(
-            IntPtr userData,
-            IntPtr result,
-            IntPtr xorUrlEncoder,
-            bool resolvesAsNrs)
-            => BindingUtils.CompleteTask(
+        private static void OnFfiResultXorUrlEncoderBoolCb(IntPtr userData, IntPtr result, IntPtr xorUrlEncoder, IntPtr resolvedFrom)
+        {
+            var resolved = resolvedFrom == IntPtr.Zero ?
+                default :
+                Marshal.PtrToStructure<XorUrlEncoder>(resolvedFrom);
+
+            BindingUtils.CompleteTask(
                 userData,
                 Marshal.PtrToStructure<FfiResult>(result),
-                () => (Marshal.PtrToStructure<XorUrlEncoder>(xorUrlEncoder), resolvesAsNrs));
+                () => (
+                    Marshal.PtrToStructure<XorUrlEncoder>(xorUrlEncoder),
+                    resolved));
+        }
 
         private static readonly FfiResultXorUrlEncoderBoolCb DelegateOnFfiResultXorUrlEncoderBoolCb =
             OnFfiResultXorUrlEncoderBoolCb;
