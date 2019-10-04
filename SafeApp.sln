@@ -37,6 +37,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Tests\SafeApp.Tests\SafeApp.Tests.projitems*{8edf4429-251a-416d-bb68-93f227191bcf}*SharedItemsImports = 4
 		Tests\SafeApp.Tests\SafeApp.Tests.projitems*{ad7b78b0-ae51-4fb7-9b11-4e22a2b538ca}*SharedItemsImports = 4
+		Tests\SafeApp.Tests\SafeApp.Tests.projitems*{c578036a-4959-4f32-a516-dc7ea3160e90}*SharedItemsImports = 13
 		Tests\SafeApp.Tests\SafeApp.Tests.projitems*{d2ced8f0-7a76-454d-b5f7-9e8b9fe6a58e}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
