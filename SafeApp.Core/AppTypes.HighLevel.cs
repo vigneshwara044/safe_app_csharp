@@ -489,7 +489,7 @@ namespace SafeApp.Core
 
         internal void Free()
         {
-            BindingUtils.FreeList(ProcessedEntriesPtr, ProcessedEntriesLen);
+            BindingUtils.FreeList(ref ProcessedEntriesPtr, ref ProcessedEntriesLen);
         }
     }
 }
