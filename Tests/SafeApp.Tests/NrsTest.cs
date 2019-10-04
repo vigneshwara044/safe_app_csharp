@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.API;
 
@@ -7,47 +8,95 @@ namespace SafeApp.Tests
     [TestFixture]
     internal class NrsTest
     {
+        private const bool SetDefault = true;
+        private const bool DirectLink = true;
+        private const bool DryRun = false;
+
+        private readonly string _dirName = TestUtils.GetRandomString(5);
+
+        [SetUp]
+        public void PrepareTestData()
+        {
+            Directory.CreateDirectory(_dirName);
+            var testFilePath = Path.Combine(_dirName, "index.html");
+            File.WriteAllText(testFilePath, TestUtils.GetRandomString(20));
+        }
+
         [Test]
         public async Task ParseUrlTest()
         {
             var session = await TestUtils.CreateTestApp();
-            var (xorurl, _) = await session.Keys.KeysCreatePreloadTestCoinsAsync("1");
+            var (xorUrl, _) = await session.Keys.KeysCreatePreloadTestCoinsAsync("1");
 
-            var xorUrlEncoder = await Nrs.ParseUrlAsync(xorurl);
+            var xorUrlEncoder = await Nrs.ParseUrlAsync(xorUrl);
+
+            // todo: verify that these are actually the expected values
+            Assert.AreEqual(0, xorUrlEncoder.ContentType);
+            Assert.AreEqual(0, xorUrlEncoder.ContentVersion);
+            Assert.AreEqual(0, xorUrlEncoder.DataType);
+            Assert.AreEqual(1, xorUrlEncoder.EncodingVersion);
+            Assert.AreEqual(string.Empty, xorUrlEncoder.Path);
+            Assert.AreEqual(string.Empty, xorUrlEncoder.SubNames);
+            Assert.AreEqual(0, xorUrlEncoder.TypeTag);
+            Assert.IsNotNull(xorUrlEncoder.Xorname);
+            Assert.IsNotEmpty(xorUrlEncoder.Xorname);
         }
 
         [Test]
         public async Task ParseAndResolveUrlTest()
         {
             var session = await TestUtils.CreateTestApp();
-            var (xorurl, _) = await session.Keys.KeysCreatePreloadTestCoinsAsync("1");
+            var (xorUrl, _) = await session.Keys.KeysCreatePreloadTestCoinsAsync("1");
 
             var api = session.Nrs;
-            var (xorUrlEncoder, resolvesAsNrs) = await api.ParseAndResolveUrlAsync(xorurl);
+            var (xorUrlEncoder, resolvesAsNrs) = await api.ParseAndResolveUrlAsync(xorUrl);
+
+            // todo: verify that these are actually the expected values
+            Assert.AreEqual(0, xorUrlEncoder.ContentType);
+            Assert.AreEqual(0, xorUrlEncoder.ContentVersion);
+            Assert.AreEqual(0, xorUrlEncoder.DataType);
+            Assert.AreEqual(1, xorUrlEncoder.EncodingVersion);
+            Assert.AreEqual(string.Empty, xorUrlEncoder.Path);
+            Assert.AreEqual(string.Empty, xorUrlEncoder.SubNames);
+            Assert.AreEqual(0, xorUrlEncoder.TypeTag);
+            Assert.IsNotNull(xorUrlEncoder.Xorname);
+            Assert.IsNotEmpty(xorUrlEncoder.Xorname);
+            Assert.IsTrue(resolvesAsNrs);
         }
 
         [Test]
         public async Task CreateNrsMapContainerTest()
         {
             var session = await TestUtils.CreateTestApp();
-            var name = "someName";
+            var name = TestUtils.GetRandomString(5);
 
-            // todo: put file, use its address as link
-            // in the meanwhile put the file through cli.
-            var link = "safe://hnyynys9j9sd6ku5wu9pz6uodmwk5446e1ee7u4x5gtbhocmastfcjuiksbnc?v=0";
-
-            var directLink = true;
-            var dryRun = false;
-            var setDefault = true;
+            var link = await CreateFilesContainerAsync(session);
 
             var api = session.Nrs;
-            var (nrsMap, processedEntries, xorUrl) = await api.CreateNrsMapContainerAsync(name, link, directLink, dryRun, setDefault);
+            var (nrsMap, processedEntries, xorUrl) = await api.CreateNrsMapContainerAsync(
+                name,
+                $"{link}?v=0",
+                DirectLink,
+                DryRun,
+                SetDefault);
 
             Assert.IsNotNull(nrsMap);
             Assert.IsNotNull(processedEntries);
             Assert.IsNotNull(xorUrl);
 
-            // todo: deserialize and test
+            var encoder = await XorEncoder.XorUrlEncoderFromUrl(xorUrl);
+
+            Assert.AreEqual(3, encoder.ContentType);
+            Assert.AreEqual(0, encoder.ContentVersion);
+            Assert.AreEqual(5, encoder.DataType);
+            Assert.AreEqual(1, encoder.EncodingVersion);
+            Assert.AreEqual(string.Empty, encoder.Path);
+            Assert.AreEqual(string.Empty, encoder.SubNames);
+            Assert.AreEqual(1500, encoder.TypeTag);
+            Assert.IsNotNull(encoder.Xorname);
+            Assert.IsNotEmpty(encoder.Xorname);
+
+            // todo: deserialize and test (not giving correct value of the nrsMap string yet)
             // Assert.IsNotEmpty(nrsMap.SubNamesMap.SubNames);
             // Assert.IsNotNull(nrsMap.Default);
             // nrsMap.SubNamesMap.SubNames.ForEach(s =>
@@ -61,47 +110,70 @@ namespace SafeApp.Tests
         public async Task AddToNrsMapContainerTest()
         {
             var session = await TestUtils.CreateTestApp();
-            var name = "someName";
+            var name = TestUtils.GetRandomString(5);
+            var xorUrlResult = await CreateNrsMapContainerXorUrlAsync(session, name);
 
-            // todo: put file, use its address as link
-            // in the meanwhile put the file through cli.
-            var link = "safe://hnyynys9j9sd6ku5wu9pz6uodmwk5446e1ee7u4x5gtbhocmastfcjuiksbnc?v=0";
+            var link = await CreateFilesContainerAsync(session);
 
-            var setDefault = true;
-            var directLink = true;
-            var dryRun = false;
-
-            var api = session.Nrs;
-            var (nrsMap, xorUrl, version) = await api.AddToNrsMapContainerAsync(name, link, setDefault, directLink, dryRun);
+            var (nrsMap, xorUrl, version) = await session.Nrs.AddToNrsMapContainerAsync(
+                name,
+                $"{link}?v=0",
+                SetDefault,
+                DirectLink,
+                DryRun);
 
             Assert.IsNotNull(nrsMap);
             Assert.IsNotEmpty(xorUrl);
+            Assert.AreEqual(1, version);
 
-            // todo: deserialize and test
+            var encoder = await XorEncoder.XorUrlEncoderFromUrl(xorUrl);
+
+            Assert.AreEqual(3, encoder.ContentType);
+            Assert.AreEqual(0, encoder.ContentVersion);
+            Assert.AreEqual(5, encoder.DataType);
+            Assert.AreEqual(1, encoder.EncodingVersion);
+            Assert.AreEqual(string.Empty, encoder.Path);
+            Assert.AreEqual(string.Empty, encoder.SubNames);
+            Assert.AreEqual(1500, encoder.TypeTag);
+            Assert.IsNotNull(encoder.Xorname);
+            Assert.IsNotEmpty(encoder.Xorname);
+
+            // todo: deserialize and test (not giving correct value of the nrsMap string yet)
+            // Assert.IsNotEmpty(nrsMap.SubNamesMap.SubNames);
+            // Assert.IsNotNull(nrsMap.Default);
             // nrsMap.SubNamesMap.SubNames.ForEach(s =>
             // {
             //     Assert.IsNotNull(s.SubName);
             //     Assert.IsNotNull(s.SubNameRdf);
             // });
-
-            // todo: validate version
         }
 
         [Test]
         public async Task RemoveFromNrsMapContainerTest()
         {
             var session = await TestUtils.CreateTestApp();
-            var name = "someName";
+            var name = TestUtils.GetRandomString(5);
+            var xorUrlResult = await CreateNrsMapContainerXorUrlAsync(session, name);
 
-            var dryRun = false;
-
-            var api = session.Nrs;
-            var (nrsMap, xorUrl, version) = await api.RemoveFromNrsMapContainerAsync(name, dryRun);
+            var (nrsMap, xorUrl, version) = await session.Nrs.RemoveFromNrsMapContainerAsync(name, DryRun);
 
             Assert.IsNotNull(nrsMap);
             Assert.IsNotEmpty(xorUrl);
+            Assert.AreEqual(1, version);
 
-            // todo: deserialize and validate
+            var encoder = await XorEncoder.XorUrlEncoderFromUrl(xorUrl);
+
+            Assert.AreEqual(3, encoder.ContentType);
+            Assert.AreEqual(0, encoder.ContentVersion);
+            Assert.AreEqual(5, encoder.DataType);
+            Assert.AreEqual(1, encoder.EncodingVersion);
+            Assert.AreEqual(string.Empty, encoder.Path);
+            Assert.AreEqual(string.Empty, encoder.SubNames);
+            Assert.AreEqual(1500, encoder.TypeTag);
+            Assert.IsNotNull(encoder.Xorname);
+            Assert.IsNotEmpty(encoder.Xorname);
+
+            // todo: deserialize and test (not giving correct value of the nrsMap string yet)
             // Assert.IsNotNull(nrsMap.SubNamesMap);
             // Assert.IsNotEmpty(nrsMap.SubNamesMap.SubNames);
             // Assert.IsNotNull(nrsMap.Default);
@@ -110,22 +182,34 @@ namespace SafeApp.Tests
             //     Assert.IsNotNull(s.SubName);
             //     Assert.IsNotNull(s.SubNameRdf);
             // });
-
-            // todo: validate version
         }
 
         [Test]
         public async Task GetNrsMapContainerTest()
         {
             var session = await TestUtils.CreateTestApp();
-            var url = "safe://hnyynys9j9sd6ku5wu9pz6uodmwk5446e1ee7u4x5gtbhocmastfcjuiksbnc";
+            var name = TestUtils.GetRandomString(5);
+            var xorUrl = await CreateNrsMapContainerXorUrlAsync(session, name);
 
             var api = session.Nrs;
-            var (nrsMap, version) = await api.GetNrsMapContainerAsync(url);
+            var (nrsMap, version) = await api.GetNrsMapContainerAsync(xorUrl);
 
             Assert.IsNotNull(nrsMap);
+            Assert.AreEqual(0, version);
 
-            // todo: deserialize and validate
+            var encoder = await XorEncoder.XorUrlEncoderFromUrl(xorUrl);
+
+            Assert.AreEqual(3, encoder.ContentType);
+            Assert.AreEqual(0, encoder.ContentVersion);
+            Assert.AreEqual(5, encoder.DataType);
+            Assert.AreEqual(1, encoder.EncodingVersion);
+            Assert.AreEqual(string.Empty, encoder.Path);
+            Assert.AreEqual(string.Empty, encoder.SubNames);
+            Assert.AreEqual(1500, encoder.TypeTag);
+            Assert.IsNotNull(encoder.Xorname);
+            Assert.IsNotEmpty(encoder.Xorname);
+
+            // todo: deserialize and test (not giving correct value of the nrsMap string yet)
             // Assert.IsNotNull(nrsMap.SubNamesMap);
             // Assert.IsNotEmpty(nrsMap.SubNamesMap.SubNames);
             // Assert.IsNotNull(nrsMap.Default);
@@ -134,8 +218,32 @@ namespace SafeApp.Tests
             //     Assert.IsNotNull(s.SubName);
             //     Assert.IsNotNull(s.SubNameRdf);
             // });
+        }
 
-            // todo: validate version
+        async Task<string> CreateFilesContainerAsync(Session session)
+        {
+            var (xorUrl, _, _) = await session.Files.FilesContainerCreateAsync(
+                _dirName,
+                null,
+                true,
+                false);
+
+            return xorUrl;
+        }
+
+        async Task<string> CreateNrsMapContainerXorUrlAsync(Session session, string name)
+        {
+            var link = await CreateFilesContainerAsync(session);
+
+            var api = session.Nrs;
+            var (_, _, xorUrl) = await api.CreateNrsMapContainerAsync(
+                name,
+                $"{link}?v=0",
+                DirectLink,
+                DryRun,
+                SetDefault);
+
+            return xorUrl;
         }
     }
 }
