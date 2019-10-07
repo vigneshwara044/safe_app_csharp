@@ -397,9 +397,9 @@ namespace SafeApp.Core
         [MarshalAs(UnmanagedType.LPStr)]
         public string PublicName;
         [MarshalAs(UnmanagedType.LPStr)]
-        public string Xorurl;
+        public string XorUrl;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
-        public byte[] Xorname;
+        public byte[] XorName;
         public ulong TypeTag;
         public ulong Version;
         [MarshalAs(UnmanagedType.LPStr)]
