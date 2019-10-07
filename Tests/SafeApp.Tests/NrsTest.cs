@@ -14,12 +14,10 @@ namespace SafeApp.Tests
         private const bool DryRun = false;
 
         [OneTimeSetUp]
-        public void Setup()
-            => TestUtils.PrepareTestData();
+        public void Setup() => TestUtils.PrepareTestData();
 
         [OneTimeTearDown]
-        public void TearDown()
-            => TestUtils.RemoveTestData();
+        public void TearDown() => TestUtils.RemoveTestData();
 
         [Test]
         public async Task ParseUrlTest()
@@ -37,8 +35,7 @@ namespace SafeApp.Tests
             Assert.AreEqual(string.Empty, xorUrlEncoder.Path);
             Assert.AreEqual(string.Empty, xorUrlEncoder.SubNames);
             Assert.AreEqual(0, xorUrlEncoder.TypeTag);
-            Assert.IsNotNull(xorUrlEncoder.Xorname);
-            Assert.IsNotEmpty(xorUrlEncoder.Xorname);
+            TestUtils.ValidateXorName(xorUrlEncoder.Xorname);
         }
 
         [Test]
@@ -49,7 +46,7 @@ namespace SafeApp.Tests
             var xorUrl = await CreateFilesContainerAsync(session);
 
             var api = session.Nrs;
-            var (nrsMapRaw, processedEntries, nrsMapXorUrl) = await api.CreateNrsMapContainerAsync(
+            var (_, _, nrsMapXorUrl) = await api.CreateNrsMapContainerAsync(
                 TestUtils.GetRandomString(5),
                 $"{xorUrl}?v=0",
                 false,
@@ -194,8 +191,7 @@ namespace SafeApp.Tests
             Assert.AreEqual(string.Empty, encoder.SubNames);
             **/
             Assert.AreEqual(expectedTypeTag, encoder.TypeTag);
-            Assert.IsNotNull(encoder.Xorname);
-            Assert.IsNotEmpty(encoder.Xorname);
+            TestUtils.ValidateXorName(encoder.Xorname);
         }
 
         async Task<string> CreateFilesContainerAsync(Session session)

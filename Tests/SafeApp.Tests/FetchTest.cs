@@ -44,15 +44,15 @@ namespace SafeApp.Tests
                 switch (data)
                 {
                     case SafeKey key:
-                        ValidateXorName(key.Xorname);
+                        TestUtils.ValidateXorName(key.Xorname);
                         EnsureNullNrsContainerInfo(key.ResolvedFrom);
                         break;
                     case Wallet wallet:
-                        ValidateXorName(wallet.Xorname);
+                        TestUtils.ValidateXorName(wallet.Xorname);
                         EnsureNullNrsContainerInfo(wallet.ResolvedFrom);
                         break;
                     case FilesContainer filesContainer:
-                        ValidateXorName(filesContainer.Xorname);
+                        TestUtils.ValidateXorName(filesContainer.Xorname);
                         if (expectNrs)
                             ValidateNrsContainerInfo(filesContainer.ResolvedFrom);
                         else
@@ -60,7 +60,7 @@ namespace SafeApp.Tests
                         break;
                     case PublishedImmutableData immutableData:
                         Assert.IsNotNull(immutableData.Data);
-                        ValidateXorName(immutableData.Xorname);
+                        TestUtils.ValidateXorName(immutableData.Xorname);
                         ValidateNrsContainerInfo(immutableData.ResolvedFrom);
                         break;
                     case SafeDataFetchFailed dataFetchFailed:
@@ -77,13 +77,6 @@ namespace SafeApp.Tests
             }
         }
 
-        void ValidateXorName(byte[] xorName)
-        {
-            Assert.IsNotNull(xorName);
-            Assert.AreEqual(32, xorName.Length);
-            Assert.IsFalse(Enumerable.SequenceEqual(new byte[32], xorName));
-        }
-
         void ValidateNrsContainerInfo(NrsMapContainerInfo info)
         {
             Assert.AreNotEqual(0, info.DataType);
@@ -92,7 +85,7 @@ namespace SafeApp.Tests
             Assert.AreNotEqual(0, info.TypeTag);
             Assert.IsNotNull(info.Version);
             Assert.IsNotNull(info.XorUrl);
-            ValidateXorName(info.XorName);
+            TestUtils.ValidateXorName(info.XorName);
         }
 
         void EnsureNullNrsContainerInfo(NrsMapContainerInfo info)
