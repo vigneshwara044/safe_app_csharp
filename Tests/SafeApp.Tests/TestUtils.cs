@@ -84,5 +84,26 @@ namespace SafeApp.Tests
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length).Select(s => s[Random.Next(s.Length)]).ToArray());
         }
+
+        public static void ValidateXorName(byte[] xorName)
+        {
+            Assert.IsNotNull(xorName);
+            Assert.AreEqual(32, xorName.Length);
+            Assert.IsFalse(Enumerable.SequenceEqual(new byte[32], xorName));
+        }
+
+        public static void PrepareTestData()
+        {
+            System.IO.Directory.CreateDirectory(TestDataDir);
+            var testFilePath = System.IO.Path.Combine(TestDataDir, "index.html");
+            System.IO.File.WriteAllText(testFilePath, GetRandomString(20));
+        }
+
+        public static void RemoveTestData()
+            => System.IO.Directory.Delete(TestDataDir, true);
+
+        public static string TestDataDir => _testDataDir;
+
+        static readonly string _testDataDir = TestUtils.GetRandomString(5);
     }
 }

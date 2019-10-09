@@ -24,6 +24,27 @@ namespace SafeApp.Core
     }
 
     [PublicAPI]
+    public struct NrsMap
+    {
+        public Dictionary<string, SubNamesMapEntry> SubNamesMap;
+        public Dictionary<string, Rdf> Default;
+    }
+
+    [PublicAPI]
+    public struct Rdf
+    {
+        public DateTime Created;
+        public string Link;
+        public DateTime Modified;
+    }
+
+    public struct SubNamesMapEntry
+    {
+        public string SubName;
+        public string SubNameRdf;
+    }
+
+    [PublicAPI]
     public struct XorUrlEncoder
     {
         public ulong EncodingVersion;
@@ -376,13 +397,59 @@ namespace SafeApp.Core
         [MarshalAs(UnmanagedType.LPStr)]
         public string PublicName;
         [MarshalAs(UnmanagedType.LPStr)]
-        public string Xorurl;
+        public string XorUrl;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
-        public byte[] Xorname;
+        public byte[] XorName;
         public ulong TypeTag;
         public ulong Version;
         [MarshalAs(UnmanagedType.LPStr)]
         public string NrsMap;
         public ulong DataType;
+    }
+
+    [PublicAPI]
+    public struct ProcessedEntry
+    {
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string Name;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string Action;
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string Link;
+    }
+
+    [PublicAPI]
+    public struct ProcessedEntries
+    {
+        public List<ProcessedEntry> Entries;
+
+        internal ProcessedEntries(ProcessedEntriesNative native)
+        {
+            Entries = BindingUtils.CopyToObjectList<ProcessedEntry>(native.ProcessedEntriesPtr, (int)native.ProcessedEntriesLen);
+        }
+
+        internal ProcessedEntriesNative ToNative()
+        {
+            return new ProcessedEntriesNative
+            {
+                ProcessedEntriesPtr = BindingUtils.CopyFromObjectList(Entries),
+                ProcessedEntriesLen = (UIntPtr)(Entries?.Count ?? 0),
+                ProcessedEntriesCap = UIntPtr.Zero
+            };
+        }
+    }
+
+    internal struct ProcessedEntriesNative
+    {
+        public IntPtr ProcessedEntriesPtr;
+        public UIntPtr ProcessedEntriesLen;
+
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr ProcessedEntriesCap;
+
+        internal void Free()
+        {
+            BindingUtils.FreeList(ref ProcessedEntriesPtr, ref ProcessedEntriesLen);
+        }
     }
 }

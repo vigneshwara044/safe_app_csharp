@@ -146,6 +146,39 @@ namespace SafeApp.AppBindings
         Task<WalletSpendableBalances> WalletGetAsync(IntPtr app, string url);
 
         #endregion Wallet
+
+        #region NRS
+
+        Task<XorUrlEncoder> ParseUrlAsync(string url);
+
+        Task<(XorUrlEncoder, XorUrlEncoder)> ParseAndResolveUrlAsync(IntPtr app, string url);
+
+        Task<(string, ProcessedEntries, string)> CreateNrsMapContainerAsync(
+            IntPtr app,
+            string name,
+            string link,
+            bool directLink,
+            bool dryRun,
+            bool setDefault);
+
+        Task<(string, string, ulong)> AddToNrsMapContainerAsync(
+            IntPtr app,
+            string name,
+            string link,
+            bool setDefault,
+            bool directLink,
+            bool dryRun);
+
+        Task<(string, string, ulong)> RemoveFromNrsMapContainerAsync(
+            IntPtr app,
+            string name,
+            bool dryRun);
+
+        Task<(string, ulong)> GetNrsMapContainerAsync(
+            IntPtr app,
+            string url);
+
+        #endregion NRS
     }
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
