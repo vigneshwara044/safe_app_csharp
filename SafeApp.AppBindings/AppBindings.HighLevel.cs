@@ -844,7 +844,7 @@ namespace SafeApp.AppBindings
         public Task<(XorUrlEncoder, XorUrlEncoder)> ParseAndResolveUrlAsync(IntPtr app, string url)
         {
             var (ret, userData) = BindingUtils.PrepareTask<(XorUrlEncoder, XorUrlEncoder)>();
-            ParseAndResolveUrlNative(app, url, userData, DelegateOnFfiResultXorUrlEncoderBoolCb);
+            ParseAndResolveUrlNative(app, url, userData, DelegateOnFfiResultXorUrlEncoderXorUrlEncoderCb);
             return ret;
         }
 
@@ -864,7 +864,7 @@ namespace SafeApp.AppBindings
 #if __IOS__
         [MonoPInvokeCallback(typeof(FfiResultXorUrlEncoderXorUrlEncoderCb))]
 #endif
-        private static void OnFfiResultXorUrlEncoderBoolCb(IntPtr userData, IntPtr result, IntPtr xorUrlEncoder, IntPtr resolvedFrom)
+        private static void OnFfiResultXorUrlEncoderXorUrlEncoderCb(IntPtr userData, IntPtr result, IntPtr xorUrlEncoder, IntPtr resolvedFrom)
         {
             var resolved = resolvedFrom == IntPtr.Zero ?
                 default :
@@ -878,8 +878,8 @@ namespace SafeApp.AppBindings
                     resolved));
         }
 
-        private static readonly FfiResultXorUrlEncoderXorUrlEncoderCb DelegateOnFfiResultXorUrlEncoderBoolCb =
-            OnFfiResultXorUrlEncoderBoolCb;
+        private static readonly FfiResultXorUrlEncoderXorUrlEncoderCb DelegateOnFfiResultXorUrlEncoderXorUrlEncoderCb =
+            OnFfiResultXorUrlEncoderXorUrlEncoderCb;
 
         public Task<(string, ProcessedEntries, string)> CreateNrsMapContainerAsync(
             IntPtr app,
