@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SafeApp.AppBindings;
 using SafeApp.Core;
 
@@ -11,7 +10,7 @@ namespace SafeApp.API
     public class Wallet
     {
         static readonly IAppBindings AppBindings = AppResolver.Current;
-        IntPtr _appPtr;
+        readonly SafeAppPtr _appPtr;
 
         /// <summary>
         /// Initializes an Wallet object for the Session instance.
