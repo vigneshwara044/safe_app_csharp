@@ -33,7 +33,7 @@ namespace SafeApp.Tests
             Assert.AreEqual(0, xorUrlEncoder.DataType);
             Assert.AreEqual(1, xorUrlEncoder.EncodingVersion);
             Assert.AreEqual(string.Empty, xorUrlEncoder.Path);
-            Assert.AreEqual(string.Empty, xorUrlEncoder.SubNames);
+            Assert.AreEqual("[]", xorUrlEncoder.SubNames);
             Assert.AreEqual(0, xorUrlEncoder.TypeTag);
             TestUtils.ValidateXorName(xorUrlEncoder.Xorname);
         }
@@ -55,7 +55,7 @@ namespace SafeApp.Tests
             var (xorUrlEncoder, resolvedFrom) = await api.ParseAndResolveUrlAsync(nrsMapXorUrl);
 
             ValidateEncoder(xorUrlEncoder, ContentType.FilesContainer, 1100);
-            ValidateEncoder(resolvedFrom, ContentType.FilesContainer, 1100);
+            ValidateEncoder(resolvedFrom, ContentType.NrsMapContainer, 1500);
         }
 
         [Test]
