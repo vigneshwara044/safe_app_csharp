@@ -853,16 +853,16 @@ namespace SafeApp.AppBindings
             IntPtr app,
             [MarshalAs(UnmanagedType.LPStr)] string url,
             IntPtr userData,
-            FfiResultXorUrlEncoderBoolCb oCb);
+            FfiResultXorUrlEncoderXorUrlEncoderCb oCb);
 
-        private delegate void FfiResultXorUrlEncoderBoolCb(
+        private delegate void FfiResultXorUrlEncoderXorUrlEncoderCb(
             IntPtr userData,
             IntPtr result,
             IntPtr xorUrlEncoder,
             IntPtr resolvedFrom);
 
 #if __IOS__
-        [MonoPInvokeCallback(typeof(FfiResultXorUrlEncoderBoolCb))]
+        [MonoPInvokeCallback(typeof(FfiResultXorUrlEncoderXorUrlEncoderCb))]
 #endif
         private static void OnFfiResultXorUrlEncoderBoolCb(IntPtr userData, IntPtr result, IntPtr xorUrlEncoder, IntPtr resolvedFrom)
         {
@@ -878,7 +878,7 @@ namespace SafeApp.AppBindings
                     resolved));
         }
 
-        private static readonly FfiResultXorUrlEncoderBoolCb DelegateOnFfiResultXorUrlEncoderBoolCb =
+        private static readonly FfiResultXorUrlEncoderXorUrlEncoderCb DelegateOnFfiResultXorUrlEncoderBoolCb =
             OnFfiResultXorUrlEncoderBoolCb;
 
         public Task<(string, ProcessedEntries, string)> CreateNrsMapContainerAsync(
