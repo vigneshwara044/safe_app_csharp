@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SafeApp.AppBindings;
 using SafeApp.Core;
 
@@ -12,7 +10,7 @@ namespace SafeApp.API
     public class Files
     {
         static readonly IAppBindings AppBindings = AppResolver.Current;
-        IntPtr _appPtr;
+        readonly SafeAppPtr _appPtr;
 
         /// <summary>
         /// Initializes an Files object for the Session instance.
