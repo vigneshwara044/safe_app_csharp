@@ -44,15 +44,15 @@ namespace SafeApp.Tests
                 switch (data)
                 {
                     case SafeKey key:
-                        TestUtils.ValidateXorName(key.Xorname);
+                        TestUtils.ValidateXorName(key.XorName);
                         EnsureNullNrsContainerInfo(key.ResolvedFrom);
                         break;
                     case Wallet wallet:
-                        TestUtils.ValidateXorName(wallet.Xorname);
+                        TestUtils.ValidateXorName(wallet.XorName);
                         EnsureNullNrsContainerInfo(wallet.ResolvedFrom);
                         break;
                     case FilesContainer filesContainer:
-                        TestUtils.ValidateXorName(filesContainer.Xorname);
+                        TestUtils.ValidateXorName(filesContainer.XorName);
                         if (expectNrs)
                             ValidateNrsContainerInfo(filesContainer.ResolvedFrom);
                         else
@@ -60,7 +60,7 @@ namespace SafeApp.Tests
                         break;
                     case PublishedImmutableData immutableData:
                         Assert.IsNotNull(immutableData.Data);
-                        TestUtils.ValidateXorName(immutableData.Xorname);
+                        TestUtils.ValidateXorName(immutableData.XorName);
                         ValidateNrsContainerInfo(immutableData.ResolvedFrom);
                         break;
                     case SafeDataFetchFailed dataFetchFailed:

@@ -35,7 +35,7 @@ namespace SafeApp.Tests
             Assert.AreEqual(string.Empty, xorUrlEncoder.Path);
             Assert.AreEqual("[]", xorUrlEncoder.SubNames);
             Assert.AreEqual(0, xorUrlEncoder.TypeTag);
-            TestUtils.ValidateXorName(xorUrlEncoder.Xorname);
+            TestUtils.ValidateXorName(xorUrlEncoder.XorName);
         }
 
         [Test]
@@ -191,7 +191,7 @@ namespace SafeApp.Tests
             Assert.AreEqual(string.Empty, encoder.SubNames);
             **/
             Assert.AreEqual(expectedTypeTag, encoder.TypeTag);
-            TestUtils.ValidateXorName(encoder.Xorname);
+            TestUtils.ValidateXorName(encoder.XorName);
         }
 
         async Task<string> CreateFilesContainerAsync(Session session)
