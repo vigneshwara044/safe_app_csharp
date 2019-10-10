@@ -13,7 +13,7 @@ namespace SafeApp.API
         readonly SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an Keys object for the Session instance.
+        /// Initialise a Keys object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="appPtr">SafeApp pointer.</param>
@@ -23,7 +23,7 @@ namespace SafeApp.API
         /// <summary>
         /// Generate a key pair without creating and/or storing a SafeKey on the network.
         /// </summary>
-        /// <returns>Key pair.</returns>
+        /// <returns>new BlsKeyPair instance.</returns>
         public Task<BlsKeyPair> GenerateKeyPairAsync()
             => AppBindings.GenerateKeyPairAsync(_appPtr);
 
@@ -32,8 +32,8 @@ namespace SafeApp.API
         /// Optionally pre-loads it with an amount.
         /// Also returns new key pair if a recipient public key was not provided.
         /// </summary>
-        /// <param name="from">Secret key of source funds.</param>
-        /// <param name="preloadAmount">Optional amount of funds to send.</param>
+        /// <param name="from">Secret key of source balance.</param>
+        /// <param name="preloadAmount">Optional test coins amount to add.</param>
         /// <param name="pk">Public key of recipient if provided.</param>
         /// <returns>XOR url of the balance, and a new key pair if no public key was provided.</returns>
         public Task<(string, BlsKeyPair)> CreateKeysAsync(
@@ -43,9 +43,9 @@ namespace SafeApp.API
             => AppBindings.CreateKeysAsync(_appPtr, from, preloadAmount, pk);
 
         /// <summary>
-        /// Create a SafeKey on the network, allocates testcoins onto it, and return the SafeKey's XOR-URL.
+        /// Create a SafeKey on the network, allocates test coins onto it, and return the SafeKey's XOR-URL.
         /// </summary>
-        /// <param name="preloadAmount">Amount of funds to send.</param>
+        /// <param name="preloadAmount">Amount of test coins to add.</param>
         /// <returns>XOR url of the balance, and a new key pair.</returns>
         public Task<(string, BlsKeyPair)> KeysCreatePreloadTestCoinsAsync(string preloadAmount)
             => AppBindings.KeysCreatePreloadTestCoinsAsync(_appPtr, preloadAmount);
@@ -53,8 +53,8 @@ namespace SafeApp.API
         /// <summary>
         /// Check SafeKey's balance from the network from a given SecretKey string.
         /// </summary>
-        /// <param name="sk">The secret key.</param>
-        /// <returns>The balance.</returns>
+        /// <param name="sk">The secret key to check the coins balance.</param>
+        /// <returns>The available test coins balance.</returns>
         public Task<string> KeysBalanceFromSkAsync(string sk)
             => AppBindings.KeysBalanceFromSkAsync(_appPtr, sk);
 
@@ -63,29 +63,29 @@ namespace SafeApp.API
         /// The difference between this and 'keys_balance_from_sk' function is that this will additionally
         /// check that the XOR/NRS-URL corresponds to the public key derived from the provided secret key.
         /// </summary>
-        /// <param name="url">The XOR url.</param>
-        /// <param name="sk">The secret key.</param>
-        /// <returns>The balance.</returns>
+        /// <param name="url">The SafeKey's XorUrl.</param>
+        /// <param name="sk">The secret key required to check the balance.</param>
+        /// <returns>The available test coins balance.</returns>
         public Task<string> KeysBalanceFromUrlAsync(string url, string sk)
             => AppBindings.KeysBalanceFromUrlAsync(_appPtr, url, sk);
 
         /// <summary>
         /// Check that the XOR/NRS-URL corresponds to the public key derived from the provided secret key.
         /// </summary>
-        /// <param name="url">The XOR url.</param>
-        /// <param name="sk">The secret key.</param>
+        /// <param name="url">The SafeKey's XorUrl.</param>
+        /// <param name="sk">The secret key required to check the balance.</param>
         /// <returns>The public key derived from the secret key.</returns>
         public Task<string> ValidateSkForUrlAsync(string sk, string url)
             => AppBindings.ValidateSkForUrlAsync(_appPtr, sk, url);
 
         /// <summary>
-        /// Transfers safecoins from one SafeKey to another, or to a Wallet.
+        /// Transfers safe coins from one SafeKey to another, or to a Wallet.
         /// </summary>
-        /// <param name="amount">The amount to transfer.</param>
-        /// <param name="fromSk">The sender secret key.</param>
-        /// <param name="toUrl">The reipient XOR url.</param>
-        /// <param name="txId">An optional transaction id. A random will be returned if none specified. </param>
-        /// <returns></returns>
+        /// <param name="amount">The test coin's amount to transfer.</param>
+        /// <param name="fromSk">The sender's secret key.</param>
+        /// <param name="toUrl">The recipient's XorUrl.</param>
+        /// <param name="txId">An optional transaction id. A random will be returned if none specified.</param>
+        /// <returns>Transaction Id.</returns>
         public Task<ulong> KeysTransferAsync(string amount, string fromSk, string toUrl, ulong txId)
             => AppBindings.KeysTransferAsync(_appPtr, amount, fromSk, toUrl, txId);
     }
