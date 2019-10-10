@@ -23,65 +23,121 @@ namespace SafeApp.Core
         public string SK;
     }
 
-    [PublicAPI]
-    public struct NrsMap
-    {
-        public Dictionary<string, SubNamesMapEntry> SubNamesMap;
-        public Dictionary<string, Rdf> Default;
-    }
-
-    [PublicAPI]
-    public struct Rdf
-    {
-        public DateTime Created;
-        public string Link;
-        public DateTime Modified;
-    }
-
-    public struct SubNamesMapEntry
-    {
-        public string SubName;
-        public string SubNameRdf;
-    }
-
+    /// <summary>
+    /// XorUrl Encoder
+    /// </summary>
     [PublicAPI]
     public struct XorUrlEncoder
     {
+        /// <summary>
+        /// Encoding version.
+        /// </summary>
         public ulong EncodingVersion;
+
+        /// <summary>
+        /// XorName for the data.
+        /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] XorName;
+
+        /// <summary>
+        /// TypeTag for the mutable data type.
+        /// </summary>
         public ulong TypeTag;
+
+        /// <summary>
+        /// Stored data type.
+        /// </summary>
         public ulong DataType;
+
+        /// <summary>
+        /// Stored content type.
+        /// </summary>
         public ushort ContentType;
+
+        /// <summary>
+        /// XorUrl path for the data.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string Path;
+
+        /// <summary>
+        /// XorUrl sub names for the data.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string SubNames;
+
+        /// <summary>
+        /// Content version on the network.
+        /// </summary>
         public ulong ContentVersion;
     }
 
+    /// <summary>
+    /// Base interface for the different data types stored on the network.
+    /// </summary>
     public interface ISafeData
     {
     }
 
+    /// <summary>
+    /// SafeKey data type.
+    /// </summary>
     [PublicAPI]
     public struct SafeKey : ISafeData
     {
+        /// <summary>
+        /// SafeKey's XorUrl.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string XorUrl;
+
+        /// <summary>
+        /// SafeKey's XorName.
+        /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] XorName;
+
+        /// <summary>
+        /// NrsMapContainerInfo for the SafeKey stored on the network.
+        /// </summary>
         public NrsMapContainerInfo ResolvedFrom;
     }
 
+    /// <summary>
+    /// SafeWallet data type.
+    /// </summary>
     [PublicAPI]
     public struct Wallet : ISafeData
     {
+        /// <summary>
+        /// Wallet's XorUrl.
+        /// </summary>
         public string XorUrl;
+
+        /// <summary>
+        /// Wallet' XorName.
+        /// </summary>
         public byte[] XorName;
+
+        /// <summary>
+        /// TypeTag used by the wallet.
+        /// </summary>
         public ulong TypeTag;
+
+        /// <summary>
+        /// List of all spendable balances.
+        /// </summary>
         public WalletSpendableBalances Balances;
+
+        /// <summary>
+        /// Wallet data type identifier.
+        /// </summary>
         public ulong DataType;
+
+        /// <summary>
+        /// NrsMapContainerInfo for the wallet stored on the network.
+        /// </summary>
         public NrsMapContainerInfo ResolvedFrom;
 
         internal Wallet(WalletNative native)
@@ -125,28 +181,80 @@ namespace SafeApp.Core
         }
     }
 
+    /// <summary>
+    /// FilesContainer data type.
+    /// </summary>
     [PublicAPI]
     public struct FilesContainer : ISafeData
     {
+        /// <summary>
+        /// FilesContainer's XorUrl.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string XorUrl;
+
+        /// <summary>
+        /// FilesContainer's XorName.
+        /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] XorName;
+
+        /// <summary>
+        /// TypeTag used by the FileContainer.
+        /// </summary>
         public ulong TypeTag;
+
+        /// <summary>
+        /// FilesContainer's current version.
+        /// </summary>
         public ulong Version;
+
+        /// <summary>
+        /// FilesMap in JSON format.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string FilesMap;
+
+        /// <summary>
+        /// FilesContainer data type identifier.
+        /// </summary>
         public ulong DataType;
+
+        /// <summary>
+        /// NrsMapContainerInfo for the FilesContainer.
+        /// </summary>
         public NrsMapContainerInfo ResolvedFrom;
     }
 
+    /// <summary>
+    /// PublishedImmutableData data type.
+    /// </summary>
     [PublicAPI]
     public struct PublishedImmutableData : ISafeData
     {
+        /// <summary>
+        /// XorUrl
+        /// </summary>
         public string XorUrl;
+
+        /// <summary>
+        /// XorName
+        /// </summary>
         public byte[] XorName;
+
+        /// <summary>
+        /// Raw data in byte[] format
+        /// </summary>
         public byte[] Data;
+
+        /// <summary>
+        /// NrsMapContainerInfo for the PublishedImmutableData.
+        /// </summary>
         public NrsMapContainerInfo ResolvedFrom;
+
+        /// <summary>
+        /// MIME type for the stored data/file.
+        /// </summary>
         public string MediaType;
 
         internal PublishedImmutableData(PublishedImmutableDataNative native)
@@ -190,12 +298,27 @@ namespace SafeApp.Core
         }
     }
 
+    /// <summary>
+    /// Data type used to indicate fetch failure.
+    /// </summary>
     [PublicAPI]
     public struct SafeDataFetchFailed : ISafeData
     {
+        /// <summary>
+        /// Error code.
+        /// </summary>
         public readonly int Code;
+
+        /// <summary>
+        /// Error description.
+        /// </summary>
         public readonly string Description;
 
+        /// <summary>
+        /// Initialise new instance.
+        /// </summary>
+        /// <param name="code">Error code.</param>
+        /// <param name="description">Error description.</param>
         public SafeDataFetchFailed(int code, string description)
         {
             Code = code;
@@ -405,36 +528,86 @@ namespace SafeApp.Core
         }
     }
 
+    /// <summary>
+    /// Contains the information required to work with NRS.
+    /// </summary>
     [PublicAPI]
     public struct NrsMapContainerInfo
     {
+        /// <summary>
+        /// Public name for the container.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string PublicName;
+
+        /// <summary>
+        /// Container's XorUrl.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string XorUrl;
+
+        /// <summary>
+        /// Container's XorName.
+        /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
         public byte[] XorName;
+
+        /// <summary>
+        /// TypeTag used when storing on the network.
+        /// </summary>
         public ulong TypeTag;
+
+        /// <summary>
+        /// Current version.
+        /// </summary>
         public ulong Version;
+
+        /// <summary>
+        /// NrsMap in JSON format.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string NrsMap;
+
+        /// <summary>
+        /// DataType identifier for the NrsMapContainer.
+        /// </summary>
         public ulong DataType;
     }
 
+    /// <summary>
+    /// Represents metadata and operation info for a processed public name entry.
+    /// </summary>
     [PublicAPI]
     public struct ProcessedEntry
     {
+        /// <summary>
+        /// Public name.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string Name;
+
+        /// <summary>
+        /// Operation performed on the entry.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string Action;
+
+        /// <summary>
+        /// XorUrl for the entry.
+        /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
         public string Link;
     }
 
+    /// <summary>
+    /// Holds list of all the processed public name entries.
+    /// </summary>
     [PublicAPI]
     public struct ProcessedEntries
     {
+        /// <summary>
+        /// List of all the public name entries on which the operation was performed.
+        /// </summary>
         public List<ProcessedEntry> Entries;
 
         internal ProcessedEntries(ProcessedEntriesNative native)
@@ -466,4 +639,27 @@ namespace SafeApp.Core
             BindingUtils.FreeList(ref ProcessedEntriesPtr, ref ProcessedEntriesLen);
         }
     }
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+    [PublicAPI]
+    public struct NrsMap
+    {
+        public Dictionary<string, SubNamesMapEntry> SubNamesMap;
+        public Dictionary<string, Rdf> Default;
+    }
+
+    [PublicAPI]
+    public struct Rdf
+    {
+        public DateTime Created;
+        public string Link;
+        public DateTime Modified;
+    }
+
+    public struct SubNamesMapEntry
+    {
+        public string SubName;
+        public string SubNameRdf;
+    }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

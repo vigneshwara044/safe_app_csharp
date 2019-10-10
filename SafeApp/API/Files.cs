@@ -13,7 +13,7 @@ namespace SafeApp.API
         readonly SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an Files object for the Session instance.
+        /// Initialise a Files object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="safeAppPtr"></param>
@@ -23,11 +23,17 @@ namespace SafeApp.API
         /// <summary>
         /// Create a FilesContainer.
         /// </summary>
-        /// <param name="location">Location of the data.</param>
-        /// <param name="dest">The XorUrl </param>
+        /// <param name="location">Location of the local data.</param>
+        /// <param name="dest">
+        /// The XorUrl to put the data on the network.If null, then a random address will be used.
+        /// </param>
         /// <param name="recursive">Flag denoting if the sub-folders should be added.</param>
-        /// <param name="dryRun">Flag denoting whether container  will be created locally.</param>
-        /// <returns></returns>
+        /// <param name="dryRun">Flag denoting whether container will be created locally.</param>
+        /// <returns>
+        /// FilesContainer's XorUrl,
+        /// new instance of ProcessedFiles containing the list of processed files,
+        /// FilesMap JSON string.
+        /// </returns>
         public Task<(string, ProcessedFiles, string)> FilesContainerCreateAsync(
             string location,
             string dest,
@@ -36,24 +42,28 @@ namespace SafeApp.API
             => AppBindings.FilesContainerCreateAsync(_appPtr, location, dest, recursive, dryRun);
 
         /// <summary>
-        /// Fetch an existing FilesContainer.
+        /// Fetch an existing FilesContainer from the network.
         /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
+        /// <param name="url">FilesContainer's XorUrl.</param>
+        /// <returns>FilesContainer's version, FilesMap JSON string.</returns>
         public Task<(ulong, string)> FilesContainerGetAsync(
             string url)
             => AppBindings.FilesContainerGetAsync(_appPtr, url);
 
         /// <summary>
-        /// Sync up local folder with the content on a FilesContainer.
+        /// Sync up local folder with the content in a FilesContainer.
         /// </summary>
-        /// <param name="location"></param>
-        /// <param name="url"></param>
-        /// <param name="recursive"></param>
-        /// <param name="delete"></param>
-        /// <param name="updateNrs"></param>
-        /// <param name="dryRun"></param>
-        /// <returns></returns>
+        /// <param name="location">Location of the local data to sync with the network.</param>
+        /// <param name="url">The XorUrl to sync the data on the network.</param>
+        /// <param name="recursive">Flag denoting if the sub-folders should be added.</param>
+        /// <param name="delete">Flag denoting if the local files can be deleting during sync operation.</param>
+        /// <param name="updateNrs">Flag denoting if the NRS maps should be updated.</param>
+        /// <param name="dryRun">Flag denoting whether container will be created locally.</param>
+        /// <returns>
+        /// FilesContainer's version,
+        /// new instance of ProcessedFiles containing the list of processed files,
+        /// FilesMap JSON string.
+        /// </returns>
         public Task<(ulong, ProcessedFiles, string)> FilesContainerSyncAsync(
             string location,
             string url,
@@ -64,14 +74,18 @@ namespace SafeApp.API
             => AppBindings.FilesContainerSyncAsync(_appPtr, location, url, recursive, delete, updateNrs, dryRun);
 
         /// <summary>
-        /// Add a file, either a local path or a published file, on an existing FilesContainer.
+        /// Add a file, either a local path or a published file, to an existing FilesContainer.
         /// </summary>
-        /// <param name="sourceFile"></param>
-        /// <param name="url"></param>
-        /// <param name="force"></param>
-        /// <param name="updateNrs"></param>
-        /// <param name="dryRun"></param>
-        /// <returns></returns>
+        /// <param name="sourceFile">Source file location to add to the FilesContainer.</param>
+        /// <param name="url">XorUrl to add the FiledContainer.</param>
+        /// <param name="force">Flag denoting to force update the FilesContainer.</param>
+        /// <param name="updateNrs">Flag denoting if the NRS maps should be updated.</param>
+        /// <param name="dryRun">Flag denoting whether container will be created locally.</param>
+        /// <returns>
+        /// FilesContainer's version,
+        /// new instance of ProcessedFiles containing the list of processed files,
+        /// FilesMap JSON string.
+        /// </returns>
         public Task<(ulong, ProcessedFiles, string)> FilesContainerAddAsync(
             string sourceFile,
             string url,
@@ -83,12 +97,16 @@ namespace SafeApp.API
         /// <summary>
         /// Add a file, from raw bytes, on an existing FilesContainer.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="url"></param>
-        /// <param name="force"></param>
-        /// <param name="updateNrs"></param>
-        /// <param name="dryRun"></param>
-        /// <returns></returns>
+        /// <param name="data">Raw data in byte[] format.</param>
+        /// <param name="url">XorUrl to add the FiledContainer.</param>
+        /// <param name="force">Flag denoting to force update the FilesContainer.</param>
+        /// <param name="updateNrs">Flag denoting if the NRS maps should be updated.</param>
+        /// <param name="dryRun">Flag denoting whether container will be created locally.</param>
+        /// <returns>
+        /// FilesContainer's version,
+        /// new instance of ProcessedFiles containing the list of processed files,
+        /// FilesMap JSON string.
+        /// </returns>
         public Task<(ulong, ProcessedFiles, string)> FilesContainerAddFromRawAsync(
             byte[] data,
             string url,
@@ -98,21 +116,21 @@ namespace SafeApp.API
             => AppBindings.FilesContainerAddFromRawAsync(_appPtr, data, url, force, updateNrs, dryRun);
 
         /// <summary>
-        /// Put Published ImmutableData
+        /// Put Published ImmutableData to the network.
         /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mediaType"></param>
-        /// <returns></returns>
+        /// <param name="data">Raw data in byte[] format.</param>
+        /// <param name="mediaType">Content's MIME type.</param>
+        /// <returns>XorUrl for the published data</returns>
         public Task<string> FilesPutPublishedImmutableAsync(
             byte[] data,
             string mediaType)
             => AppBindings.FilesPutPublishedImmutableAsync(_appPtr, data, mediaType);
 
         /// <summary>
-        /// Get Published ImmutableData
+        /// Get Published ImmutableData from the network.
         /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
+        /// <param name="url">XorUrl to fetch the content.</param>
+        /// <returns>Raw data from the network in byte[] format.</returns>
         public Task<byte[]> FilesGetPublishedImmutableAsync(
             string url)
             => AppBindings.FilesGetPublishedImmutableAsync(_appPtr, url);

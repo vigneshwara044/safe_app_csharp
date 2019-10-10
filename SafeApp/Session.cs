@@ -22,14 +22,29 @@ namespace SafeApp
     {
         private static readonly IAppBindings AppBindings = AppResolver.Current;
 
+        /// <summary>
+        /// Content Fetch API.
+        /// </summary>
         public Fetch Fetch { get; private set; }
 
+        /// <summary>
+        /// Keys API.
+        /// </summary>
         public Keys Keys { get; private set; }
 
+        /// <summary>
+        /// Wallet API.
+        /// </summary>
         public API.Wallet Wallet { get; private set; }
 
+        /// <summary>
+        /// Files API.
+        /// </summary>
         public Files Files { get; private set; }
 
+        /// <summary>
+        /// NRS API.
+        /// </summary>
         public Nrs Nrs { get; private set; }
 
         /// <summary>

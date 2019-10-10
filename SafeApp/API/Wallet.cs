@@ -13,7 +13,7 @@ namespace SafeApp.API
         readonly SafeAppPtr _appPtr;
 
         /// <summary>
-        /// Initializes an Wallet object for the Session instance.
+        /// Initialise a Wallet object for the Session instance.
         /// The app pointer is required to perform network operations.
         /// </summary>
         /// <param name="safeAppPtr">SafeApp pointer.</param>
@@ -21,20 +21,20 @@ namespace SafeApp.API
             => _appPtr = safeAppPtr;
 
         /// <summary>
-        /// Create an empty Wallet and return its XOR-URL.
+        /// Creates an empty Wallet and return its XorUrl.
         /// </summary>
-        /// <returns>XOR-URL of the created wallet.</returns>
+        /// <returns>XorUrl of the newly created wallet.</returns>
         public Task<string> WalletCreateAsync()
             => AppBindings.WalletCreateAsync(_appPtr);
 
         /// <summary>
         /// Add a SafeKey to a Wallet to make it spendable, and returns the friendly name set for it
         /// </summary>
-        /// <param name="keyUrl">The SafeKey's safe://xor-url to verify it matches/corresponds to the secret key provided.</param>
+        /// <param name="keyUrl">The SafeKey's safe:// url to verify it matches/corresponds to the secret key provided.</param>
         /// <param name="name">The name to give the spendable balance.</param>
-        /// <param name="setDefault">To make this wallet as the default.</param>
+        /// <param name="setDefault">To set this wallet as default.</param>
         /// <param name="secretKey">The secret key needed to make the balance spendable.</param>
-        /// <returns></returns>
+        /// <returns>Name used for the wallet.</returns>
         public Task<string> WalletInsertAsync(
             string keyUrl,
             string name,
@@ -43,29 +43,29 @@ namespace SafeApp.API
             => AppBindings.WalletInsertAsync(_appPtr, keyUrl, name, setDefault, secretKey);
 
         /// <summary>
-        /// Check the total balance of a Wallet found at a given XOR-URL.
+        /// Check the total balance of a Wallet found at a given XorUrl.
         /// </summary>
-        /// <param name="url">The XOR-URL of the wallet.</param>
-        /// <returns>The balance of the wallet with the given XOR-URL.</returns>
+        /// <param name="url">The XorUrl of a wallet.</param>
+        /// <returns>The balance of the wallet for the given XorUrl.</returns>
         public Task<string> WalletBalanceAsync(string url)
             => AppBindings.WalletBalanceAsync(_appPtr, url);
 
         /// <summary>
-        /// Check the balance of the default wallet ????.
+        /// Check the default spendable balance for a wallet XorUrl.
         /// </summary>
-        /// <param name="url">???./</param>
-        /// <returns></returns>
+        /// <param name="url">The XorUrl of a wallet.</param>
+        /// <returns>SpendableWalletBalance instance and it's version</returns>
         public Task<(WalletSpendableBalance, ulong)> WalletGetDefaultBalanceAsync(string url)
             => AppBindings.WalletGetDefaultBalanceAsync(_appPtr, url);
 
         /// <summary>
-        /// Transfer safecoins from one Wallet to another.
+        /// Transfer SafeCoins from one Wallet to the another.
         /// </summary>
-        /// <param name="from">The XOR-URL of the sender's wallet.</param>
-        /// <param name="to">The XOR-URL of the recipient's wallet.</param>
-        /// <param name="amount">The amount of SafeCoin.</param>
-        /// <param name="id">??? SAFE ID of the sender</param>
-        /// <returns>Returns the transaction ID of the transfer</returns>
+        /// <param name="from">The XorUrl of the sender's wallet.</param>
+        /// <param name="to">The XorUrl of the recipient's wallet.</param>
+        /// <param name="amount">The amount of SafeCoins.</param>
+        /// <param name="id">Transaction id, a random id will be generated if not provided.</param>
+        /// <returns>Returns the transaction id of the transfer.</returns>
         public Task<ulong> WalletTransferAsync(
             string from,
             string to,
@@ -74,10 +74,12 @@ namespace SafeApp.API
             => AppBindings.WalletTransferAsync(_appPtr, from, to, amount, id);
 
         /// <summary>
-        /// Get the spendable balance of the wallet.
+        /// Get the spendable wallet balances for a wallet XorUrl.
         /// </summary>
-        /// <param name="url">The XOR-URL of the wallet</param>
-        /// <returns></returns>
+        /// <param name="url">The XorUrl of the wallet.</param>
+        /// <returns>
+        /// New instance of WalletSpendableBalances which contains the list of all spendable balances.
+        /// </returns>
         public Task<WalletSpendableBalances> WalletGetAsync(string url)
             => AppBindings.WalletGetAsync(_appPtr, url);
     }
