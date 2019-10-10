@@ -37,13 +37,13 @@ namespace SafeApp.Tests
                 null,
                 0);
 
-            Assert.AreEqual(xorName, xorEncoder.Xorname);
+            Assert.AreEqual(xorName, xorEncoder.XorName);
             Assert.AreNotEqual(default(XorUrlEncoder), xorEncoder);
             Assert.AreNotEqual(0, xorEncoder.TypeTag);
 
             var encoder = await XorEncoder.XorUrlEncoderFromUrl(encodedString);
 
-            Assert.AreEqual(xorName, encoder.Xorname);
+            Assert.AreEqual(xorName, encoder.XorName);
             Assert.AreNotEqual(default(XorUrlEncoder), encoder);
             Assert.AreEqual(16000, encoder.TypeTag);
             Assert.AreEqual(contenType, encoder.ContentType);
