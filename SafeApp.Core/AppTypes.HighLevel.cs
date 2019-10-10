@@ -49,7 +49,7 @@ namespace SafeApp.Core
     {
         public ulong EncodingVersion;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
-        public byte[] Xorname;
+        public byte[] XorName;
         public ulong TypeTag;
         public ulong DataType;
         public ushort ContentType;
@@ -67,15 +67,18 @@ namespace SafeApp.Core
     [PublicAPI]
     public struct SafeKey : ISafeData
     {
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string XorUrl;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
-        public byte[] Xorname;
+        public byte[] XorName;
         public NrsMapContainerInfo ResolvedFrom;
     }
 
     [PublicAPI]
     public struct Wallet : ISafeData
     {
-        public byte[] Xorname;
+        public string XorUrl;
+        public byte[] XorName;
         public ulong TypeTag;
         public WalletSpendableBalances Balances;
         public ulong DataType;
@@ -83,7 +86,8 @@ namespace SafeApp.Core
 
         internal Wallet(WalletNative native)
         {
-            Xorname = native.Xorname;
+            XorUrl = native.XorUrl;
+            XorName = native.XorName;
             TypeTag = native.TypeTag;
             Balances = new WalletSpendableBalances(native.Balances);
             DataType = native.DataType;
@@ -94,7 +98,8 @@ namespace SafeApp.Core
         {
             return new WalletNative
             {
-                Xorname = Xorname,
+                XorUrl = XorUrl,
+                XorName = XorName,
                 TypeTag = TypeTag,
                 Balances = Balances.ToNative(),
                 DataType = DataType,
@@ -105,8 +110,10 @@ namespace SafeApp.Core
 
     internal struct WalletNative
     {
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string XorUrl;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
-        public byte[] Xorname;
+        public byte[] XorName;
         public ulong TypeTag;
         public WalletSpendableBalancesNative Balances;
         public ulong DataType;
@@ -121,8 +128,10 @@ namespace SafeApp.Core
     [PublicAPI]
     public struct FilesContainer : ISafeData
     {
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string XorUrl;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
-        public byte[] Xorname;
+        public byte[] XorName;
         public ulong TypeTag;
         public ulong Version;
         [MarshalAs(UnmanagedType.LPStr)]
@@ -134,14 +143,16 @@ namespace SafeApp.Core
     [PublicAPI]
     public struct PublishedImmutableData : ISafeData
     {
-        public byte[] Xorname;
+        public string XorUrl;
+        public byte[] XorName;
         public byte[] Data;
         public NrsMapContainerInfo ResolvedFrom;
         public string MediaType;
 
         internal PublishedImmutableData(PublishedImmutableDataNative native)
         {
-            Xorname = native.Xorname;
+            XorUrl = native.XorUrl;
+            XorName = native.XorName;
             Data = BindingUtils.CopyToByteArray(native.DataPtr, (int)native.DataLen);
             ResolvedFrom = native.ResolvedFrom;
             MediaType = native.MediaType;
@@ -151,7 +162,8 @@ namespace SafeApp.Core
         {
             return new PublishedImmutableDataNative
             {
-                Xorname = Xorname,
+                XorUrl = XorUrl,
+                XorName = XorName,
                 DataPtr = BindingUtils.CopyFromByteArray(Data),
                 DataLen = (UIntPtr)(Data?.Length ?? 0),
                 ResolvedFrom = ResolvedFrom,
@@ -162,8 +174,10 @@ namespace SafeApp.Core
 
     internal struct PublishedImmutableDataNative
     {
+        [MarshalAs(UnmanagedType.LPStr)]
+        public string XorUrl;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)AppConstants.XorNameLen)]
-        public byte[] Xorname;
+        public byte[] XorName;
         public IntPtr DataPtr;
         public UIntPtr DataLen;
         public NrsMapContainerInfo ResolvedFrom;
@@ -321,7 +335,7 @@ namespace SafeApp.Core
         /// File XorUrl.
         /// </summary>
         [MarshalAs(UnmanagedType.LPStr)]
-        public string FileXorurl;
+        public string FileXorUrl;
     }
 
     /// <summary>
@@ -336,7 +350,7 @@ namespace SafeApp.Core
         public List<ProcessedFile> Files;
 
         /// <summary>
-        /// Initialises the processed file from native file info.
+        /// Initialise the processed file from native file info.
         /// </summary>
         /// <param name="native"></param>
         internal ProcessedFiles(ProcessedFilesNative native)
