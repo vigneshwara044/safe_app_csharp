@@ -28,9 +28,9 @@ namespace SafeApp.Tests
             var xorUrlEncoder = await Nrs.ParseUrlAsync(xorUrl);
 
             // todo: verify that these are actually the expected values
-            Assert.AreEqual(0, xorUrlEncoder.ContentType);
+            Assert.AreEqual(ContentType.Raw, xorUrlEncoder.ContentType);
             Assert.AreEqual(0, xorUrlEncoder.ContentVersion);
-            Assert.AreEqual(0, xorUrlEncoder.DataType);
+            Assert.AreEqual(DataType.SafeKey, xorUrlEncoder.DataType);
             Assert.AreEqual(1, xorUrlEncoder.EncodingVersion);
             Assert.AreEqual(string.Empty, xorUrlEncoder.Path);
             Assert.AreEqual("[]", xorUrlEncoder.SubNames);
@@ -169,19 +169,11 @@ namespace SafeApp.Tests
             ValidateEncoder(encoder, expectedContentType, expectedTypeTag);
         }
 
-        enum ContentType
-        {
-            Raw,
-            Wallet,
-            FilesContainer,
-            NrsMapContainer,
-        }
-
         void ValidateEncoder(XorUrlEncoder encoder, ContentType expectedContentType, int expectedTypeTag)
         {
-            Assert.AreEqual((ushort)expectedContentType, encoder.ContentType);
+            Assert.AreEqual(expectedContentType, encoder.ContentType);
             Assert.AreEqual(0, encoder.ContentVersion);
-            Assert.AreEqual(5, encoder.DataType);
+            Assert.AreEqual(DataType.PublishedSeqAppendOnlyData, encoder.DataType);
             Assert.AreEqual(1, encoder.EncodingVersion);
 
             // todo: these need to be validated once they contain the correct values

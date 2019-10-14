@@ -90,7 +90,7 @@ namespace SafeApp.Tests
 
         void EnsureNullNrsContainerInfo(NrsMapContainerInfo info)
         {
-            Assert.AreEqual(0, info.DataType); // iffy, since 0 is actually a data type
+            Assert.AreEqual(DataType.SafeKey, info.DataType); // iffy, since 0 is actually a data type
             Assert.IsNull(info.NrsMap);
             Assert.IsNull(info.PublicName);
             Assert.AreEqual(0, info.TypeTag); // is TT=0 used?

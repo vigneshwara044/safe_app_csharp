@@ -15,12 +15,13 @@ namespace SafeApp.Tests
             Random rnd = new Random();
             var xorName = new byte[32];
             rnd.NextBytes(xorName);
-            var contenType = (ushort)1;
+            var contentType = ContentType.Wallet;
+            var dataType = DataType.UnpublishedImmutableData;
             var encodedString = await XorEncoder.EncodeAsync(
                 xorName,
                 16000,
-                2,
-                contenType,
+                dataType,
+                contentType,
                 null,
                 null,
                 0,
@@ -31,8 +32,8 @@ namespace SafeApp.Tests
             var xorEncoder = await XorEncoder.EncodeAsync(
                 xorName,
                 16000,
-                2,
-                contenType,
+                dataType,
+                contentType,
                 null,
                 null,
                 0);
@@ -46,7 +47,8 @@ namespace SafeApp.Tests
             Assert.AreEqual(xorName, encoder.XorName);
             Assert.AreNotEqual(default(XorUrlEncoder), encoder);
             Assert.AreEqual(16000, encoder.TypeTag);
-            Assert.AreEqual(contenType, encoder.ContentType);
+            Assert.AreEqual(dataType, encoder.DataType);
+            Assert.AreEqual(contentType, encoder.ContentType);
             Assert.AreEqual(0, encoder.ContentVersion);
         }
     }
