@@ -45,8 +45,8 @@ namespace SafeApp.AppBindings
         Task<string> XorurlEncodeAsync(
             byte[] name,
             ulong typeTag,
-            ulong dataType,
-            ushort contentType,
+            DataType dataType,
+            ContentType contentType,
             string path,
             string subNames,
             ulong contentVersion,
@@ -55,8 +55,8 @@ namespace SafeApp.AppBindings
         Task<XorUrlEncoder> XorurlEncoderAsync(
             byte[] name,
             ulong typeTag,
-            ulong dataType,
-            ushort contentType,
+            DataType dataType,
+            ContentType contentType,
             string path,
             string subNames,
             ulong contentVersion);

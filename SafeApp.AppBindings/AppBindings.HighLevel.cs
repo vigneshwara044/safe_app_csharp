@@ -47,8 +47,8 @@ namespace SafeApp.AppBindings
         public Task<string> XorurlEncodeAsync(
             byte[] name,
             ulong typeTag,
-            ulong dataType,
-            ushort contentType,
+            DataType dataType,
+            ContentType contentType,
             string path,
             string subNames,
             ulong contentVersion,
@@ -58,8 +58,8 @@ namespace SafeApp.AppBindings
             XorurlEncodeNative(
                 name,
                 typeTag,
-                dataType,
-                contentType,
+                (ulong)dataType,
+                (ushort)contentType,
                 path,
                 subNames,
                 contentVersion,
@@ -85,8 +85,8 @@ namespace SafeApp.AppBindings
         public Task<XorUrlEncoder> XorurlEncoderAsync(
             byte[] name,
             ulong typeTag,
-            ulong dataType,
-            ushort contentType,
+            DataType dataType,
+            ContentType contentType,
             string path,
             string subNames,
             ulong contentVersion)
@@ -95,8 +95,8 @@ namespace SafeApp.AppBindings
             XorurlEncoderNative(
                 name,
                 typeTag,
-                dataType,
-                contentType,
+                (ulong)dataType,
+                (ushort)contentType,
                 path,
                 subNames,
                 contentVersion,
@@ -140,7 +140,7 @@ namespace SafeApp.AppBindings
             BindingUtils.CompleteTask(
                 userData,
                 Marshal.PtrToStructure<FfiResult>(result),
-                () => Marshal.PtrToStructure<XorUrlEncoder>(xorurlEncoder));
+                () => new XorUrlEncoder(Marshal.PtrToStructure<XorUrlEncoderNative>(xorurlEncoder)));
         }
 
         private static readonly FfiResultXorUrlEncoderCb DelegateOnFfiResultXorUrlEncoderCb = OnFfiResultXorUrlEncoderCb;
@@ -209,7 +209,7 @@ namespace SafeApp.AppBindings
         private static void OnFfiResultSafeKeyCb(IntPtr userData, IntPtr safeKey)
         {
             var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<ISafeData>>(userData);
-            tcs.SetResult(Marshal.PtrToStructure<SafeKey>(safeKey));
+            tcs.SetResult(new SafeKey(Marshal.PtrToStructure<SafeKeyNative>(safeKey)));
         }
 
         private static readonly FfiResultSafeKeyCb DelegateOnFfiResultSafeKeyCb = OnFfiResultSafeKeyCb;
@@ -222,7 +222,7 @@ namespace SafeApp.AppBindings
         private static void OnFfiResultFilesContainerCb(IntPtr userData, IntPtr filesContainer)
         {
             var tcs = BindingUtils.FromHandlePtr<TaskCompletionSource<ISafeData>>(userData);
-            tcs.SetResult(Marshal.PtrToStructure<FilesContainer>(filesContainer));
+            tcs.SetResult(new FilesContainer(Marshal.PtrToStructure<FilesContainerNative>(filesContainer)));
         }
 
         private static readonly FfiResultFilesContainerCb DelegateOnFfiResultFilesContainerCb = OnFfiResultFilesContainerCb;
@@ -868,13 +868,13 @@ namespace SafeApp.AppBindings
         {
             var resolved = resolvedFrom == IntPtr.Zero ?
                 default :
-                Marshal.PtrToStructure<XorUrlEncoder>(resolvedFrom);
+                new XorUrlEncoder(Marshal.PtrToStructure<XorUrlEncoderNative>(resolvedFrom));
 
             BindingUtils.CompleteTask(
                 userData,
                 Marshal.PtrToStructure<FfiResult>(result),
                 () => (
-                    Marshal.PtrToStructure<XorUrlEncoder>(xorUrlEncoder),
+                    new XorUrlEncoder(Marshal.PtrToStructure<XorUrlEncoderNative>(xorUrlEncoder)),
                     resolved));
         }
 

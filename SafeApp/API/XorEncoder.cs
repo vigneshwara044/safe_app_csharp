@@ -26,8 +26,8 @@ namespace SafeApp.API
         public static Task<string> EncodeAsync(
             byte[] xorName,
             ulong typeTag,
-            ulong dataType,
-            ushort contentType,
+            DataType dataType,
+            ContentType contentType,
             string path,
             string subNames,
             ulong contentVersion,
@@ -49,8 +49,8 @@ namespace SafeApp.API
         public static Task<XorUrlEncoder> EncodeAsync(
             byte[] xorName,
             ulong typeTag,
-            ulong dataType,
-            ushort contentType,
+            DataType dataType,
+            ContentType contentType,
             string path,
             string subNames,
             ulong contentVersion)
