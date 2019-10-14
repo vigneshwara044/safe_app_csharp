@@ -85,13 +85,6 @@ namespace SafeApp.Tests
             return new string(Enumerable.Repeat(chars, length).Select(s => s[Random.Next(s.Length)]).ToArray());
         }
 
-        public static void ValidateXorName(byte[] xorName)
-        {
-            Assert.IsNotNull(xorName);
-            Assert.AreEqual(32, xorName.Length);
-            Assert.IsFalse(Enumerable.SequenceEqual(new byte[32], xorName));
-        }
-
         public static void PrepareTestData()
         {
             System.IO.Directory.CreateDirectory(TestDataDir);

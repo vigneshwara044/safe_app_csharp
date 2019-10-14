@@ -12,14 +12,15 @@ namespace SafeApp.Tests
         [Test]
         public async Task EncodeStringTestAsync()
         {
-            Random rnd = new Random();
+            var rnd = new Random();
             var xorName = new byte[32];
             rnd.NextBytes(xorName);
+            var typeTag = 16000UL;
             var contentType = ContentType.Wallet;
             var dataType = DataType.UnpublishedImmutableData;
             var encodedString = await XorEncoder.EncodeAsync(
                 xorName,
-                16000,
+                typeTag,
                 dataType,
                 contentType,
                 null,
@@ -29,27 +30,25 @@ namespace SafeApp.Tests
             Assert.IsNotNull(encodedString);
             Assert.IsTrue(encodedString.StartsWith("safe://", StringComparison.Ordinal));
 
-            var xorEncoder = await XorEncoder.EncodeAsync(
+            var xorUrlEncoder = await XorEncoder.EncodeAsync(
                 xorName,
-                16000,
+                typeTag,
                 dataType,
                 contentType,
                 null,
                 null,
                 0);
 
-            Assert.AreEqual(xorName, xorEncoder.XorName);
-            Assert.AreNotEqual(default(XorUrlEncoder), xorEncoder);
-            Assert.AreNotEqual(0, xorEncoder.TypeTag);
+            Assert.AreEqual(xorName, xorUrlEncoder.XorName);
+            Validate.Encoder(xorUrlEncoder, dataType, (ContentType)contentType, typeTag);
 
-            var encoder = await XorEncoder.XorUrlEncoderFromUrl(encodedString);
+            var parsedEncoder = await XorEncoder.XorUrlEncoderFromUrl(encodedString);
 
-            Assert.AreEqual(xorName, encoder.XorName);
-            Assert.AreNotEqual(default(XorUrlEncoder), encoder);
-            Assert.AreEqual(16000, encoder.TypeTag);
-            Assert.AreEqual(dataType, encoder.DataType);
-            Assert.AreEqual(contentType, encoder.ContentType);
-            Assert.AreEqual(0, encoder.ContentVersion);
+            Assert.AreEqual(xorName, parsedEncoder.XorName);
+            Validate.Encoder(parsedEncoder, dataType, contentType, typeTag);
+            Assert.AreEqual(typeTag, parsedEncoder.TypeTag);
+            Assert.AreEqual(contentType, parsedEncoder.ContentType);
+            Assert.AreEqual(0, parsedEncoder.ContentVersion);
         }
     }
 }
