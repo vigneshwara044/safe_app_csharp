@@ -19,10 +19,10 @@ namespace SafeApp.Tests
 
         public static void NrsContainerInfo(NrsMapContainerInfo info)
         {
-            Assert.AreNotEqual(0, info.DataType);
+            Assert.AreNotEqual(DataType.SafeKey, info.DataType);
             Assert.IsNotNull(info.NrsMap);
             Assert.IsNotNull(info.PublicName);
-            Assert.AreNotEqual(0, info.TypeTag);
+            Assert.NotZero(info.TypeTag);
             Assert.IsNotNull(info.Version);
             Assert.IsNotNull(info.XorUrl);
             Validate.XorName(info.XorName);
@@ -30,11 +30,11 @@ namespace SafeApp.Tests
 
         public static void EnsureNullNrsContainerInfo(NrsMapContainerInfo info)
         {
-            Assert.AreEqual(DataType.SafeKey, info.DataType); // iffy, since 0 is actually a data type
+            Assert.AreEqual(DataType.SafeKey, info.DataType); // since 0 is actually a data type
             Assert.IsNull(info.NrsMap);
             Assert.IsNull(info.PublicName);
-            Assert.AreEqual(0, info.TypeTag); // is TT=0 used?
-            Assert.AreEqual(0, info.Version); // iffy, since v 0 is actually the first version
+            Assert.Zero(info.TypeTag);
+            Assert.Zero(info.Version); // since v 0 is actually the first version
             Assert.IsNull(info.XorUrl);
             Assert.IsTrue(Enumerable.SequenceEqual(new byte[32], info.XorName));
         }
@@ -48,7 +48,7 @@ namespace SafeApp.Tests
         public static void Encoder(XorUrlEncoder encoder, DataType expectedDataType, ContentType expectedContentType, ulong expectedTypeTag)
         {
             Assert.AreEqual(expectedContentType, encoder.ContentType);
-            Assert.AreEqual(0, encoder.ContentVersion);
+            Assert.Zero(encoder.ContentVersion);
             Assert.AreEqual(expectedDataType, encoder.DataType);
             Assert.AreEqual(1, encoder.EncodingVersion);
 
@@ -90,15 +90,15 @@ namespace SafeApp.Tests
         {
             Assert.IsNotNull(keyPair.PK);
             Assert.IsNotNull(keyPair.SK);
-            Assert.AreNotSame(string.Empty, keyPair.PK);
-            Assert.AreNotSame(string.Empty, keyPair.SK);
+            Assert.IsNotEmpty(keyPair.PK);
+            Assert.IsNotEmpty(keyPair.SK);
             Assert.AreNotSame(keyPair.PK, keyPair.SK);
         }
 
         public static async Task PersistedKeyPair(string xorUrl, BlsKeyPair keyPair, Keys api)
         {
             Validate.TransientKeyPair(keyPair);
-            await Validate.XorUrlAsync(xorUrl, 0, ContentType.Raw, 0);
+            await Validate.XorUrlAsync(xorUrl, DataType.SafeKey, ContentType.Raw, 0);
             var publicKey = await api.ValidateSkForUrlAsync(keyPair.SK, xorUrl);
             Assert.AreEqual(keyPair.PK, publicKey);
         }

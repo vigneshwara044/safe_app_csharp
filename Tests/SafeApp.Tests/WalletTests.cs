@@ -7,13 +7,13 @@ namespace SafeApp.Tests
     [TestFixture]
     internal class WalletTest
     {
-        private const string NAME1 = "TestBalance1";
-        private const string NAME2 = "TestBalance2";
+        private string _testWalletOne = TestUtils.GetRandomString(10);
+        private string _testWalletTwo = TestUtils.GetRandomString(10);
 
         [Test]
         public async Task CreateWalletTest()
         {
-            var (_, api, _) = await GetAPIsAsync();
+            var (api, _) = await GetKeysAndWalletAPIs();
 
             var wallet = await api.WalletCreateAsync();
             var balance = await api.WalletBalanceAsync(wallet);
@@ -23,7 +23,7 @@ namespace SafeApp.Tests
         [Test]
         public async Task InsertAndBalanceTest()
         {
-            var (_, api, keysApi) = await GetAPIsAsync();
+            var (api, keysApi) = await GetKeysAndWalletAPIs();
 
             var walletXorUrl = await api.WalletCreateAsync();
             var keyPair_1_Balance = "123";
@@ -31,12 +31,12 @@ namespace SafeApp.Tests
             var expectedEndBalance = "444";
             var (_, keyPair1) = await keysApi.KeysCreatePreloadTestCoinsAsync(keyPair_1_Balance);
             var (_, keyPair2) = await keysApi.KeysCreatePreloadTestCoinsAsync(keyPair_2_Balance);
-            await api.WalletInsertAsync(walletXorUrl, NAME1, setDefault: true, keyPair1.SK);
+            await api.WalletInsertAsync(walletXorUrl, _testWalletOne, setDefault: true, keyPair1.SK);
 
             var currentBalance = await api.WalletBalanceAsync(walletXorUrl);
             Validate.IsEqualAmount(keyPair_1_Balance, currentBalance);
 
-            await api.WalletInsertAsync(walletXorUrl, "TestBalance2", setDefault: false, keyPair2.SK);
+            await api.WalletInsertAsync(walletXorUrl, _testWalletTwo, setDefault: false, keyPair2.SK);
             currentBalance = await api.WalletBalanceAsync(walletXorUrl);
             Validate.IsEqualAmount(expectedEndBalance, currentBalance);
         }
@@ -44,54 +44,54 @@ namespace SafeApp.Tests
         [Test]
         public async Task InsertAndGetTest()
         {
-            var (session, api, keysApi) = await GetAPIsAsync();
+            var (api, keysApi) = await GetKeysAndWalletAPIs();
 
             var walletXorUrl = await api.WalletCreateAsync();
             var (xorUrl1, keyPair1) = await keysApi.KeysCreatePreloadTestCoinsAsync("123");
             var (xorUrl2, keyPair2) = await keysApi.KeysCreatePreloadTestCoinsAsync("321");
 
-            await api.WalletInsertAsync(walletXorUrl, NAME1, setDefault: true, keyPair1.SK);
-            await api.WalletInsertAsync(walletXorUrl, NAME2, setDefault: false, keyPair2.SK);
+            await api.WalletInsertAsync(walletXorUrl, _testWalletOne, setDefault: true, keyPair1.SK);
+            await api.WalletInsertAsync(walletXorUrl, _testWalletTwo, setDefault: false, keyPair2.SK);
 
             var walletBalances = await api.WalletGetAsync(walletXorUrl);
-            Assert.IsTrue(walletBalances.WalletBalances.Find(q => q.WalletName.Equals(NAME1)).IsDefault);
-            Assert.AreEqual(Find(walletBalances, NAME1).XorUrl, xorUrl1);
-            Assert.AreEqual(Find(walletBalances, NAME1).Sk, keyPair1.SK);
+            Assert.IsTrue(walletBalances.WalletBalances.Find(q => q.WalletName.Equals(_testWalletOne)).IsDefault);
+            Assert.AreEqual(FindWalletBalance(walletBalances, _testWalletOne).XorUrl, xorUrl1);
+            Assert.AreEqual(FindWalletBalance(walletBalances, _testWalletOne).Sk, keyPair1.SK);
 
-            Assert.IsFalse(walletBalances.WalletBalances.Find(q => q.WalletName.Equals(NAME2)).IsDefault);
-            Assert.AreEqual(Find(walletBalances, NAME2).XorUrl, xorUrl2);
-            Assert.AreEqual(Find(walletBalances, NAME2).Sk, keyPair2.SK);
+            Assert.IsFalse(walletBalances.WalletBalances.Find(q => q.WalletName.Equals(_testWalletTwo)).IsDefault);
+            Assert.AreEqual(FindWalletBalance(walletBalances, _testWalletTwo).XorUrl, xorUrl2);
+            Assert.AreEqual(FindWalletBalance(walletBalances, _testWalletTwo).Sk, keyPair2.SK);
         }
 
         [Test]
         public async Task WalletInsertAndSetDefaultTest()
         {
-            var (session, api, keysApi) = await GetAPIsAsync();
+            var (api, keysApi) = await GetKeysAndWalletAPIs();
 
             var walletXorUrl = await api.WalletCreateAsync();
             var (xorUrl1, keyPair1) = await keysApi.KeysCreatePreloadTestCoinsAsync("123");
             var (xorUrl2, keyPair2) = await keysApi.KeysCreatePreloadTestCoinsAsync("321");
 
-            await api.WalletInsertAsync(walletXorUrl, NAME1, setDefault: true, keyPair1.SK);
-            await api.WalletInsertAsync(walletXorUrl, NAME2, setDefault: true, keyPair2.SK);
+            await api.WalletInsertAsync(walletXorUrl, _testWalletOne, setDefault: true, keyPair1.SK);
+            await api.WalletInsertAsync(walletXorUrl, _testWalletTwo, setDefault: true, keyPair2.SK);
             var walletBalances = await api.WalletGetAsync(walletXorUrl);
 
-            Assert.IsFalse(walletBalances.WalletBalances.Find(q => q.WalletName.Equals(NAME1)).IsDefault);
-            Assert.AreEqual(Find(walletBalances, NAME1).XorUrl, xorUrl1);
-            Assert.AreEqual(Find(walletBalances, NAME1).Sk, keyPair1.SK);
+            Assert.IsFalse(walletBalances.WalletBalances.Find(q => q.WalletName.Equals(_testWalletOne)).IsDefault);
+            Assert.AreEqual(FindWalletBalance(walletBalances, _testWalletOne).XorUrl, xorUrl1);
+            Assert.AreEqual(FindWalletBalance(walletBalances, _testWalletOne).Sk, keyPair1.SK);
 
-            Assert.IsTrue(walletBalances.WalletBalances.Find(q => q.WalletName.Equals(NAME2)).IsDefault);
-            Assert.AreEqual(Find(walletBalances, NAME2).XorUrl, xorUrl2);
-            Assert.AreEqual(Find(walletBalances, NAME2).Sk, keyPair2.SK);
+            Assert.IsTrue(walletBalances.WalletBalances.Find(q => q.WalletName.Equals(_testWalletTwo)).IsDefault);
+            Assert.AreEqual(FindWalletBalance(walletBalances, _testWalletTwo).XorUrl, xorUrl2);
+            Assert.AreEqual(FindWalletBalance(walletBalances, _testWalletTwo).Sk, keyPair2.SK);
         }
 
-        WalletSpendableBalance Find(WalletSpendableBalances list, string name)
+        WalletSpendableBalance FindWalletBalance(WalletSpendableBalances list, string name)
             => list.WalletBalances.Find(q => q.WalletName.Equals(name)).Balance;
 
         [Test]
         public async Task TransferWithoutDefaultBalanceTest()
         {
-            var (session, api, keysApi) = await GetAPIsAsync();
+            var (api, keysApi) = await GetKeysAndWalletAPIs();
 
             // without default balance
             var fromWalletXorUrl = await api.WalletCreateAsync();
@@ -108,7 +108,7 @@ namespace SafeApp.Tests
         [Test]
         public async Task TransferFromZeroBalanceTest()
         {
-            var (session, api, keysApi) = await GetAPIsAsync();
+            var (api, keysApi) = await GetKeysAndWalletAPIs();
 
             var fromWalletXorUrl = await api.WalletCreateAsync();
             var (_, keyPair1) = await keysApi.KeysCreatePreloadTestCoinsAsync("0.0");
@@ -128,11 +128,11 @@ namespace SafeApp.Tests
         [Test]
         public async Task TransferDifferentAmountsTest()
         {
-            var (session, api, keysApi) = await GetAPIsAsync();
+            var (api, keysApi) = await GetKeysAndWalletAPIs();
 
             var fromWalletXorUrl = await api.WalletCreateAsync();
             var (_, keyPair1) = await keysApi.KeysCreatePreloadTestCoinsAsync("123.321");
-            await api.WalletInsertAsync(fromWalletXorUrl, NAME1, setDefault: true, keyPair1.SK);
+            await api.WalletInsertAsync(fromWalletXorUrl, _testWalletOne, setDefault: true, keyPair1.SK);
 
             var (toXorUrl, keypair2) = await keysApi.KeysCreatePreloadTestCoinsAsync("0.5");
             await api.WalletInsertAsync(fromWalletXorUrl, "TestBalance2", setDefault: false, keypair2.SK);
@@ -150,7 +150,7 @@ namespace SafeApp.Tests
         [Test]
         public async Task TransferToSafeKeyTest()
         {
-            var (_, api, keysApi) = await GetAPIsAsync();
+            var (api, keysApi) = await GetKeysAndWalletAPIs();
 
             var fromWalletXorUrl = await api.WalletCreateAsync();
             var (_, keyPair1) = await keysApi.KeysCreatePreloadTestCoinsAsync("123.321");
@@ -165,7 +165,7 @@ namespace SafeApp.Tests
         [Test]
         public async Task TransferFromSafeKeyTest()
         {
-            var (session, api, keysApi) = await GetAPIsAsync();
+            var (api, keysApi) = await GetKeysAndWalletAPIs();
 
             var (safekeyXorUrl1, _) = await keysApi.KeysCreatePreloadTestCoinsAsync("10");
             var (safekeyXorUrl2, _) = await keysApi.KeysCreatePreloadTestCoinsAsync("0");
@@ -176,22 +176,22 @@ namespace SafeApp.Tests
         [Test]
         public async Task TransferFromUnownedWalletTest()
         {
-            var (_, api1, keysApi1) = await GetAPIsAsync();
+            var (api1, keysApi1) = await GetKeysAndWalletAPIs();
 
             var account1WalletXORURL = await api1.WalletCreateAsync();
             var (keyXorUrl1, keyPair1) = await keysApi1.KeysCreatePreloadTestCoinsAsync("123.321");
             await api1.WalletInsertAsync(account1WalletXORURL, "TestBalance", setDefault: true, keyPair1.SK);
 
-            var (_, api2, keysApi2) = await GetAPIsAsync();
+            var (api2, keysApi2) = await GetKeysAndWalletAPIs();
             var (keyXorUrl, keyPair2) = await keysApi2.KeysCreatePreloadTestCoinsAsync("123.321");
 
             AssertThrows(-102, () => api2.WalletTransferAsync(account1WalletXORURL, keyXorUrl, "5", 0));
         }
 
-        async Task<(Session, API.Wallet, API.Keys)> GetAPIsAsync()
+        async Task<(API.Wallet, API.Keys)> GetKeysAndWalletAPIs()
         {
             var session = await TestUtils.CreateTestApp();
-            return (session, session.Wallet, session.Keys);
+            return (session.Wallet, session.Keys);
         }
 
         void AssertThrows(int errorCode, AsyncTestDelegate func)
