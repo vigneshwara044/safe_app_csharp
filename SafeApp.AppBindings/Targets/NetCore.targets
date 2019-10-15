@@ -1,4 +1,9 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <IsWindows>$([MSBuild]::IsOSPlatform("Windows"))</IsWindows>
+    <IsOSX>$([MSBuild]::IsOSPlatform("OSX"))</IsOSX>
+    <IsLinux>$([MSBuild]::IsOSPlatform("Linux"))</IsLinux>
+  </PropertyGroup>
   <Choose>
     <When Condition="$(DefineConstants.Contains(SAFE_APP_MOCK))">
       <PropertyGroup>
@@ -17,17 +22,17 @@
     </Otherwise>
   </Choose>
   <Choose>
-    <When Condition="$(RuntimeIdentifier.StartsWith('win'))">
+    <When Condition=" '$(IsWindows)' == 'true' ">
       <PropertyGroup>
         <NativeLibFile>safe_api.dll</NativeLibFile>
       </PropertyGroup>
     </When>
-    <When Condition="$(RuntimeIdentifier.StartsWith('osx'))">
+    <When Condition=" $(IsOSX)' == 'true' ">
       <PropertyGroup>
         <NativeLibFile>libsafe_api.dylib</NativeLibFile>
       </PropertyGroup>
     </When>
-    <When Condition="'$(RuntimeIdentifier)' != ''">
+    <When Condition="'$(IsLinux)' == 'true' ">
       <PropertyGroup>
         <NativeLibFile>libsafe_api.so</NativeLibFile>
       </PropertyGroup>
@@ -44,6 +49,6 @@
     </None>
   </ItemGroup>
   <Target Name="CheckProjectRuntime" BeforeTargets="PrepareForBuild">
-    <Error Condition="!$(RuntimeIdentifier.Contains('x64')) AND '$(RuntimeIdentifier)' != ''" Text="SafeApp package currently only supports x64. Please use a suitable x64 runtime." />
+    <Error Condition=" '$(Platform)' != 'x64' " Text="SafeApp package currently only supports x64. Please use a suitable x64 runtime." />
   </Target>
 </Project>
