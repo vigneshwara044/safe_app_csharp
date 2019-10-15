@@ -44,24 +44,24 @@ namespace SafeApp.Tests
                 switch (data)
                 {
                     case SafeKey key:
-                        TestUtils.ValidateXorName(key.XorName);
-                        EnsureNullNrsContainerInfo(key.ResolvedFrom);
+                        Validate.XorName(key.XorName);
+                        Validate.EnsureNullNrsContainerInfo(key.ResolvedFrom);
                         break;
                     case Wallet wallet:
-                        TestUtils.ValidateXorName(wallet.XorName);
-                        EnsureNullNrsContainerInfo(wallet.ResolvedFrom);
+                        Validate.XorName(wallet.XorName);
+                        Validate.EnsureNullNrsContainerInfo(wallet.ResolvedFrom);
                         break;
                     case FilesContainer filesContainer:
-                        TestUtils.ValidateXorName(filesContainer.XorName);
+                        Validate.XorName(filesContainer.XorName);
                         if (expectNrs)
-                            ValidateNrsContainerInfo(filesContainer.ResolvedFrom);
+                            Validate.NrsContainerInfo(filesContainer.ResolvedFrom);
                         else
-                            EnsureNullNrsContainerInfo(filesContainer.ResolvedFrom);
+                            Validate.EnsureNullNrsContainerInfo(filesContainer.ResolvedFrom);
                         break;
                     case PublishedImmutableData immutableData:
                         Assert.IsNotNull(immutableData.Data);
-                        TestUtils.ValidateXorName(immutableData.XorName);
-                        ValidateNrsContainerInfo(immutableData.ResolvedFrom);
+                        Validate.XorName(immutableData.XorName);
+                        Validate.NrsContainerInfo(immutableData.ResolvedFrom);
                         break;
                     case SafeDataFetchFailed dataFetchFailed:
                         Assert.IsNotNull(dataFetchFailed.Description);
@@ -75,28 +75,6 @@ namespace SafeApp.Tests
             {
                 Assert.Fail("Fetch data type not available");
             }
-        }
-
-        void ValidateNrsContainerInfo(NrsMapContainerInfo info)
-        {
-            Assert.AreNotEqual(0, info.DataType);
-            Assert.IsNotNull(info.NrsMap);
-            Assert.IsNotNull(info.PublicName);
-            Assert.AreNotEqual(0, info.TypeTag);
-            Assert.IsNotNull(info.Version);
-            Assert.IsNotNull(info.XorUrl);
-            TestUtils.ValidateXorName(info.XorName);
-        }
-
-        void EnsureNullNrsContainerInfo(NrsMapContainerInfo info)
-        {
-            Assert.AreEqual(DataType.SafeKey, info.DataType); // iffy, since 0 is actually a data type
-            Assert.IsNull(info.NrsMap);
-            Assert.IsNull(info.PublicName);
-            Assert.AreEqual(0, info.TypeTag); // is TT=0 used?
-            Assert.AreEqual(0, info.Version); // iffy, since v 0 is actually the first version
-            Assert.IsNull(info.XorUrl);
-            Assert.IsTrue(Enumerable.SequenceEqual(new byte[32], info.XorName));
         }
     }
 }

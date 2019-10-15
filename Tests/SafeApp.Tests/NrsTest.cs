@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.API;
 using SafeApp.Core;
@@ -35,7 +34,7 @@ namespace SafeApp.Tests
             Assert.AreEqual(string.Empty, xorUrlEncoder.Path);
             Assert.AreEqual("[]", xorUrlEncoder.SubNames);
             Assert.AreEqual(0, xorUrlEncoder.TypeTag);
-            TestUtils.ValidateXorName(xorUrlEncoder.XorName);
+            Validate.XorName(xorUrlEncoder.XorName);
         }
 
         [Test]
@@ -54,8 +53,8 @@ namespace SafeApp.Tests
                 SetDefault);
             var (xorUrlEncoder, resolvedFrom) = await api.ParseAndResolveUrlAsync(nrsMapXorUrl);
 
-            ValidateEncoder(xorUrlEncoder, ContentType.FilesContainer, 1100);
-            ValidateEncoder(resolvedFrom, ContentType.NrsMapContainer, 1500);
+            Validate.Encoder(xorUrlEncoder, DataType.PublishedSeqAppendOnlyData, ContentType.FilesContainer, 1100);
+            Validate.Encoder(resolvedFrom, DataType.PublishedSeqAppendOnlyData, ContentType.NrsMapContainer, 1500);
         }
 
         [Test]
@@ -74,12 +73,9 @@ namespace SafeApp.Tests
                 DryRun,
                 SetDefault);
 
-            Assert.IsNotNull(nrsMapRaw);
             Assert.IsNotNull(processedEntries);
-            Assert.IsNotNull(xorUrl);
-
-            await ValidateXorUrlAsync(xorUrl, ContentType.NrsMapContainer, 1500);
-            await ValidateRawNrsMapAsync(nrsMapRaw);
+            await Validate.RawNrsMapAsync(nrsMapRaw);
+            await Validate.XorUrlAsync(xorUrl, DataType.PublishedSeqAppendOnlyData, ContentType.NrsMapContainer, 1500);
         }
 
         [Test]
@@ -98,12 +94,9 @@ namespace SafeApp.Tests
                 DirectLink,
                 DryRun);
 
-            Assert.IsNotNull(nrsMapRaw);
-            Assert.IsNotEmpty(xorUrl);
             Assert.AreEqual(1, version);
-
-            await ValidateXorUrlAsync(xorUrl, ContentType.NrsMapContainer, 1500);
-            await ValidateRawNrsMapAsync(nrsMapRaw);
+            await Validate.RawNrsMapAsync(nrsMapRaw);
+            await Validate.XorUrlAsync(xorUrl, DataType.PublishedSeqAppendOnlyData, ContentType.NrsMapContainer, 1500);
         }
 
         [Test]
@@ -115,12 +108,9 @@ namespace SafeApp.Tests
 
             var (nrsMapRaw, xorUrl, version) = await session.Nrs.RemoveFromNrsMapContainerAsync(name, DryRun);
 
-            Assert.IsNotNull(nrsMapRaw);
-            Assert.IsNotEmpty(xorUrl);
             Assert.AreEqual(1, version);
-
-            await ValidateXorUrlAsync(xorUrl, ContentType.NrsMapContainer, 1500);
             Assert.AreEqual("{\"sub_names_map\":{},\"default\":\"NotSet\"}", nrsMapRaw);
+            await Validate.XorUrlAsync(xorUrl, DataType.PublishedSeqAppendOnlyData, ContentType.NrsMapContainer, 1500);
         }
 
         [Test]
@@ -133,57 +123,9 @@ namespace SafeApp.Tests
             var api = session.Nrs;
             var (nrsMapRaw, version) = await api.GetNrsMapContainerAsync(xorUrl);
 
-            Assert.IsNotNull(nrsMapRaw);
             Assert.AreEqual(0, version);
-
-            await ValidateXorUrlAsync(xorUrl, ContentType.NrsMapContainer, 1500);
-            await ValidateRawNrsMapAsync(nrsMapRaw);
-        }
-
-        async Task ValidateRawNrsMapAsync(string nrsMapRaw)
-        {
-            var nrsMap = Serialization.Deserialize<NrsMap>(nrsMapRaw);
-
-            Assert.IsNull(nrsMap.SubNamesMap);
-            /**
-            foreach (var entry in nrsMap.SubNamesMap.Values)
-            {
-                Assert.IsNotNull(entry.SubName);
-                Assert.IsNotNull(entry.SubNameRdf);
-            }
-            **/
-            Assert.IsNotNull(nrsMap.Default);
-            Assert.AreEqual(1, nrsMap.Default.Count);
-            foreach (var rdf in nrsMap.Default.Values)
-            {
-                Assert.AreNotEqual(default(DateTime), rdf.Created);
-                Assert.AreNotEqual(default(DateTime), rdf.Modified);
-                Assert.IsNotNull(rdf.Link);
-                await ValidateXorUrlAsync(rdf.Link, ContentType.FilesContainer, 1100);
-            }
-        }
-
-        async Task ValidateXorUrlAsync(string xorUrl, ContentType expectedContentType, int expectedTypeTag)
-        {
-            var encoder = await XorEncoder.XorUrlEncoderFromUrl(xorUrl);
-            ValidateEncoder(encoder, expectedContentType, expectedTypeTag);
-        }
-
-        void ValidateEncoder(XorUrlEncoder encoder, ContentType expectedContentType, int expectedTypeTag)
-        {
-            Assert.AreEqual(expectedContentType, encoder.ContentType);
-            Assert.AreEqual(0, encoder.ContentVersion);
-            Assert.AreEqual(DataType.PublishedSeqAppendOnlyData, encoder.DataType);
-            Assert.AreEqual(1, encoder.EncodingVersion);
-
-            // todo: these need to be validated once they contain the correct values
-
-            /**
-            Assert.AreEqual(string.Empty, encoder.Path);
-            Assert.AreEqual(string.Empty, encoder.SubNames);
-            **/
-            Assert.AreEqual(expectedTypeTag, encoder.TypeTag);
-            TestUtils.ValidateXorName(encoder.XorName);
+            await Validate.RawNrsMapAsync(nrsMapRaw);
+            await Validate.XorUrlAsync(xorUrl, DataType.PublishedSeqAppendOnlyData, ContentType.NrsMapContainer, 1500);
         }
 
         async Task<string> CreateFilesContainerAsync(Session session)
