@@ -27,5 +27,14 @@ namespace SafeApp.API
         /// <returns>New ISafeData instance based on the content type</returns>
         public Task<ISafeData> FetchAsync(string url)
             => AppBindings.FetchAsync(_appPtr, url);
+
+        /// <summary>
+        /// Inspect the content from the SAFE Network.
+        /// This doesn't fetch the actual data only the metadata.
+        /// </summary>
+        /// <param name="url">safe:// url to inspect.</param>
+        /// <returns>New ISafeData instance based on the content type</returns>
+        public Task<ISafeData> InspectAsync(string url)
+            => AppBindings.InspectAsync(_appPtr, url);
     }
 }

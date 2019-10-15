@@ -175,6 +175,32 @@ namespace SafeApp.AppBindings
             FfiResultFilesContainerCb oContainer,
             FfiFetchFailedCb oErr);
 
+        public Task<ISafeData> InspectAsync(IntPtr app, string url)
+        {
+            var (task, userData) = BindingUtils.PrepareTask<ISafeData>();
+            FetchNative(
+                app,
+                url,
+                userData,
+                DelegateOnFfiResultPublishedImmutableDataCb,
+                DelegateOnFfiResultWalletCb,
+                DelegateOnFfiResultSafeKeyCb,
+                DelegateOnFfiResultFilesContainerCb,
+                DelegateOnFfiFetchFailedCb);
+            return task;
+        }
+
+        [DllImport(DllName, EntryPoint = "inspect")]
+        private static extern void InspectNative(
+            IntPtr app,
+            [MarshalAs(UnmanagedType.LPStr)] string url,
+            IntPtr userData,
+            FfiResultPublishedImmutableDataCb oPublished,
+            FfiResultWalletCb oWallet,
+            FfiResultSafeKeyCb oKeys,
+            FfiResultFilesContainerCb oContainer,
+            FfiFetchFailedCb oErr);
+
         private delegate void FfiResultPublishedImmutableDataCb(IntPtr userData, IntPtr publishedImmutableData);
 
 #if __IOS__
