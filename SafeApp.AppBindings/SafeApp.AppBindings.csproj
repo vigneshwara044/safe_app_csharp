@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.41">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net46;netcoreapp1.0;MonoAndroid44;Xamarin.iOS10</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net472;netcoreapp2.2;MonoAndroid50;Xamarin.iOS10</TargetFrameworks>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -14,7 +14,7 @@
     <DebugType Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">Full</DebugType>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' Or '$(TargetFramework)' == 'netcoreapp1.0' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'netcoreapp2.2' ">
     <DefineConstants>__DESKTOP__</DefineConstants>
   </PropertyGroup>
 
