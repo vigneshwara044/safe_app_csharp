@@ -11,7 +11,7 @@ namespace SafeApp.Tests
         private const string _preloadAmount = "1";
         private API.Keys _api;
 
-        [OneTimeSetUp]
+        [SetUp]
         public async Task Setup()
         {
             var session = await TestUtils.CreateTestApp();
