@@ -373,6 +373,7 @@ namespace SafeApp.Core
                 XorName = XorName,
                 DataPtr = BindingUtils.CopyFromByteArray(Data),
                 DataLen = (UIntPtr)(Data?.Length ?? 0),
+                DataCap = UIntPtr.Zero,
                 ResolvedFrom = ResolvedFrom.ToNative(),
                 MediaType = MediaType
             };
@@ -387,6 +388,9 @@ namespace SafeApp.Core
         public byte[] XorName;
         public IntPtr DataPtr;
         public UIntPtr DataLen;
+
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr DataCap;
         public NrsMapContainerInfoNative ResolvedFrom;
         [MarshalAs(UnmanagedType.LPStr)]
         public string MediaType;

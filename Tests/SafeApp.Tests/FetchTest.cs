@@ -22,19 +22,21 @@ namespace SafeApp.Tests
             ValidateFetchDataTypes(await session.Fetch.FetchAsync(keyUrl));
             var walletUrl = await session.Wallet.WalletCreateAsync();
             ValidateFetchDataTypes(await session.Fetch.FetchAsync(walletUrl));
-            var (filesXorUrl, _, _) = await session.Files.FilesContainerCreateAsync(
+            var (filesXorUrl, processedFiles, _) = await session.Files.FilesContainerCreateAsync(
                 TestUtils.TestDataDir,
                 null,
                 true,
                 false);
             ValidateFetchDataTypes(await session.Fetch.FetchAsync(filesXorUrl));
+            ValidateFetchDataTypes(await session.Fetch.FetchAsync(processedFiles.Files[0].FileXorUrl));
             var (_, _, nrsXorUrl) = await session.Nrs.CreateNrsMapContainerAsync(
                 TestUtils.GetRandomString(5),
                 $"{filesXorUrl}?v=0",
                 false,
                 false,
                 true);
-            ValidateFetchDataTypes(await session.Fetch.FetchAsync(nrsXorUrl), expectNrs: true);
+            var filesContainerFromNrs = await session.Fetch.FetchAsync(nrsXorUrl);
+            ValidateFetchDataTypes(filesContainerFromNrs, expectNrs: true);
         }
 
         public void ValidateFetchDataTypes(ISafeData data, bool expectNrs = false)
@@ -61,13 +63,15 @@ namespace SafeApp.Tests
                     case PublishedImmutableData immutableData:
                         Assert.IsNotNull(immutableData.Data);
                         Validate.XorName(immutableData.XorName);
-                        Validate.NrsContainerInfo(immutableData.ResolvedFrom);
+                        if (expectNrs)
+                            Validate.NrsContainerInfo(immutableData.ResolvedFrom);
+                        else
+                            Validate.EnsureNullNrsContainerInfo(immutableData.ResolvedFrom);
                         break;
                     case SafeDataFetchFailed dataFetchFailed:
                         Assert.IsNotNull(dataFetchFailed.Description);
                         Assert.AreNotEqual(0, dataFetchFailed.Code);
-                        break;
-                    default:
+                        Assert.Fail(dataFetchFailed.Description);
                         break;
                 }
             }
