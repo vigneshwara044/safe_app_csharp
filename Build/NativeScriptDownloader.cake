@@ -1,22 +1,25 @@
-var TAG = "0.4.0";
+var TAG = "0.5.0";
+
+var S3_DOWNLOAD_BASE_URL = "https://safe-cli.s3.amazonaws.com/";
 var LIB_DIR_NAME = "../SafeApp.AppBindings/NativeLibs/";
 var ANDROID_DIR_NAME = $"{LIB_DIR_NAME}Android";
 var IOS_DIR_NAME = $"{LIB_DIR_NAME}iOS";
 var DESKTOP_DIR_NAME = $"{LIB_DIR_NAME}Desktop";
+var Native_DIR = Directory($"{System.IO.Path.GetTempPath()}nativelibs");
 
-var ANDROID_ARMEABI_V7A = "android-armeabiv7a";
-var ANDROID_x86_64 = "android-x86_64";
+var ANDROID_ARMEABI_V7A = "armv7-linux-androideabi";
+var ANDROID_x86_64 = "x86_64-linux-android";
 var ANDROID_ARCHITECTURES = new string[] {
   ANDROID_ARMEABI_V7A,
   ANDROID_x86_64
 };
 var IOS_ARCHITECTURES = new string[] {
-  "ios"
+  "apple-ios"
 };
 var DESKTOP_ARCHITECTURES = new string[] {
-  "linux-x64",
-  "osx-x64",
-  "win-x64"
+  "x86_64-unknown-linux-gnu",
+  "x86_64-apple-darwin",
+  "x86_64-pc-windows-gnu"
 };
 var All_ARCHITECTURES = new string[][] {
   ANDROID_ARCHITECTURES,
@@ -24,19 +27,23 @@ var All_ARCHITECTURES = new string[][] {
   DESKTOP_ARCHITECTURES
 };
 
-var Native_DIR = Directory(string.Concat(System.IO.Path.GetTempPath(), "nativelibs"));
 enum Environment {
   Android,
   Ios,
   Desktop
 }
 
+var varients = new string[] {
+  "",
+  "dev" 
+};
+
 Task("Download-Libs")
   .Does(() => {
     foreach(var item in Enum.GetValues(typeof (Environment)))
     {
       string[] targets = null;
-      Information(string.Format("\n{0} ", item));
+      Information($"\n {item} ");
       switch (item) 
       {
       case Environment.Android:
@@ -51,45 +58,35 @@ Task("Download-Libs")
       }
 
       foreach(var target in targets) {
-        var targetDirectory = string.Format("{0}/{1}/{2}", Native_DIR.Path, item, target);
-        var mockZipFilename = string.Format("safe-api-mock-{0}-{1}.zip", TAG, target);
-        var nonMockZipFilename = string.Format("safe-api-{0}-{1}.zip", TAG, target);
-        var mockZipUrl = string.Format("https://safe-api-native-libs.s3.eu-west-2.amazonaws.com/{0}", mockZipFilename);
-        var nonMockZipUrl = string.Format("https://safe-api-native-libs.s3.eu-west-2.amazonaws.com/{0}", nonMockZipFilename);
-        var mockZipSavePath = string.Format("{0}/{1}/{2}/{3}", Native_DIR.Path, item, target, mockZipFilename);
-        var nonMockZipSavePath = string.Format("{0}/{1}/{2}/{3}", Native_DIR.Path, item, target, nonMockZipFilename);
-
-        if(!DirectoryExists(targetDirectory))
-          CreateDirectory(targetDirectory);
-        else
+        foreach (var varient in varients)
         {
-          var existingNativeLibs = GetFiles(string.Format("{0}/*.zip", targetDirectory));
-          if(existingNativeLibs.Count > 0)
-          foreach(var lib in existingNativeLibs) 
+          var targetDirectory = $"{Native_DIR.Path}/{item}/{target}";
+          var zipFileName = varient == "" ? $"safe-ffi-{TAG}-{target}.zip" : $"safe-ffi-{TAG}-{target}-{varient}.zip";
+          var zipFileDownloadUrl = $"{S3_DOWNLOAD_BASE_URL}{zipFileName}";
+          var zipSavePath = $"{Native_DIR.Path}/{item}/{target}/{zipFileName}";
+
+          if(!DirectoryExists(targetDirectory))
+            CreateDirectory(targetDirectory);
+          else
           {
-            if(!lib.GetFilename().ToString().Contains(TAG))
-              DeleteFile(lib.FullPath);
+            var existingNativeLibs = GetFiles($"{targetDirectory}/*.zip");
+            if(existingNativeLibs.Count > 0)
+            foreach(var lib in existingNativeLibs) 
+            {
+              if(!lib.GetFilename().ToString().Contains(TAG))
+                DeleteFile(lib.FullPath);
+            }
           }
-        }
 
-        Information("Downloading : {0}", mockZipFilename);
-        if(!FileExists(mockZipSavePath))
-        {
-          DownloadFile(mockZipUrl, File(mockZipSavePath));
-        }
-        else
-        {
-          Information("File already exists");
-        }
-        
-        Information("Downloading : {0}", nonMockZipFilename);
-        if(!FileExists(nonMockZipSavePath))
-        {
-          DownloadFile(nonMockZipUrl, File(nonMockZipSavePath));
-        }
-        else
-        {
-          Information("File already exists");
+          Information("Downloading : {0}", zipFileName);
+          if(!FileExists(zipSavePath))
+          {
+            DownloadFile(zipFileDownloadUrl, File(zipSavePath));
+          }
+          else
+          {
+            Information("File already exists");
+          }
         }
       }
     }
@@ -104,7 +101,7 @@ Task("UnZip-Libs")
     foreach(var item in Enum.GetValues(typeof(Environment))) {
       string[] targets = null;
       var outputDirectory = string.Empty;
-      Information(string.Format("\n {0} ", item));
+      Information($"\n {item} ");
       switch (item) 
       {
       case Environment.Android:
@@ -121,11 +118,11 @@ Task("UnZip-Libs")
         break;
       }
 
-      CleanDirectories(string.Concat(outputDirectory, "/lib"));
+      CleanDirectories(outputDirectory);
 
       foreach(var target in targets) {
-        var zipSourceDirectory = Directory(string.Format("{0}/{1}/{2}", Native_DIR.Path, item, target));
-        var zipFiles = GetFiles(string.Format("{0}/*.*", zipSourceDirectory));
+        var zipSourceDirectory = Directory($"{Native_DIR.Path}/{item}/{target}");
+        var zipFiles = GetFiles($"{zipSourceDirectory}/*.*");
         foreach(var zip in zipFiles) 
         {
           var filename = zip.GetFilename();
@@ -133,7 +130,7 @@ Task("UnZip-Libs")
           var platformOutputDirectory = new StringBuilder();
           platformOutputDirectory.Append(outputDirectory);
           
-          if(filename.ToString().Contains("mock")) 
+          if(filename.ToString().Contains("dev")) 
           {
             platformOutputDirectory.Append("/mock");
           } 
@@ -148,6 +145,12 @@ Task("UnZip-Libs")
             platformOutputDirectory.Append("/x86_64");
 
           Unzip(zip, platformOutputDirectory.ToString());
+
+          var unZippedFiles = GetFiles($"{platformOutputDirectory.ToString()}/*.*");
+          foreach (var file in unZippedFiles)
+          {
+            MoveFile(file.FullPath, file.FullPath.Replace("safe_ffi", "safe_api"));
+          }
         }
       }
     }
