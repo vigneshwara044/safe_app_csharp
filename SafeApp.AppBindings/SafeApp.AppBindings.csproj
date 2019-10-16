@@ -40,11 +40,11 @@
       <DownloadNativeLibs Condition=" $(AndroidLibsExists) == 'true' Or $(iOSLibsExists) == true Or $(DesktopLibsExists) == true">true</DownloadNativeLibs>
     </PropertyGroup>
 
-    <Exec ConsoleToMSBuild="true" Condition=" $(DownloadNativeLibs) == 'true' AND '$(OS)' == 'Windows_NT'" Command="cd.. &amp; powershell -ExecutionPolicy ByPass -File .\build.ps1 -Configuration Release -target=UnZip-Libs --settings_skipverification=true">
+    <Exec ConsoleToMSBuild="true" Condition=" $(DownloadNativeLibs) == 'true' AND '$(OS)' == 'Windows_NT'" Command="powershell -ExecutionPolicy ByPass -File .\build.ps1 -Configuration Release -target=UnZip-Libs --settings_skipverification=true" WorkingDirectory="..\Build">
       <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
     </Exec>
 
-    <Exec ConsoleToMSBuild="true" Condition=" $(DownloadNativeLibs) == 'true' AND '$(OS)' == 'UNIX'" Command="cd .. &amp;&amp; bash build.sh --Configuration=Release --target=Unzip-Libs --settings_skipverification=true">
+    <Exec ConsoleToMSBuild="true" Condition=" $(DownloadNativeLibs) == 'true' AND '$(OS)' == 'UNIX'" Command="bash build.sh --Configuration=Release --target=Unzip-Libs --settings_skipverification=true" WorkingDirectory="..\Build">
       <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
     </Exec>
   </Target>
