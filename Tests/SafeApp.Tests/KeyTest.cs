@@ -47,15 +47,16 @@ namespace SafeApp.Tests
                 _transferAmount,
                 keyPairRecipient.PK);
 
-            Assert.IsNull(newKeyPair.PK);
-            Assert.IsNull(newKeyPair.SK);
+            Assert.IsEmpty(newKeyPair.SK);
+            Assert.IsNotNull(newKeyPair.PK);
+            Assert.AreEqual(keyPairRecipient.PK, newKeyPair.PK);
 
             await Validate.PersistedKeyPair(xorUrl, keyPairRecipient, _api);
 
-            var senderBalance = await _api.KeysBalanceFromSkAsync(newKeyPair.SK);
-            Validate.IsEqualAmount(_transferAmount, senderBalance);
+            var senderBalance = await _api.KeysBalanceFromSkAsync(keyPairSender.SK);
+            Validate.IsEqualAmount("0.999999999", senderBalance);
 
-            var recipientBalance = await _api.KeysBalanceFromSkAsync(newKeyPair.SK);
+            var recipientBalance = await _api.KeysBalanceFromSkAsync(keyPairRecipient.SK);
             Validate.IsEqualAmount(_transferAmount, recipientBalance);
         }
 
