@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using SafeApp.API;
 using SafeApp.AppBindings;
 using SafeApp.Core;
+using SafeWallet = SafeApp.API.Wallet;
 
 // ReSharper disable UnusedMember.Global
 // ReSharper disable ConvertToLocalFunction
@@ -35,7 +36,7 @@ namespace SafeApp
         /// <summary>
         /// Wallet API.
         /// </summary>
-        public API.Wallet Wallet { get; private set; }
+        public SafeWallet Wallet { get; private set; }
 
         /// <summary>
         /// Files API.
