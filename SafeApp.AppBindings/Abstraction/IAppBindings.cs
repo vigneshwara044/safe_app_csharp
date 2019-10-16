@@ -69,6 +69,8 @@ namespace SafeApp.AppBindings
 
         Task<ISafeData> FetchAsync(IntPtr app, string uri);
 
+        Task<ISafeData> InspectAsync(IntPtr app, string uri);
+
         #endregion
 
         #region Files

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NUnit.Framework;
 using SafeApp.Core;
 
@@ -15,28 +14,32 @@ namespace SafeApp.Tests
         public void TearDown() => TestUtils.RemoveTestData();
 
         [Test]
-        public async Task FetchDataTypesTest()
+        public async Task FetchAndInspectDataTypesTest()
         {
             var session = await TestUtils.CreateTestApp();
             var (keyUrl, _) = await session.Keys.KeysCreatePreloadTestCoinsAsync("10");
             ValidateFetchDataTypes(await session.Fetch.FetchAsync(keyUrl));
+            ValidateFetchDataTypes(await session.Fetch.InspectAsync(keyUrl));
             var walletUrl = await session.Wallet.WalletCreateAsync();
             ValidateFetchDataTypes(await session.Fetch.FetchAsync(walletUrl));
+            ValidateFetchDataTypes(await session.Fetch.InspectAsync(walletUrl));
             var (filesXorUrl, processedFiles, _) = await session.Files.FilesContainerCreateAsync(
                 TestUtils.TestDataDir,
                 null,
                 true,
                 false);
             ValidateFetchDataTypes(await session.Fetch.FetchAsync(filesXorUrl));
+            ValidateFetchDataTypes(await session.Fetch.InspectAsync(filesXorUrl));
             ValidateFetchDataTypes(await session.Fetch.FetchAsync(processedFiles.Files[0].FileXorUrl));
+            ValidateFetchDataTypes(await session.Fetch.InspectAsync(processedFiles.Files[0].FileXorUrl));
             var (_, _, nrsXorUrl) = await session.Nrs.CreateNrsMapContainerAsync(
                 TestUtils.GetRandomString(5),
                 $"{filesXorUrl}?v=0",
                 false,
                 false,
                 true);
-            var filesContainerFromNrs = await session.Fetch.FetchAsync(nrsXorUrl);
-            ValidateFetchDataTypes(filesContainerFromNrs, expectNrs: true);
+            ValidateFetchDataTypes(await session.Fetch.FetchAsync(nrsXorUrl), expectNrs: true);
+            ValidateFetchDataTypes(await session.Fetch.FetchAsync(nrsXorUrl), expectNrs: true);
         }
 
         public void ValidateFetchDataTypes(ISafeData data, bool expectNrs = false)
