@@ -100,7 +100,7 @@ namespace SafeApp.Tests
 #if __ANDROID__
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), _testDataDir);
 #else
-                return _testDataDir;
+                _testDataDir;
 #endif
 
         static readonly string _testDataDir = TestUtils.GetRandomString(5);
