@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
@@ -87,15 +88,20 @@ namespace SafeApp.Tests
 
         public static void PrepareTestData()
         {
-            System.IO.Directory.CreateDirectory(TestDataDir);
-            var testFilePath = System.IO.Path.Combine(TestDataDir, "index.html");
-            System.IO.File.WriteAllText(testFilePath, GetRandomString(20));
+            Directory.CreateDirectory(TestDataDir);
+            var testFilePath = Path.Combine(TestDataDir, "index.html");
+            File.WriteAllText(testFilePath, GetRandomString(20));
         }
 
         public static void RemoveTestData()
-            => System.IO.Directory.Delete(TestDataDir, true);
+            => Directory.Delete(TestDataDir, true);
 
-        public static string TestDataDir => _testDataDir;
+        public static string TestDataDir =>
+#if __ANDROID__
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), _testDataDir);
+#else
+                _testDataDir;
+#endif
 
         static readonly string _testDataDir = TestUtils.GetRandomString(5);
     }
