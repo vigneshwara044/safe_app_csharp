@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using SafeApp.Utilities;
+using SafeApp.Core;
 
 #pragma warning disable SA1401 // Fields should be private
 namespace SafeApp.MockAuthBindings
@@ -50,7 +50,7 @@ namespace SafeApp.MockAuthBindings
         /// <summary>
         /// Extra arbitrary data.
         /// </summary>
-        public List<byte> ExtraData;
+        public byte[] ExtraData;
 
         /// <summary>
         /// Request Id.
@@ -66,7 +66,7 @@ namespace SafeApp.MockAuthBindings
         public UnregisteredIpcReq(uint reqId, IntPtr extraDataPtr, ulong extraDataLength)
         {
             ReqId = reqId;
-            ExtraData = BindingUtils.CopyToByteList(extraDataPtr, (int)extraDataLength);
+            ExtraData = BindingUtils.CopyToByteArray(extraDataPtr, (int)extraDataLength);
         }
     }
 

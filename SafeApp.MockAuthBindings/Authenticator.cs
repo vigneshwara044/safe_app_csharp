@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.Utilities;
+using SafeApp.Core;
 
 namespace SafeApp.MockAuthBindings
 {
@@ -78,9 +78,8 @@ namespace SafeApp.MockAuthBindings
         /// </summary>
         /// <param name="locator">Account locator/username.</param>
         /// <param name="secret">Account secret/password.</param>
-        /// <param name="invitation">Invitation token.</param>
         /// <returns>New Authenticator instance.</returns>
-        public static Task<Authenticator> CreateAccountAsync(string locator, string secret, string invitation)
+        public static Task<Authenticator> CreateAccountAsync(string locator, string secret)
         {
             return Task.Run(
               () =>
@@ -104,7 +103,7 @@ namespace SafeApp.MockAuthBindings
                       authenticator.Init(ptr, disconnectHandle);
                       tcs.SetResult(authenticator);
                   };
-                  NativeBindings.CreateAccount(locator, secret, invitation, disconnect, cb);
+                  NativeBindings.CreateAccount(locator, secret, disconnect, cb);
                   return tcs.Task;
               });
         }
@@ -162,15 +161,6 @@ namespace SafeApp.MockAuthBindings
         {
             FreeAuth();
             GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Returns account information.
-        /// </summary>
-        /// <returns>New AccountInfo instance.</returns>
-        public Task<AccountInfo> AuthAccountInfoAsync()
-        {
-            return NativeBindings.AuthAccountInfoAsync(_authPtr);
         }
 
         /// <summary>

@@ -1,37 +1,38 @@
 ﻿using System;
-using System.Threading;
-using SafeApp.Utilities;
+using JetBrains.Annotations;
+
+#pragma warning disable 1591
 
 namespace SafeApp.AppBindings
 {
+    [PublicAPI]
     public static class AppResolver
     {
+#if !NETSTANDARD
         private static readonly Lazy<IAppBindings> Implementation = new Lazy<IAppBindings>(
           CreateBindings,
-          LazyThreadSafetyMode.PublicationOnly);
+          System.Threading.LazyThreadSafetyMode.PublicationOnly);
+#endif
 
+        [PublicAPI]
         public static IAppBindings Current
         {
             get
             {
-                var ret = Implementation.Value;
-                if (ret == null)
-                {
-                    throw NotImplementedInReferenceAssembly();
-                }
-
-                return ret;
+#if NETSTANDARD
+                throw NotImplementedInReferenceAssembly();
+#else
+                return Implementation.Value;
+#endif
             }
         }
 
+#if !NETSTANDARD
         private static IAppBindings CreateBindings()
         {
-#if NETSTANDARD1_2 && !__DESKTOP__
-      return null;
-#else
             return new AppBindings();
-#endif
         }
+#endif
 
         private static Exception NotImplementedInReferenceAssembly()
         {
@@ -40,3 +41,4 @@ namespace SafeApp.AppBindings
         }
     }
 }
+#pragma warning restore 1591

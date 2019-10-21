@@ -1,0 +1,54 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <IsWindows>$([MSBuild]::IsOSPlatform("Windows"))</IsWindows>
+    <IsOSX>$([MSBuild]::IsOSPlatform("OSX"))</IsOSX>
+    <IsLinux>$([MSBuild]::IsOSPlatform("Linux"))</IsLinux>
+  </PropertyGroup>
+  <Choose>
+    <When Condition="$(DefineConstants.Contains(SAFE_APP_MOCK))">
+      <PropertyGroup>
+        <NativeLibType>mock</NativeLibType>
+      </PropertyGroup>
+      <ItemGroup>
+        <Reference Include="SafeApp.MockAuthBindings">
+          <HintPath>$(MSBuildThisFileDirectory)SafeApp.MockAuthBindings.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <NativeLibType>non-mock</NativeLibType>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  <Choose>
+    <When Condition=" '$(IsWindows)' == 'true' ">
+      <PropertyGroup>
+        <NativeLibFile>safe_api.dll</NativeLibFile>
+      </PropertyGroup>
+    </When>
+    <When Condition=" $(IsOSX)' == 'true' ">
+      <PropertyGroup>
+        <NativeLibFile>libsafe_api.dylib</NativeLibFile>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(IsLinux)' == 'true' ">
+      <PropertyGroup>
+        <NativeLibFile>libsafe_api.so</NativeLibFile>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <NativeLibFile>*</NativeLibFile>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)lib\$(NativeLibType)\$(NativeLibFile)">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Target Name="CheckProjectRuntime" BeforeTargets="PrepareForBuild">
+    <Error Condition=" '$(Platform)' != 'x64' " Text="SafeApp package currently only supports x64. Please use a suitable x64 runtime." />
+  </Target>
+</Project>

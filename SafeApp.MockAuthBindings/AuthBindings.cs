@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using SafeApp.Utilities;
+using SafeApp.Core;
 
 namespace SafeApp.MockAuthBindings
 {
@@ -16,7 +16,7 @@ namespace SafeApp.MockAuthBindings
 #if __IOS__
         private const string DllName = "__Internal";
 #else
-        private const string DllName = "safe_app";
+        private const string DllName = "safe_api";
 #endif
 
         public bool IsMockBuild()
@@ -32,7 +32,6 @@ namespace SafeApp.MockAuthBindings
         private static extern void CreateAccNative(
             [MarshalAs(UnmanagedType.LPStr)] string accountLocator,
             [MarshalAs(UnmanagedType.LPStr)] string accountPassword,
-            [MarshalAs(UnmanagedType.LPStr)] string invitation,
             IntPtr userData,
             NoneCb oDisconnectNotifierCb,
             FfiResultAuthenticatorCb oCb);
@@ -54,16 +53,6 @@ namespace SafeApp.MockAuthBindings
 
         [DllImport(DllName, EntryPoint = "auth_reconnect")]
         private static extern void AuthReconnectNative(IntPtr auth, IntPtr userData, FfiResultCb oCb);
-
-        public Task<AccountInfo> AuthAccountInfoAsync(IntPtr auth)
-        {
-            var (ret, userData) = BindingUtils.PrepareTask<AccountInfo>();
-            AuthAccountInfoNative(auth, userData, DelegateOnFfiResultAccountInfoCb);
-            return ret;
-        }
-
-        [DllImport(DllName, EntryPoint = "auth_account_info")]
-        private static extern void AuthAccountInfoNative(IntPtr auth, IntPtr userData, FfiResultAccountInfoCb oCb);
 
         public Task<string> AuthExeFileStemAsync()
         {
@@ -281,21 +270,6 @@ namespace SafeApp.MockAuthBindings
             [MarshalAs(UnmanagedType.LPStr)] string outputFileName,
             IntPtr userData,
             FfiResultStringCb oCb);
-
-        private delegate void FfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo);
-
-#if __IOS__
-        [MonoPInvokeCallback(typeof(FfiResultAccountInfoCb))]
-#endif
-        private static void OnFfiResultAccountInfoCb(IntPtr userData, IntPtr result, IntPtr accountInfo)
-        {
-            BindingUtils.CompleteTask(
-                userData,
-                Marshal.PtrToStructure<FfiResult>(result),
-                () => Marshal.PtrToStructure<AccountInfo>(accountInfo));
-        }
-
-        private static readonly FfiResultAccountInfoCb DelegateOnFfiResultAccountInfoCb = OnFfiResultAccountInfoCb;
 
         private delegate void FfiResultAppAccessListCb(IntPtr userData, IntPtr result, IntPtr appAccessPtr, UIntPtr appAccessLen);
 

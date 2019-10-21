@@ -1,11 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.3\SafeApp.MockAuthBindings.xml</DocumentationFile>
+    <TargetFrameworks>netstandard2.0;net472;netcoreapp2.2;MonoAndroid50;Xamarin.iOS10</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +9,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
+    <ProjectReference Include="..\SafeApp.Core\SafeApp.Core.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType Condition=" !$(TargetFramework.StartsWith('MonoAndroid')) ">portable</DebugType>
+    <DebugType Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">Full</DebugType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'netcoreapp2.2' ">
+    <DefineConstants>__DESKTOP__</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <AndroidUseIntermediateDesignerFile>False</AndroidUseIntermediateDesignerFile>
+  </PropertyGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)..\CodeStyles.targets" />
 

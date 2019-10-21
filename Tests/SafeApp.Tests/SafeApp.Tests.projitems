@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>c578036a-4959-4f32-a516-dc7ea3160e90</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SafeApp.Tests</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)FetchTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KeyTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AuthTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MiscTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Validations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XorUrlEncoderTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WalletTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FilesTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NrsTest.cs" />
+  </ItemGroup>
+</Project>

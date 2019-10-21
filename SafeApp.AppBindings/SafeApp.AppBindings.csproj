@@ -1,12 +1,53 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras/2.0.54">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net472;netcoreapp2.2;MonoAndroid50;Xamarin.iOS10</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType Condition=" !$(TargetFramework.StartsWith('MonoAndroid')) ">portable</DebugType>
+    <DebugType Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">Full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'netcoreapp2.2' ">
+    <DefineConstants>__DESKTOP__</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('MonoAndroid')) ">
+    <AndroidUseIntermediateDesignerFile>False</AndroidUseIntermediateDesignerFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SafeApp.Utilities\SafeApp.Utilities.csproj" />
+    <AndroidNativeLibs Include="NativeLibs\Android\**\*.so" />
+    <iOSSafeAppLibs Include="NativeLibs\iOS\**\*.a" />
+    <DesktopNativeLibs Include="NativeLibs\Desktop\**\*.*" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SafeApp.Core\SafeApp.Core.csproj" />
+  </ItemGroup>
+
+  <Target Name="CheckNativeLibs" BeforeTargets="DispatchToInnerBuilds">
+    <PropertyGroup>
+      <AndroidLibsExists Condition=" '@(AndroidNativeLibs-&gt;Count())' == '0' ">true</AndroidLibsExists>
+      <iOSLibsExists Condition=" '@(iOSSafeAppLibs-&gt;Count())' == '0' ">true</iOSLibsExists>
+      <DesktopLibsExists Condition=" '@(DesktopNativeLibs-&gt;Count())' == '0' ">true</DesktopLibsExists>
+      <DownloadNativeLibs Condition=" $(AndroidLibsExists) == 'true' Or $(iOSLibsExists) == true Or $(DesktopLibsExists) == true">true</DownloadNativeLibs>
+    </PropertyGroup>
+
+    <Exec ConsoleToMSBuild="true" Condition=" $(DownloadNativeLibs) == 'true' AND '$(OS)' == 'Windows_NT'" Command="powershell -ExecutionPolicy ByPass -File .\build.ps1 -Configuration Release -target=UnZip-Libs --settings_skipverification=true" WorkingDirectory="..\Build">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+
+    <Exec ConsoleToMSBuild="true" Condition=" $(DownloadNativeLibs) == 'true' AND '$(OS)' == 'UNIX'" Command="bash build.sh --Configuration=Release --target=Unzip-Libs --settings_skipverification=true" WorkingDirectory="..\Build">
+      <Output TaskParameter="ConsoleOutput" PropertyName="OutputOfExec" />
+    </Exec>
+  </Target>
 
   <Import Project="$(MSBuildThisFileDirectory)..\CodeStyles.targets" />
 

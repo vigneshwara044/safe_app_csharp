@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using SafeApp.API;
 using SafeApp.AppBindings;
-using SafeApp.MData;
-using SafeApp.Misc;
-using SafeApp.Utilities;
+using SafeApp.Core;
 
+// ReSharper disable UnusedMember.Global
 // ReSharper disable ConvertToLocalFunction
 
 namespace SafeApp
@@ -23,6 +21,31 @@ namespace SafeApp
     public sealed class Session : IDisposable
     {
         private static readonly IAppBindings AppBindings = AppResolver.Current;
+
+        /// <summary>
+        /// Content Fetch API.
+        /// </summary>
+        public Fetch Fetch { get; private set; }
+
+        /// <summary>
+        /// Keys API.
+        /// </summary>
+        public Keys Keys { get; private set; }
+
+        /// <summary>
+        /// Wallet API.
+        /// </summary>
+        public API.Wallet Wallet { get; private set; }
+
+        /// <summary>
+        /// Files API.
+        /// </summary>
+        public Files Files { get; private set; }
+
+        /// <summary>
+        /// NRS API.
+        /// </summary>
+        public Nrs Nrs { get; private set; }
 
         /// <summary>
         /// Event triggered if session is disconnected from the network.
@@ -45,60 +68,6 @@ namespace SafeApp
         }
 #endif
 
-        /// <summary>
-        /// AccessContainer API
-        /// </summary>
-        public AccessContainer AccessContainer { get; private set; }
-
-        /// <summary>
-        /// Crypto API
-        /// </summary>
-        public Crypto Crypto { get; private set; }
-
-        /// <summary>
-        /// CipherOpt API
-        /// </summary>
-        public CipherOpt CipherOpt { get; private set; }
-
-        // ReSharper disable once InconsistentNaming
-
-        /// <summary>
-        /// ImmutableData API
-        /// </summary>
-        public IData.IData IData { get; private set; }
-
-        /// <summary>
-        /// MutableData API
-        /// </summary>
-        public MData.MData MData { get; private set; }
-
-        /// <summary>
-        /// Mutable Data Entries API
-        /// </summary>
-        public MDataEntries MDataEntries { get; private set; }
-
-        /// <summary>
-        /// Mutable Data Entry Actions API
-        /// </summary>
-        public MDataEntryActions MDataEntryActions { get; private set; }
-
-        /// <summary>
-        /// MDataInfo API
-        /// </summary>
-        public MDataInfoActions MDataInfoActions { get; private set; }
-
-        /// <summary>
-        /// Mutable Data Permissions API
-        /// </summary>
-        public MDataPermissions MDataPermissions { get; private set; }
-
-        // ReSharper disable once InconsistentNaming
-
-        /// <summary>
-        /// Mutable Data Permissions API
-        /// </summary>
-        public NFS NFS { get; private set; }
-
         private Session()
         {
             IsDisconnected = true;
@@ -109,68 +78,57 @@ namespace SafeApp
         /// Create a new authenticated session using the provided IPC response.
         /// </summary>
         /// <param name="appId">Application Id.</param>
-        /// <param name="authGranted">Authentication response.</param>
+        /// <param name="authResponse">Authentication response message.</param>
         /// <returns>New session based on appid and authentication response.</returns>
-        public static Task<Session> AppRegisteredAsync(string appId, AuthGranted authGranted)
+        public static Task<Session> AppConnectAsync(string appId, string authResponse)
         {
-            return Task.Run(
-                () =>
+            return Task.Run(() =>
+            {
+                var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
+                var session = new Session();
+                Action<FfiResult, IntPtr, GCHandle> acctConnectedCb = (result, ptr, disconnectedHandle) =>
                 {
-                    var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
-                    var session = new Session();
-                    Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) =>
+                    if (result.ErrorCode != 0)
                     {
-                        if (result.ErrorCode != 0)
-                        {
-                            disconnectedHandle.Free();
+                        tcs.SetException(result.ToException());
+                        return;
+                    }
 
-                            tcs.SetException(result.ToException());
-                            return;
-                        }
+                    session.Init(ptr, disconnectedHandle);
+                    tcs.SetResult(session);
+                };
 
-                        session.Init(ptr, disconnectedHandle);
-                        tcs.SetResult(session);
-                    };
-
-                    Action disconnectedCb = () => { OnDisconnected(session); };
-
-                    AppBindings.AppRegistered(appId, ref authGranted, disconnectedCb, acctCreatedCb);
-                    return tcs.Task;
-                });
+                AppBindings.Connect(appId, authResponse, acctConnectedCb);
+                return tcs.Task;
+            });
         }
 
         /// <summary>
-        /// Creates an unregistered session based on the config provided.
-        /// Config information can be obtained from the UnregisteredIpcResponse.
+        /// Creates an unregistered session for the provided app Id using vault_connection_configuration file.
         /// </summary>
-        /// <param name="bootstrapConfig"></param>
+        /// <param name="appId">Application Id.</param>
         /// <returns></returns>
-        public static Task<Session> AppUnregisteredAsync(List<byte> bootstrapConfig)
+        public static Task<Session> AppConnectUnregisteredAsync(string appId)
         {
-            return Task.Run(
-                () =>
+            return Task.Run(() =>
+            {
+                var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
+                var session = new Session();
+                Action<FfiResult, IntPtr, GCHandle> acctConnectedCb = (result, ptr, disconnectedHandle) =>
                 {
-                    var tcs = new TaskCompletionSource<Session>(TaskCreationOptions.RunContinuationsAsynchronously);
-                    var session = new Session();
-                    Action<FfiResult, IntPtr, GCHandle> acctCreatedCb = (result, ptr, disconnectedHandle) =>
+                    if (result.ErrorCode != 0)
                     {
-                        if (result.ErrorCode != 0)
-                        {
-                            disconnectedHandle.Free();
+                        tcs.SetException(result.ToException());
+                        return;
+                    }
 
-                            tcs.SetException(result.ToException());
-                            return;
-                        }
+                    session.Init(ptr, disconnectedHandle);
+                    tcs.SetResult(session);
+                };
 
-                        session.Init(ptr, disconnectedHandle);
-                        tcs.SetResult(session);
-                    };
-
-                    Action disconnectedCb = () => { OnDisconnected(session); };
-
-                    AppBindings.AppUnregistered(bootstrapConfig, disconnectedCb, acctCreatedCb);
-                    return tcs.Task;
-                });
+                AppBindings.Connect(appId, null, acctConnectedCb);
+                return tcs.Task;
+            });
         }
 
         /// <summary>
@@ -220,7 +178,7 @@ namespace SafeApp
         /// <returns></returns>
         public static Task<(uint, string)> EncodeUnregisteredRequestAsync(string reqId)
         {
-            return AppBindings.EncodeUnregisteredReqAsync(Encoding.UTF8.GetBytes(reqId).ToList());
+            return AppBindings.EncodeUnregisteredReqAsync(Encoding.UTF8.GetBytes(reqId));
         }
 
         /// <summary>
@@ -262,16 +220,6 @@ namespace SafeApp
         }
 
         /// <summary>
-        /// Invoked to fetch the app's root container name.
-        /// </summary>
-        /// <param name="appId">Application id.</param>
-        /// <returns>Application's root container name.</returns>
-        public Task<string> AppContainerNameAsync(string appId)
-        {
-            return AppBindings.AppContainerNameAsync(appId);
-        }
-
-        /// <summary>
         /// Class destructor.
         /// </summary>
         ~Session()
@@ -291,17 +239,7 @@ namespace SafeApp
                 return;
             }
 
-            AppBindings.AppFree(_appPtr);
             _appPtr.Clear();
-        }
-
-        /// <summary>
-        /// Returns the AccountInfo of the current session.
-        /// </summary>
-        /// <returns>AccountInfo object.</returns>
-        public Task<AccountInfo> GetAccountInfoAsync()
-        {
-            return AppBindings.AppAccountInfoAsync(_appPtr);
         }
 
         private void Init(IntPtr appPtr, GCHandle disconnectedHandle)
@@ -310,16 +248,11 @@ namespace SafeApp
             _appPtr = new SafeAppPtr(appPtr);
             _disconnectedHandle = disconnectedHandle;
 
-            AccessContainer = new AccessContainer(_appPtr);
-            Crypto = new Crypto(_appPtr);
-            CipherOpt = new CipherOpt(_appPtr);
-            IData = new IData.IData(_appPtr);
-            MData = new MData.MData(_appPtr);
-            MDataEntries = new MDataEntries(_appPtr);
-            MDataEntryActions = new MDataEntryActions(_appPtr);
-            MDataInfoActions = new MDataInfoActions();
-            MDataPermissions = new MDataPermissions(_appPtr);
-            NFS = new NFS(_appPtr);
+            Fetch = new Fetch(_appPtr);
+            Keys = new Keys(_appPtr);
+            Wallet = new API.Wallet(_appPtr);
+            Files = new Files(_appPtr);
+            Nrs = new Nrs(_appPtr);
         }
 
         /// <summary>
@@ -346,28 +279,6 @@ namespace SafeApp
         {
             session.IsDisconnected = true;
             Disconnected?.Invoke(session, EventArgs.Empty);
-        }
-
-        /// <summary>
-        /// Invoked after Disconnect callback is fired to reconnect the session with the network.
-        /// </summary>
-        public Task ReconnectAsync()
-        {
-            return Task.Run(
-                async () =>
-                {
-                    await AppBindings.AppReconnectAsync(_appPtr);
-                    IsDisconnected = false;
-                });
-        }
-
-        /// <summary>
-        /// Resets the object cache for the session.
-        /// </summary>
-        /// <returns></returns>
-        public Task ResetObjectCacheAsync()
-        {
-            return AppBindings.AppResetObjectCacheAsync(_appPtr);
         }
     }
 }

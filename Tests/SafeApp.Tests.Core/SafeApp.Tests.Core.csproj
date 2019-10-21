@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;__DESKTOP__</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;__DESKTOP__</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\SafeApp.AppBindings\NativeLibs\Desktop\mock\libsafe_api.dylib" Link="libsafe_api.dylib" Condition=" $([MSBuild]::IsOsPlatform('OSX')) ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\SafeApp.AppBindings\NativeLibs\Desktop\mock\libsafe_api.so" Link="libsafe_api.so" Condition=" $([MSBuild]::IsOsPlatform('Linux')) ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\SafeApp.AppBindings\NativeLibs\Desktop\mock\safe_api.dll" Link="safe_api.dll" Condition=" $([MSBuild]::IsOsPlatform('Windows')) ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\SafeApp.Tests\log.toml" Link="log.toml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+    <PackageReference Include="NUnit" Version="3.6.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SafeApp.AppBindings\SafeApp.AppBindings.csproj" />
+    <ProjectReference Include="..\..\SafeApp.MockAuthBindings\SafeApp.MockAuthBindings.csproj" />
+    <ProjectReference Include="..\..\SafeApp.Core\SafeApp.Core.csproj" />
+    <ProjectReference Include="..\..\SafeApp\SafeApp.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\SafeApp.Tests\SafeApp.Tests.projitems" Label="Shared" />
+  <Import Project="$(MSBuildThisFileDirectory)..\..\CodeStyles.targets" />
+</Project>

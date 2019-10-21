@@ -1,70 +1,21 @@
 ﻿#if !NETSTANDARD1_2 || __DESKTOP__
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-using SafeApp.Utilities;
+using SafeApp.Core;
 
 #if __IOS__
 using ObjCRuntime;
 #endif
 
+// ReSharper disable UnusedMember.Global
+
 namespace SafeApp.AppBindings
 {
     internal partial class AppBindings
     {
-        public void AppUnregistered(List<byte> bootstrapConfig, Action oDisconnectNotifierCb, Action<FfiResult, IntPtr, GCHandle> oCb)
-        {
-            var userData = BindingUtils.ToHandlePtr((oDisconnectNotifierCb, oCb));
-
-            AppUnregisteredNative(
-              bootstrapConfig.ToArray(),
-              (UIntPtr)bootstrapConfig.Count,
-              userData,
-              DelegateOnAppDisconnectCb,
-              DelegateOnAppCreateCb);
-        }
-
-        public void AppRegistered(
-          string appId,
-          ref AuthGranted authGranted,
-          Action oDisconnectNotifierCb,
-          Action<FfiResult, IntPtr, GCHandle> oCb)
-        {
-            var authGrantedNative = authGranted.ToNative();
-            var userData = BindingUtils.ToHandlePtr((oDisconnectNotifierCb, oCb));
-
-            AppRegisteredNative(appId, ref authGrantedNative, userData, DelegateOnAppDisconnectCb, DelegateOnAppCreateCb);
-
-            authGrantedNative.Free();
-        }
-
-#if __IOS__
-        [MonoPInvokeCallback(typeof(NoneCb))]
-#endif
-        private static void OnAppDisconnectCb(IntPtr userData)
-        {
-            var (action, _) = BindingUtils.FromHandlePtr<(Action, Action<FfiResult, IntPtr, GCHandle>)>(userData, false);
-
-            action();
-        }
-
-        private static readonly NoneCb DelegateOnAppDisconnectCb = OnAppDisconnectCb;
-
-#if __IOS__
-        [MonoPInvokeCallback(typeof(FfiResultAppCb))]
-#endif
-        private static void OnAppCreateCb(IntPtr userData, IntPtr result, IntPtr app)
-        {
-            var (_, action) = BindingUtils.FromHandlePtr<(Action, Action<FfiResult, IntPtr, GCHandle>)>(userData, false);
-
-            action(Marshal.PtrToStructure<FfiResult>(result), app, GCHandle.FromIntPtr(userData));
-        }
-
-        private static readonly FfiResultAppCb DelegateOnAppCreateCb = OnAppCreateCb;
-
         public Task<IpcMsg> DecodeIpcMsgAsync(string msg)
         {
             var (task, userData) = BindingUtils.PrepareTask<IpcMsg>();

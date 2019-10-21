@@ -8,22 +8,24 @@ init:
 branches:
   only:
     - master
+    - vNext
 
 cache:
-  - '%temp%\nativelibs -> .\CakeHelperScripts\NativeScriptDownloader.cake'
+  - '%temp%\nativelibs -> .\build\NativeScriptDownloader.cake'
   - '%USERPROFILE%\.nuget\packages'
-  - tools -> build.cake, build.ps1, build.sh
-  - C:\ProgramData\chocolatey\bin -> appveyor.yml
-  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+  - .\build\tools -> .\build\build.cake, .\build\build.ps1, .\build\build.sh
+ # - C:\ProgramData\chocolatey\bin -> appveyor.yml
+ # - C:\ProgramData\chocolatey\lib -> appveyor.yml
 
 image: Visual Studio 2017
 
-install:
-  - IF NOT EXIST C:\ProgramData\chocolatey\bin\docfx.exe choco install docfx
-  - npm install gh-pages -g
+#install:
+#  - IF NOT EXIST C:\ProgramData\chocolatey\bin\docfx.exe choco install docfx
+#  - npm install gh-pages -g
 
 build_script:
-  - ps: ./build.ps1 --target="Run-AppVeyor-Build" --settings_skipverification=true
+  - ps: cd build
+  - ps: .\build.ps1 --target="Run-AppVeyor-Build" --settings_skipverification=true
 
 deploy_script:
   - ps: if(-not $env:is_not_pr) { return }
@@ -31,4 +33,5 @@ deploy_script:
   - ps: gh-pages-clean
   - ps: gh-pages deploy --silent --message "doc update from CI" --dist "./docs/_site" --repo "https://$env:github_access_token@github.com/maidsafe/safe_app_csharp.git" --user "MaidSafe-QA <qa@maidsafe.net>"
 
-  
+# todo: enable once new doc setup is in place
+deploy: off
