@@ -373,6 +373,7 @@ namespace SafeApp.Core
                 XorName = XorName,
                 DataPtr = BindingUtils.CopyFromByteArray(Data),
                 DataLen = (UIntPtr)(Data?.Length ?? 0),
+                DataCap = UIntPtr.Zero,
                 ResolvedFrom = ResolvedFrom.ToNative(),
                 MediaType = MediaType
             };
@@ -388,6 +389,8 @@ namespace SafeApp.Core
         public IntPtr DataPtr;
         public UIntPtr DataLen;
 
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr DataCap;
         public NrsMapContainerInfoNative ResolvedFrom;
         [MarshalAs(UnmanagedType.LPStr)]
         public string MediaType;
@@ -501,6 +504,7 @@ namespace SafeApp.Core
             {
                 WalletBalancesPtr = BindingUtils.CopyFromObjectList(WalletBalances),
                 WalletBalancesLen = (UIntPtr)(WalletBalances?.Count ?? 0),
+                WalletBalancesCap = UIntPtr.Zero
             };
         }
     }
@@ -519,6 +523,12 @@ namespace SafeApp.Core
         /// Wallet balances length.
         /// </summary>
         public UIntPtr WalletBalancesLen;
+
+        /// <summary>
+        /// Wallet balances capacity.
+        /// </summary>
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr WalletBalancesCap;
 
         /// <summary>
         /// Free the wallet spendable balances pointer.
@@ -586,6 +596,7 @@ namespace SafeApp.Core
             {
                 ProcessedFilesPtr = BindingUtils.CopyFromObjectList(Files),
                 ProcessedFilesLen = (UIntPtr)(Files?.Count ?? 0),
+                ProcessedFilesCap = UIntPtr.Zero
             };
         }
     }
@@ -604,6 +615,12 @@ namespace SafeApp.Core
         /// Processed files length.
         /// </summary>
         public UIntPtr ProcessedFilesLen;
+
+        /// <summary>
+        /// Processed files capacity.
+        /// </summary>
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr ProcessedFilesCap;
 
         /// <summary>
         /// Free the processed file pointer.
@@ -743,6 +760,7 @@ namespace SafeApp.Core
             {
                 ProcessedEntriesPtr = BindingUtils.CopyFromObjectList(Entries),
                 ProcessedEntriesLen = (UIntPtr)(Entries?.Count ?? 0),
+                ProcessedEntriesCap = UIntPtr.Zero
             };
         }
     }
@@ -751,6 +769,9 @@ namespace SafeApp.Core
     {
         public IntPtr ProcessedEntriesPtr;
         public UIntPtr ProcessedEntriesLen;
+
+        // ReSharper disable once NotAccessedField.Compiler
+        public UIntPtr ProcessedEntriesCap;
 
         internal void Free()
         {
